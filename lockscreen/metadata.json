@@ -1,0 +1,8 @@
+{
+    "description": "Gnome Lock Screen for LightDM Greeter",
+    "extension-id": "lockscreen",
+    "name": "Lock Screen",
+    "settings-schema": "org.gnome-shell.extensions.lockscreen",
+    "shell-version": ["3.10", "3.12"], 
+    "uuid": "lockscreen@donaldpakkies.gmail.com"
+}
