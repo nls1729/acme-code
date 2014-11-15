@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema path="/org/gnome-shell/extensions/lockscreen/" id="org.gnome-shell.extensions.lockscreen">
-    <key name="acceleration-key" type="as">
+    <key name="lockscreen-acceleration-key" type="as">
       <default><![CDATA[['<Ctrl><Alt>l']]]></default>
       <summary>Lockscreen shortcut Ctrl+Alt+L</summary>
       <description>
