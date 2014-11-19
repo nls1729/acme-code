@@ -11,7 +11,7 @@ Extension.
 2014-11-04 Version 1. 
 
 2014-11-11 Added logic to save the color of the icons and text on the
-panel.  When the panel color is changed to black the text andicons are
+panel.  When the panel color is changed to black the text and icons are
 changed to white.  Then the panel color is restored the original text
 and icon color is restored.  Some themes can change element colors in
 ways not compatible with this extension.  This change makes the extension
