@@ -1,0 +1,6 @@
+.~
+*~
+gschemas.compiled
+*.zip
+*.mo
+po/*.pot
