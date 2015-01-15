@@ -1,5 +1,23 @@
 README
 
+activities-config
+
+
+Gnome Shell Extension Activities Configurator
+
+This extension is covered by copyright and is provided under the terms
+of the GNU General Public License version 2.
+
+See the copyright statement in the file extension.js and the file
+COPYING for details.
+
+For normal use please install from the Gnome Shell Extension website:
+https://extensions.gnome.org/extension/358/activities-configurator/
+
+Additional information is available at:
+https://nls1729.github.io
+
+
 2012-11-30 Fixed missing corners.  Black opaque panel background displays corners.
            Added German Translations thanks for the efforts of Tobias Bannert.
            Added function to determine utf8 strings length in bytes.
