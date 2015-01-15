@@ -1,0 +1,250 @@
+msgid   ""
+msgstr  "Project-Id-Version: nls1729-extensions\n"
+        "POT-Creation-Date: 2012-11-19 15:30-0400\n"
+        "PO-Revision-Date: 2012-12-06 13:54+0200\n"
+        "Last-Translator: Jonatan Zeidler <jonatan_zeidler@gmx.de>\n"
+        "Language-Team: Jonius\n"
+        "Language: de\n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: text/plain; charset=UTF-8\n"
+        "Content-Transfer-Encoding: 8bit\n"
+        "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+        "X-Generator: Virtaal 0.7.1\n"
+
+msgid   "A conflict between an enabled extension and the Activities Configurator Extension exists."
+msgstr  "Es besteht ein Konflikt zwischen einer aktivierten Erweiterung und dem Aktivitäten-Konfigurator."
+
+msgid   "A small delay in milliseconds before activation of the hot corner can prevent an inadvertent mouse movement from toggling the Overview."
+msgstr  "Eine Verzögerung von einigen Millisekunden kann verhindern, dass eine unbeabsichtigte Mausbewegung in die \"Hot Corner\" die Übersicht anzeigt."
+
+msgid   "APPLY"
+msgstr  "ANWENDEN"
+
+msgid   "Activities"
+msgstr  "Aktivitäten"
+
+msgid   "Activities Configurator - MISSING ICON"
+msgstr  "Aktivitäten-Konfigurator - FEHLENDES SYMBOL"
+
+msgid   "Activities Configurator - README"
+msgstr  "Aktivitäten-Konfigurator - LIESMICH"
+
+msgid   "Another extension which inserts itself in the left-most corner of the panel is considered in conflict with this preference."
+msgstr  "Andere Erweiterungen, welche sich in die linke Ecke einfügen, stehen somit im Konflikt mit dieser Erweiterung."
+
+msgid   "Choose Icon"
+msgstr  "Symbol wählen"
+
+msgid   "Clicking the Activities Icon or Text with the right mouse button executes GNOME Shell Extension Preferences."
+msgstr  "Ein Rechtsklick auf die Aktivitäten-Schaltfläche öffnet die Erweiterungseinstellungen der GNOME-Oberfläche."
+
+msgid   "Conflict Detected:"
+msgstr  "Konflikt entdeckt:"
+
+msgid   "Conflict Detection is disabled by default.  Enable only if you experience problems."
+msgstr  "Die Konflikterkennung dieser Erweiterung ist standardmäßig deaktiviert und sollte nur aktiviert werden, wenn Probleme bestehen."
+
+msgid   "Conflicts with other enabled extensions can be detected with the Enable Conflict Detection switch."
+msgstr  "Konflikte mit anderen Erweiterungen können mit Hilfe des 'Konflikterkennung'-Schalters gefunden werden."
+
+msgid   "Disable Hot Corner"
+msgstr  "\"Hot Corner\" deaktivieren"
+
+msgid   "Window Maximized Effect"
+msgstr  "Fenster maximiert Effekt"
+
+msgid   "Panel - No Effect"
+msgstr  "Panel - Kein Effekt"
+
+msgid   "Opaque Background Color"
+msgstr  "Undurchsichtigen Hinter"
+
+msgid   "Black Opaque Background"
+msgstr  "Opaque Schwarz Hintergrund"
+
+msgid   "Enable Conflict Detection"
+msgstr  "Konflikterkennung"
+
+msgid   "Extension Defaults"
+msgstr  "Standardeinstellungen"
+
+msgid   "Extension Description"
+msgstr  "Erklärung der Erweiterung"
+
+msgid   "Extension settings are reset to their default values with the Extension Defaults RESET button."
+msgstr  "Mit dem ZURÜCKSETZEN-Knopf bei 'Standardeinstellungen' werden die Einstellungen auf die Standardwerte zurückgesetzt."
+
+msgid   "Extensions which duplicate the functions of this extension may affect or be affected when both are enabled."
+msgstr  "Erweiterungen mit ähnlichen Funktionen können dennoch das Verhalten dieser Erweiterung beeinflussen bzw. von ihr beeinflusst werden."
+
+msgid   "Hide Icon"
+msgstr  "Symbol verstecken"
+
+msgid   "Hide Panel Rounded Corners"
+msgstr  "Verbergen Abgerundete Ecken"
+
+msgid   "Hide Text"
+msgstr  "Text verstecken"
+
+msgid   "Hot Corner Threshold"
+msgstr  "\"Hot Corner\"-Threshold"
+
+msgid   "Hot Corner Sensitivity"
+msgstr  "\"Hot Corner\"-Verzögerung"
+
+msgid   "Icon Padding"
+msgstr  "Symbolabstand"
+
+msgid   "If a conflict is detected this extension will re-establish its prefered position in the panel."
+msgstr  "Wird ein Konflikt erkannt, stellt die Erweiterung ihre bevorzugte Position im Panel wieder her."
+
+msgid   "If another extension continues to create a conflict this extension will disable itself to avoid a race condition and notify the user."
+msgstr  "Wenn eine andere Erweiterung dauerhaft Konflikte verursacht, deaktiviert sich diese Erweiterung selbst, um eine Wettlaufsituation zu verhindern und benachrichtigt den Anwender darüber."
+
+msgid   "If the hot corner is disabled the Overview can be toggled with the left super key."
+msgstr  "In diesem Fall kann die Übersicht mittels der Taste SUPER aufgerufen werden."
+
+msgid   "Missing Icon:"
+msgstr  "Fehlendes Symbol:"
+
+msgid   "New Text"
+msgstr  "Neuer Text"
+
+msgid   "Panel Transparency"
+msgstr  "Panel-Transparenz"
+
+msgid   "Please resolve the conflict by disabling the offending extension or disable the Activities Configurator and restart your session."
+msgstr  "Bitte die kollidierende Erweiterung oder den Aktivitäten-Konfigurator deaktivieren und die Sitzung neustarten, um den Konflikt zu lösen."
+
+msgid   "README"
+msgstr  "LIESMICH"
+
+msgid   "RESET"
+msgstr  "ZURÜCKSETZEN"
+
+msgid   "Remove Activities Button"
+msgstr  "Aktivitäten-Schaltfläche entfernen"
+
+msgid   "SELECT"
+msgstr  "ÄNDERN"
+
+msgid   "See the README of the Activities Configurator for additional information."
+msgstr  "Siehe LIESMICH des Aktivitäten-Konfigurators für weitere Informationen."
+
+msgid   "Select Icon"
+msgstr  "Symbol"
+
+msgid   "Set Panel Background"
+msgstr  "Panel-Farbe"
+
+msgid   "Text Padding"
+msgstr  "Textabstand"
+
+msgid   "Text and icon padding is left and right horizontal padding in pixels."
+msgstr  "Der horizontale Text- und Symbolabstand ist in Pixeln angegeben."
+
+msgid   "The Activities Button can be removed with the Remove Activities Button switch."
+msgstr  "Mit dem 'Aktivitäten-Schaltfläche entfernen'-Schalter kann die Aktivitäten-Schaltfläche auch komplett entfernt werden."
+
+msgid   "The Activities Icon is selectable with the SELECT Icon button."
+msgstr  "Das Aktivitäten-Symbol kann über den ÄNDERN-Knopf bei 'Symbol' ausgewählt werden."
+
+msgid   "The Activities Icon was not found."
+msgstr  "Das Aktivitäten-Symbol wurde nicht gefunden."
+
+msgid   "The Activities Text can be changed by entering New Text and then pressing the APPLY button."
+msgstr  "Der Aktivitäten-Text kann durch Eingabe eines neuen Textes und Drücken des ANWENDEN-Knopfes geändert werden."
+
+msgid   "The Extension Description README button displays this readme."
+msgstr  "Der LIESMICH-Knopf bei 'Erklärung der Erweiterung' öffnet diese Beschreibung."
+
+msgid   "The color and transparency of the panel background is adjustable with Set Panel Background Button and Panel Transparency scale (0-100%)."
+msgstr  "Die Farbe und Transparenz des Panels kann deshalb mit dem 'Panel-Farbe'-Knopf und der 'Panel-Transparenz'-Skala (0-100%) angepasst werden."
+
+msgid   "The conflict can be resolved by disabling the conflicting extension or this extension and restarting the session."
+msgstr  "Der Konflikt kann gelöst werden, indem die kollidierende Erweiterung oder der Aktivitäten-Konfigurator deaktiviert und die Sitzung neugestartet wird."
+
+msgid   "The default delay is 250 ms which seems to prevent most false Overview toggles."
+msgstr  "Die standardmäßige Verzögerung beträgt 250 ms, was die meisten unbeabsichtigten Wechsel zur Übersicht verhindert."
+
+msgid   "The default icon has automatically been selected to allow proper operation of the extension."
+msgstr  "Das Standardsymbol wurde automatisch ausgewählt, um sicherzustellen, dass die Erweiterung einwandfrei funktioniert."
+
+msgid   "The default is 0, no transparency or opaque and 100 is completely transparent."
+msgstr  "Der Standardwert ist 0 (nicht transparent) und 100 bedeutet komplett durchsichtig."
+
+msgid   "The delay appears to resolve most conflicts allowing the extensions to function normally."
+msgstr  "Diese Verzögerung scheint zu helfen, Konflikten vorzubeugen, so dass die Erweiterung korrekt funktioniert."
+
+msgid   "The hot corner Overview switching is disabled with the Disable Hot Corner switch."
+msgstr  "Der '\"Hot Corner\" deaktivieren'-Schalter deaktiviert die \"Hot Corner\"."
+
+msgid   "The icon can be removed from the panel with the Hide Icon switch."
+msgstr  "Der 'Symbol verstecken'-Schalter entfernt das Symbol aus dem Panel."
+
+msgid   "The icon spacing on the panel is adjustable with the Icon Padding scale."
+msgstr  "Der Symbolabstand ist durch die Symbolabstandsskala einstellbar."
+
+msgid   "The missing icon has been removed, renamed or possible filesystem corruption has damaged the icon."
+msgstr  "Das fehlende Symbol wurde entfernt, umbenannt oder möglicherweise hat eine Beschädigung des Dateisystems das Symbol unbrauchbar gemacht."
+
+msgid   "The sensitivity of the hot corner is adjustable with the Hot Corner Threshold scale."
+msgstr  "Die Empfindlichkeit der heißen Ecke ist einstellbar mit dem \"Hot Corner\" Threshold Skala."
+
+msgid   "The sensitivity of the hot corner is adjustable with the Hot Corner Sensitivity scale."
+msgstr  "Die Verzögerung der \"Hot Corner\" ist durch die Verzögerungsskala einstellbar."
+
+msgid   "The text can be removed from the panel with the Hide Text switch."
+msgstr  "Mit dem 'Text verstecken'-Schalter kann der Text aus dem Panel entfernt werden."
+
+msgid   "The text spacing on the panel is adjustable with the Text Padding scale."
+msgstr  "Der Textabstand ist durch die Textabstandsskala einstellbar."
+
+msgid   "The user can disable Conflict Detection if it is acceptable to have this extension not in its preferred position."
+msgstr  "Der Anwender kann die Konflikterkennung deaktivieren, wenn es akzeptabel ist, dass die Erweiterung nicht an der bevorzugten Position angezeigt wird."
+
+msgid   "The workspace background may appear more aesthetically pleasing without the black panel background."
+msgstr  "Der Hintergrund der Arbeitsfläche kann ohne den schwarzen Hintergrund des Panels mitunter ästhetischer erscheinen."
+
+msgid   "This extension attempts to avoid conflicts by delaying its activation at shell startup time."
+msgstr  "Deshalb wird versucht, durch eine verzögerte Aktivierung des Aktivitäten-Konfigurators beim Starten der Oberfläche Konflikte zu vermeiden."
+
+msgid   "This extension prefers the left-most corner of the panel."
+msgstr  "Diese Erweiterung bevorzugt die linke Ecke des Panels."
+
+msgid   "This feature requires a workspace background of colors which contrast with icons and text displayed in the panel."
+msgstr  "Das erfordert natürlich einen Arbeitsflächenhintergrund, welcher im Kontrast zum Text und den Symbolen im Panel steht."
+
+msgid   "Try different settings for the conflicting extensions in order to avoid conflicts."
+msgstr  "Probieren Sie bei in Konflikt stehenden Erweiterungen verschiedene Einstellungen aus, um eventuelle Konflikte zu lösen."
+
+msgid   "When Conflict Detection is enabled, detected conflicts are usually automatically resolved."
+msgstr  "Wenn die Konflikterkennung aktiviert ist, werden Konflikte in der Regel automatisch gelöst."
+
+msgid   "You should determine and correct the problem, then re-select an icon."
+msgstr  "Das Problem sollte erkannt und behoben werden. Danach kann das Symbol noch einmal ausgewählt werden."
+
+msgid   "Extension"
+msgstr  "Erweiterung"
+
+msgid   "Fatal verification error."
+msgstr  "Fatal Überprüfung Fehler."
+
+msgid   "Prevent enable on verification failure is OFF!"
+msgstr  "Verhindern Sie ermöglichen auf Fehler in der Überprüfung ist AUS!"
+
+msgid   "required for verification."
+msgstr  "für die Überprüfung erforderlich."
+
+msgid   "Extension verification is disabled."
+msgstr  "Erweiterung Überprüfung ist deaktiviert."
+
+msgid   "signature not valid."
+msgstr  "Signatur nicht gültig.."
+
+msgid   "Checksum failed."
+msgstr  "Prüfsumme fehlgeschlagen."
+
+msgid   "Verification Complete."
+msgstr  "Überprüfung abgeschlossen."
+

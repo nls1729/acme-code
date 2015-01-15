@@ -1,0 +1,286 @@
+# British English translation of gnome-shell extensions.
+# Copyright (C) 2012 Norman L. Smith
+# This file is distributed under the same license as the gnome-shell.
+# Norman <nls1729@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: nls1729-extensions\n"
+"POT-Creation-Date: 2012-06-15 15:30-0400\n"
+"PO-Revision-Date: 2014-08-29 12:25-0400\n"
+"Last-Translator: Norman <nls1729@gmail.com>\n"
+"Language-Team: no team\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+
+msgid "Application"
+msgstr "Application"
+
+#: ../extensions/activities-config/prefs.js:18
+msgid "New Text"
+msgstr "New Text"
+
+#: ../extensions/activities-config/prefs.js:19
+msgid "Text Padding"
+msgstr "Text Padding"
+
+#: ../extensions/activities-config/prefs.js:20
+msgid "Hide Text"
+msgstr "Hide Text"
+
+#: ../extensions/activities-config/prefs.js:21
+msgid "Select Icon"
+msgstr "Select Icon"
+
+#: ../extensions/activities-config/prefs.js:22
+msgid "Icon Padding"
+msgstr "Icon Padding"
+
+#: ../extensions/activities-config/prefs.js:23
+msgid "Hide Icon"
+msgstr "Hide Icon"
+
+#: ../extensions/activities-config/prefs.js:24
+msgid "Hot Corner Threshold"
+msgstr "Hot Corner Threshold"
+
+msgid "Hot Corner Sensitivity"
+msgstr "Hot Corner Sensitivity"
+
+#: ../extensions/activities-config/prefs.js:25
+msgid "Disable Hot Corner"
+msgstr "Disable Hot Corner"
+
+#: ../extensions/activities-config/prefs.js:26
+msgid "Remove Activities Button"
+msgstr "Remove Activities Button"
+
+#: ../extensions/activities-config/prefs.js:27
+msgid "Panel Transparency"
+msgstr "Panel Transparency"
+
+#: ../extensions/activities-config/prefs.js:28
+msgid "Extension Defaults"
+msgstr "Extension Defaults"
+
+#: ../extensions/activities-config/prefs.js:29
+msgid "Extension Description"
+msgstr "Extension Description"
+
+#: ../extensions/activities-config/prefs.js:30
+msgid "APPLY"
+msgstr "APPLY"
+
+#: ../extensions/activities-config/prefs.js:31
+msgid "SELECT"
+msgstr "SELECT"
+
+#: ../extensions/activities-config/prefs.js:32
+msgid "RESET"
+msgstr "RESET"
+
+#: ../extensions/activities-config/prefs.js:33
+msgid "README"
+msgstr "README"
+
+#: ../extensions/activities-config/prefs.js:34
+msgid "Choose Icon"
+msgstr "Choose Icon"
+
+#: ../extensions/activities-config/prefs.js:35
+msgid "Enable Conflict Detection"
+msgstr "Enable Conflict Detection"
+
+#: ../extensions/activities-config/prefs.js:36
+msgid "Activities"
+msgstr "Activities"
+
+#: ../extensions/activities-config/prefs.js:38
+msgid "Set Panel Background"
+msgstr "Set Panel Background"
+
+#: ../extensions/activities-config/prefs.js:38
+msgid "Hide Panel Rounded Corners"
+msgstr "Hide Panel Rounded Corners"
+
+#: ../extensions/activities-config/readme.js:6
+msgid "The Activities Text can be changed by entering New Text and then pressing the APPLY button."
+msgstr "The Activities Text can be changed by entering New Text and then pressing the APPLY button."
+
+#: ../extensions/activities-config/readme.js:7
+msgid "The text spacing on the panel is adjustable with the Text Padding scale."
+msgstr "The text spacing on the panel is adjustable with the Text Padding scale."
+
+#: ../extensions/activities-config/readme.js:8
+msgid "The text can be removed from the panel with the Hide Text switch."
+msgstr "The text can be removed from the panel with the Hide Text switch."
+
+#: ../extensions/activities-config/readme.js:9
+msgid "The Activities Icon is selectable with the SELECT Icon button."
+msgstr "The Activities Icon is selectable with the SELECT Icon button."
+
+#: ../extensions/activities-config/readme.js:10
+msgid "The icon spacing on the panel is adjustable with the Icon Padding scale."
+msgstr "The icon spacing on the panel is adjustable with the Icon Padding scale."
+
+#: ../extensions/activities-config/readme.js:11
+msgid "The icon can be removed from the panel with the Hide Icon switch."
+msgstr "The icon can be removed from the panel with the Hide Icon switch."
+
+#: ../extensions/activities-config/readme.js:12
+msgid "Text and icon padding is left and right horizontal padding in pixels."
+msgstr "Text and icon padding is left and right horizontal padding in pixels."
+
+#: ../extensions/activities-config/readme.js:13
+msgid "The sensitivity of the hot corner is adjustable with the Hot Corner Sensitivity scale."
+msgstr "The sensitivity of the hot corner is adjustable with the Hot Corner Sensitivity scale."
+
+msgid "The sensitivity of the hot corner is adjustable with the Hot Corner Threshold scale."
+msgstr "The sensitivity of the hot corner is adjustable with the Hot Corner Threshold scale."
+
+#: ../extensions/activities-config/readme.js:14
+msgid "A small delay in milliseconds before activation of the hot corner can prevent an inadvertent mouse movement from toggling the Overview."
+msgstr "A small delay in milliseconds before activation of the hot corner can prevent an inadvertent mouse movement from toggling the Overview."
+
+#: ../extensions/activities-config/readme.js:15
+msgid "The default delay is 250 ms which seems to prevent most false Overview toggles."
+msgstr "The default delay is 250 ms which seems to prevent most false Overview toggles."
+
+#: ../extensions/activities-config/readme.js:16
+msgid "The hot corner Overview switching is disabled with the Disable Hot Corner switch."
+msgstr "The hot corner Overview switching is disabled with the Disable Hot Corner switch."
+
+#: ../extensions/activities-config/readme.js:17
+msgid "If the hot corner is disabled the Overview can be toggled with the left super key."
+msgstr "If the hot corner is disabled the Overview can be toggled with the left super key."
+
+#: ../extensions/activities-config/readme.js:18
+msgid "The Activities Button can be removed with the Remove Activities Button switch."
+msgstr "The Activities Button can be removed with the Remove Activities Button switch."
+
+#: ../extensions/activities-config/readme.js:19
+msgid "The workspace background may appear more aesthetically pleasing without the black panel background."
+msgstr "The workspace background may appear more aesthetically pleasing without the black panel background."
+
+#: ../extensions/activities-config/readme.js:20
+msgid "The color and transparency of the panel background is adjustable with Set Panel Background Button and Panel Transparency scale (0-100%)."
+msgstr "The color and transparency of the panel background is adjustable with Set Panel Background Button and Panel Transparency scale (0-100%)."
+
+#: ../extensions/activities-config/readme.js:21
+msgid "The default is 0, no transparency or opaque and 100 is completely transparent."
+msgstr "The default is 0, no transparency or opaque and 100 is completely transparent."
+
+#: ../extensions/activities-config/readme.js:22
+msgid "This feature requires a workspace backgound of colors which contrast with icons and text displayed in the panel."
+msgstr "This feature requires a workspace background of colors which contrast with icons and text displayed in the panel."
+
+#: ../extensions/activities-config/readme.js:23
+msgid "Extension settings are reset to their default values with the Extension Defaults RESET button."
+msgstr "Extension settings are reset to their default values with the Extension Defaults RESET button."
+
+#: ../extensions/activities-config/readme.js:24
+msgid "The Extension Description README button displays this readme."
+msgstr "The Extension Description README button displays this readme. ; )"
+
+#: ../extensions/activities-config/readme.js:25
+msgid "Conflicts with other enabled extensions can be detected with the Enable Conflict Detection switch."
+msgstr "Conflicts with other enabled extensions can be detected with the Enable Conflict Detection switch."
+
+#: ../extensions/activities-config/readme.js:26
+msgid "This extension prefers the left-most corner of the panel."
+msgstr "This extension prefers the left-most corner of the panel."
+
+#: ../extensions/activities-config/readme.js:27
+msgid "Another extension which inserts itself in the left-most corner of the panel is considered in conflict with this preference."
+msgstr "Another extension which inserts itself in the left-most corner of the panel is considered in conflict with this preference."
+
+#: ../extensions/activities-config/readme.js:28
+msgid "This extension attempts to avoid conflicts by delaying its activation at shell startup time."
+msgstr "This extension attempts to avoid conflicts by delaying its activation at shell startup time."
+
+#: ../extensions/activities-config/readme.js:29
+msgid "The delay appears to resolve most conflicts allowing the extensions to function normally."
+msgstr "The delay appears to resolve most conflicts allowing the extensions to function normally."
+
+#: ../extensions/activities-config/readme.js:30
+msgid "Extensions which duplicate the functions of this extension may affect or be affected when both are enabled."
+msgstr "Extensions which duplicate the functions of this extension may affect or be affected when both are enabled."
+
+#: ../extensions/activities-config/readme.js:31
+msgid "Try different settings for the conflicting extensions in order to avoid conflicts."
+msgstr "Try different settings for the conflicting extensions in order to avoid conflicts."
+
+#: ../extensions/activities-config/readme.js:32
+msgid "Conflict Detection is disabled by default.  Enable only if you experience problems."
+msgstr "Conflict Detection is disabled by default.  Enable only if you experience problems."
+
+#: ../extensions/activities-config/readme.js:33
+msgid "When Conflict Detection is enabled, detected conflicts are usually automatically resolved."
+msgstr "When Conflict Detection is enabled, detected conflicts are usually automatically resolved."
+
+#: ../extensions/activities-config/readme.js:34
+msgid "If a conflict is detected this extension will re-establish its prefered position in the panel."
+msgstr "If a conflict is detected this extension will re-establish its prefered position in the panel."
+
+#: ../extensions/activities-config/readme.js:35
+msgid "If another extension continues to create a conflict this extension will disable itself to avoid a race condition and notify the user."
+msgstr "If another extension continues to create a conflict this extension will disable itself to avoid a race condition and notify the user."
+
+#: ../extensions/activities-config/readme.js:36
+msgid "The user can disable Conflict Detection if it is acceptable to have this extension not in its preferred position."
+msgstr "The user can disable Conflict Detection if it is acceptable to have this extension not in its preferred position."
+
+#: ../extensions/activities-config/readme.js:37
+msgid "The conflict can be resolved by disabling the conflicting extension or this extension and restarting the session."
+msgstr "The conflict can be resolved by disabling the conflicting extension or this extension and restarting the session."
+
+#: ../extensions/activities-config/readme.js:38
+msgid "Clicking the Activities Icon or Text with the right mouse button executes GNOME Shell Extension Preferences."
+msgstr "Clicking the Activities Icon or Text with the right mouse button executes GNOME Shell Extension Preferences."
+
+#: ../extensions/activities-config/readme.js:40
+msgid "A conflict between an enabled extension and the Activities Configurator Extension exists."
+msgstr "A conflict between an enabled extension and the Activities Configurator Extension exists."
+
+#: ../extensions/activities-config/readme.js:41
+msgid "Please resolve the conflict by disabling the offending extension or disable the Activities Configurator and restart your session."
+msgstr "Please resolve the conflict by disabling the offending extension or disable the Activities Configurator and restart your session."
+
+#: ../extensions/activities-config/readme.js:42
+msgid "See the README of the Activities Configurator for additional information."
+msgstr "See the README of the Activities Configurator for additional information."
+
+#: ../extensions/activities-config/readme.js:44
+msgid "The Activities Icon was not found."
+msgstr "The Activities Icon was not found."
+
+#: ../extensions/activities-config/readme.js:45
+msgid "The missing icon has been removed, renamed or possible filesystem corruption has damaged the icon."
+msgstr "The missing icon has been removed, renamed or possible filesystem corruption has damaged the icon."
+
+#: ../extensions/activities-config/readme.js:46
+msgid "The default icon has automatically been selected to allow proper operation of the extension."
+msgstr "The default icon has automatically been selected to allow proper operation of the extension."
+
+#: ../extensions/activities-config/readme.js:47
+msgid "You should determine and correct the problem, then re-select an icon."
+msgstr "You should determine and correct the problem, then re-select an icon."
+
+#: ../extensions/activities-config/readme.js:60
+msgid "Activities Configurator - README"
+msgstr "Activities Configurator - README"
+
+#: ../extensions/activities-config/readme.js:61
+msgid "Activities Configurator - MISSING ICON"
+msgstr "Activities Configurator - MISSING ICON"
+
+#: ../extensions/activities-config/extension.js:45
+msgid "Conflict Detected:"
+msgstr "Conflict Detected:"
+
+#: ../extensions/activities-config/extension.js:46
+msgid "Missing Icon:"
+msgstr "Missing Icon:"

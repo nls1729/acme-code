@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="nls1729-extensions">
+  <schema path="/org/gnome/shell/extensions/activities-config/" id="org.gnome.shell.extensions.activities-config">
+    <key type="s" name="original-activities-button-text">
+      <default>""</default>
+      <summary>Original Activities Button Text.</summary>
+      <description>If not empty, contains the original text displayed for the Activities Button.</description>
+    </key>
+    <key type="b" name="activities-config-button-removed">
+      <default>false</default>
+      <summary>Disable all Activities Button functions.</summary>
+      <description>The Activities Button is removed.</description>
+    </key>
+    <key type="s" name="activities-config-button-text">
+      <default>""</default>
+      <summary>Activities Button Text.</summary>
+      <description>If not empty, it contains the custom text displayed for the Activities Button.</description>
+    </key>
+    <key type="i" name="activities-text-padding">
+      <default>4</default>
+      <summary>Text padding in pixels.</summary>
+      <description>Horizontal padding for Activities Text.</description>
+    </key>
+    <key type="b" name="activities-config-button-no-text">
+      <default>false</default>
+      <summary>Disable Activities Button Text.</summary>
+      <description>The Activities Button Text is not displayed if true.</description>
+    </key>
+    <key type="s" name="activities-config-button-icon-path">
+      <default>"/usr/share/icons/gnome/24x24/status/info.png"</default>
+      <summary>Activities Button Icon Path.</summary>
+      <description>If not empty, it contains the path of an icon displayed with the Activities Button Text.</description>
+    </key>
+    <key type="i" name="activities-icon-padding">
+      <default>4</default>
+      <summary>Icon padding in pixels.</summary>
+      <description>Horizontal padding for Activities Icon.</description>
+    </key>
+    <key type="b" name="activities-config-button-no-icon">
+      <default>false</default>
+      <summary>Disable Activities Button Icon.</summary>
+      <description>The Activities Button Icon is not displayed if true.</description>
+    </key>
+    <key type="i" name="activities-config-hot-corner-delay">
+      <default>250</default>
+      <summary>Hot corner delay.</summary>
+      <description>Hot corner Overview toggle delay in milliseconds.</description>
+    </key>
+    <key type="i" name="activities-config-hot-corner-threshold">
+      <default>100</default>
+      <summary>Hot corner threshold.</summary>
+      <description>Hot corner Overview toggle barrier pressure threshold in pixels.</description>
+    </key>
+    <key type="b" name="activities-config-hot-corner">
+      <default>false</default>
+      <summary>Disable Activities Hot Corner.</summary>
+      <description>The Activities Hot Corner is disabled if true.</description>
+    </key>
+    <key type="s" name="panel-background-color-hex-rgb">
+      <default>"#000000"</default>
+      <summary>RGB value for panel background</summary>
+      <description>Default background color is black.</description>
+    </key>
+    <key type="i" name="transparent-panel">
+      <default>0</default>
+      <summary>Panel Transparency.</summary>
+      <description>Set panel transparency 0-100 per cent.</description>
+    </key>
+    <key type="b" name="panel-hide-rounded-corners">
+      <default>false</default>
+      <summary>Hide rounded corners.</summary>
+      <description>The panel rounded corners are hidden if true.</description>
+    </key>
+
+    <key type="i" name="maximized-window-effect">
+      <default>0</default>
+      <summary>Panel background effects when a window is maximized on the primary display.</summary>
+      <description>If 0 no effect. If 1 transparency is removed. If 2 background is set to opaque black with rounded corners.</description>
+    </key>
+
+    <key type="b" name="enable-conflict-detection">
+      <default>false</default>
+      <summary>Conflict detection.</summary>
+      <description>If true conflict detection is enabled.</description>
+    </key>
+    <key type="b" name="pointer-barriers-supported">
+      <default>false</default>
+      <summary>Barriers supported.</summary>
+      <description>If true X server supports barriers for Gnome Shell.</description>
+    </key>
+    <key type="b" name="first-enable">
+      <default>true</default>
+      <summary>True only for first enable.</summary>
+      <description>If true extension sets defaults and displays prefs tool.</description>
+    </key>
+  </schema>
+</schemalist>
