@@ -13,3 +13,8 @@ git clone https://github.com/nls1729/acme-code
 
 Additional information is available at:
 https://nls1729.github.io
+
+activities-config *Activities Configurator
+
+max-window-effect  Max Window Effect
+ 
