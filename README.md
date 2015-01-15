@@ -17,4 +17,6 @@ https://nls1729.github.io
 activities-config *Activities Configurator
 
 max-window-effect  Max Window Effect
+
+shell-restarter    Shell Restarter
  
