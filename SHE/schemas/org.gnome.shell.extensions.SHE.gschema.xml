@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="nls1729-extensions">
+  <schema path="/org/gnome/shell/extensions/SHE/" id="org.gnome.shell.extensions.SHE">  
+    <key type="i" name="sequence">
+      <default>0</default>
+      <summary>Sequence number.</summary>
+      <description>Number to insure unique names for desktop entry files.</description>
+    </key>
+    <key type="b" name="apply-settings">
+      <default>true</default>
+      <summary>Apply settings.</summary>
+      <description>Apply extension settings by toggling this setting.</description>
+    </key>
+    <key type="s" name="panel-icon-path">
+      <default>"default"</default>
+      <summary>Icon path.</summary>
+      <description>Panel button icon path.</description>
+    </key>
+    <key type="b" name="panel-icon-center">
+      <default>true</default>
+      <summary>Center if true.</summary>
+      <description>If true panel button icon position left center or right center.</description>
+    </key>
+    <key type="b" name="panel-icon-left">
+      <default>true</default>
+      <summary>Left if true.</summary>
+      <description>Panel button icon position left, right, left center, or right center.</description>
+    </key>
+    <key type="s" name="menu-icons-size">
+      <default>"icon-size:2.4em"</default>
+      <summary>Icon size.</summary>
+      <description>Menu buttons icon size.</description>
+    </key>
+    <key type="s" name="menu-text-size">
+      <default>"font-size:0.8em"</default>
+      <summary>Text size.</summary>
+      <description>Menu buttons name text size.</description>
+    </key>
+    <key type="s" name="top-row-icons-size">
+      <default>"icon-size:1.0em"</default>
+      <summary>Icon size.</summary>
+      <description>Top row icons size.</description>
+    </key>
+    <key type="s" name="description-text-size">
+      <default>"font-size:0.8em"</default>
+      <summary>Description text size.</summary>
+      <description>Current button name and description text size.</description>
+    </key>
+    <key type="b" name="show-help-messages">
+      <default>true</default>
+      <summary>Show Help Messages.</summary>
+      <description>If true Help Messages are displayed.</description>
+    </key>
+    <key type="b" name="menu-button-text-white">
+      <default>false</default>
+      <summary>Menu button text color.</summary>
+      <description>If true white otherwise green.</description>
+    </key>
+    <key type="s" name="menu-background-rgba">
+      <default>"rgba(46,52,54,0.75)"</default>
+      <summary>Menu background color with alpha.</summary>
+      <description>Default grey and 25% transparent.</description>
+    </key>
+    <key type="b" name="reload-required">
+      <default>false</default>
+      <summary>Reload launchers required.</summary>
+      <description>Toggled by DEE to reload launchers.</description>
+    </key>
+    <key type="b" name="verify-with-user-keyring">
+      <default>false</default>
+      <summary>Verify with user public gpg keyring.</summary>
+      <description>If true CHECKSUM signature is verified with user's public keyring.</description>
+    </key>
+    <key type="s" name="signing-key">
+      <default>"26754C79"</default>
+      <summary>Signing key.</summary>
+      <description>Extension author's GPG software signing key.</description>
+    </key>
+  </schema>
+</schemalist>
