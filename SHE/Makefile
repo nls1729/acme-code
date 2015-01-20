@@ -15,19 +15,21 @@ UUID = SHE@nls1729
 MODULES = COPYING dee.js extension.js langpostfixer.js \
 notifications.js prefs.js README.md stylesheet.css
 
-ETC = etc/dee.png etc/dee.ui etc/emblem-symbolic-link.svg etc/folder-symbolic.svg \
+ETC = etc/dee.png etc/dee.ui etc/emblem-symbolic-link.svg \
+etc/folder-symbolic.svg etc/list-add-symbolic.svg \
 etc/nls1729@gmail.com.asc etc/prefs.ui etc/README.html \
 etc/start-here-symbolic.svg etc/system-run-symbolic.svg \
-etc/text-editor-symbolic.svg etc/user-trash-symbolic.svg etc/verify.gpg \
-etc/view-grid-symbolic.svg
+etc/text-editor-symbolic.svg etc/user-trash-symbolic.svg \
+etc/verify.gpg etc/view-grid-symbolic.svg
 
 CS = $(shell sha256sum _build/CHECKSUM | cut -c1-64)
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date +%Y%m%d:%H:%M:%S)
-COMMIT = $(shell git rev-parse HEAD)
+COMMIT = $(shell git rev-parse --short HEAD)
+TAG = $(shell git describe) 
 VERSION = $(shell cat ./VERSION)
 KEYID = 26754C79
-USER2 = $(USER)
+HOMEDIR = /run/media/$(USER)/HOMEDIR
 
 all: langmofiles
 
@@ -57,7 +59,8 @@ _build: all
 		mkdir -p $$langdir/LC_MESSAGES; \
 		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
 	done;
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.md;
+	sed -i 's/^Build:.*$\/Build: $(ZIPDATE) Local: $(TAG) $(COMMIT)/' \
+		 _build/README.md;
 	markdown _build/README.md -o _build/etc/README.html
 	cd _build ; \
 	for file in $(MODULES) $(ETC); do \
@@ -65,7 +68,8 @@ _build: all
 	done;
 	cp metadata.json _build;
 	cd _build ; \
-	gpg --no-random-seed-file --homedir /run/media/$(USER2)/HOMEDIR --default-key $(KEYID) --detach-sign CHECKSUM; \
+	gpg --no-random-seed-file --homedir $(HOMEDIR) --default-key \
+		$(KEYID) --detach-sign CHECKSUM; \
 	sed -i 's/"version": 0/"version": $(VERSION)/' metadata.json;
 	
 zip-file:

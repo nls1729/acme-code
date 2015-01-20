@@ -21,4 +21,4 @@ https://nls1729.github.io
 
 Change Log:
 
-zip file: xxx
+Build: xxx
