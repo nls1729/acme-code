@@ -15,12 +15,8 @@ UUID = SHE@nls1729
 MODULES = COPYING dee.js extension.js langpostfixer.js \
 notifications.js prefs.js README.md stylesheet.css
 
-ETC = etc/dee.png etc/dee.ui etc/emblem-symbolic-link.svg \
-etc/folder-symbolic.svg etc/list-add-symbolic.svg \
-etc/nls1729@gmail.com.asc etc/prefs.ui etc/README.html \
-etc/start-here-symbolic.svg etc/system-run-symbolic.svg \
-etc/text-editor-symbolic.svg etc/user-trash-symbolic.svg \
-etc/verify.gpg etc/view-grid-symbolic.svg
+ETC = etc/dee.png etc/dee.ui etc/nls1729@gmail.com.asc \
+etc/prefs.ui etc/README.html etc/verify.gpg \
 
 CS = $(shell sha256sum _build/CHECKSUM | cut -c1-64)
 POFILES = $(wildcard po/*.po)

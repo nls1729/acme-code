@@ -133,14 +133,14 @@ const HELP = [
 ];
 
 const ICON = {
-    default_icon:  Me.path + '/etc/start-here-symbolic.svg',
-    launch_icon:   Me.path + '/etc/system-run-symbolic.svg',
-    edit_icon:     Me.path + '/etc/text-editor-symbolic.svg',
-    delete_icon:   Me.path + '/etc/user-trash-symbolic.svg',
-    apps_icon:     Me.path + '/etc/view-grid-symbolic.svg',
-    create_icon:   Me.path + '/etc/list-add-symbolic.svg',
-    directory:     Me.path + '/etc/folder-symbolic.svg',
-    symbolic_link: Me.path + '/etc/emblem-symbolic-link.svg'
+    default_icon:  'start-here-symbolic',
+    launch_icon:   'system-run-symbolic',
+    edit_icon:     'text-editor-symbolic',
+    delete_icon:   'user-trash-symbolic',
+    apps_icon:     'view-grid-symbolic',
+    create_icon:   'list-add-symbolic',
+    directory:     'folder-symbolic',
+    symbolic_link: 'go-jump-symbolic'
 };
 
 const ExtensionPanelButton = new Lang.Class({
@@ -595,6 +595,7 @@ const ExtensionPanelButton = new Lang.Class({
         }
         this._displayInProgress = false;
     },
+
     _getIcon: function(iconString) {
         let icon;
         if (iconString === undefined)

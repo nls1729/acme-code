@@ -64,7 +64,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Desktop Entry Editor</property>
     <property name="resizable">False</property>
-    <property name="icon">images/dee.png</property>
+    <property name="icon">dee.png</property>
     <property name="type_hint">dialog</property>
     <signal name="response" handler="user_interface_response" swapped="no"/>
     <child internal-child="vbox">

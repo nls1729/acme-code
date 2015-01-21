@@ -34,7 +34,7 @@ const EXTENDED_FORMAT_STR = 'X-NLS1729-SHE-Directory';
 const LOCAL_APPS_PATH = GLib.get_user_data_dir() + '/applications';
 const MIMES = ['image/png', 'image/jpeg', 'image/gif'];
 const PATTERNS = ['*.ico', '*.png', '*.jpg', '*.gif', '*.tif"', '*.xpm', '*svg', '*icns'];
-const SCHEMA_DIR = GLib.get_user_data_dir() + '/gnome-shell/extensions/start-here@nls1729/schemas';
+const SCHEMA_DIR = GLib.get_user_data_dir() + '/gnome-shell/extensions/SHE@nls1729/schemas';
 const DIRECTORY_INDEX = GLib.get_user_data_dir() + '/start_here_launchers/Directory_Index_lldir';
 const TYPES = ['Application', 'Application', 'Link', 'Directory'];
 
@@ -52,7 +52,7 @@ const DesktopEntryEditor = new Lang.Class ({
         this._oneActivate = true;
         this._startupSigId = this._app.connect('startup', Lang.bind(this, this.startup));
         this._commandLineSigId = this._app.connect('command-line', Lang.bind(this, this.commandline));
-        this._settings = this._getSettings('org.gnome.shell.extensions.start-here');
+        this._settings = this._getSettings('org.gnome.shell.extensions.SHE');
     },
 
     _getSettings: function(schema) {
@@ -75,7 +75,7 @@ const DesktopEntryEditor = new Lang.Class ({
     commandline: function(app, commandline) {
         let args = commandline.get_arguments();
         if (args.length >= 4) {
-            if (args[0].indexOf('start-here@nls1729') == -1) {
+            if (args[0].indexOf('SHE@nls1729') == -1) {
                 let msg = 'Could not find valid path : dee.js';
                 this._showError(msg, null);
                 throw new Error(msg);
@@ -323,6 +323,8 @@ const DesktopEntryEditor = new Lang.Class ({
         let key;
         this._userInterfaceReady = false;
         this._changesArray = {};
+        let parent = new Gtk.Window();
+        this._dialogObj.set_transient_for(parent);
         this._dialogObj.set_keep_above(true);
         this._dialogObj.set_icon_from_file(this._iconFile);
         try {
@@ -705,6 +707,5 @@ const DesktopEntryEditor = new Lang.Class ({
 });
 
 let dee = new DesktopEntryEditor('nls1729.dee');
-print(ARGV);
 dee._app.run(ARGV);
 
