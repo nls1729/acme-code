@@ -11,14 +11,9 @@ git clone https://github.com/nls1729/acme-code
 Additional information is available at:
 https://nls1729.github.io
 
-activities-config Activities Configurator
-
-max-window-effect  Max Window Effect
-
-shell-restarter    Shell Restarter
 <table border="2">
-<tr><td>Activities Configurator</td>activities-config<td>ego</td></tr>
-<tr><td>Max Window Effect</td>max-window-effect<td>no</td></tr>
-<tr><td>Shell Restarter</td>shell-restarter<td>no</td></tr>
-<tr><td>Start Here Extension</td>SHE<td>under construction</td></tr>
+<tr><td>activities-config</td><td>Activities Configurator</td><td>ego</td></tr>
+<tr><td>max-window-effect</td><td>Max Window Effect</td><td>no</td></tr>
+<tr><td>shell-restarter</td><td>Shell Restarter</td><td>no</td></tr>
+<tr><td>SHE</td><td>Start Here Extension</td><td>under construction</td></tr>
 </table>
