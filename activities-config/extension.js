@@ -44,8 +44,8 @@ const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Notify = Me.imports.notify;
 const Readme = Me.imports.readme;
-const CONFLICT = 'Conflict Detected:';
-const MIA_ICON = 'Missing Icon:';
+const CONFLICT = _("Conflict Detected:");
+const MIA_ICON = _("Missing Icon:");
 const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const DISABLE_TOGGLE = 32767;
 

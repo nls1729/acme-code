@@ -1,0 +1,343 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-19 09:18-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:19
+msgid "New Text"
+msgstr ""
+
+#: prefs.js:20
+msgid "Text Padding"
+msgstr ""
+
+#: prefs.js:21
+msgid "Hide Text"
+msgstr ""
+
+#: prefs.js:22
+msgid "Select Icon"
+msgstr ""
+
+#: prefs.js:23
+msgid "Icon Padding"
+msgstr ""
+
+#: prefs.js:24
+msgid "Hide Icon"
+msgstr ""
+
+#: prefs.js:25
+msgid "Hot Corner Threshold"
+msgstr ""
+
+#: prefs.js:26
+msgid "Disable Hot Corner"
+msgstr ""
+
+#: prefs.js:27
+msgid "Remove Activities Button"
+msgstr ""
+
+#: prefs.js:28
+msgid "Panel Transparency"
+msgstr ""
+
+#: prefs.js:29
+msgid "Extension Defaults"
+msgstr ""
+
+#: prefs.js:30
+msgid "Extension Description"
+msgstr ""
+
+#: prefs.js:31
+msgid "APPLY"
+msgstr ""
+
+#: prefs.js:32
+msgid "SELECT"
+msgstr ""
+
+#: prefs.js:33
+msgid "RESET"
+msgstr ""
+
+#: prefs.js:34
+msgid "README"
+msgstr ""
+
+#: prefs.js:35
+msgid "Choose Icon"
+msgstr ""
+
+#: prefs.js:36
+msgid "Enable Conflict Detection"
+msgstr ""
+
+#: prefs.js:37
+msgid "Activities"
+msgstr ""
+
+#: prefs.js:39
+msgid "Set Panel Background"
+msgstr ""
+
+#: prefs.js:40
+msgid "Hide Panel Rounded Corners"
+msgstr ""
+
+#: prefs.js:41
+msgid "Window Maximized Effect"
+msgstr ""
+
+#: prefs.js:133
+msgid "Panel - No Effect"
+msgstr ""
+
+#: prefs.js:134
+msgid "Opaque Background Color"
+msgstr ""
+
+#: prefs.js:135
+msgid "Black Opaque Background"
+msgstr ""
+
+#: prefs.js:256
+msgid "Images"
+msgstr ""
+
+#: readme.js:6
+msgid ""
+"The Activities Text can be changed by entering New Text and then pressing "
+"the APPLY button."
+msgstr ""
+
+#: readme.js:7
+msgid ""
+"The text spacing on the panel is adjustable with the Text Padding scale."
+msgstr ""
+
+#: readme.js:8
+msgid "The text can be removed from the panel with the Hide Text switch."
+msgstr ""
+
+#: readme.js:9
+msgid "The Activities Icon is selectable with the SELECT Icon button."
+msgstr ""
+
+#: readme.js:10
+msgid ""
+"The icon spacing on the panel is adjustable with the Icon Padding scale."
+msgstr ""
+
+#: readme.js:11
+msgid "The icon can be removed from the panel with the Hide Icon switch."
+msgstr ""
+
+#: readme.js:12
+msgid "Text and icon padding is left and right horizontal padding in pixels."
+msgstr ""
+
+#: readme.js:13
+msgid ""
+"The sensitivity of the hot corner is adjustable with the Hot Corner "
+"Threshold scale."
+msgstr ""
+
+#: readme.js:14
+msgid ""
+"The hot corner Overview switching is disabled with the Disable Hot Corner "
+"switch."
+msgstr ""
+
+#: readme.js:15
+msgid ""
+"If the hot corner is disabled the Overview can be toggled with the left "
+"super key."
+msgstr ""
+
+#: readme.js:16
+msgid ""
+"The Activities Button can be removed with the Remove Activities Button "
+"switch."
+msgstr ""
+
+#: readme.js:17
+msgid ""
+"The workspace background may appear more aesthetically pleasing without the "
+"black panel background."
+msgstr ""
+
+#: readme.js:18
+msgid ""
+"The color and transparency of the panel background is adjustable with Set "
+"Panel Background Button and Panel Transparency scale (0-100%)."
+msgstr ""
+
+#: readme.js:19
+msgid ""
+"The default is 0, no transparency or opaque and 100 is completely "
+"transparent."
+msgstr ""
+
+#: readme.js:20
+msgid ""
+"This feature requires a workspace background of colors which contrast with "
+"icons and text displayed in the panel."
+msgstr ""
+
+#: readme.js:21
+msgid ""
+"Extension settings are reset to their default values with the Extension "
+"Defaults RESET button."
+msgstr ""
+
+#: readme.js:22
+msgid "The Extension Description README button displays this readme."
+msgstr ""
+
+#: readme.js:23
+msgid ""
+"Conflicts with other enabled extensions can be detected with the Enable "
+"Conflict Detection switch."
+msgstr ""
+
+#: readme.js:24
+msgid "This extension prefers the left-most corner of the panel."
+msgstr ""
+
+#: readme.js:25
+msgid ""
+"Another extension which inserts itself in the left-most corner of the panel "
+"is considered in conflict with this preference."
+msgstr ""
+
+#: readme.js:26
+msgid ""
+"This extension attempts to avoid conflicts by delaying its activation at "
+"shell startup time."
+msgstr ""
+
+#: readme.js:27
+msgid ""
+"The delay appears to resolve most conflicts allowing the extensions to "
+"function normally."
+msgstr ""
+
+#: readme.js:28
+msgid ""
+"Extensions which duplicate the functions of this extension may affect or be "
+"affected when both are enabled."
+msgstr ""
+
+#: readme.js:29
+msgid ""
+"Try different settings for the conflicting extensions in order to avoid "
+"conflicts."
+msgstr ""
+
+#: readme.js:30
+msgid ""
+"Conflict Detection is disabled by default.  Enable only if you experience "
+"problems."
+msgstr ""
+
+#: readme.js:31
+msgid ""
+"When Conflict Detection is enabled, detected conflicts are usually "
+"automatically resolved."
+msgstr ""
+
+#: readme.js:32
+msgid ""
+"If a conflict is detected this extension will re-establish its prefered "
+"position in the panel."
+msgstr ""
+
+#: readme.js:33
+msgid ""
+"If another extension continues to create a conflict this extension will "
+"disable itself to avoid a race condition and notify the user."
+msgstr ""
+
+#: readme.js:34
+msgid ""
+"The user can disable Conflict Detection if it is acceptable to have this "
+"extension not in its preferred position."
+msgstr ""
+
+#: readme.js:35
+msgid ""
+"The conflict can be resolved by disabling the conflicting extension or this "
+"extension and restarting the session."
+msgstr ""
+
+#: readme.js:36
+msgid ""
+"Clicking the Activities Icon or Text with the right mouse button executes "
+"GNOME Shell Extension Preferences."
+msgstr ""
+
+#: readme.js:38
+msgid ""
+"A conflict between an enabled extension and the Activities Configurator "
+"Extension exists."
+msgstr ""
+
+#: readme.js:39
+msgid ""
+"Please resolve the conflict by disabling the offending extension or disable "
+"the Activities Configurator and restart your session."
+msgstr ""
+
+#: readme.js:40
+msgid ""
+"See the README of the Activities Configurator for additional information."
+msgstr ""
+
+#: readme.js:42
+msgid "The Activities Icon was not found."
+msgstr ""
+
+#: readme.js:43
+msgid ""
+"The missing icon has been removed, renamed or possible filesystem corruption "
+"has damaged the icon."
+msgstr ""
+
+#: readme.js:44
+msgid ""
+"The default icon has automatically been selected to allow proper operation "
+"of the extension."
+msgstr ""
+
+#: readme.js:45
+msgid "You should determine and correct the problem, then re-select an icon."
+msgstr ""
+
+#: notify.js:12
+msgid "Extension"
+msgstr ""
+
+#: extension.js:47
+msgid "Conflict Detected:"
+msgstr ""
+
+#: extension.js:48
+msgid "Missing Icon:"
+msgstr ""
