@@ -169,9 +169,9 @@ https://nls1729.github.io
 
 2015-03-20 Version 35 updated metadata.json for GS 3.16
 
-
-
-
-
+2015-06-20 Version 36
+           jonnius provided German Translation Update and Full Localization Support.
+           All instances of _N were removed which had prevented use of xgettext to
+           create translation template files.
 
 zip file: xxx
