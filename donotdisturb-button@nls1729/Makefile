@@ -9,7 +9,7 @@ UUID = donotdisturb-button@nls1729
 MODULES = README.txt COPYING extension.js metadata.json
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
-COMMIT = $(git rev-parse HEAD)
+COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
 
 all: extension
@@ -21,7 +21,7 @@ _build: all
 	mkdir -p _build
 	cp $(MODULES) _build
 	sed -i 's/"version": 0/"version": $(VERSION)/' _build/metadata.json;
-	sed -i 's/^zip:.*$\/zip: $(ZIPDATE) Commit: $(COMMIT)/'  _build/README.txt;
+	sed -i 's/^zip file:.*$\/zip: $(ZIPDATE) Commit: $(COMMIT)/'  _build/README.txt;
 
 zip-file: _build
 	cd _build ; \
