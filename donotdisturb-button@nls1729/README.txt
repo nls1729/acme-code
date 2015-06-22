@@ -13,4 +13,6 @@ https://lists.fedoraproject.org/pipermail/desktop/2015-June/012417.html
 
 Panel button toggles presense status {BUSY | AVAILABLE}.
 
+Uploaded to ego website 2015-06-15.
+
 zip file: xxx
