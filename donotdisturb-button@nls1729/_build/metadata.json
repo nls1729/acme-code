@@ -1,0 +1,10 @@
+{ 
+  "description": "Add a do not disturb button to panel.  The user can indicate 'busy' status to block notifications.", 
+  "name": "Do Not Disturb Button", 
+  "shell-version": [
+    "3.16"
+  ], 
+  "url": "", 
+  "uuid": "donotdisturb-button@nls1729", 
+  "version": 1
+}
