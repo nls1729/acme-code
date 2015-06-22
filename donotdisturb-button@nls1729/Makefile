@@ -9,7 +9,7 @@ UUID = donotdisturb-button@nls1729
 MODULES = README.txt COPYING extension.js metadata.json
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
-COMMIT = $(shell cd .. ; git rev-parse HEAD)
+COMMIT = $(git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
 
 all: extension
