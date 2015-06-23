@@ -174,6 +174,6 @@ https://nls1729.github.io
            All instances of _N were removed which had prevented use of xgettext to
            create translation template files.
 
-2015-06-23 Version 36 passed reiew on ego.
+2015-06-23 Version 36 passed review on ego.
 
 zip file: xxx
