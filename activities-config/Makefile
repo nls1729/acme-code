@@ -37,7 +37,7 @@ _build: all
 		mkdir -p $$langdir/LC_MESSAGES; \
 		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
 	done;
-	sed -i 's/"version": 0/"version": $(VERSION)/' _build/metadata.json;
+	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json;
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt;
 
 zip-file: _build
