@@ -1,5 +1,5 @@
 { 
-  "description": "Add a do not disturb button to the panel.  The user can indicate 'busy' status to block immediate display of notifications. Pleae see README.txt for details.", 
+  "description": "Add a do not disturb button to the panel.  The user can indicate 'busy' status to block immediate display of notifications. Please see README.txt for details.", 
   "name": "Do Not Disturb Button", 
   "shell-version": [
     "3.16"
