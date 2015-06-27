@@ -20,7 +20,7 @@ _build: all
 	-rm -fR ./_build
 	mkdir -p _build
 	cp $(MODULES) _build
-	sed -i 's/"version": 0/"version": $(VERSION)/' _build/metadata.json;
+	sed -i 's/"version":.*$/"version": $(VERSION)/' _build/metadata.json;
 	sed -i 's/^zip file:.*$\/zip: $(ZIPDATE) Commit: $(COMMIT)/'  _build/README.txt;
 
 zip-file: _build
