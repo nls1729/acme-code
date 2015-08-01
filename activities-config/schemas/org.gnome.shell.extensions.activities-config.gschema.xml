@@ -71,7 +71,11 @@
       <summary>Hide rounded corners.</summary>
       <description>The panel rounded corners are hidden if true.</description>
     </key>
-
+    <key type="b" name="panel-hide-app-menu-button-icon">
+      <default>false</default>
+      <summary>Hide panel app menu button icon.</summary>
+      <description>The panel app menu button icon is hidden if true.</description>
+    </key>
     <key type="i" name="maximized-window-effect">
       <default>0</default>
       <summary>Panel background effects when a window is maximized on the primary display.</summary>

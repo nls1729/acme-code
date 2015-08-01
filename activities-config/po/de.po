@@ -406,53 +406,16 @@ msgstr "Konflikt entdeckt:"
 msgid "Missing Icon:"
 msgstr "Fehlendes Symbol:"
 
-#~ msgid ""
-#~ "A small delay in milliseconds before activation of the hot corner can "
-#~ "prevent an inadvertent mouse movement from toggling the Overview."
-#~ msgstr ""
-#~ "Eine Verzögerung von einigen Millisekunden kann verhindern, dass eine "
-#~ "unbeabsichtigte Mausbewegung in die \"Hot Corner\" die Übersicht anzeigt."
+#: readme.js:47
+msgid "Activities Configurator - README"
+msgstr "Aktivitäten-Konfigurator - LIESMICH"
 
-#~ msgid "Activities Configurator - MISSING ICON"
-#~ msgstr "Aktivitäten-Konfigurator - FEHLENDES SYMBOL"
+#: readme.js:49
+msgid "Activities Configurator - MISSING ICON"
+msgstr "Aktivitäten-Konfigurator - FEHLENDES SYMBOL"
 
-#~ msgid "Activities Configurator - README"
-#~ msgstr "Aktivitäten-Konfigurator - LIESMICH"
+#: prefs.js:42
+msgid "Hide Application Menu Button Icon"
+msgstr "Hide Application Menu Button Icon"
 
-#~ msgid "Hot Corner Sensitivity"
-#~ msgstr "\"Hot Corner\"-Verzögerung"
 
-#~ msgid ""
-#~ "The default delay is 250 ms which seems to prevent most false Overview "
-#~ "toggles."
-#~ msgstr ""
-#~ "Die standardmäßige Verzögerung beträgt 250 ms, was die meisten "
-#~ "unbeabsichtigten Wechsel zur Übersicht verhindert."
-
-#~ msgid ""
-#~ "The sensitivity of the hot corner is adjustable with the Hot Corner "
-#~ "Sensitivity scale."
-#~ msgstr ""
-#~ "Die Verzögerung der \"Hot Corner\" ist durch die Verzögerungsskala "
-#~ "einstellbar."
-
-#~ msgid "Fatal verification error."
-#~ msgstr "Fatal Überprüfung Fehler."
-
-#~ msgid "Prevent enable on verification failure is OFF!"
-#~ msgstr "Verhindern Sie ermöglichen auf Fehler in der Überprüfung ist AUS!"
-
-#~ msgid "required for verification."
-#~ msgstr "für die Überprüfung erforderlich."
-
-#~ msgid "Extension verification is disabled."
-#~ msgstr "Erweiterung Überprüfung ist deaktiviert."
-
-#~ msgid "signature not valid."
-#~ msgstr "Signatur nicht gültig.."
-
-#~ msgid "Checksum failed."
-#~ msgstr "Prüfsumme fehlgeschlagen."
-
-#~ msgid "Verification Complete."
-#~ msgstr "Überprüfung abgeschlossen."

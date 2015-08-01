@@ -176,4 +176,18 @@ https://nls1729.github.io
 
 2015-06-23 Version 36 passed review on ego.
 
-zip file: xxx
+2015-08-01 Changes to Activities Configurator extension.
+
+           Updated Activities Configurator to handle Touch Screen.
+
+           Added option to hide Application Menu Button Icon. Suggested
+           by francoism90.
+
+           Changed disabled Hot Corner behavior for DND to be the
+           same as if Hot Corner is enabled. Dragging an item into
+           the Hot Corner will toggle the Overview when the
+           Hot Corner is disabled. Suggested by Jehan.
+
+           Cleaned up inconsistent coding style "if(" --> if "("
+
+zip file: Tue Jul 21 18:54:55 EDT 2015 31a973a8ba87d9500671f48c63839bd1075dfa2e

@@ -44,6 +44,10 @@ _("The missing icon has been removed, renamed or possible filesystem corruption 
 _("The default icon has automatically been selected to allow proper operation of the extension."), "  ",
 _("You should determine and correct the problem, then re-select an icon."),  "\n"];
 
+let README_TITLE = _("Activities Configurator - README");
+
+let MIA_ICON_TITLE = _("Activities Configurator - MISSING ICON");
+
 let SHOWING = {
     'readme' : false,
     'error'  : false
@@ -55,8 +59,8 @@ let TEXTS = {
 }
 
 let TITLES = {
-    'readme' : 'Activities Configurator - README',
-    'error'  : 'Activities Configurator - MISSING ICON'
+    'readme' : README_TITLE,
+    'error'  : MIA_ICON_TITLE
 }
 
 function makeTextStr(strings) {

@@ -26,7 +26,7 @@ const SETS_HOTC = _("Hot Corner Threshold");
 const NADA_HOTC = _("Disable Hot Corner");
 const RMV_ACTIV = _("Remove Activities Button");
 const TRANS_PAN = _("Panel Transparency");
-const RST_INSTS = _("Extension Defaults");
+const RST_DFLTS = _("Extension Defaults");
 const RME_INSTS = _("Extension Description");
 const APPLY  = _("APPLY");
 const SELECT = _("SELECT");
@@ -39,7 +39,7 @@ const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const PAN_COLOR = _("Set Panel Background");
 const HIDE_PRCS = _("Hide Panel Rounded Corners");
 const WIN_MAXED = _("Window Maximized Effect");
-
+const HIDE_APPI = _("Hide Application Menu Button Icon");
 
 function init() {
     Convenience.initTranslations();
@@ -66,14 +66,15 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 0, 12, 3, 1);
         this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 0, 14, 3, 1);
         this._grid.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 0, 16, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 0, 17, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 0, 18, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 0, 19, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 0, 20, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 0, 22, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RST_INSTS), wrap: true, xalign: 0.0 }), 0, 24, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 0, 26, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 0.0 }), 0, 28, 1, 1);
+        this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 0, 18, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 0, 20, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 0, 22, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 0, 24, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 0, 26, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 0, 28, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 0, 30, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 0, 32, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 0.0 }), 0, 34, 1, 1);
         let applyBtn = new Gtk.Button({ label: _(APPLY) });
         this._grid.attach(applyBtn, 7, 0, 1, 1);
         this._entry = new Gtk.Entry({ hexpand: true });
@@ -122,14 +123,17 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._setPanelColor();
         this._panelColor.set_use_alpha(false);
         this._panelColor.connect('notify::color', Lang.bind(this, this._onPanelColorChanged));
-        this._grid.attach(this._panelColor, 7, 17, 1, 1);
+        this._grid.attach(this._panelColor, 7, 18, 1, 1);
         this._hideCorners = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_RC)});
-        this._grid.attach(this._hideCorners, 7, 18, 1, 1);
+        this._grid.attach(this._hideCorners, 7, 20, 1, 1);
         this._hideCorners.connect('notify::active', Lang.bind(this, this._setHideCorners));
+        this._hideAppMenuButtonIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_APPMBI)});
+        this._grid.attach(this._hideAppMenuButtonIcon, 7, 22, 1, 1);
+        this._hideAppMenuButtonIcon.connect('notify::active', Lang.bind(this, this._setHideAppMenuButtonIcon));
         this._panelTransparency = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 100, 1);
         this._panelTransparency.set_value(this._settings.get_int(Keys.TRS_PAN));
         this._panelTransparency.connect('value-changed', Lang.bind(this, this._onPanelTransparencyChanged));
-        this._grid.attach(this._panelTransparency, 3, 19, 4, 1);
+        this._grid.attach(this._panelTransparency, 3, 24, 4, 1);
         this._rbNone = new Gtk.RadioButton({label:_("Panel - No Effect")});
         this._rbOpaque = new Gtk.RadioButton({group:this._rbNone, label:_("Opaque Background Color")});
         this._rbBlack = new Gtk.RadioButton({group:this._rbNone, label:_("Black Opaque Background")});
@@ -138,7 +142,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         rbGroup.add(this._rbNone);
         rbGroup.add(this._rbOpaque);
         rbGroup.add(this._rbBlack);
-        this._grid.attach(rbGroup, 4, 20, 3, 1);
+        this._grid.attach(rbGroup, 4, 26, 3, 1);
         let rb = this._settings.get_int(Keys.MAX_WIN_EFFECT);
         if (rb == 0)
             this._rbNone.clicked();
@@ -159,13 +163,13 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
                 this._settings.set_int(Keys.MAX_WIN_EFFECT, 2);
         }));
         this._conflictDetection = new Gtk.Switch({active: this._settings.get_boolean(Keys.CON_DET)});
-        this._grid.attach(this._conflictDetection, 7, 22, 1, 1);
+        this._grid.attach(this._conflictDetection, 7, 28, 1, 1);
         this._conflictDetection.connect('notify::active', Lang.bind(this, this._setConflictDetection));
         let defaultsBtn = new Gtk.Button({ label: _(RESET) } );
-        this._grid.attach(defaultsBtn, 7, 24, 1, 1);
+        this._grid.attach(defaultsBtn, 7, 30, 1, 1);
         defaultsBtn.connect('clicked', Lang.bind(this, this._resetSettings));
         let readmeBtn = new Gtk.Button({ label: _(README) } )
-        this._grid.attach(readmeBtn, 7, 26, 1, 1);
+        this._grid.attach(readmeBtn, 7, 32, 1, 1);
         readmeBtn.connect('clicked', function() { Readme.displayWindow('readme')});
         if(this._settings.get_boolean(Keys.FIRST_ENABLE)) {
             this._settings.set_boolean(Keys.FIRST_ENABLE, false);
@@ -299,6 +303,10 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._settings.set_boolean(Keys.HIDE_RC, object.active);
     },
 
+    _setHideAppMenuButtonIcon: function(object) {
+        this._settings.set_boolean(Keys.HIDE_APPMBI, object.active);
+    },
+
     _resetSettings: function() {
         this._hpadText.set_value(8);
         this._hpadIcon.set_value(8);
@@ -318,6 +326,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._hideCorners.set_active(false);
         this._conflictDetection.set_active(false);
         this._rbNone.clicked();
+        this._hideAppMenuButtonIcon.set_active(false);
     },
 
     _loadIcon: function(path) {
@@ -341,6 +350,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
                                  'hexpand': true, 'vexpand': true});
         scollingWindow.add_with_viewport(this._grid);
         scollingWindow.width_request = 700;
+        scollingWindow.height_request = 620;
         scollingWindow.show_all();
         return scollingWindow;
     }

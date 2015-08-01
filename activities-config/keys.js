@@ -13,6 +13,7 @@ const TRS_PAN = 'transparent-panel';
 const CON_DET = 'enable-conflict-detection';
 const COLOURS = 'panel-background-color-hex-rgb';
 const HIDE_RC = 'panel-hide-rounded-corners';
+const HIDE_APPMBI = 'panel-hide-app-menu-button-icon';
 const BARRIERS = 'pointer-barriers-supported';
 const FIRST_ENABLE = 'first-enable';
 const MAX_WIN_EFFECT = 'maximized-window-effect';
