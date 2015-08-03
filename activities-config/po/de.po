@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nls1729-extensions\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-19 09:18-0300\n"
-"PO-Revision-Date: 2015-06-19 09:35-0300\n"
+"PO-Revision-Date: 2015-08-03 09:35-0300\n"
 "Last-Translator: Jonatan Zeidler <jonatan_zeidler@gmx.de>\n"
 "Language-Team: Jonius\n"
 "Language: de\n"
@@ -101,19 +101,23 @@ msgstr "Abgerundete Ecken deaktivieren"
 msgid "Window Maximized Effect"
 msgstr "Effekt bei maximiertem Fenster"
 
-#: prefs.js:133
+#: prefs.js:42
+msgid "Hide Application Menu Button Icon"
+msgstr "Schaltflächensymbol des Anwendungsmenüs verstecken"
+
+#: prefs.js:137
 msgid "Panel - No Effect"
 msgstr "Obere Leiste - Kein Effekt"
 
-#: prefs.js:134
+#: prefs.js:138
 msgid "Opaque Background Color"
 msgstr "Leistenhintergrund undurchsichtig"
 
-#: prefs.js:135
+#: prefs.js:139
 msgid "Black Opaque Background"
 msgstr "Schwarzer Hintergrund ohne Transparenz"
 
-#: prefs.js:256
+#: prefs.js:260
 msgid "Images"
 msgstr "Bilder"
 
@@ -394,9 +398,13 @@ msgstr ""
 "Das Problem sollte erkannt und behoben werden. Danach kann das Symbol noch "
 "einmal ausgewählt werden."
 
-#: notify.js:12
-msgid "Extension"
-msgstr "Erweiterung"
+#: readme.js:47
+msgid "Activities Configurator - README"
+msgstr "Aktivitäten-Konfigurator - LIESMICH"
+
+#: readme.js:49
+msgid "Activities Configurator - MISSING ICON"
+msgstr "Aktivitäten-Konfigurator - FEHLENDES SYMBOL"
 
 #: extension.js:47
 msgid "Conflict Detected:"
@@ -406,16 +414,7 @@ msgstr "Konflikt entdeckt:"
 msgid "Missing Icon:"
 msgstr "Fehlendes Symbol:"
 
-#: readme.js:47
-msgid "Activities Configurator - README"
-msgstr "Aktivitäten-Konfigurator - LIESMICH"
-
-#: readme.js:49
-msgid "Activities Configurator - MISSING ICON"
-msgstr "Aktivitäten-Konfigurator - FEHLENDES SYMBOL"
-
-#: prefs.js:42
-msgid "Hide Application Menu Button Icon"
-msgstr "Hide Application Menu Button Icon"
-
+#: notify.js:12
+msgid "Extension"
+msgstr "Erweiterung"
 
