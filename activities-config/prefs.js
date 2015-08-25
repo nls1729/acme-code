@@ -54,53 +54,67 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
     _init: function() {
         let version = '[v' + Me.metadata.version.toString() + ']';
         this._grid = new Gtk.Grid();
-        this._grid.margin = this._grid.row_spacing = this._grid.column_spacing = 10;
+        this._grid.margin = 10;
+        this._grid.row_spacing = 10;
+        this._grid.column_spacing = 10;
+        this._grid.set_column_homogeneous(false);
 	this._settings = Convenience.getSettings();
         this._settings.set_string(Keys.ORI_TXT, _(ACTIVITIES));
-        this._grid.attach(new Gtk.Label({ label: _(TXT_INSTS), wrap: true, xalign: 0.0 }), 0,  0, 1, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 0,  2, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 0,  4, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 0,  6, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 0,  8, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 0, 10, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 0, 12, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 0, 14, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 0, 16, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 0, 18, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 0, 20, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 0, 22, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 0, 24, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 0, 26, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 0, 28, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 0, 30, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 0, 32, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 0.0 }), 0, 34, 1, 1);
-        let applyBtn = new Gtk.Button({ label: _(APPLY) });
-        this._grid.attach(applyBtn, 7, 0, 1, 1);
-        this._entry = new Gtk.Entry({ hexpand: true });
-        this._grid.attach(this._entry, 1, 0, 6, 1);
-        applyBtn.connect('clicked', Lang.bind(this, this._setActivitiesText));
-        this._hpadText = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 24, 1);
-        this._hpadText.set_value(this._settings.get_int(Keys.PAD_TXT));
-        this._hpadText.connect('value-changed', Lang.bind(this, this._onTextPaddingChanged));
-        this._grid.attach(this._hpadText, 3, 2, 4, 1);
-        this._noText = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_TEXT)});
-        this._grid.attach(this._noText, 7, 4, 1, 1);
-        this._noText.connect('notify::active', Lang.bind(this, this._setNoText));
+        this._grid.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 5,  0, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  2, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 5,  4, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(TXT_INSTS), wrap: true, xalign: 0.0 }), 5,  6, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 1,  8, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 5, 10, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 1, 12, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 5, 14, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1, 16, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 1, 18, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 5, 20, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 3, 22, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1, 24, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 26, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 28, 6, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 30, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 32, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 0.0 }), 0, 34, 3, 1);
+
+        // Icon
         this._iconImage = new Gtk.Image();
         this._iconPath = this._settings.get_string(Keys.NEW_ICO) || DEFAULT_ICO;
         this._loadIcon(this._iconPath);
-        this._grid.attach(this._iconImage, 6, 6, 1, 1);
         let iconBtn = new Gtk.Button({ label: _(SELECT) });
-        this._grid.attach(iconBtn, 7, 6, 1, 1);
-        iconBtn.connect('clicked', Lang.bind(this, this._setActivitiesIcon));
+        this._noIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_ICON)});
         this._hpadIcon = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 24, 1);
         this._hpadIcon.set_value(this._settings.get_int(Keys.PAD_ICO));
-        this._hpadIcon.connect('value-changed', Lang.bind(this, this._onIconPaddingChanged));
-        this._grid.attach(this._hpadIcon, 3, 8, 4, 1);
-        this._noIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_ICON)});
-        this._grid.attach(this._noIcon, 7, 10, 1, 1);
+        iconBtn.connect('clicked', Lang.bind(this, this._setActivitiesIcon));
         this._noIcon.connect('notify::active', Lang.bind(this, this._setNoIcon));
+        this._hpadIcon.connect('value-changed', Lang.bind(this, this._onIconPaddingChanged));
+        this._grid.attach(this._iconImage, 2, 0, 1, 1);
+        this._grid.attach(iconBtn, 4, 0, 1, 1);
+        this._grid.attach(this._noIcon, 0, 2, 1, 1);
+        this._grid.attach(this._hpadIcon, 0, 4, 5, 1);
+
+        // Text
+        this._entry = new Gtk.Entry({ hexpand: true });
+        let applyBtn = new Gtk.Button({ label: _(APPLY) });
+        this._noText = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_TEXT)});
+        this._hpadText = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 24, 1);
+        this._hpadText.set_value(this._settings.get_int(Keys.PAD_TXT));
+        applyBtn.connect('clicked', Lang.bind(this, this._setActivitiesText));
+        this._noText.connect('notify::active', Lang.bind(this, this._setNoText));
+        this._hpadText.connect('value-changed', Lang.bind(this, this._onTextPaddingChanged));
+        this._grid.attach(this._entry, 0, 6, 3, 1);
+        this._grid.attach(applyBtn, 4, 6, 1, 1);
+        this._grid.attach(this._noText, 0, 8, 1, 1);
+        this._grid.attach(this._hpadText, 0, 10, 5, 1);
+
+        // Remove Activities Button
+        this._noActivities = new Gtk.Switch({active: this._settings.get_boolean(Keys.REMOVED)});
+        this._noActivities.connect('notify::active', Lang.bind(this, this._setNoActivities));
+        this._grid.attach(this._noActivities, 0, 12, 1, 1);
+
+        // Hot Corner
         if(!this._settings.get_boolean(Keys.BARRIERS)) {
             this._hotCornerDelay = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 750, 25);
             this._hotCornerDelayDefault = 250;
@@ -111,29 +125,26 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
             this._hotKey = Keys.HOTC_PT;
         }
         this._hotCornerDelay.set_value(this._settings.get_int(this._hotKey));
-        this._hotCornerDelay.connect('value-changed', Lang.bind(this, this._onHotCornerDelayChanged));
-        this._grid.attach(this._hotCornerDelay, 3, 12, 4, 1);
         this._noHotCorner = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_HOTC)});
-        this._grid.attach(this._noHotCorner, 7, 14, 1, 1);
+        this._hotCornerDelay.connect('value-changed', Lang.bind(this, this._onHotCornerDelayChanged));
         this._noHotCorner.connect('notify::active', Lang.bind(this, this._setNoHotCorner));
-        this._noActivities = new Gtk.Switch({active: this._settings.get_boolean(Keys.REMOVED)});
-        this._grid.attach(this._noActivities, 7, 16, 1, 1);
-        this._noActivities.connect('notify::active', Lang.bind(this, this._setNoActivities));
+        this._grid.attach(this._hotCornerDelay, 0, 14, 5, 1);
+        this._grid.attach(this._noHotCorner, 0, 16, 1, 1);
+
+        // Panel Background Color
         this._panelColor = new Gtk.ColorButton();
         this._setPanelColor();
         this._panelColor.set_use_alpha(false);
         this._panelColor.connect('notify::color', Lang.bind(this, this._onPanelColorChanged));
-        this._grid.attach(this._panelColor, 7, 18, 1, 1);
-        this._hideCorners = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_RC)});
-        this._grid.attach(this._hideCorners, 7, 20, 1, 1);
-        this._hideCorners.connect('notify::active', Lang.bind(this, this._setHideCorners));
-        this._hideAppMenuButtonIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_APPMBI)});
-        this._grid.attach(this._hideAppMenuButtonIcon, 7, 22, 1, 1);
-        this._hideAppMenuButtonIcon.connect('notify::active', Lang.bind(this, this._setHideAppMenuButtonIcon));
+
+        this._grid.attach(this._panelColor, 0, 18, 1, 1);
+        // Panel Transparency
         this._panelTransparency = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 100, 1);
         this._panelTransparency.set_value(this._settings.get_int(Keys.TRS_PAN));
         this._panelTransparency.connect('value-changed', Lang.bind(this, this._onPanelTransparencyChanged));
-        this._grid.attach(this._panelTransparency, 3, 24, 4, 1);
+        this._grid.attach(this._panelTransparency, 0, 20, 5, 1);
+
+        // Window Maximized Effect
         this._rbNone = new Gtk.RadioButton({label:_("Panel - No Effect")});
         this._rbOpaque = new Gtk.RadioButton({group:this._rbNone, label:_("Opaque Background Color")});
         this._rbBlack = new Gtk.RadioButton({group:this._rbNone, label:_("Black Opaque Background")});
@@ -142,7 +153,6 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         rbGroup.add(this._rbNone);
         rbGroup.add(this._rbOpaque);
         rbGroup.add(this._rbBlack);
-        this._grid.attach(rbGroup, 4, 26, 3, 1);
         let rb = this._settings.get_int(Keys.MAX_WIN_EFFECT);
         if (rb == 0)
             this._rbNone.clicked();
@@ -162,15 +172,34 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
             if(rb.get_active)
                 this._settings.set_int(Keys.MAX_WIN_EFFECT, 2);
         }));
+        this._grid.attach(rbGroup, 0, 22, 4, 1);
+
+        // Panel Rounded Corners
+        this._hideCorners = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_RC)});
+        this._hideCorners.connect('notify::active', Lang.bind(this, this._setHideCorners));
+        this._grid.attach(this._hideCorners, 0, 24, 1, 1);
+
+        // Hide Application Menu Button Icon
+        this._hideAppMenuButtonIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_APPMBI)});
+        this._hideAppMenuButtonIcon.connect('notify::active', Lang.bind(this, this._setHideAppMenuButtonIcon));
+        this._grid.attach(this._hideAppMenuButtonIcon, 0, 26, 1, 1);
+
+        // Conflict Detection
         this._conflictDetection = new Gtk.Switch({active: this._settings.get_boolean(Keys.CON_DET)});
-        this._grid.attach(this._conflictDetection, 7, 28, 1, 1);
         this._conflictDetection.connect('notify::active', Lang.bind(this, this._setConflictDetection));
+        this._grid.attach(this._conflictDetection, 0, 28, 1, 1);
+
+        // Reset
         let defaultsBtn = new Gtk.Button({ label: _(RESET) } );
-        this._grid.attach(defaultsBtn, 7, 30, 1, 1);
         defaultsBtn.connect('clicked', Lang.bind(this, this._resetSettings));
-        let readmeBtn = new Gtk.Button({ label: _(README) } )
-        this._grid.attach(readmeBtn, 7, 32, 1, 1);
+        this._grid.attach(defaultsBtn, 0, 30, 1, 1);
+
+        // Readme
+        let readmeBtn = new Gtk.Button({ label: _(README) } );
         readmeBtn.connect('clicked', function() { Readme.displayWindow('readme')});
+        this._grid.attach(readmeBtn, 0, 32, 1, 1);
+
+        // Set Defaults on First Enable
         if(this._settings.get_boolean(Keys.FIRST_ENABLE)) {
             this._settings.set_boolean(Keys.FIRST_ENABLE, false);
             this._resetSettings();
@@ -349,8 +378,8 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
                                  'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
                                  'hexpand': true, 'vexpand': true});
         scollingWindow.add_with_viewport(this._grid);
-        scollingWindow.width_request = 700;
-        scollingWindow.height_request = 620;
+        scollingWindow.width_request = 800;
+        scollingWindow.height_request = 600;
         scollingWindow.show_all();
         return scollingWindow;
     }

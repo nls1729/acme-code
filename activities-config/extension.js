@@ -239,6 +239,7 @@ const Configurator = new Lang.Class({
         } else {
             this._disconnectGlobalSignals();
             this._setPanelBackground();
+            this._setPanelTransparency();
         }
     },
 

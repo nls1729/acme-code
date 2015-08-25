@@ -176,18 +176,31 @@ https://nls1729.github.io
 
 2015-06-23 Version 36 passed review on ego.
 
-2015-08-01 Changes to Activities Configurator extension.
+2015-08-25 Changes to Activities Configurator extension.
 
            Updated Activities Configurator to handle Touch Screen.
+           I do not have a touch screen device.  Changes were made based on
+           current code in panel.js.
 
            Added option to hide Application Menu Button Icon. Suggested
            by francoism90.
+
+           Changed layout of extension preferences.  Change readme.js to
+           follow layout change.
 
            Changed disabled Hot Corner behavior for DND to be the
            same as if Hot Corner is enabled. Dragging an item into
            the Hot Corner will toggle the Overview when the
            Hot Corner is disabled. Suggested by Jehan.
 
-           Cleaned up inconsistent coding style "if(" --> if "("
+           Fixed bug in Window Maximized Effect which occurred when a
+           window was in the maximized state and the extenssion preferences
+           were changed from Opaque Background Color to Panel - No Effect.
+           Transparencey was not being applied after the change.
 
-zip file: Tue Jul 21 18:54:55 EDT 2015 31a973a8ba87d9500671f48c63839bd1075dfa2e
+           Cleaned up inconsistent coding style "if(" --> "if ("
+
+           Uploaded version 37 for review.  This version supports GS 3.14 and 3.16.
+
+
+zip file: Tue Aug  4 09:56:22 EDT 2015 9f82c2e982694976ecc40e8ba8e5795f7f31d712
