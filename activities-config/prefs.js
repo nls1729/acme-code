@@ -52,7 +52,9 @@ function ActivitiesConfiguratorSettingsWidget() {
 ActivitiesConfiguratorSettingsWidget.prototype = {
 
     _init: function() {
-        let version = '[v' + Me.metadata.version.toString() + ']';
+        let shell_version = Me.metadata["shell-version"].toString();
+        let version = '[v' + Me.metadata.version.toString();
+        version = version  + ' GS '  + shell_version + ']';
         this._grid = new Gtk.Grid();
         this._grid.margin = 10;
         this._grid.row_spacing = 10;
@@ -71,7 +73,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1, 16, 6, 1);
         this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 1, 18, 6, 1);
         this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 5, 20, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 3, 22, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 2, 22, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1, 24, 6, 1);
         this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 26, 6, 1);
         this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 28, 6, 1);
