@@ -7,7 +7,8 @@
   "settings-schema": "org.gnome.shell.extensions.activities-config", 
   "shell-version": [
     "3.14", 
-    "3.16"
+    "3.16",
+    "3.17.90"
   ], 
   "url": "https://nls1729.github.io", 
   "uuid": "activities-config@nls1729", 

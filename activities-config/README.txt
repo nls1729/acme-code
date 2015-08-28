@@ -178,9 +178,9 @@ https://nls1729.github.io
 
 2015-08-25 Changes to Activities Configurator extension.
 
-           Updated Activities Configurator to handle Touch Screen.
+           Updated Activities Configurator to hopefully handle Touch Screen.
            I do not have a touch screen device.  Changes were made based on
-           current code in panel.js.
+           current code in panel.js.  
 
            Added option to hide Application Menu Button Icon. Suggested
            by francoism90.
@@ -197,6 +197,9 @@ https://nls1729.github.io
            window was in the maximized state and the extenssion preferences
            were changed from Opaque Background Color to Panel - No Effect.
            Transparencey was not being applied after the change.
+
+           Changed Window Maximized Effect to be work with GS 3.17.90 in
+           preparation of GS 3.18.
 
            Cleaned up inconsistent coding style "if(" --> "if ("
 

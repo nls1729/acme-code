@@ -48,6 +48,8 @@ const CONFLICT = _("Conflict Detected:");
 const MIA_ICON = _("Missing Icon:");
 const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const DISABLE_TOGGLE = 32767;
+const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
+const MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
 
 const ActivitiesIconButton = new Lang.Class({
     Name: 'ActivitiesConfigurator.ActivitiesIconButton',
@@ -82,12 +84,7 @@ const ActivitiesIconButton = new Lang.Class({
         })));
         this._xdndTimeOut = 0;
         this._touchAndHoldTimeoutId = 0;
-
-        // Good until major version 4 ;)
         this._prefsCommand = 'gnome-shell-extension-prefs';
-        let minor = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
-        if (minor < 14)
-            this._prefsCommand =  this._prefsCommand + ' ' + Me.metadata.uuid;
     },
 
     handleDragOver: function(source, actor, x, y, time) {
@@ -198,26 +195,26 @@ const Configurator = new Lang.Class({
         this._signalShow = null;
         this._hotCornerThreshold = 0;
         this._signalHotCornersChanged = null;
-        this._maximizeId = null;
-        this._unmaximizeId = null;
-        this._restackedId = null;
+        this._maxWinSigId1 = null;
+        this._maxWinSigId2 = null;
+        this._maxWinSigId3 = null;
         this._panelAppMenuButton = Main.panel.statusArea['appMenu'];
         this._panelAppMenuButtonIconHidden = false;
-        this._panelAppMenuButtonStyle = null
+        this._panelAppMenuButtonStyle = null;
     },
 
     _disconnectGlobalSignals: function() {
-        if (this._maximizeId != null) {
-            global.window_manager.disconnect(this._maximizeId);
-            this._maximizeId = null;
+        if (this._maxWinSigId1 != null) {
+            global.window_manager.disconnect(this._maxWinSigId1);
+            this._maxWinSigId1 = null;
         }
-        if (this._unmaximizeId != null) {
-            global.window_manager.disconnect(this._unmaximizeId);
-            this._unmaximizeId = null;
+        if (this._maxWinSigId2 != null) {
+            global.window_manager.disconnect(this._maxWinSigId2);
+            this._maxWinSigId2 = null;
         }
-        if (this._restackedId != null) {
-            global.screen.disconnect(this._restackedId);
-            this._restackedId = null;
+        if (this._maxWinSigId3 != null) {
+            global.screen.disconnect(this._maxWinSigId3);
+            this._maxWinSigId3 = null;
         }
     },
 
@@ -230,12 +227,19 @@ const Configurator = new Lang.Class({
         this._maxWinEffect = this._settings.get_int(Keys.MAX_WIN_EFFECT);
         if (this._maxWinEffect > 0) {
             this._maxUnmax();
-            if (this._maximizeId == null)
-                this._maximizeId = global.window_manager.connect('maximize', Lang.bind(this, this._maxUnmax));
-            if (this._unmaximizeId == null)
-                this._unmaximizeId = global.window_manager.connect('unmaximize',Lang.bind(this, this._maxUnmax));
-            if (this._restackedId == null)
-                this._restackedId = global.screen.connect('restacked', Lang.bind(this, this._maxUnmax));
+            if (MAJOR_VERSION == 3 && MINOR_VERSION < 17) {
+                if (this._maxWinSigId1 == null)
+                    this._maxWinSigId1 = global.window_manager.connect('maximize', Lang.bind(this, this._maxUnmax));
+                if (this._maxWinSigId2 == null)
+                    this._maxWinSigId2 = global.window_manager.connect('unmaximize',Lang.bind(this, this._maxUnmax));
+            } else {
+                if (this._maxWinSigId1 == null)
+                    this._maxWinSigId1 = global.window_manager.connect('hide-tile-preview', Lang.bind(this, this._maxUnmax));
+                if (this._maxWinSigId2 == null)
+                    this._maxWinSigId2 = global.window_manager.connect('size-change',Lang.bind(this, this._maxUnmax));
+            }
+            if (this._maxWinSigId3 == null)
+                this._maxWinSigId3 = global.screen.connect('restacked', Lang.bind(this, this._maxUnmax));
         } else {
             this._disconnectGlobalSignals();
             this._setPanelBackground();
