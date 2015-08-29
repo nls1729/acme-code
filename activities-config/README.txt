@@ -185,7 +185,7 @@ https://nls1729.github.io
            Added option to hide Application Menu Button Icon. Suggested
            by francoism90.
 
-           Changed layout of extension preferences.  Change readme.js to
+           Changed layout of extension preferences.  Changed readme.js to
            follow layout change.
 
            Changed disabled Hot Corner behavior for DND to be the
@@ -203,7 +203,7 @@ https://nls1729.github.io
 
            Cleaned up inconsistent coding style "if(" --> "if ("
 
-           Uploaded version 37 for review.  This version supports GS 3.14 and 3.16.
+2015-08-29 Uploaded version 37 to ego for review.
 
 
 zip file: Tue Aug  4 09:56:22 EDT 2015 9f82c2e982694976ecc40e8ba8e5795f7f31d712
