@@ -176,7 +176,7 @@ https://nls1729.github.io
 
 2015-06-23 Version 36 passed review on ego.
 
-2015-08-25 Changes to Activities Configurator extension.
+2015-08-28 Changes to Activities Configurator extension.
 
            Updated Activities Configurator to hopefully handle Touch Screen.
            I do not have a touch screen device.  Changes were made based on
@@ -196,7 +196,7 @@ https://nls1729.github.io
            Fixed bug in Window Maximized Effect which occurred when a
            window was in the maximized state and the extenssion preferences
            were changed from Opaque Background Color to Panel - No Effect.
-           Transparencey was not being applied after the change.
+           Transparency was not being applied after the change.
 
            Changed Window Maximized Effect to be work with GS 3.17.90 in
            preparation of GS 3.18.
