@@ -12,16 +12,11 @@ EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
 
-all: extension
-
-extension: $(MODULES)
-
-_build: all
-	-rm -fR ./_build
+all: $(MODULES)
 	mkdir -p _build
 	cp $(MODULES) _build
-	sed -i 's/"version":.*$/"version": $(VERSION)/' _build/metadata.json;
-	sed -i 's/^zip file:.*$\/zip: $(ZIPDATE) Commit: $(COMMIT)/'  _build/README.txt;
+	sed -e 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json;
+	sed -e 's/^zip file:.*$\/zip: $(ZIPDATE) Commit: $(COMMIT)/'  _build/README.txt;
 
 zip-file: _build
 	cd _build ; \

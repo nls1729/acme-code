@@ -8,9 +8,9 @@
   "shell-version": [
     "3.14", 
     "3.16",
-    "3.17.90"
+    "3.18"
   ], 
   "url": "https://nls1729.github.io", 
   "uuid": "activities-config@nls1729", 
-  "version": 36
+  "version": 37
 }

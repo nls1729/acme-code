@@ -50,6 +50,7 @@ const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const DISABLE_TOGGLE = 32767;
 const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
 const MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
+const HIDE_ICON = 'width: 0; height: 0; margin-left: 0px; margin-right: 0px; ';
 
 const ActivitiesIconButton = new Lang.Class({
     Name: 'ActivitiesConfigurator.ActivitiesIconButton',
@@ -157,10 +158,14 @@ const ActivitiesIconButton = new Lang.Class({
         if (this._xdndTimeOut != 0)
             Mainloop.source_remove(this._xdndTimeOut);
         while(this._actorSignals.length > 0) {
-	    this.actor.disconnect(this._actorSignals.pop());
+            let sig = this._actorSignals.pop();
+            if (sig > 0)
+	        this.actor.disconnect(sig);
         }
         while(this._mainSignals.length > 0) {
-	    Main.overview.disconnect(this._mainSignals.pop());
+            let sig = this._mainSignals.pop();
+            if (sig > 0)
+	        Main.overview.disconnect(sig);
         }
         this.parent();
     }
@@ -198,21 +203,18 @@ const Configurator = new Lang.Class({
         this._maxWinSigId1 = null;
         this._maxWinSigId2 = null;
         this._maxWinSigId3 = null;
-        this._panelAppMenuButton = Main.panel.statusArea['appMenu'];
-        this._panelAppMenuButtonIconHidden = false;
-        this._panelAppMenuButtonStyle = null;
     },
 
     _disconnectGlobalSignals: function() {
-        if (this._maxWinSigId1 != null) {
+        if (this._maxWinSigId1 > 0) {
             global.window_manager.disconnect(this._maxWinSigId1);
             this._maxWinSigId1 = null;
         }
-        if (this._maxWinSigId2 != null) {
+        if (this._maxWinSigId2 > 0) {
             global.window_manager.disconnect(this._maxWinSigId2);
             this._maxWinSigId2 = null;
         }
-        if (this._maxWinSigId3 != null) {
+        if (this._maxWinSigId3 > 0) {
             global.screen.disconnect(this._maxWinSigId3);
             this._maxWinSigId3 = null;
         }
@@ -319,11 +321,11 @@ const Configurator = new Lang.Class({
             if (this._signalIdRC == null)
                 this._signalIdRC = Main.panel._rightCorner.actor.connect('repaint', Lang.bind(this, this._redoRight));
         } else {
-            if (this._signalIdLC != null) {
+            if (this._signalIdLC > 0) {
                 Main.panel._leftCorner.actor.disconnect(this._signalIdLC);
                 this._signalIdLC = null;
             }
-            if (this._signalIdRC != null) {
+            if (this._signalIdRC > 0) {
                 Main.panel._rightCorner.actor.disconnect(this._signalIdRC);
                 this._signalIdRC = null;
             }
@@ -332,15 +334,17 @@ const Configurator = new Lang.Class({
 
     _disconnectSignals: function() {
         this._disconnectGlobalSignals();
-        if (this._checkConflictSignal != null) {
+        if (this._checkConflictSignal > 0) {
             Main.panel._leftBox.disconnect(this._checkConflictSignal);
             this._checkConflictSignal = null;
         }
         while(this._settingsSignals.length > 0) {
-	    this._settings.disconnect(this._settingsSignals.pop());
+            let sig = this._settingsSignals.pop();
+            if (sig > 0)
+	        this._settings.disconnect(sig);
         }
         this._handleCornerSignals(false);
-        if (this._signalHotCornersChanged != null) {
+        if (this._signalHotCornersChanged > 0) {
             Main.layoutManager.disconnect(this._signalHotCornersChanged);
             this._signalHotCornersChanged = null;
         }
@@ -470,7 +474,7 @@ const Configurator = new Lang.Class({
 
     _setPanelTransparency: function() {
         this._panelOpacity = (100 - this._settings.get_int(Keys.TRS_PAN)) / 100;
-        if (this._transparencySig != null) {
+        if (this._transparencySig > 0) {
             this._settings.disconnect(this._transparencySig);
             this._settingsSignals.pop();
             this._transparencySig = null;
@@ -483,23 +487,11 @@ const Configurator = new Lang.Class({
         this._setPanelBackground();
     },
 
-    _setHideAppMenuButtonIcon: function() {
-        let hide = this._settings.get_boolean(Keys.HIDE_APPMBI);
-        if (hide && !this._panelAppMenuButtonIconHidden) {
-            this._panelAppMenuButtonIconHidden = true;
-            this._panelAppMenuButtonStyle = this._panelAppMenuButton._iconBox.get_style();
-            this._panelAppMenuButton._iconBox.set_style('width: 0; height: 0;');
-        } else if (!hide && this._panelAppMenuButtonIconHidden) {
-            this._panelAppMenuButtonIconHidden = false;
-            this._panelAppMenuButton._iconBox.set_style(this._panelAppMenuButtonStyle);
-            this._panelAppMenuButtonStyle = null;
-        }
-    },
-
     _setPanelBackground: function(dynamicOpaquePanel) {
         let colorString;
         if (dynamicOpaquePanel !== undefined) {
-            this._settings.disconnect(this._transparencySig);
+            if (this._transparencySigs > 0)
+                this._settings.disconnect(this._transparencySig);
             this._settingsSignals.pop();
             this._transparencySig = null;
             if (dynamicOpaquePanel) {
@@ -589,7 +581,7 @@ const Configurator = new Lang.Class({
             this._conflicts();
         if (this._conflictDetection && this._checkConflictSignal == null)
             this._checkConflictSignal = Main.panel._leftBox.connect('actor-added', Lang.bind(this, this._conflicts));
-        if (!this._conflictDetection && this._checkConflictSignal != null) {
+        if (!this._conflictDetection && this._checkConflictSignal > 0) {
             Main.panel._leftBox.disconnect(this._checkConflictSignal);
             this._checkConflictSignal = null;
         }
@@ -626,6 +618,30 @@ const Configurator = new Lang.Class({
         }
     },
 
+/*
+    StatusTitleBar@devpower.org conflicts with this extension.  The following redo and related code for the
+    Hide Application Menu Button Icon option resovles the conflict.
+*/
+
+    _leftBoxActorAdded: function() {
+        if (this._hideAppMenuButtonIcon) {
+            if (Main.panel.statusArea.appMenu._iconBox.get_style() != HIDE_ICON) {
+                Main.panel.statusArea.appMenu._iconBox.set_style(HIDE_ICON);
+            }
+        }
+    },
+
+    _setHideAppMenuButtonIcon: function() {
+        this._hideAppMenuButtonIcon = this._settings.get_boolean(Keys.HIDE_APPMBI);
+        if (!this._hideAppMenuButtonIcon) {
+            if (Main.panel.statusArea.appMenu._iconBox.get_style() == HIDE_ICON) {
+                Main.panel.statusArea.appMenu._iconBox.set_style(null);
+            }
+        } else {
+            this._leftBoxActorAdded();
+        }
+    },
+
     _delayedEnable: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
@@ -653,6 +669,9 @@ const Configurator = new Lang.Class({
         this._setActivities();
         this._setConflictDetection();
         if (Main.sessionMode.currentMode == 'user') {
+            this._leftBoxActorAddedSig = Main.panel._leftBox.connect('actor-added', Lang.bind(this, function() {
+                this._leftBoxActorAdded();
+            }));
             this._setHideAppMenuButtonIcon();
             this._setHotCorner();
             this._hotCornersChanged();
@@ -678,9 +697,21 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
+        this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
-            Main.xdndHandler.disconnect(this._dndHandlerBeginSig);
-            Main.xdndHandler.disconnect(this._dndHandlerEndSig);
+            if (this._leftBoxActorAddedSig > 0) {
+                Main.panel._leftBox.disconnect(this._leftBoxActorAddedSig);
+                this._leftBoxActorAddedSig = null;
+            }
+            if (Main.panel.statusArea.appMenu._iconBox.get_style() == HIDE_ICON) {
+                Main.panel.statusArea.appMenu._iconBox.set_style(null);
+            }
+            if (this._dndHandlerBeginSig > 0)
+                Main.xdndHandler.disconnect(this._dndHandlerBeginSig);
+            this._dndHandlerBeginSig = null;
+            if (this._dndHandlerEndSig > 0)
+                Main.xdndHandler.disconnect(this._dndHandlerEndSig);
+            this._dndHandlerEndSig = null;
             this._disconnectSignals();
             for(let i = 0; i < Main.layoutManager.hotCorners.length; i++) {
                 if (Main.layoutManager.hotCorners[i] != null) {
@@ -689,15 +720,10 @@ const Configurator = new Lang.Class({
                         Main.layoutManager.hotCorners[i]._toggleOverview = this._savedToggleOverview[i];
                 }
             }
-            if (this._panelAppMenuButtonStyle != null) {
-                this._panelAppMenuButtonIconHidden = false;
-                this._panelAppMenuButton._iconBox.set_style(this._panelAppMenuButtonStyle);
-                this._panelAppMenuButtonStyle = null;
-            }
             this._removePanelStyle();
             this._activitiesIndicator = Main.panel.statusArea['activities'];
             if (this._activitiesIndicator != null) {
-                if (this._signalShow != null)
+                if (this._signalShow > 0)
                     this._activitiesIndicator.container.disconnect(this._signalShow);
                 this._activitiesIndicator.container.show();
             }
