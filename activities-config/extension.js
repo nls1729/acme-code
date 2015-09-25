@@ -620,7 +620,7 @@ const Configurator = new Lang.Class({
 
 /*
     StatusTitleBar@devpower.org conflicts with this extension.  The following redo and related code for the
-    Hide Application Menu Button Icon option resovles the conflict.
+    Hide Application Menu Button Icon option resolves the conflict.
 */
 
     _leftBoxActorAdded: function() {
