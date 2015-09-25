@@ -207,5 +207,14 @@ https://nls1729.github.io
 
 2015-08-20 Version 37 passed review on ego. Applies to GS 3.14 and later.
 
+2015-09-25 Changed app menu icon hide icon code to handle conflict
+           with StatusTitleBar@devpower.org extension.
+
+           Tested on Fedora 23 Beta with GS 3.18.0.
+
+           Ready for GS 3.18.0.
+
+
+
 
 zip file: Tue Aug  4 09:56:22 EDT 2015 9f82c2e982694976ecc40e8ba8e5795f7f31d712
