@@ -209,10 +209,8 @@ https://nls1729.github.io
 
 2015-09-25 Changed app menu icon hide icon code to handle conflict
            with StatusTitleBar@devpower.org extension.
-
            Tested on Fedora 23 Beta with GS 3.18.0.
-
-           Ready for GS 3.18.0.
+           Uploaded for review.
 
 
 
