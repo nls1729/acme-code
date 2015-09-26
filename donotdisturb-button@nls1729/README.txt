@@ -5,7 +5,7 @@ donotdisturb-button@nls1729
 Gnome Shell 3.16 removed the ability to set a busy status for
 notifications.
 
-This extension only sets status for notifications. It does
+This extension only sets status for notifications. It does not
 integrate setting of presence with Online Accounts.
 
 The issue is discussed on the Fedora Desktop List:
