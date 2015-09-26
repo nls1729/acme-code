@@ -15,8 +15,4 @@ Panel button toggles presense status {BUSY | AVAILABLE}.
 
 Uploaded to ego website 2015-06-15.
 
-Corrected error in README.txt updated metadata.json
-
-Uploaded to ego website 2015-09-26.
-
 zip file: xxx
