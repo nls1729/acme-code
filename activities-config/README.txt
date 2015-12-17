@@ -212,6 +212,8 @@ https://nls1729.github.io
            Tested on Fedora 23 Beta with GS 3.18.0.
            Uploaded for review.
 
+2015-12-17 Moved local repo to valkyrie3
+
 
 
 
