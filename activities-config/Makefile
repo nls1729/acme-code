@@ -43,6 +43,7 @@ _build: all
 zip-file: _build
 	cd _build ; \
 	zip -qr "$(UUID).zip" .
+	cp -f _build/README.txt ./
 	mv _build/$(UUID).zip ./
 	-rm -fR _build
 clean:
