@@ -39,6 +39,7 @@ _build: all
 	done;
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json;
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt;
+	cp _build/README.txt .;
 
 zip-file: _build
 	cd _build ; \
