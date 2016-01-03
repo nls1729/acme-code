@@ -181,9 +181,6 @@ const Configurator = new Lang.Class({
         this._firstEnable = this._settings.get_boolean(Keys.FIRST_ENABLE);
         if (this._firstEnable)
             this._settings.set_string(Keys.NEW_ICO, DEFAULT_ICO);
-        this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
-        this._barriersSupported = global.display.supports_extended_barriers();
-        this._setBarriersSupport(this._barriersSupported);
         this._savedText = this._settings.get_string(Keys.ORI_TXT);
         this._iconPath = '';
         this._checkConflictSignal = null;
@@ -647,6 +644,9 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
+        this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
+        this._barriersSupported = global.display.supports_extended_barriers();
+        this._setBarriersSupport(this._barriersSupported);
         this._activitiesIconButton = new ActivitiesIconButton();
         this._activitiesIndicator = Main.panel.statusArea['activities'];
         if (this._activitiesIndicator != null) {

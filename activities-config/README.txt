@@ -214,7 +214,17 @@ https://nls1729.github.io
 
 2015-12-17 Moved local repo to valkyrie3
 
+2015-12-30 Changed init and enable code to workaround a conflict with the
+           Gno-Menu extension involving hot corners.
+           Changed the display of preferences to handle the Vertex Theme
+           representation of the Gtk.Switch widgit in a sane manner.
+           Added display of text to show Pango formatting and enable changing
+           text without complete replacement.
+           Changed preferences layout to be more readable and consistent.
+
+2015-12-31 Uploaded for review.
+
+2016-01-03 Version 39 passed review GS 3.14 3.16 3.18
 
 
-
-zip file: Thu Dec 17 15:45:46 EST 2015 c90fcdd8477cc7f2082293ebb5a571ae0d01ab4e
+zip file: Tue Aug  4 09:56:22 EDT 2015 9f82c2e982694976ecc40e8ba8e5795f7f31d712
