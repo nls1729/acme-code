@@ -226,5 +226,17 @@ https://nls1729.github.io
 
 2016-01-03 Version 39 passed review GS 3.14 3.16 3.18
 
+2016-02-23 Added configurable shadow box to the panel.
+           The panel is a simple rectangle.  The top and sides of
+           the panel cannot be shadowed.  Only the bottom is accessible.
+           The shadow is effective only in the vertical direction.
+           The color, transparency, vertical length, blur radius
+           and spread radius can be adjusted with the preferences tool.
+           Setting the vertical length to 0 will remove the shadow.
+           The panel transparency affects the shadow transparency.
+           A high value of panel transparency will cause the shadow
+           to be transparent.
 
-zip file: Sun Jan  3 12:38:10 EST 2016 68ffd932bf6e9f0075392862d8c5fee39ce024b6
+
+
+zip file: Tue Feb 23 18:18:26 EST 2016 ed7e07e3ba5cd6c5928d30e76f80ab21494bcc08

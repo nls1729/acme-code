@@ -66,6 +66,31 @@
       <summary>Panel Transparency.</summary>
       <description>Set panel transparency 0-100 per cent.</description>
     </key>
+    <key type="s" name="panel-shadow-color-hex-rgb">
+      <default>"#000000"</default>
+      <summary>RGB value for shadow background</summary>
+      <description>Default shadow color is black.</description>
+    </key>
+    <key type="i" name="transparent-shadow">
+      <default>0</default>
+      <summary>Shadow Transparency.</summary>
+      <description>Set shadow transparency 0-100 per cent.</description>
+    </key>
+    <key type="i" name="panel-shadow-vertical-length">
+      <default>0</default>
+      <summary>Shadow vertical length.</summary>
+      <description>Set shadow transparency 0-64 px.</description>
+    </key>
+    <key type="i" name="panel-shadow-blur-radius">
+      <default>0</default>
+      <summary>Shadow blur radius.</summary>
+      <description>Set shadow blur radius 0-64 px.</description>
+    </key>
+    <key type="i" name="panel-shadow-spread-radius">
+      <default>0</default>
+      <summary>Shadow spread radius.</summary>
+      <description>Set shadow spread radius 0-64 px.</description>
+    </key>
     <key type="b" name="panel-hide-rounded-corners">
       <default>false</default>
       <summary>Hide rounded corners.</summary>

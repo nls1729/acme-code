@@ -200,6 +200,7 @@ const Configurator = new Lang.Class({
         this._maxWinSigId1 = null;
         this._maxWinSigId2 = null;
         this._maxWinSigId3 = null;
+        this._shadowString = ' ';
     },
 
     _disconnectGlobalSignals: function() {
@@ -307,6 +308,11 @@ const Configurator = new Lang.Class({
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.CON_DET, Lang.bind(this, this._setConflictDetection)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_RC, Lang.bind(this, this._setHiddenCorners)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_APPMBI, Lang.bind(this, this._setHideAppMenuButtonIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_COLOR, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_TRANS, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_LEN, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_BLUR, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_SPRED, Lang.bind(this, this._setShadow)));
         this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
         this._settingsSignals.push(this._transparencySig);
     },
@@ -484,6 +490,21 @@ const Configurator = new Lang.Class({
         this._setPanelBackground();
     },
 
+    _setShadow: function() {
+        let length = this._settings.get_int(Keys.SHADOW_LEN);
+        if (length == 0) {
+            this._shadowString = ' '
+        } else {
+            let color = Colors.getColorStringCSS(Colors.getColorRGB(this._settings.get_string(Keys.SHADOW_COLOR)));
+            let opacity = (100 - this._settings.get_int(Keys.SHADOW_TRANS)) / 100;
+            let blur = this._settings.get_int(Keys.SHADOW_BLUR);
+            let spread = this._settings.get_int(Keys.SHADOW_SPRED);
+            this._shadowString =  '; box-shadow: 0px ' + length.toString() + 'px ' + blur.toString() + 'px ' + spread.toString() + 'px rgba(' + color + ',' + opacity.toString() + ')';
+            this._setPanelBackground();
+        }
+        this._setPanelBackground();
+    },
+
     _setPanelBackground: function(dynamicOpaquePanel) {
         let colorString;
         if (dynamicOpaquePanel !== undefined) {
@@ -505,10 +526,10 @@ const Configurator = new Lang.Class({
         } else {
             colorString = Colors.getColorStringCSS(this._panelColor);
         }
-        if (colorString == '0,0,0' && this._panelOpacity == 1) {
+        if (colorString == '0,0,0' && this._panelOpacity == 1 && this._shadowString == ' ') {
             this._removePanelStyle();
         } else {
-            let backgroundStyle = 'background-color: rgba(' + colorString + ',' + this._panelOpacity.toString() + ')';
+            let backgroundStyle = 'background-color: rgba(' + colorString + ',' + this._panelOpacity.toString() + ')' + this._shadowString;
             this._setPanelStyle(backgroundStyle);
             if (this._panelOpacity < .05 || this._roundedCornersHidden) {
                 Main.panel._leftCorner.actor.hide();
@@ -664,6 +685,7 @@ const Configurator = new Lang.Class({
         this._setHotCornerThreshold();
         this._setHiddenCorners();
         this._setPanelBackground();
+        this._setShadow();
         Main.panel.addToStatusArea('activities-icon-button', this._activitiesIconButton, 0, 'left');
         Main.panel._leftCorner.setStyleParent(Main.panel._leftBox);
         this._setActivities();
