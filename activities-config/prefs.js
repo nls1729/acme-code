@@ -69,10 +69,10 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._settings.set_string(Keys.ORI_TXT, _(ACTIVITIES));
         this._grid.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
         this._grid.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  4, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  4, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(TXT_INSTS), wrap: true, xalign: 0.0 }), 1,  6, 1, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 1,  8, 6, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 1, 10, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 1,  8, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 1, 10, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 1, 12, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 1, 14, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1, 16, 5, 1);
@@ -87,9 +87,9 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1, 29, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 33, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 35, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 0.0 }), 4,  0, 4, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
 
         // Icon
         this._iconImage = new Gtk.Image();
@@ -504,8 +504,8 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
                                  'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
                                  'hexpand': true, 'vexpand': true});
         scollingWindow.add_with_viewport(this._grid);
-        scollingWindow.width_request = 800;
-        scollingWindow.height_request = 600;
+        scollingWindow.width_request = 780;
+        scollingWindow.height_request = 620;
         scollingWindow.show_all();
         return scollingWindow;
     }
