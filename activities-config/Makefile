@@ -4,10 +4,10 @@
 # README.txt is modified to indicate the date and time the zip file was
 # created and the current git commit.  VERSION should be set to the
 # current extension version.
-
+.ONESHELL:
 UUID = activities-config@nls1729
-MODULES = colors.js convenience.js COPYING extension.js face-smile-3.svg keys.js metadata.json \
-          notify.js prefs.js readme.js README.txt stylesheet.css
+MODULES = metadata.json README.txt colors.js convenience.js COPYING extension.js face-smile-3.svg keys.js \
+          notify.js prefs.js readme.js stylesheet.css
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date)
 COMMIT = $(shell git rev-parse HEAD)
@@ -24,7 +24,7 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 	msgfmt -c $< -o $@
 
 _build: all
-	-rm -fR ./_build
+	rm -rf ./_build
 	mkdir -p _build
 	cp $(MODULES) _build
 	mkdir -p _build/schemas
@@ -37,18 +37,24 @@ _build: all
 		mkdir -p $$langdir/LC_MESSAGES; \
 		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
 	done;
-	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json;
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt;
-	cp _build/README.txt .;
+	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
+	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
+	cp -f _build/README.txt .;
 
 zip-file: _build
 	cd _build ; \
-	zip -qr "$(UUID).zip" .
-	mv _build/$(UUID).zip ./
-	-rm -fR _build
+	zip -qr "$(UUID).zip" .; \
+	mv $(UUID).zip .. ; \
+	cd .. ;
+	rm -rf _build
 clean:
 	rm -f ./schemas/gschemas.compiled
 	rm -f ./po/*.mo
 	rm -f ./*.zip
 	rm -f ./.~
 	rm -f ./*~
+	rm -rf _build
+
+
+
+
