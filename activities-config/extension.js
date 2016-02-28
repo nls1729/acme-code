@@ -493,7 +493,7 @@ const Configurator = new Lang.Class({
     _setShadow: function() {
         let length = this._settings.get_int(Keys.SHADOW_LEN);
         if (length == 0) {
-            this._shadowString = ' '
+            this._shadowString = '';
         } else {
             let color = Colors.getColorStringCSS(Colors.getColorRGB(this._settings.get_string(Keys.SHADOW_COLOR)));
             let opacity = (100 - this._settings.get_int(Keys.SHADOW_TRANS)) / 100;
@@ -507,12 +507,14 @@ const Configurator = new Lang.Class({
 
     _setPanelBackground: function(dynamicOpaquePanel) {
         let colorString;
+        let shadowString = this._shadowString;
         if (dynamicOpaquePanel !== undefined) {
             if (this._transparencySigs > 0)
                 this._settings.disconnect(this._transparencySig);
             this._settingsSignals.pop();
             this._transparencySig = null;
             if (dynamicOpaquePanel) {
+                shadowString = '';
                 if (this._maxWinEffect > 1) {
                     colorString = '0,0,0';
                 } else {
@@ -526,10 +528,10 @@ const Configurator = new Lang.Class({
         } else {
             colorString = Colors.getColorStringCSS(this._panelColor);
         }
-        if (colorString == '0,0,0' && this._panelOpacity == 1 && this._shadowString == ' ') {
+        if (colorString == '0,0,0' && this._panelOpacity == 1 && shadowString == '') {
             this._removePanelStyle();
         } else {
-            let backgroundStyle = 'background-color: rgba(' + colorString + ',' + this._panelOpacity.toString() + ')' + this._shadowString;
+            let backgroundStyle = 'background-color: rgba(' + colorString + ',' + this._panelOpacity.toString() + ')' + shadowString;
             this._setPanelStyle(backgroundStyle);
             if (this._panelOpacity < .05 || this._roundedCornersHidden) {
                 Main.panel._leftCorner.actor.hide();

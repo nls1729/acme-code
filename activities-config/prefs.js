@@ -126,7 +126,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._applyBtn.connect('clicked', Lang.bind(this, this._setActivitiesText));
         this._noText.connect('notify::active', Lang.bind(this, this._setNoText));
         this._hpadText.connect('value-changed', Lang.bind(this, this._onTextPaddingChanged));
-        this._grid.attach(this._entry, 2, 6, 3, 1);
+        this._grid.attach(this._entry, 2, 6, 4, 1);
         let applyBtnBox = new Gtk.Box();
         applyBtnBox.pack_start(this._applyBtn, false, false, 0);
         this._grid.attach(applyBtnBox, 0, 6, 1, 1);
@@ -342,7 +342,6 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let css = rgba.to_string();
         let hexString = this._cssHexString(css);
         this._settings.set_string(Keys.COLOURS, hexString);
-        this._panelTransparency.set_value(0);
     },
 
     _onPanelShadowColorChanged: function(object) {
@@ -350,7 +349,6 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let css = rgba.to_string();
         let hexString = this._cssHexString(css);
         this._settings.set_string(Keys.SHADOW_COLOR, hexString);
-        this._shadowTransparency.set_value(0);
     },
 
     _setConflictDetection: function(object) {
