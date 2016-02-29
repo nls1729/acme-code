@@ -239,9 +239,9 @@ https://nls1729.github.io
 
 2016-02-28 Uploaded for review.
 
-2016-02-29 Activities Configurator - Version 39 passed review GS 3.14 3.16 3.18
+2016-02-29 Activities Configurator - Version 40 passed review GS 3.14 3.16 3.18
 
 
-zip file: Mon Feb 29 06:13:34 EST 2016 5c66cdb595088ee89d1be663a48c1964adfc2448
+zip file: Mon Feb 29 06:16:37 EST 2016 956995022c4df1fff35a2f19549cbf8e4cf68f66
 
 ...
