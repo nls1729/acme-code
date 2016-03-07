@@ -201,6 +201,9 @@ const Configurator = new Lang.Class({
         this._maxWinSigId2 = null;
         this._maxWinSigId3 = null;
         this._shadowString = ' ';
+        this._showLeftSignal = null;
+        this._hideTimeoutId = 0;
+        this._hideCount = 0;
     },
 
     _disconnectGlobalSignals: function() {
@@ -487,7 +490,42 @@ const Configurator = new Lang.Class({
 
     _setHiddenCorners: function() {
         this._roundedCornersHidden = this._settings.get_boolean(Keys.HIDE_RC);
+        if (this._roundedCornersHidden && this._showLeftSignal == null) {
+            this._showLeftSignal = Main.panel._leftCorner.actor.connect('show',Lang.bind(this, this._reHideCorners));
+        } else if (!this._roundedCornersHidden && this._showLeftSignal > 0) {
+            Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
+            this._hideCount = 0;
+            this._showLeftSignal = null;
+        }
         this._setPanelBackground();
+    },
+
+    // The Dash to Dock extension shows the rounded corners when they are hidden by this extension.
+    // This occurs when the offending extension is enabled and on position preference changes.
+    // The following rehide logic works around the conflict and does not affect the Dash to Dock.
+    // In the unlikely event another extension catches the hide signal and re-shows the corners,
+    // a message and warning is displayed..
+
+    _reHideCorners: function() {
+        if (this._hideTimeoutId == 0)
+            this._hideTimeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._doReHideCorners));
+    },
+
+    _doReHideCorners: function() {
+        if (this._hideTimeoutId > 0) {
+            Mainloop.source_remove(this._hideTimeoutId);
+            this._hideTimeoutId = 0;
+        }
+        if (Main.panel._leftCorner.actor.visible && this._roundedCornersHidden) {
+            Main.panel._leftCorner.actor.hide();
+            Main.panel._rightCorner.actor.hide();
+            this._hideCount = this._hideCount + 1;
+        }
+        if (this._hideCount > 2000) { // This should never happen.
+            let msg = Me.uuid + ': ' + _("Conflict with hidden rounded corners.");
+            Notify.notifyError(CONFLICT, msg);
+            this._hideCount = -2000;
+        }
     },
 
     _setShadow: function() {
@@ -721,8 +759,16 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
+        if (this._hideTimeoutId != 0) {
+            Mainloop.source_remove(this._hideTimeoutId);
+            this.hideTimeoutId_ = 0;
+        }
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
+            if (this._showLeftSignal > 0) {
+                Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
+                this._showLeftSignal = null;
+            }
             if (this._leftBoxActorAddedSig > 0) {
                 Main.panel._leftBox.disconnect(this._leftBoxActorAddedSig);
                 this._leftBoxActorAddedSig = null;

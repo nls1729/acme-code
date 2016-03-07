@@ -241,7 +241,12 @@ https://nls1729.github.io
 
 2016-02-29 Activities Configurator - Version 40 passed review GS 3.14 3.16 3.18
 
+2016-03-07 The Dash to Dock extension shows the rounded corners when they are
+           hidden by this extension. This occurs when the offending extension
+           is enabled and on position preference changes.  Added logic to detect
+           and workaround the problem.
 
-zip file: Mon Feb 29 06:16:37 EST 2016 956995022c4df1fff35a2f19549cbf8e4cf68f66
+
+zip file: Sat Mar  5 11:51:58 EST 2016 a949f74f13d21ae71e0a8281bf727fdcb351c3d4
 
 ...
