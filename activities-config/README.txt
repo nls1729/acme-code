@@ -246,6 +246,8 @@ https://nls1729.github.io
            is enabled and on position preference changes.  Added logic to detect
            and workaround the problem.
 
+2016-03-12 Activities Configurator - uploaded for review
+
 
 zip file: Sat Mar  5 11:51:58 EST 2016 a949f74f13d21ae71e0a8281bf727fdcb351c3d4
 
