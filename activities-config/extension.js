@@ -500,11 +500,11 @@ const Configurator = new Lang.Class({
         this._setPanelBackground();
     },
 
-    // The Dash to Dock extension shows the rounded corners when they are hidden by this extension.
-    // This occurs when the offending extension is enabled and on position preference changes.
-    // The following rehide logic works around the conflict and does not affect the Dash to Dock.
-    // In the unlikely event another extension catches the hide signal and re-shows the corners,
-    // a message and warning is displayed..
+    // An extension can show rounded hidden corners in conflict with this extension.  The normal
+    // case is to optionally hide corners and re-show them when the extension is disabled or the
+    // preference to hide is changed. The following rehide logic works around the conflict. In the
+    //  unlikely event another extension catches the hide signal and re-shows the corners, a message
+    //  and warning is displayed..
 
     _reHideCorners: function() {
         if (this._hideTimeoutId == 0)
