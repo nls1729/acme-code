@@ -243,9 +243,11 @@ https://nls1729.github.io
 
 2016-03-15 Added logic to workaround another extension showing hidden rounded corners.
 
-2016-03-16 Activities Configurator - uploaded for review
+2016-03-17 Activities Configurator - uploaded for review
+
+2016-03-18 Activities Configurator - Version 42 passed review GS 3.14 3.16 3.18
 
 
-zip file: Sat Mar 12 06:44:23 EST 2016 b3c3e8eaac1b841b37189b98ba710a4c85645025
+zip file: Thu Mar 17 06:48:03 EDT 2016 ac1bc3ae25a23be11772b5bbb549c11a98747e20
 
 ...
