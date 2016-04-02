@@ -56,6 +56,16 @@
       <summary>Disable Activities Hot Corner.</summary>
       <description>The Activities Hot Corner is disabled if true.</description>
     </key>
+    <key type="b" name="override-theme">
+      <default>false</default>
+      <summary>Override theme background color and transparency.</summary>
+      <description>Apply panel background color and transparency when user or classic theme is installed if true.</description>
+    </key>
+    <key type="s" name="shell-theme-id">
+      <default>"Default"</default>
+      <summary>Path or url or name and mode of currently loaded theme.</summary>
+      <description>Set by extension at enable and when the shell theme is changed.</description>
+    </key>
     <key type="s" name="panel-background-color-hex-rgb">
       <default>"#000000"</default>
       <summary>RGB value for panel background</summary>
@@ -106,7 +116,6 @@
       <summary>Panel background effects when a window is maximized on the primary display.</summary>
       <description>If 0 no effect. If 1 transparency is removed. If 2 background is set to opaque black with rounded corners.</description>
     </key>
-
     <key type="b" name="enable-conflict-detection">
       <default>false</default>
       <summary>Conflict detection.</summary>

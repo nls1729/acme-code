@@ -126,19 +126,23 @@ msgstr "Weichzeichnen Radius"
 msgid "Spread Radius"
 msgstr "Radius zu verbreiten"
 
-#: prefs.js:220
+#: prefs.js:48
+msgid "Override Shell Theme"
+msgstr "Überschreiben Shell-Thema"
+
+#: prefs.js:224
 msgid "Panel - No Effect"
 msgstr "Obere Leiste - Kein Effekt"
 
-#: prefs.js:221
+#: prefs.js:225
 msgid "Opaque Background Color"
 msgstr "Leistenhintergrund undurchsichtig"
 
-#: prefs.js:222
+#: prefs.js:226
 msgid "Black Opaque Background"
 msgstr "Schwarzer Hintergrund ohne Transparenz"
 
-#: prefs.js:391
+#: prefs.js:393
 msgid "Images"
 msgstr "Bilder"
 

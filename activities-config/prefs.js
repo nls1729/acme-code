@@ -14,8 +14,8 @@ const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Readme = Me.imports.readme;
 const Colors = Me.imports.colors;
-
-
+const GioSSS = Gio.SettingsSchemaSource;
+const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 const TXT_INSTS = _("New Text");
 const HPAD_TEXT = _("Text Padding");
 const HIDE_TEXT = _("Hide Text");
@@ -45,6 +45,8 @@ const SHW_TRANS = _("Transparency");
 const SHW_VERT  = _("Vertical Length");
 const SHW_BLUR  = _("Blur Radius");
 const SHW_SPRED = _("Spread Radius");
+const OVERR_USR = _("Override Shell Theme");
+const COMMIT = "Commit: ";
 
 function init() {
     Convenience.initTranslations();
@@ -62,20 +64,22 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         version = version  + ' GS '  + shell_version + ']';
         this._grid = new Gtk.Grid();
         this._grid.margin = 5;
-        this._grid.row_spacing = 10;
+        this._grid.row_spacing = 5;
         this._grid.column_spacing = 5;
         this._grid.set_column_homogeneous(false);
 	this._settings = Convenience.getSettings();
         this._settings.set_string(Keys.ORI_TXT, _(ACTIVITIES));
         this._grid.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  4, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(TXT_INSTS), wrap: true, xalign: 0.0 }), 1,  6, 1, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 1,  8, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 1, 10, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 1, 12, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 1, 14, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1, 16, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  1, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(TXT_INSTS), wrap: true, xalign: 0.0 }), 1,  3, 1, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 1,  4, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 1,  5, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 1,  6, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 1,  7, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1,  8, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1,  9, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 10, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 1, 18, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 1, 20, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(PAN_SHDOW), wrap: true, xalign: 0.0 }), 1, 21, 5, 1);
@@ -84,12 +88,11 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(SHW_BLUR) , wrap: true, xalign: 0.0 }), 1, 24, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(SHW_SPRED), wrap: true, xalign: 0.0 }), 1, 25, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 1, 26, 1, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1, 29, 5, 1);
-        this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 33, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 35, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);
         this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 1.0 }), 4, 40, 3, 1);
 
         // Icon
         this._iconImage = new Gtk.Image();
@@ -97,19 +100,19 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._loadIcon(this._iconPath);
         let iconBtn = new Gtk.Button({ label: _(SELECT) });
         this._noIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_ICON)});
-        let noIconBox = new Gtk.Box;
+        let noIconBox = new Gtk.Box({sensitive: true});
         noIconBox.pack_start(this._noIcon, false, false, 0);
         this._hpadIcon = Gtk.SpinButton.new_with_range(0, 24, 1);
         this._hpadIcon.set_value(this._settings.get_int(Keys.PAD_ICO));
         iconBtn.connect('clicked', Lang.bind(this, this._setActivitiesIcon));
         this._noIcon.connect('notify::active', Lang.bind(this, this._setNoIcon));
         this._hpadIcon.connect('value-changed', Lang.bind(this, this._onIconPaddingChanged));
-        this._grid.attach(this._iconImage, 2, 0, 1, 1);
-        let iconBtnBox = new Gtk.Box();
+        this._grid.attach(this._iconImage,  2, 0, 1, 1);
+        let iconBtnBox = new Gtk.Box({sensitive: true});
         iconBtnBox.pack_start(iconBtn, false, false, 0);
         this._grid.attach(iconBtnBox, 0, 0, 1, 1);
-        this._grid.attach(noIconBox, 0, 2, 1, 1);
-        this._grid.attach(this._hpadIcon, 0, 4, 1, 1);
+        this._grid.attach(noIconBox, 0,  1, 1, 1);
+        this._grid.attach(this._hpadIcon, 0, 2, 1, 1);
 
         // Text
         let text = this._settings.get_string(Keys.NEW_TXT);
@@ -126,21 +129,21 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._applyBtn.connect('clicked', Lang.bind(this, this._setActivitiesText));
         this._noText.connect('notify::active', Lang.bind(this, this._setNoText));
         this._hpadText.connect('value-changed', Lang.bind(this, this._onTextPaddingChanged));
-        this._grid.attach(this._entry, 2, 6, 4, 1);
-        let applyBtnBox = new Gtk.Box();
+        this._grid.attach(this._entry, 2, 3, 2,1);
+        let applyBtnBox = new Gtk.Box({sensitive: true});
         applyBtnBox.pack_start(this._applyBtn, false, false, 0);
-        this._grid.attach(applyBtnBox, 0, 6, 1, 1);
+        this._grid.attach(applyBtnBox, 0, 3, 1, 1);
         let noTextBox = new Gtk.Box;
         noTextBox.pack_start(this._noText, false, false, 0);
-        this._grid.attach(noTextBox, 0, 8, 1, 1);
-        this._grid.attach(this._hpadText, 0, 10, 1, 1);
+        this._grid.attach(noTextBox, 0, 4, 1, 1);
+        this._grid.attach(this._hpadText, 0, 5, 1, 1);
 
         // Remove Activities Button
         this._noActivities = new Gtk.Switch({active: this._settings.get_boolean(Keys.REMOVED)});
         this._noActivities.connect('notify::active', Lang.bind(this, this._setNoActivities));
         let noActivitiesBox = new Gtk.Box;
         noActivitiesBox.pack_start(this._noActivities, false, false, 0);
-        this._grid.attach(noActivitiesBox, 0, 12, 1, 1);
+        this._grid.attach(noActivitiesBox, 0, 6, 1, 1);
 
         // Hot Corner
         if(!this._settings.get_boolean(Keys.BARRIERS)) {
@@ -156,61 +159,87 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._noHotCorner = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_HOTC)});
         this._hotCornerDelay.connect('value-changed', Lang.bind(this, this._onHotCornerDelayChanged));
         this._noHotCorner.connect('notify::active', Lang.bind(this, this._setNoHotCorner));
-        this._grid.attach(this._hotCornerDelay, 0, 14, 1, 1);
+        this._grid.attach(this._hotCornerDelay, 0, 7, 1, 1);
         let noHotCornerBox = new Gtk.Box;
         noHotCornerBox.pack_start(this._noHotCorner, false, false, 0);        
-        this._grid.attach(noHotCornerBox, 0, 16, 1, 1);
+        this._grid.attach(noHotCornerBox, 0, 8, 1, 1);
+
+        // Panel Rounded Corners
+        this._hideCorners = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_RC)});
+        this._hideCorners.connect('notify::active', Lang.bind(this, this._setHideCorners));
+        let hideCornersBox = new Gtk.Box;
+        hideCornersBox.pack_start(this._hideCorners, false, false, 0);
+        this._grid.attach(hideCornersBox, 0, 9, 1, 1);
+
+        // Hide Application Menu Button Icon
+        this._hideAppMenuButtonIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_APPMBI)});
+        this._hideAppMenuButtonIcon.connect('notify::active', Lang.bind(this, this._setHideAppMenuButtonIcon));
+        let hideAppMenuButtonIconBox = new Gtk.Box;
+        hideAppMenuButtonIconBox.pack_start(this._hideAppMenuButtonIcon, false, false, 0);
+        this._grid.attach(hideAppMenuButtonIconBox, 0, 10, 1, 1);
+
+        // Override User Theme Background Color and Transparency
+        // This override is only effective for User Themes with CSS for Panel background-color.
+        // This will not override Panel background-images.
+        this._overrideUserOrClassicTheme = new Gtk.Switch({active: this._settings.get_boolean(Keys.OVERR_THEME)});
+        this._overrideUserOrClassicTheme.connect('notify::active', Lang.bind(this, this._setOverrideUserOrClassicTheme));
+        let overrideUserOrClassicTheme = new Gtk.Box;
+        overrideUserOrClassicTheme.pack_start(this._overrideUserOrClassicTheme, false, false, 0);
+        this._grid.attach(overrideUserOrClassicTheme, 0, 12, 1, 1);
+        this._shellThemeName = new Gtk.Label();
+        let instructions = new Gtk.Label({ label: _(OVERR_USR), wrap: true, xalign: 0.0 });
+        let shellThemeNameBox = new Gtk.Box;
+        shellThemeNameBox.pack_start(instructions, false, false, 0);
+        shellThemeNameBox.pack_start(this._shellThemeName, false, false, 0);
+        let separator = new Gtk.Separator();
+        this._grid.attach(separator, 0, 11, 7, 1);
+        let separator2 = new Gtk.Separator();
+        this._grid.attach(separator2, 0, 30, 7, 1);
+        this._grid.attach(shellThemeNameBox, 1, 12, 6, 1);
 
         // Panel Background Color
-
         this._panelColor = new Gtk.ColorButton();
         this._setPanelColor();
         this._panelColor.set_use_alpha(false);
         this._panelColor.connect('notify::color', Lang.bind(this, this._onPanelColorChanged));
-        let panelColorBox = new Gtk.Box();
+        let panelColorBox = new Gtk.Box({sensitive: true});
         panelColorBox.pack_start(this._panelColor, false, false, 20);
         this._grid.attach(panelColorBox, 0, 18, 1, 1);
 
         // Panel Transparency
-
         this._panelTransparency = Gtk.SpinButton.new_with_range(0, 100, 1);
         this._panelTransparency.set_value(this._settings.get_int(Keys.TRS_PAN));
         this._panelTransparency.connect('value-changed', Lang.bind(this, this._onPanelTransparencyChanged));
         this._grid.attach(this._panelTransparency, 0, 20, 1, 1);
 
         // Panel Shadow Color
-
         this._shadowColor = new Gtk.ColorButton();
         this._setShadowColor();
         this._shadowColor.set_use_alpha(false);
         this._shadowColor.connect('notify::color', Lang.bind(this, this._onPanelShadowColorChanged));
-        let shadowColorBox = new Gtk.Box();
+        let shadowColorBox = new Gtk.Box({sensitive: true});
         shadowColorBox.pack_start(this._shadowColor, false, false, 20);
         this._grid.attach(shadowColorBox, 0, 21, 1, 1);
 
         // Panel Shadow Transparency
-
         this._shadowTransparency = Gtk.SpinButton.new_with_range(0, 100, 1);
         this._shadowTransparency.set_value(this._settings.get_int(Keys.SHADOW_TRANS));
         this._shadowTransparency.connect('value-changed', Lang.bind(this, this._onShadowTransparencyChanged));
         this._grid.attach(this._shadowTransparency, 0, 22, 1, 1);
 
         // Panel Shadow Verical Length
-
         this._shadowLength = Gtk.SpinButton.new_with_range(0, 64, 1);
         this._shadowLength.set_value(this._settings.get_int(Keys.SHADOW_LEN));
         this._shadowLength.connect('value-changed', Lang.bind(this, this._onShadowLengthChanged));
         this._grid.attach(this._shadowLength, 0, 23, 1, 1);
 
         // Panel Shadow Blur
-
         this._shadowBlur = Gtk.SpinButton.new_with_range(0, 64, 1);
         this._shadowBlur.set_value(this._settings.get_int(Keys.SHADOW_BLUR));
         this._shadowBlur.connect('value-changed', Lang.bind(this, this._onShadowBlurChanged));
         this._grid.attach(this._shadowBlur, 0, 24, 1, 1);
 
         // Panel Shadow Spread
-
         this._shadowSpread = Gtk.SpinButton.new_with_range(0, 64, 1);
         this._shadowSpread.set_value(this._settings.get_int(Keys.SHADOW_SPRED));
         this._shadowSpread.connect('value-changed', Lang.bind(this, this._onShadowSpreadChanged));
@@ -246,20 +275,6 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         }));
         this._grid.attach(rbGroup, 2, 26, 5, 1);
 
-        // Panel Rounded Corners
-        this._hideCorners = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_RC)});
-        this._hideCorners.connect('notify::active', Lang.bind(this, this._setHideCorners));
-        let hideCornersBox = new Gtk.Box;
-        hideCornersBox.pack_start(this._hideCorners, false, false, 0);
-        this._grid.attach(hideCornersBox, 0, 29, 1, 1);
-
-        // Hide Application Menu Button Icon
-        this._hideAppMenuButtonIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.HIDE_APPMBI)});
-        this._hideAppMenuButtonIcon.connect('notify::active', Lang.bind(this, this._setHideAppMenuButtonIcon));
-        let hideAppMenuButtonIconBox = new Gtk.Box;
-        hideAppMenuButtonIconBox.pack_start(this._hideAppMenuButtonIcon, false, false, 0);
-        this._grid.attach(hideAppMenuButtonIconBox, 0, 33, 1, 1);
-
         // Conflict Detection
         this._conflictDetection = new Gtk.Switch({active: this._settings.get_boolean(Keys.CON_DET)});
         this._conflictDetection.connect('notify::active', Lang.bind(this, this._setConflictDetection));
@@ -286,6 +301,46 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
             this._settings.set_boolean(Keys.FIRST_ENABLE, false);
             this._resetSettings();
         }
+
+        let schemaSource = GioSSS.get_default();
+        let schemaObj = schemaSource.lookup(THEME_SCHEMA, true);
+        if (!schemaObj)
+            throw new Error(THEME_SCHEMA + ' could not be found.');
+        this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
+        this.savedThemeId = this._settings.get_string(Keys.SHELL_THEME_ID);
+        this._setThemeName();
+        this._settings.connect('changed::'+Keys.SHELL_THEME_ID, Lang.bind(this, this._setThemeName));
+    },
+
+    _setThemeName: function() {
+        let themeName = this._themeSettings.get_string('name');
+        let themeId = this._settings.get_string(Keys.SHELL_THEME_ID);
+        let mode = themeId.split('<|>')[1];
+        let shellThemeName = ' ';
+
+        if (mode == 'classic') {
+             shellThemeName = ' Gnome Classic ';
+        }
+        if (themeName == '' && mode == 'user') {
+            this._overrideUserOrClassicTheme.set_active(false);
+            this._overrideUserOrClassicTheme.set_sensitive(false);
+        } else if (themeName != '') {
+            shellThemeName = shellThemeName +  ' [ ' + themeName + ' ] ';
+        }
+        if (this.savedThemeId == themeId) {
+            if (shellThemeName != ' ') {
+                this._overrideUserOrClassicTheme.set_sensitive(true);
+            }
+        } else {
+            if (shellThemeName != ' ') {
+                this._overrideUserOrClassicTheme.set_sensitive(true);
+            } else {
+                this._overrideUserOrClassicTheme.set_sensitive(false);
+            }
+            this._overrideUserOrClassicTheme.set_active(false);
+            this.savedThemeId = themeId;
+        }
+        this._shellThemeName.set_text(shellThemeName);
     },
 
     _setSetBtnSensitive: function(object, value) {
@@ -452,6 +507,10 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._settings.set_boolean(Keys.HIDE_APPMBI, object.active);
     },
 
+    _setOverrideUserOrClassicTheme: function(object) {
+        this._settings.set_boolean(Keys.OVERR_THEME, object.active);
+    },
+
     _resetSettings: function() {
         this._hpadText.set_value(8);
         this._hpadIcon.set_value(8);
@@ -467,7 +526,9 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._noIcon.set_active(false);
         this._hotCornerDelay.set_value(this._hotCornerDelayDefault);
         this._noHotCorner.set_active(false);
-	this._settings.set_string(Keys.COLOURS,'#000000');
+        this._overrideUserOrClassicTheme.set_active(false);
+        this._setThemeName();
+        this._settings.set_string(Keys.COLOURS,'#000000');
         this._setPanelColor();
         this._panelTransparency.set_value(0);
         this._settings.set_string(Keys.SHADOW_COLOR,'#000000');

@@ -1,7 +1,7 @@
-/* -*- mode: js2 - indent-tabs-mode: nil - js2-basic-offset: 4 -*- */
+
 /* This extension is a derived work of the Gnome Shell.
 *
-* Copyright (c) 2012-2014 Norman L. Smith
+* Copyright (c) 2012-2016 Norman L. Smith
 *
 * This extension is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,6 @@ const Mainloop = imports.mainloop;
 const Gettext = imports.gettext.domain('nls1729-extensions');
 const _ = Gettext.gettext;
 
-
 const Config = imports.misc.config;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -51,6 +50,8 @@ const DISABLE_TOGGLE = 32767;
 const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
 const MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
 const HIDE_ICON = 'width: 0; height: 0; margin-left: 0px; margin-right: 0px; ';
+const GioSSS = Gio.SettingsSchemaSource;
+const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 
 const ActivitiesIconButton = new Lang.Class({
     Name: 'ActivitiesConfigurator.ActivitiesIconButton',
@@ -177,6 +178,11 @@ const Configurator = new Lang.Class({
 
     _init : function() {
         this._enabled = false;
+        let schemaSource = GioSSS.get_default();
+        let schemaObj = schemaSource.lookup(THEME_SCHEMA, true);
+        if (!schemaObj)
+            throw new Error(THEME_SCHEMA + ' could not be found.');
+        this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
         this._settings = Convenience.getSettings();
         this._firstEnable = this._settings.get_boolean(Keys.FIRST_ENABLE);
         if (this._firstEnable)
@@ -191,6 +197,7 @@ const Configurator = new Lang.Class({
         this._panelOpacity = (100 - this._settings.get_int(Keys.TRS_PAN)) / 100;
         this._roundedCornersHidden = false;
         this._transparencySig = null;
+        this._colorSig = null;
         this._signalIdLC = null;
         this._signalIdRC = null;
         this._activitiesIndicator = null;
@@ -200,10 +207,11 @@ const Configurator = new Lang.Class({
         this._maxWinSigId1 = null;
         this._maxWinSigId2 = null;
         this._maxWinSigId3 = null;
-        this._shadowString = ' ';
+        this._shadowString = '';
         this._showLeftSignal = null;
         this._hideTimeoutId = 0;
         this._hideCount = 0;
+        this._themeTimeoutId = 0;
     },
 
     _disconnectGlobalSignals: function() {
@@ -245,7 +253,7 @@ const Configurator = new Lang.Class({
                 this._maxWinSigId3 = global.screen.connect('restacked', Lang.bind(this, this._maxUnmax));
         } else {
             this._disconnectGlobalSignals();
-            this._setPanelBackground();
+            this._setPanelBackground(false);
             this._setPanelTransparency();
         }
     },
@@ -307,7 +315,6 @@ const Configurator = new Lang.Class({
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_ICON, Lang.bind(this, this._setIcon)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_TXT, Lang.bind(this, this._setText)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_ICO, Lang.bind(this, this._setIcon)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.CON_DET, Lang.bind(this, this._setConflictDetection)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_RC, Lang.bind(this, this._setHiddenCorners)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_APPMBI, Lang.bind(this, this._setHideAppMenuButtonIcon)));
@@ -316,8 +323,54 @@ const Configurator = new Lang.Class({
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_LEN, Lang.bind(this, this._setShadow)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_BLUR, Lang.bind(this, this._setShadow)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_SPRED, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.OVERR_THEME, Lang.bind(this, this._setOverrideTheme)));
+        this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor));
         this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
-        this._settingsSignals.push(this._transparencySig);
+    },
+
+    _connectThemeContextSig: function() {
+        this._themeContext = St.ThemeContext.get_for_stage(global.stage);
+        return this._themeContext.connect('changed', Lang.bind(this, this._themeChanged));
+    },
+
+    _themeChanged: function() {
+        if (this._themeTimeoutId != 0) {
+            Mainloop.source_remove(this._themeTimeoutId);
+            this._themeTimeoutId = 0;
+        }
+        this._themeTimeoutId = Mainloop.timeout_add(1500, Lang.bind(this, this._getAndSetShellThemeId));
+    },
+
+    _getAndSetShellThemeId: function() {
+        let themeIdStored =  this._settings.get_string(Keys.SHELL_THEME_ID);
+        let themeId = this._themeSettings.get_string('name');
+        let currentMode = Main.sessionMode.currentMode;
+        if (themeId == '') {
+            themeId = Main._getDefaultStylesheet().get_path();
+            if (themeId == '') {
+                themeId = Main._getDefaultStylesheet().get_uri();
+            }
+        }
+        themeId = themeId + '<|>' + currentMode;
+        if (themeId != themeIdStored) {
+            this._settings.set_string(Keys.SHELL_THEME_ID, themeId);
+            this._settings.set_boolean(Keys.OVERR_THEME, false);
+        }
+        this._setPanelRGBT();
+    },
+
+    _setPanelRGBT: function() {
+        if (this._themeTimeoutId != 0) {
+            Mainloop.source_remove(this._themeTimeoutId);
+            this._themeTimeoutId = 0;
+        }
+        this._setPanelColor();
+        this._setPanelTransparency();
+    },
+
+    _setOverrideTheme: function() {
+        this._overrideTheme = this._settings.get_boolean(Keys.OVERR_THEME);
+        this._setPanelRGBT();
     },
 
     _handleCornerSignals: function(connect) {
@@ -353,6 +406,18 @@ const Configurator = new Lang.Class({
         if (this._signalHotCornersChanged > 0) {
             Main.layoutManager.disconnect(this._signalHotCornersChanged);
             this._signalHotCornersChanged = null;
+        }
+        if (this._transparencySig > 0) {
+            this._settings.disconnect(this._transparencySig);
+            this._transparencySig = null;
+        }
+        if (this._colorSig > 0) {
+            this._settings.disconnect(this._colorSig);
+            this._colorSig = null;
+        }
+        if (this._themeContextSig > 0) {
+            this._themeContext.disconnect(this._themeContextSig);
+            this._themeContextSig = null;
         }
     },
 
@@ -475,17 +540,12 @@ const Configurator = new Lang.Class({
 
     _setPanelColor: function() {
         this._panelColor = Colors.getColorRGB(this._settings.get_string(Keys.COLOURS));
-        this._setPanelBackground();
+        this._setPanelBackground(false);
     },
 
     _setPanelTransparency: function() {
         this._panelOpacity = (100 - this._settings.get_int(Keys.TRS_PAN)) / 100;
-        if (this._transparencySig > 0) {
-            this._settings.disconnect(this._transparencySig);
-            this._settingsSignals.pop();
-            this._transparencySig = null;
-            this._setPanelBackground();
-        }
+        this._setPanelBackground(false);
     },
 
     _setHiddenCorners: function() {
@@ -497,7 +557,7 @@ const Configurator = new Lang.Class({
             this._hideCount = 0;
             this._showLeftSignal = null;
         }
-        this._setPanelBackground();
+        this._setPanelBackground(false);
     },
 
     // An extension can show rounded hidden corners in conflict with this extension.  The normal
@@ -533,55 +593,71 @@ const Configurator = new Lang.Class({
         if (length == 0) {
             this._shadowString = '';
         } else {
+            length = length.toString();
             let color = Colors.getColorStringCSS(Colors.getColorRGB(this._settings.get_string(Keys.SHADOW_COLOR)));
-            let opacity = (100 - this._settings.get_int(Keys.SHADOW_TRANS)) / 100;
-            let blur = this._settings.get_int(Keys.SHADOW_BLUR);
-            let spread = this._settings.get_int(Keys.SHADOW_SPRED);
-            this._shadowString =  '; box-shadow: 0px ' + length.toString() + 'px ' + blur.toString() + 'px ' + spread.toString() + 'px rgba(' + color + ',' + opacity.toString() + ')';
-            this._setPanelBackground();
+            let opacity = ((100 - this._settings.get_int(Keys.SHADOW_TRANS)) / 100).toString();
+            let blur = this._settings.get_int(Keys.SHADOW_BLUR).toString();
+            let spread = this._settings.get_int(Keys.SHADOW_SPRED).toString();
+            this._shadowString =  ' box-shadow: 0px ' + length + 'px ' + blur + 'px ' + spread + 'px rgba(' + color + ',' + opacity + ');';
         }
-        this._setPanelBackground();
+        this._setPanelBackground(false);
     },
 
     _setPanelBackground: function(dynamicOpaquePanel) {
-        let colorString;
-        let shadowString = this._shadowString;
-        if (dynamicOpaquePanel !== undefined) {
-            if (this._transparencySigs > 0)
-                this._settings.disconnect(this._transparencySig);
-            this._settingsSignals.pop();
+        if (this._transparencySig > 0) {
+            this._settings.disconnect(this._transparencySig);
             this._transparencySig = null;
-            if (dynamicOpaquePanel) {
-                shadowString = '';
-                if (this._maxWinEffect > 1) {
-                    colorString = '0,0,0';
-                } else {
-                    colorString = Colors.getColorStringCSS(this._panelColor);
-                }
-                this._panelOpacity = 1;
-            } else {
-                colorString = Colors.getColorStringCSS(this._panelColor);
-                this._panelOpacity = (100 - this._settings.get_int(Keys.TRS_PAN)) / 100;
-            }
-        } else {
-            colorString = Colors.getColorStringCSS(this._panelColor);
         }
-        if (colorString == '0,0,0' && this._panelOpacity == 1 && shadowString == '') {
-            this._removePanelStyle();
+        if (this._colorSig > 0) {
+            this._settings.disconnect(this._colorSig);
+            this._colorSig = null;
+        }
+        if (Main.getThemeStylesheet() != null || Main.sessionMode.currentMode == 'classic') {
+            this._userOrClassicTheme = true;
+            let themeNode = Main.panel.actor.get_theme_node();
+            let color = themeNode.get_background_color().to_string();
+            let rgbT = Colors.getColorRGBandTransparency(color);
+            this._themeRGB = rgbT.rgb;
         } else {
-            let backgroundStyle = 'background-color: rgba(' + colorString + ',' + this._panelOpacity.toString() + ')' + shadowString;
-            this._setPanelStyle(backgroundStyle);
-            if (this._panelOpacity < .05 || this._roundedCornersHidden) {
-                Main.panel._leftCorner.actor.hide();
-                Main.panel._rightCorner.actor.hide();
-            } else {
-                Main.panel._leftCorner.actor.show();
-                Main.panel._rightCorner.actor.show();
+            this._userOrClassicTheme = false;
+        }
+        let colorString = Colors.getColorStringCSS(this._panelColor);
+        this._panelOpacity = (100 - this._settings.get_int(Keys.TRS_PAN)) / 100;
+        let backgroundStyle = '';
+        let shadowString = this._shadowString;
+        if (dynamicOpaquePanel) {
+            shadowString = '';
+            if (this._maxWinEffect == 2) {
+                colorString = '0,0,0';
             }
+            if (this._maxWinEffect == 1) {
+                if (this._userOrClassicTheme && !this._overrideTheme) {
+                    colorString = this._themeRGB;
+                }
+            }
+            this._panelOpacity = 1.0;
+        }
+        this._removePanelStyle();
+        backgroundStyle = 'background-color: rgba(' + colorString + ',' + this._panelOpacity.toString() + ');';
+        backgroundStyle = backgroundStyle + shadowString;
+        if (!this._overrideTheme && this._userOrClassicTheme) {
+            backgroundStyle = '';
+        }
+        if (backgroundStyle != '') {
+            this._setPanelStyle(backgroundStyle);
+        }
+        if (this._panelOpacity < .05 || this._roundedCornersHidden) {
+            Main.panel._leftCorner.actor.hide();
+            Main.panel._rightCorner.actor.hide();
+        } else {
+            Main.panel._leftCorner.actor.show();
+            Main.panel._rightCorner.actor.show();
         }
         if (this._transparencySig == null) {
             this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
-            this._settingsSignals.push(this._transparencySig);
+        }
+        if (this._colorSig == null) {
+            this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor));
         }
         if (Main.panel.actor.get_style() == null || !Main.panel._leftCorner.actor.visible) {
             this._handleCornerSignals(false);
@@ -661,7 +737,7 @@ const Configurator = new Lang.Class({
     care about the position of the ActivitiesIconButton, conflict detection can be disabled.
 */
     _conflicts: function() {
-        if (Main.sessionMode.currentMode == 'user') {
+        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
             if (Main.panel._leftBox.get_first_child().name != 'panelActivitiesIconButtonContainer') {
                 this._conflictCount = this._conflictCount + 1;
                 if (this._conflictCount > 30) {
@@ -701,6 +777,7 @@ const Configurator = new Lang.Class({
     },
 
     _delayedEnable: function() {
+        log('Activities Configurator Extension Delayed Enabled');
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
@@ -718,13 +795,14 @@ const Configurator = new Lang.Class({
             }));
             this._activitiesIndicator.container.hide();
         }
+        this._overrideTheme = this._settings.get_boolean(Keys.OVERR_THEME);
         this._connectSettings();
         this._setText();
         this._iconPath = '';
         this._setIcon();
         this._setHotCornerThreshold();
         this._setHiddenCorners();
-        this._setPanelBackground();
+        this._setPanelBackground(false);
         this._setShadow();
         Main.panel.addToStatusArea('activities-icon-button', this._activitiesIconButton, 0, 'left');
         Main.panel._leftCorner.setStyleParent(Main.panel._leftBox);
@@ -742,16 +820,23 @@ const Configurator = new Lang.Class({
         this._maxWindowPanelEffect();
         this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', Lang.bind(this, this._dragBegin));
         this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
+        this._themeContextSig = this._connectThemeContextSig();
+        this._getAndSetShellThemeId();
         this._enabled = true;
     },
 
     enable: function() {
-        this._conflictDetection = this._settings.get_boolean(Keys.CON_DET);
-        if ((this._conflictDetection || this._firstEnable) &&  Main.sessionMode.currentMode == 'user') {
-            this._timeoutId = Mainloop.timeout_add(500, Lang.bind(this, this._delayedEnable));
-        } else {
+
+        // For extension to function in classic mode
+        // Conflict Detection must be enabled.
+        if (Main.sessionMode.currentMode == 'classic')
+            this._settings.set_boolean(Keys.CON_DET, true);
+        // Extension must delay completion of enable to allow theme to be
+        // loaded and for Conflict Detection to function if it is enabled.
+        if (Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user')
+            this._timeoutId = Mainloop.timeout_add(2000, Lang.bind(this, this._delayedEnable));
+        else
             this._delayedEnable();
-        }
     },
 
     disable: function() {
@@ -762,6 +847,10 @@ const Configurator = new Lang.Class({
         if (this._hideTimeoutId != 0) {
             Mainloop.source_remove(this._hideTimeoutId);
             this.hideTimeoutId_ = 0;
+        }
+        if (this._themeTimeoutId != 0) {
+            Mainloop.source_remove(this._themeTimeoutId);
+            this._themeTimeoutId = 0;
         }
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {

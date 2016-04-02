@@ -22,4 +22,6 @@ const SHADOW_TRANS = 'transparent-shadow';
 const SHADOW_LEN = 'panel-shadow-vertical-length';
 const SHADOW_BLUR = 'panel-shadow-blur-radius';
 const SHADOW_SPRED = 'panel-shadow-spread-radius';
+const OVERR_THEME = 'override-theme';
+const SHELL_THEME_ID = 'shell-theme-id';
 const ICON_FILE = '/face-smile-3.svg'; // From Tango Project - Public Domain

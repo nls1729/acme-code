@@ -247,7 +247,38 @@ https://nls1729.github.io
 
 2016-03-18 Activities Configurator - Version 42 passed review GS 3.14 3.16 3.18
 
+2016-03-31 Activities Configurator - GS 3.14 3.16 3.18
 
-zip file: Thu Mar 17 06:48:03 EDT 2016 ac1bc3ae25a23be11772b5bbb549c11a98747e20
+                                    Override Shell Theme
+
+           The addition of configurable shadow options in version 40 created the need
+           to provide an option to allow user control of the actions of the extension
+           in conjunction with User Themes and the Gnome Classic Mode.
+
+           The following settings interact with User Themes and the Gnome Classic Mode:
+           Set Panel Background, Panel Transparency, Panel Shadow Color, Transparency,
+           Vertical Length, Blur Radius, Spread Radius and Window Maximized Effect.
+           These options are designed to function with the default Gnome Mode and the
+           default Shell Theme.  Available User Themes are common and are written
+           in ways that do not behave in the same manner as the default Shell Theme.
+           The Classic Mode Theme is different from the default Shell Theme.  Depending
+           on the user's tastes and the theme installed the extension's preferences
+           can be used in a useful way.  In some cases some settings are not effective
+           or are not useful.  The Override Shell Theme preference allows the user to
+           enable or disable the interactions of the settings that affect the installed
+           theme.  The default for the setting is OFF, all listed panel options will
+           not interact with an installed User Theme or when in the Gnome Classic Mode.
+           The user can set it to ON allowing the listed settings to override or interact
+           with the installed theme.  When operating in the default Gnome Mode with the
+           default Shell Theme installed the switch is set to OFF and is not sensitive.
+           When a theme change occurs from the default Shell Theme to a User Theme or
+           the session is in the Gnome Classic Mode the switch is set sensitive in the
+           OFF position.  If the user wishes to use any of the listed settings the
+           switch can be set to ON.  The option will remain ON until the user sets it
+           to OFF or the theme is changed or the mode changes.
+
+2016-04-02 Activities Configurator - uploaded for review
+
+zip file: Sat Apr  2 13:58:12 EDT 2016 b0760543d589f52a8079f4ba616146e1e2f00df2
 
 ...

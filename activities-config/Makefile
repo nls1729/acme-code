@@ -39,6 +39,7 @@ _build: all
 	done;
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
+	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  _build/prefs.js; \
 	cp -f _build/README.txt .;
 
 zip-file: _build
@@ -46,6 +47,7 @@ zip-file: _build
 	zip -qr "$(UUID).zip" .; \
 	mv $(UUID).zip .. ; \
 	cd .. ;
+	sha256sum "$(UUID).zip"  > CHECKSUM
 	rm -rf _build
 clean:
 	rm -f ./schemas/gschemas.compiled
