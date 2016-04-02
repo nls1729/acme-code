@@ -92,7 +92,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);
         this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 1.0 }), 4, 40, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 1.0 }), 3, 40, 3, 1);
 
         // Icon
         this._iconImage = new Gtk.Image();
