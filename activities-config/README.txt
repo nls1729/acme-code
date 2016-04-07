@@ -247,13 +247,9 @@ https://nls1729.github.io
 
 2016-03-18 Activities Configurator - Version 42 passed review GS 3.14 3.16 3.18
 
-2016-03-31 Activities Configurator - GS 3.14 3.16 3.18
+2016-04-07 Activities Configurator - GS 3.16 3.18 3.20
 
-                                    Override Shell Theme
-
-           The addition of configurable shadow options in version 40 created the need
-           to provide an option to allow user control of the actions of the extension
-           in conjunction with User Themes and the Gnome Classic Mode.
+           Override Shell Theme Preference
 
            The following settings interact with User Themes and the Gnome Classic Mode:
            Set Panel Background, Panel Transparency, Panel Shadow Color, Transparency,
@@ -261,10 +257,10 @@ https://nls1729.github.io
            These options are designed to function with the default Gnome Mode and the
            default Shell Theme.  Available User Themes are common and are written
            in ways that do not behave in the same manner as the default Shell Theme.
-           The Classic Mode Theme is different from the default Shell Theme.  Depending
+           The Classic Mode theme is different from the default Shell Theme.  Depending
            on the user's tastes and the theme installed the extension's preferences
            can be used in a useful way.  In some cases some settings are not effective
-           or are not useful.  The Override Shell Theme preference allows the user to
+           or are not useful.  The Override Shell Theme Preference allows the user to
            enable or disable the interactions of the settings that affect the installed
            theme.  The default for the setting is OFF, all listed panel options will
            not interact with an installed User Theme or when in the Gnome Classic Mode.
@@ -277,8 +273,8 @@ https://nls1729.github.io
            switch can be set to ON.  The option will remain ON until the user sets it
            to OFF or the theme is changed or the mode changes.
 
-2016-04-02 Activities Configurator - uploaded for review
+2016-04-07 Activities Configurator - uploaded for review
 
-zip file: Sat Apr  2 14:01:13 EDT 2016 26e1457eaf6b7e6a04e27fa926af3bd8cf3ca127
+zip file: Thu Apr  7 08:54:32 EDT 2016 bf6e972d8bafc5d2b12ad18deec9c51cfb84e398
 
 ...

@@ -46,7 +46,7 @@ const SHW_VERT  = _("Vertical Length");
 const SHW_BLUR  = _("Blur Radius");
 const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
-const COMMIT = "Commit: ";
+const COMMIT = "Commit: bf6e972d8bafc5d2b12ad18deec9c51cfb84e398";
 
 function init() {
     Convenience.initTranslations();
@@ -92,7 +92,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);
         this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 1.0 }), 3, 40, 3, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 1.0 }), 2, 40, 4, 1);
 
         // Icon
         this._iconImage = new Gtk.Image();
@@ -129,7 +129,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._applyBtn.connect('clicked', Lang.bind(this, this._setActivitiesText));
         this._noText.connect('notify::active', Lang.bind(this, this._setNoText));
         this._hpadText.connect('value-changed', Lang.bind(this, this._onTextPaddingChanged));
-        this._grid.attach(this._entry, 2, 3, 2,1);
+        this._grid.attach(this._entry, 2, 3, 3,1);
         let applyBtnBox = new Gtk.Box({sensitive: true});
         applyBtnBox.pack_start(this._applyBtn, false, false, 0);
         this._grid.attach(applyBtnBox, 0, 3, 1, 1);
@@ -304,16 +304,20 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
 
         let schemaSource = GioSSS.get_default();
         let schemaObj = schemaSource.lookup(THEME_SCHEMA, true);
-        if (!schemaObj)
-            throw new Error(THEME_SCHEMA + ' could not be found.');
-        this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
+        if (schemaObj)
+            this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
         this.savedThemeId = this._settings.get_string(Keys.SHELL_THEME_ID);
         this._setThemeName();
         this._settings.connect('changed::'+Keys.SHELL_THEME_ID, Lang.bind(this, this._setThemeName));
     },
 
     _setThemeName: function() {
-        let themeName = this._themeSettings.get_string('name');
+        let themeName;
+        if (this._themeSettings === undefined) {
+            themeName = '';
+        } else {
+            themeName = this._themeSettings.get_string('name');
+        }
         let themeId = this._settings.get_string(Keys.SHELL_THEME_ID);
         let mode = themeId.split('<|>')[1];
         let shellThemeName = ' ';

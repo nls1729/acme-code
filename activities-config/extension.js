@@ -180,9 +180,8 @@ const Configurator = new Lang.Class({
         this._enabled = false;
         let schemaSource = GioSSS.get_default();
         let schemaObj = schemaSource.lookup(THEME_SCHEMA, true);
-        if (!schemaObj)
-            throw new Error(THEME_SCHEMA + ' could not be found.');
-        this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
+        if (schemaObj)
+            this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
         this._settings = Convenience.getSettings();
         this._firstEnable = this._settings.get_boolean(Keys.FIRST_ENABLE);
         if (this._firstEnable)
@@ -343,7 +342,12 @@ const Configurator = new Lang.Class({
 
     _getAndSetShellThemeId: function() {
         let themeIdStored =  this._settings.get_string(Keys.SHELL_THEME_ID);
-        let themeId = this._themeSettings.get_string('name');
+        let themeId;
+        if (this._themeSettings === undefined) {
+            themeId = '';
+        } else {
+            themeId = this._themeSettings.get_string('name');
+        }
         let currentMode = Main.sessionMode.currentMode;
         if (themeId == '') {
             themeId = Main._getDefaultStylesheet().get_path();
@@ -777,7 +781,6 @@ const Configurator = new Lang.Class({
     },
 
     _delayedEnable: function() {
-        log('Activities Configurator Extension Delayed Enabled');
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
@@ -823,6 +826,7 @@ const Configurator = new Lang.Class({
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
         this._enabled = true;
+        log('Activities Configurator Enabled');
     },
 
     enable: function() {
