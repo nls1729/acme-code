@@ -211,6 +211,7 @@ const Configurator = new Lang.Class({
         this._hideTimeoutId = 0;
         this._hideCount = 0;
         this._themeTimeoutId = 0;
+        this._showOverviewAtLogin = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
     },
 
     _disconnectGlobalSignals: function() {
@@ -322,6 +323,7 @@ const Configurator = new Lang.Class({
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_LEN, Lang.bind(this, this._setShadow)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_BLUR, Lang.bind(this, this._setShadow)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_SPRED, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHOW_OVERVIEW, Lang.bind(this, this._setShowOver)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.OVERR_THEME, Lang.bind(this, this._setOverrideTheme)));
         this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor));
         this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
@@ -370,6 +372,10 @@ const Configurator = new Lang.Class({
         }
         this._setPanelColor();
         this._setPanelTransparency();
+    },
+
+    _setShowOver: function() {
+        this._showOverviewAtLogin = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
     },
 
     _setOverrideTheme: function() {
@@ -780,6 +786,15 @@ const Configurator = new Lang.Class({
         }
     },
 
+
+    _showOverview: function() {
+        if (this._timeoutId != 0) {
+            Mainloop.source_remove(this._timeoutId);
+            this._timeoutId = 0;
+        }
+        Main.overview.toggle();
+    },
+
     _delayedEnable: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
@@ -826,6 +841,8 @@ const Configurator = new Lang.Class({
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
         this._enabled = true;
+        if ((Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') && this._showOverviewAtLogin)
+            this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._showOverview));
         log('Activities Configurator Enabled');
     },
 

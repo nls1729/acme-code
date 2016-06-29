@@ -131,5 +131,10 @@
       <summary>True only for first enable.</summary>
       <description>If true extension sets defaults and displays prefs tool.</description>
     </key>
+    <key type="b" name="show-overview">
+      <default>false</default>
+      <summary>On login show Overview.</summary>
+      <description>If true extension displays overview after login.</description>
+    </key>
   </schema>
 </schemalist>

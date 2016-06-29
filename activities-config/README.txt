@@ -277,6 +277,13 @@ https://nls1729.github.io
 
 2016 04-07 Activities Configurator - Version 44 passed review GS 3.16 3.18 3.20
 
-zip file: Thu Apr  7 14:19:18 EDT 2016 24f5c2d31e970aab2af47f06c00e7b5b843e5901
+2016-06-29 Activities Configurator - GS 3.16 3.18 3.20
+           User requested option to display the Activities Overview after login.
+           Added option "Show Overview after Login".
+
+2016-06-29 Activities Configurator - uploaded for review
+
+
+zip file: Wed Jun  1 17:29:19 EDT 2016 07cc7363eba8cd344928098cffc8ff74a30483f3
 
 ...

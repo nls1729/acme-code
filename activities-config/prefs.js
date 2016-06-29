@@ -46,6 +46,7 @@ const SHW_VERT  = _("Vertical Length");
 const SHW_BLUR  = _("Blur Radius");
 const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
+const SHOW_OVER = _("Show Overview after Login");
 const COMMIT = "Commit: bf6e972d8bafc5d2b12ad18deec9c51cfb84e398";
 
 function init() {
@@ -80,6 +81,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1,  8, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1,  9, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 10, 5, 1);
+        this._grid.attach(new Gtk.Label({ label: _(SHOW_OVER), wrap: true, xalign: 0.0 }), 1, 14, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 1, 18, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 1, 20, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(PAN_SHDOW), wrap: true, xalign: 0.0 }), 1, 21, 5, 1);
@@ -92,7 +94,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);
         this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 1.0 }), 2, 40, 4, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 44, 6, 1);
 
         // Icon
         this._iconImage = new Gtk.Image();
@@ -192,10 +194,17 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         shellThemeNameBox.pack_start(instructions, false, false, 0);
         shellThemeNameBox.pack_start(this._shellThemeName, false, false, 0);
         let separator = new Gtk.Separator();
-        this._grid.attach(separator, 0, 11, 7, 1);
+        this._grid.attach(separator, 0, 16, 7, 1);
         let separator2 = new Gtk.Separator();
         this._grid.attach(separator2, 0, 30, 7, 1);
         this._grid.attach(shellThemeNameBox, 1, 12, 6, 1);
+
+        // Show Overview after Login
+        this._showOverview = new Gtk.Switch({active: this._settings.get_boolean(Keys.SHOW_OVERVIEW)});
+        this._showOverview.connect('notify::active', Lang.bind(this, this._setShowOverview));
+        let showOverviewBox = new Gtk.Box;
+        showOverviewBox.pack_start(this._showOverview, false, false, 0);
+        this._grid.attach(showOverviewBox, 0, 14, 1, 1);
 
         // Panel Background Color
         this._panelColor = new Gtk.ColorButton();
@@ -295,6 +304,15 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let readmeBtnBox = new Gtk.Box;
         readmeBtnBox.pack_start(readmeBtn, false, false, 0);       
         this._grid.attach(readmeBtnBox, 0, 39, 1, 1);
+
+        // Web Page
+        let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(DEFAULT_ICO, 32, 32, null);
+        let imagex = new Gtk.Image()
+        imagex.set_from_pixbuf(pixbuf);
+        let linkBtn = new Gtk.LinkButton({ uri: "https://nls1729.github.io/activities_config.html",
+                                           label: "Website",
+                                           image: imagex});
+        this._grid.attach(linkBtn, 2, 41, 1, 3);
 
         // Set Defaults on First Enable
         if(this._settings.get_boolean(Keys.FIRST_ENABLE)) {
@@ -515,6 +533,10 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._settings.set_boolean(Keys.OVERR_THEME, object.active);
     },
 
+    _setShowOverview: function(object) {
+        this._settings.set_boolean(Keys.SHOW_OVERVIEW, object.active);
+    },
+
     _resetSettings: function() {
         this._hpadText.set_value(8);
         this._hpadIcon.set_value(8);
@@ -533,6 +555,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._overrideUserOrClassicTheme.set_active(false);
         this._setThemeName();
         this._settings.set_string(Keys.COLOURS,'#000000');
+        this._showOverview.set_active(false);
         this._setPanelColor();
         this._panelTransparency.set_value(0);
         this._settings.set_string(Keys.SHADOW_COLOR,'#000000');
