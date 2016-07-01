@@ -284,6 +284,6 @@ https://nls1729.github.io
 2016-06-29 Activities Configurator - uploaded for review
 
 
-zip file: Wed Jun  1 17:29:19 EDT 2016 07cc7363eba8cd344928098cffc8ff74a30483f3
+zip file: Wed Jun 29 12:45:54 EDT 2016 53d4153a583aa90af01697bad1ec3234dfd892f9
 
 ...

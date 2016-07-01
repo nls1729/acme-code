@@ -144,7 +144,7 @@ msgstr "Überschreiben Shell-Thema"
 
 #: ../../prefs.js:49
 msgid "Show Overview after Login"
-msgstr ""
+msgstr "Zeigen Sie Überblick nach Anmeldung"
 
 #: ../../prefs.js:258
 msgid "Panel - No Effect"
