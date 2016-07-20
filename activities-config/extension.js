@@ -212,6 +212,7 @@ const Configurator = new Lang.Class({
         this._hideCount = 0;
         this._themeTimeoutId = 0;
         this._showOverviewAtLogin = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
+        this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
     },
 
     _disconnectGlobalSignals: function() {
@@ -324,9 +325,16 @@ const Configurator = new Lang.Class({
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_BLUR, Lang.bind(this, this._setShadow)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_SPRED, Lang.bind(this, this._setShadow)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHOW_OVERVIEW, Lang.bind(this, this._setShowOver)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.BTN_POSITION, Lang.bind(this, this._setPositionRight)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.OVERR_THEME, Lang.bind(this, this._setOverrideTheme)));
         this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor));
         this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
+    },
+
+    _setPositionRight: function() {
+        this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
+        this.disable();
+        this._timeoutId = Mainloop.timeout_add(500, Lang.bind(this, this._delayedEnable));
     },
 
     _connectThemeContextSig: function() {
@@ -744,10 +752,12 @@ const Configurator = new Lang.Class({
     position 0 at a later time then the ActivitiesIconButton can be moved from its preferred place. To re-establish
     its position this function is called when an 'actor-added' signal occurs.  A race condition can occur if another
     extension follows this strategy.  This extension will stop the race if one is detected.  If the user does not
-    care about the position of the ActivitiesIconButton, conflict detection can be disabled.
+    care about the position of the ActivitiesIconButton, conflict detection can be disabled.  Conflict Detection is
+    only effective when ActivitiesIconButton is in the left position.  If the button is set to the right corner
+    detection is disabled.
 */
     _conflicts: function() {
-        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
+        if ((Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') && !this._positionRight) {
             if (Main.panel._leftBox.get_first_child().name != 'panelActivitiesIconButtonContainer') {
                 this._conflictCount = this._conflictCount + 1;
                 if (this._conflictCount > 30) {
@@ -822,7 +832,13 @@ const Configurator = new Lang.Class({
         this._setHiddenCorners();
         this._setPanelBackground(false);
         this._setShadow();
-        Main.panel.addToStatusArea('activities-icon-button', this._activitiesIconButton, 0, 'left');
+        let side = 'left';
+        let position = 0;
+        if (this._positionRight) {
+             position = -1;
+             side = 'right';
+        }
+        Main.panel.addToStatusArea('activities-icon-button', this._activitiesIconButton, position, side);
         Main.panel._leftCorner.setStyleParent(Main.panel._leftBox);
         this._setActivities();
         this._setConflictDetection();
@@ -855,7 +871,7 @@ const Configurator = new Lang.Class({
         // Extension must delay completion of enable to allow theme to be
         // loaded and for Conflict Detection to function if it is enabled.
         if (Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user')
-            this._timeoutId = Mainloop.timeout_add(2000, Lang.bind(this, this._delayedEnable));
+            this._timeoutId = Mainloop.timeout_add(1500, Lang.bind(this, this._delayedEnable));
         else
             this._delayedEnable();
     },
@@ -909,7 +925,6 @@ const Configurator = new Lang.Class({
             }
             this._activitiesIconButton.destroy();
             this._activitiesIconButton = null;
-            Main.panel._updatePanel();
             this._enabled = false;
         }
     }

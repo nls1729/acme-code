@@ -47,7 +47,8 @@ const SHW_BLUR  = _("Blur Radius");
 const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
 const SHOW_OVER = _("Show Overview after Login");
-const COMMIT = "Commit: bf6e972d8bafc5d2b12ad18deec9c51cfb84e398";
+const POSITION  = _("Move Activities to the Right");
+const COMMIT = "Commit: 395da570026067d5180788a6eb4a13b728cc15d6";
 
 function init() {
     Convenience.initTranslations();
@@ -90,11 +91,13 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(SHW_BLUR) , wrap: true, xalign: 0.0 }), 1, 24, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(SHW_SPRED), wrap: true, xalign: 0.0 }), 1, 25, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 1, 26, 1, 1);
+        this._grid.attach(new Gtk.Label({ label: _(POSITION),  wrap: true, xalign: 0.0 }), 1, 30, 1, 1);
         this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 35, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);
         this._grid.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
         this._grid.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 44, 6, 1);
+
 
         // Icon
         this._iconImage = new Gtk.Image();
@@ -193,10 +196,6 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let shellThemeNameBox = new Gtk.Box;
         shellThemeNameBox.pack_start(instructions, false, false, 0);
         shellThemeNameBox.pack_start(this._shellThemeName, false, false, 0);
-        let separator = new Gtk.Separator();
-        this._grid.attach(separator, 0, 16, 7, 1);
-        let separator2 = new Gtk.Separator();
-        this._grid.attach(separator2, 0, 30, 7, 1);
         this._grid.attach(shellThemeNameBox, 1, 12, 6, 1);
 
         // Show Overview after Login
@@ -290,6 +289,14 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let conflictDetectionBox = new Gtk.Box;
         conflictDetectionBox.pack_start(this._conflictDetection, false, false, 0);
         this._grid.attach(conflictDetectionBox, 0, 35, 1, 1);
+
+        // Position Right
+        this._positionRight = new Gtk.Switch({active: this._settings.get_boolean(Keys.BTN_POSITION)});
+        this._positionRight.connect('notify::active', Lang.bind(this, this._setPositionRight));
+        this._setPositionRight(this._positionRight);
+        let positionRightBox = new Gtk.Box;
+        positionRightBox.pack_start(this._positionRight, false, false, 0);
+        this._grid.attach(positionRightBox, 0, 30, 1, 1);
 
         // Reset
         let defaultsBtn = new Gtk.Button({ label: _(RESET) } );
@@ -426,6 +433,16 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let css = rgba.to_string();
         let hexString = this._cssHexString(css);
         this._settings.set_string(Keys.SHADOW_COLOR, hexString);
+    },
+
+    _setPositionRight: function(object) {
+        this._settings.set_boolean(Keys.BTN_POSITION, object.active);
+        if(object.active) {
+            this._conflictDetection.set_active(false);
+            this._conflictDetection.set_sensitive(false);
+        } else {
+            this._conflictDetection.set_sensitive(true);
+        }
     },
 
     _setConflictDetection: function(object) {
@@ -566,6 +583,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._shadowSpread.set_value(0);
         this._hideCorners.set_active(false);
         this._conflictDetection.set_active(false);
+        this._positionRight.set_active(false);
         this._rbNone.clicked();
         this._hideAppMenuButtonIcon.set_active(false);
     },

@@ -136,5 +136,10 @@
       <summary>On login show Overview.</summary>
       <description>If true extension displays overview after login.</description>
     </key>
+    <key type="b" name="position-right">
+      <default>false</default>
+      <summary>Move Activities Icon Button to right corner.</summary>
+      <description>If true move Activities Icon Button to right corner.</description>
+    </key>
   </schema>
 </schemalist>

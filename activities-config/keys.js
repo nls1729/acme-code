@@ -25,4 +25,5 @@ const SHADOW_SPRED = 'panel-shadow-spread-radius';
 const OVERR_THEME = 'override-theme';
 const SHELL_THEME_ID = 'shell-theme-id';
 const SHOW_OVERVIEW = 'show-overview';
+const BTN_POSITION = 'position-right';
 const ICON_FILE = '/face-smile-3.svg'; // From Tango Project - Public Domain

@@ -283,7 +283,15 @@ https://nls1729.github.io
 
 2016-06-29 Activities Configurator - uploaded for review
 
+2016-07-01 Activities Configurator - Version 46 passed review GS 3.16 3.18 3.20
 
-zip file: Wed Jun 29 12:45:54 EDT 2016 53d4153a583aa90af01697bad1ec3234dfd892f9
+2016-07-20 Activities Configurator - Added user requested option to move Activities
+           Icon Button to the right corner of the Panel.  The Hot Corner is not a part
+           of the button and it remains in the left corner.  When the option to move
+           to the right is selected the Conflict Detection option is not available.
+
+2016-07-20 Activities Configurator - uploaded for review
+
+zip file: Tue Jul 19 16:05:21 EDT 2016 395da570026067d5180788a6eb4a13b728cc15d6
 
 ...
