@@ -129,10 +129,13 @@ const ActivitiesIconButton = new Lang.Class({
                     Main.overview.toggle();
             }
         } else if (event.type() == Clutter.EventType.BUTTON_RELEASE) {
-            if (event.get_button() == 3)
+            if (event.get_button() == 3) {
+                if (Main.overview.visible)
+                    Main.overview.toggle();
                 Main.Util.trySpawnCommandLine(this._prefsCommand);
-            else
+            } else {
                 Main.overview.toggle();
+            }
         }
         return Clutter.EVENT_PROPAGATE;
     },
@@ -211,8 +214,25 @@ const Configurator = new Lang.Class({
         this._hideTimeoutId = 0;
         this._hideCount = 0;
         this._themeTimeoutId = 0;
-        this._showOverviewAtLogin = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
+        this._showOverviewNoAppsRunning = false;
         this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
+        this._appSystem = Shell.AppSystem.get_default();
+        this._appStateChangedSigId = null;
+    },
+
+    _appStateChanged: function(appSystem, app) {
+        if (app.state == Shell.AppState.STOPPED) {
+            this._appTimeoutId = Mainloop.timeout_add(500, Lang.bind(this, function() {
+                if (this._appTimeoutId != 0) {
+                    Mainloop.source_remove(this._appTimeoutId);
+                    this._appTimeoutId = 0;
+                }
+                let apps = this._appSystem.get_running();
+                if (apps.length == 0) {
+                    this._showOverview();
+                }
+            }));
+        }
     },
 
     _disconnectGlobalSignals: function() {
@@ -383,7 +403,15 @@ const Configurator = new Lang.Class({
     },
 
     _setShowOver: function() {
-        this._showOverviewAtLogin = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
+        this._showOverviewNoAppsRunning = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
+        if (this._showOverviewNoAppsRunning) {
+            if (this._appStateChangedSigId == null) {
+                this._appStateChangedSigId = this._appSystem.connect('app-state-changed', Lang.bind(this, this._appStateChanged));
+            }
+        } else if (this._appStateChangedSigId > 0) {
+            this._appSystem.disconnect(this._appStateChangedSigId);
+            this._appStateChangedSigId = null;
+        }
     },
 
     _setOverrideTheme: function() {
@@ -436,6 +464,10 @@ const Configurator = new Lang.Class({
         if (this._themeContextSig > 0) {
             this._themeContext.disconnect(this._themeContextSig);
             this._themeContextSig = null;
+        }
+        if (this._appStateChangedSigId > 0) {
+            this._appSystem.disconnect(this._appStateChangedSigId);
+            this._appStateChangedSigId = null;
         }
     },
 
@@ -856,9 +888,10 @@ const Configurator = new Lang.Class({
         this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
-        this._enabled = true;
-        if ((Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') && this._showOverviewAtLogin)
+        this._setShowOver();
+        if ((Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') && this._showOverviewNoAppsRunning)
             this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._showOverview));
+        this._enabled = true;
         log('Activities Configurator Enabled');
     },
 

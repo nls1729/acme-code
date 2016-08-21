@@ -133,8 +133,8 @@
     </key>
     <key type="b" name="show-overview">
       <default>false</default>
-      <summary>On login show Overview.</summary>
-      <description>If true extension displays overview after login.</description>
+      <summary>Show Overview when no application is running.</summary>
+      <description>If true extension displays overview when no applcation is running.</description>
     </key>
     <key type="b" name="position-right">
       <default>false</default>

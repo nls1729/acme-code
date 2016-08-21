@@ -143,8 +143,8 @@ msgid "Override Shell Theme"
 msgstr "Überschreiben Shell-Thema"
 
 #: prefs.js:49
-msgid "Show Overview after Login"
-msgstr "Zeigen Sie Überblick nach Anmeldung"
+msgid "Show Overview If No Applications Are Running"
+msgstr "Zeigen Übersicht Wenn keine Anwendungen ausgeführt werden"
 
 #: prefs.js:50
 msgid "Move Activities to the Right"

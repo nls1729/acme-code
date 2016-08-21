@@ -4,4 +4,5 @@ CHECKSUM
 gschemas.compiled
 *.zip
 *.mo
-po/*.pot
+*/po/*.pot
+*/po/*.txt

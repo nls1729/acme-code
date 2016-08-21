@@ -294,6 +294,12 @@ https://nls1729.github.io
 
 2016-07-20 Activities Configurator - Version 47 passed review GS 3.16 3.18 3.20
 
-zip file: Wed Jul 20 09:16:05 EDT 2016 e551fb99bf8928303bbcf90c615387b60907fb51
+2016-08-21 Activities Configurator - GS 3.16 3.18 3.20
+           User requested to expand option of displaying the Activities Overview after
+           login to include display the overview when no applications are running.
+           The option now displays the overview after login and any time closing
+           an application results in no running applications.
+
+zip file: Sat Aug 20 16:24:19 EDT 2016 c802c86d09a973347c81239f56a5c2abf1963994
 
 ...

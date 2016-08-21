@@ -46,7 +46,7 @@ const SHW_VERT  = _("Vertical Length");
 const SHW_BLUR  = _("Blur Radius");
 const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
-const SHOW_OVER = _("Show Overview after Login");
+const SHOW_OVER = _("Show Overview If No Applications Are Running");
 const POSITION  = _("Move Activities to the Right");
 const COMMIT = "Commit: 395da570026067d5180788a6eb4a13b728cc15d6";
 
@@ -198,7 +198,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         shellThemeNameBox.pack_start(this._shellThemeName, false, false, 0);
         this._grid.attach(shellThemeNameBox, 1, 12, 6, 1);
 
-        // Show Overview after Login
+        // Show Overview if no applications are running
         this._showOverview = new Gtk.Switch({active: this._settings.get_boolean(Keys.SHOW_OVERVIEW)});
         this._showOverview.connect('notify::active', Lang.bind(this, this._setShowOverview));
         let showOverviewBox = new Gtk.Box;
@@ -293,7 +293,6 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         // Position Right
         this._positionRight = new Gtk.Switch({active: this._settings.get_boolean(Keys.BTN_POSITION)});
         this._positionRight.connect('notify::active', Lang.bind(this, this._setPositionRight));
-        this._setPositionRight(this._positionRight);
         let positionRightBox = new Gtk.Box;
         positionRightBox.pack_start(this._positionRight, false, false, 0);
         this._grid.attach(positionRightBox, 0, 30, 1, 1);
