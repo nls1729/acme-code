@@ -300,6 +300,15 @@ https://nls1729.github.io
            The option now displays the overview after login and any time closing
            an application results in no running applications.
 
+2016-08-23 Activities Configurator - GS 3.16 3.18 3.20
+           Corrected false overview displays when running with Wayland.  Added
+           time window to prevent check for no running apps if an app had been
+           started in the past 2 seconds.  Problem occured only on some apps and
+           only if starting first app from overview.
+
+2016-08-23 Activities Configurator - uploaded for review
+
+
 zip file: Sun Aug 21 08:59:59 EDT 2016 5b349de6a63b206ef35ffba526726ef0267ff1c2
 
 ...
