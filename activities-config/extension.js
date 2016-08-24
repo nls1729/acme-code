@@ -221,16 +221,14 @@ const Configurator = new Lang.Class({
     },
 
     _appStateChanged: function(appSystem, app) {
-
-        // The time computations and are required for Wayland.  
-        if (app.state == Shell.AppState.RUNNING) {
+        if (app.state == Shell.AppState.RUNNING) || Shell.AppState.STARTING) {
             this._time = Date.now() / 1000;
         }
         if (app.state == Shell.AppState.STOPPED) {
             this._time2 = Date.now() / 1000;
             if ((this._time2 - this._time) < 2.0)
                 return;
-            this._appTimeoutId = Mainloop.timeout_add(500, Lang.bind(this, function() {
+            this._appTimeoutId = Mainloop.timeout_add(1000, Lang.bind(this, function() {
                 if (this._appTimeoutId != 0) {
                     Mainloop.source_remove(this._appTimeoutId);
                     this._appTimeoutId = 0;

@@ -306,9 +306,12 @@ https://nls1729.github.io
            started in the past 2 seconds.  Problem occured only on some apps and
            only if starting first app from overview.
 
-2016-08-23 Activities Configurator - uploaded for review
+2016-08-24 Activities Configurator - GS 3.16 3.18 3.20
+           Added STARTING to time window to prevent cases of false overview display.
+
+2016-08-24 Uploaded for review.
 
 
-zip file: Sun Aug 21 08:59:59 EDT 2016 5b349de6a63b206ef35ffba526726ef0267ff1c2
+zip file: Tue Aug 23 17:44:54 EDT 2016 5fa01480b1b787d6ac834a78d3f127ffe7e59c1e
 
 ...
