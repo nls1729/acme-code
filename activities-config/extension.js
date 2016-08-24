@@ -221,7 +221,7 @@ const Configurator = new Lang.Class({
     },
 
     _appStateChanged: function(appSystem, app) {
-        if (app.state == Shell.AppState.RUNNING) || Shell.AppState.STARTING) {
+        if (app.state == Shell.AppState.RUNNING || Shell.AppState.STARTING) {
             this._time = Date.now() / 1000;
         }
         if (app.state == Shell.AppState.STOPPED) {
