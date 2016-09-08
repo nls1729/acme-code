@@ -311,7 +311,15 @@ https://nls1729.github.io
 2016-08-24 Activities Configurator - found bug when running under Wayland
            I rejected version 48 before review.
 
+2016-09-08 Changed overview show/no show logic to depend on:
+           1.  Current state of overview.
+           2.  No windows active.
+           3.  App state change of STARTING or RUNNING.
+           Removed time window hack.
+           Tested running under Wayland and X11 for GS 3.21.90 and 3.21.91.
+           Problems with Wayland appear to be solved.
 
-zip file: Wed Aug 24 07:11:17 EDT 2016 ed9f3a47dc89889109b534a74e29147689731648
+
+zip file: Thu Aug 25 14:47:55 EDT 2016 c1c879bceb6e378654b4b10e9710aaa12fbee6ac
 
 ...

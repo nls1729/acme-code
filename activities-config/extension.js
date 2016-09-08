@@ -221,23 +221,12 @@ const Configurator = new Lang.Class({
     },
 
     _appStateChanged: function(appSystem, app) {
-        if (app.state == Shell.AppState.RUNNING || Shell.AppState.STARTING) {
-            this._time = Date.now() / 1000;
-        }
         if (app.state == Shell.AppState.STOPPED) {
-            this._time2 = Date.now() / 1000;
-            if ((this._time2 - this._time) < 2.0)
-                return;
-            this._appTimeoutId = Mainloop.timeout_add(1000, Lang.bind(this, function() {
-                if (this._appTimeoutId != 0) {
-                    Mainloop.source_remove(this._appTimeoutId);
-                    this._appTimeoutId = 0;
-                }
-                let apps = this._appSystem.get_running();
-                if (apps.length == 0) {
-                    this._showOverview();
-                }
-            }));
+            let windows = global.get_window_actors().filter(function(w) { return !w.metaWindow.is_skip_taskbar(); });
+            if (windows.length == 0)
+                this._showOverview();
+        } else if ((app.state == Shell.AppState.STARTING || app.state == Shell.AppState.RUNNING) && Main.overview.visible == true) {
+            Main.overview.toggle();
         }
     },
 
@@ -840,7 +829,8 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        Main.overview.toggle();
+        if (!Main.overview.visible)
+            Main.overview.toggle();
     },
 
     _delayedEnable: function() {
