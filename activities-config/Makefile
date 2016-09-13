@@ -47,6 +47,9 @@ zip-file: _build
 	zip -qr "$(UUID).zip" .; \
 	mv $(UUID).zip .. ; \
 	cd .. ;
+	for file in $(MODULES); do \
+		touch $$file; \
+	done;
 	sha256sum "$(UUID).zip"  > CHECKSUM
 	rm -rf _build
 clean:

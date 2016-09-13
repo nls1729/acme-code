@@ -311,7 +311,7 @@ https://nls1729.github.io
 2016-08-24 Activities Configurator - found bug when running under Wayland
            I rejected version 48 before review.
 
-2016-09-08 Changed overview show/no show logic to depend on:
+2016-09-10 Changed overview show/no show logic to depend on:
            1.  Current state of overview.
            2.  No windows active.
            3.  App state change of STARTING or RUNNING.
@@ -320,6 +320,6 @@ https://nls1729.github.io
            Problems with Wayland appear to be solved.
 
 
-zip file: Thu Aug 25 14:47:55 EDT 2016 c1c879bceb6e378654b4b10e9710aaa12fbee6ac
+zip file: Tue Sep 13 10:36:14 EDT 2016 cb8f5664a2908e5c0927d89ed49f3504fbd9f9ea
 
 ...
