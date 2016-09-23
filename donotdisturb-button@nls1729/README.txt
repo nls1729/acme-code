@@ -19,4 +19,6 @@ Corrected error in README.txt updated metadata.json
 
 Uploaded to ego website 2015-09-26.
 
+Uploaded version 6 to ego website 2016-09-23.
+
 zip file: xxx
