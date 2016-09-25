@@ -325,6 +325,6 @@ https://nls1729.github.io
 2016-09-25 Activities Configurator - Version 50 auto review
            GS 3.16 3.18 3.20 3.22 3.21.90 3.21.91 3.21.92
 
-zip file: Tue Sep 13 11:04:09 EDT 2016 0923b6334a3ec955e5e043181149d9cff5000768
+zip file: Sun Sep 25 12:13:14 EDT 2016 aa86a17e787a52a3e97f7095371e9225dce15d42
 
 ...
