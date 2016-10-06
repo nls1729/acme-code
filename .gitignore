@@ -6,3 +6,4 @@ gschemas.compiled
 *.mo
 */po/*.pot
 */po/*.txt
+*.gz

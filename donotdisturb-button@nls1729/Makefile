@@ -5,32 +5,72 @@
 # created and the current git commit.  VERSION should be set to the
 # current extension version.
 
+.ONESHELL:
+
 UUID = donotdisturb-button@nls1729
-MODULES = README.txt COPYING extension.js metadata.json
+MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png available-no.png
+POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date +"%F %H:%M:%S")
-EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
+EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 
-all: $(MODULES)
-	-rm -fR _build
+all: extension
+
+extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
+
+./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.donotdisturb-button.gschema.xml
+	glib-compile-schemas ./schemas/
+
+./po/%.mo: ./po/%.po
+	msgfmt -c $< -o $@
+
+_build: all
+	rm -rf ./_build
 	mkdir -p _build
 	cp $(MODULES) _build
-	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json;
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt;
+	mkdir -p _build/schemas
+	cp schemas/*.xml _build/schemas/
+	cp schemas/gschemas.compiled _build/schemas/
+	mkdir -p _build/locale
+	for langmo in $(POFILES:.po=.mo) ; do \
+		langdir=_build/locale/`basename $$langmo .mo`; \
+		mkdir -p $$langdir; \
+		mkdir -p $$langdir/LC_MESSAGES; \
+		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
+	done;
+	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
+	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
+	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  _build/prefs.js; \
+
+zip-file: _build
+	rm -f ./*.zip
 	cd _build ; \
-	zip -qr "$(UUID).zip" .
-	mv _build/$(UUID).zip ./
-	-rm -fR _build
+	for file in $(MODULES); do \
+		touch $$file; \
+	done;
+	zip -qr "$(UUID).zip" .; \
+	mv $(UUID).zip .. ; \
+	cd .. ;
+	for file in $(MODULES); do \
+		cp -f _build/$$file .; \
+	done;
+	sha256sum "$(UUID).zip"  > CHECKSUM
+	rm -rf ./_build
+
+clean:
+	rm -f ./schemas/gschemas.compiled
+	rm -f ./po/*.mo
+	rm -f ./*.zip
+	rm -f ./.~
+	rm -f ./*~
+	rm -rf _build
 
 install:
 	rm -rf $(EXTENSIONS_DIR)/$(UUID)
 	mkdir -p $(EXTENSIONS_DIR)/$(UUID)
-	cp -r ./_build/* $(EXTENSIONS_DIR)/$(UUID)/
-	-rm -fR _build
+	cp -f "$(UUID).zip" $(EXTENSIONS_DIR)/$(UUID)
+	cd $(EXTENSIONS_DIR)/$(UUID); \
+	unzip "$(UUID).zip"; \
 	echo done
 
-clean:
-	-rm -fR _build
-	rm -f ./.~
-	rm -f ./*~

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="nls1729-extensions">
+  <schema path="/org/gnome/shell/extensions/donotdisturb-button/" id="org.gnome.shell.extensions.donotdisturb-button">
+    <key type="as" name="shortcut">
+      <default><![CDATA[[]]]></default>
+      <summary>Toggle shortcut.</summary>
+      <description>The keyboard shortcut to toggle the do not disturb button state.</description>
+    </key>
+  </schema>
+</schemalist>

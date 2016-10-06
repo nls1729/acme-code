@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 Norman L. Smith
+  Copyright (c) 2015-2016 Norman L. Smith
 
   This file is part of the Do Not Disturb Extension donotdisturb-button@nls1729.
 
@@ -16,19 +16,26 @@
   This extension is a derived work of the Gnome Shell.
 */
 
+const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 const Clutter = imports.gi.Clutter;
+const Meta = imports.gi.Meta;
+const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+const SHORTCUT = 'shortcut';
+
 
 const DoNotDisturbButton = new Lang.Class({
     Name:'DoNotDisturbButton',
     Extends:PanelMenu.Button,
 
-    _init: function() {
+    _init: function(settings) {
         this.parent(0.5, null, true);
+        this._settings = settings;
         this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic', style_class: 'system-status-icon'});
         this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic', style_class: 'system-status-icon'});
         this._layoutBox = new St.BoxLayout();
@@ -39,15 +46,16 @@ const DoNotDisturbButton = new Lang.Class({
         this._btnReleaseSig = this.actor.connect_after('button-release-event', Lang.bind(this, this._onButtonRelease));
         this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));      
         this._presence = new GnomeSession.Presence(Lang.bind(this, function(proxy, error) {
-            if (error) {
-                Main.notifyError('Do Not Disturb Extension','Error reading gnome-session presence');
-                return;
-            }
             this._onStatusChanged(proxy.status);          
         }));
-        this._StatusChangedSig = this._presence.connectSignal('StatusChanged', Lang.bind(this, function(proxy, senderName, [status]) {
+        this._statusChangedSig = this._presence.connectSignal('StatusChanged', Lang.bind(this, function(proxy, senderName, [status]) {
             this._onStatusChanged(status);
         }));
+        this._changedSettingsSig = this._settings.connect("changed::shortcut", Lang.bind(this, function() {
+            this._removeKeybinding();
+            this._addKeybinding();
+        }));
+        this._addKeybinding();
     },
 
     _onStatusChanged: function(status) {
@@ -89,11 +97,21 @@ const DoNotDisturbButton = new Lang.Class({
         let status = state ? GnomeSession.PresenceStatus.AVAILABLE : GnomeSession.PresenceStatus.BUSY;
         this._presence.SetStatusRemote(status);
     },
+
+    _removeKeybinding: function() {
+        Main.wm.removeKeybinding(SHORTCUT);
+    },
+
+    _addKeybinding: function() {
+        Main.wm.addKeybinding(SHORTCUT, this._settings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, Lang.bind(this, this._togglePresence));
+    },
    
     destroy: function() {
+        this._removeKeybinding();
         this.actor.disconnect(this._btnReleaseSig);
         this.actor.disconnect(this._keyReleaseSig);
-        this._presence.disconnectSignal(this._StatusChangedSig);
+        this._presence.disconnectSignal(this._statusChangedSig);
+        this._settings.disconnect(this._changedSettingsSig);
         this.actor.get_children().forEach(function(c) { c.destroy(); });
         this.parent();
     }
@@ -105,6 +123,12 @@ const DoNotDisturbExtension = new Lang.Class({
 
     _init: function() {
         this._btn = null;
+        let GioSSS = Gio.SettingsSchemaSource;
+        let schema = Me.metadata['settings-schema'];
+        let schemaDir = Me.dir.get_child('schemas').get_path();
+        let schemaSrc = GioSSS.new_from_directory(schemaDir, GioSSS.get_default(), false);
+        let schemaObj = schemaSrc.lookup(schema, true);
+        this._settings = new Gio.Settings({ settings_schema: schemaObj });
     },
 
     destroy: function() {
@@ -115,7 +139,7 @@ const DoNotDisturbExtension = new Lang.Class({
     },
 
     enable: function() {
-        this._btn = new DoNotDisturbButton();
+        this._btn = new DoNotDisturbButton(this._settings);
         Main.panel.addToStatusArea('DoNotDistrub', this._btn, 0, 'right');
     },
 
