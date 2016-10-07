@@ -25,7 +25,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: 3985f147821d39767016d5b9ed420ac4bac339fb";
+const COMMIT = "Commit: 29fb92196aa6edeedbf1ad277ed176012f2fb37b";
 const SHORTCUT = 'shortcut';
 
 function init() {
@@ -49,10 +49,10 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let yesImage = new Gtk.Image({ file: Me.path + '/available-yes.png'});
         let noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
         let help = _("To edit shortcut, click the row and hold down the new keys or press Backspace to clear.");
-        let shell_version = Me.metadata["shell-version"].toString();
+        let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString();
         version = version  + ' GS '  + shell_version + ']';
-        this._linkBtn = new Gtk.LinkButton({uri: "https://nls1729.github.io/donotdisturb_button.html", label: "Website"});
+        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: 'Website'});
         this._grid = new Gtk.Grid();
         this._grid.margin = 10;
         this._grid.row_spacing = 30;
@@ -64,14 +64,14 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._grid.attach(this._linkBtn, 1, 6, 1, 1);
         this._grid.attach(yesImage, 0, 6, 1, 1);
         this._grid.attach(noImage, 2, 6, 1, 1);
-        this._columns = {Name: 0, Accel: 1, Mods: 2, Key: 3};
+        this._columns = {Name: 0, Mods: 1, Key: 2};
         this._listStore = new Gtk.ListStore();
-        this._listStore.set_column_types([GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_INT]);
+        this._listStore.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_INT]);
         this._treeView = new Gtk.TreeView({model: this._listStore, hexpand: true, vexpand: false});
         this._treeView.set_grid_lines(Gtk.TreeViewGridLines.VERTICAL);
         this._treeView.get_selection().set_mode(Gtk.SelectionMode.SINGLE);
-
-        let keyBindingRenderer = new Gtk.CellRendererAccel({'editable': true, 'accel-mode': Gtk.CellRendererAccelMode.GTK});
+        let keyBindingRenderer = new Gtk.CellRendererAccel({'editable': true,
+                                                            'accel-mode': Gtk.CellRendererAccelMode.GTK});
         keyBindingRenderer.connect('accel-edited', Lang.bind(this, function(renderer, iter, key, mods) {
             let value = Gtk.accelerator_name(key, mods);
             let [success, iterator ] = this._listStore.get_iter_from_string(iter);
@@ -99,14 +99,16 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
             [key, mods] = Gtk.accelerator_parse(this._settings.get_strv(SHORTCUT)[0]);
         }
         let iter = this._listStore.append();
-        let arg0 = [this._columns.Name, this._columns.Accel, this._columns.Mods, this._columns.Key];
+        let arg0 = [this._columns.Name, this._columns.Mods, this._columns.Key];
         let arg1 = [SHORTCUT, mods, key];
         this._listStore.set(iter, arg0, arg1);
         this.add(this._grid);
     },
 
     _complete: function(widget) {
-        let scrollingWindow = new Gtk.ScrolledWindow({ 'hscrollbar-policy': Gtk.PolicyType.AUTOMATIC, 'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC, 'hexpand': true, 'vexpand': true });
+        let scrollingWindow = new Gtk.ScrolledWindow({ 'hscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
+                                                       'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
+                                                       'hexpand': true, 'vexpand': true });
         scrollingWindow.add_with_viewport(widget);
         scrollingWindow.show_all();
         this._treeView.get_selection().unselect_all();
