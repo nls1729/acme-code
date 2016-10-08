@@ -27,9 +27,7 @@ const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const SHORTCUT = 'shortcut';
-const ICON_PATH3 = Me.path + '/busy-not-empty.png';
-const ICON_PATH2 = Me.path + '/busy-yes.svg';
-const ICON_PATH1 = Me.path + '/busy-no.svg';
+
 
 const DoNotDisturbButton = new Lang.Class({
     Name:'DoNotDisturbButton',
@@ -38,19 +36,13 @@ const DoNotDisturbButton = new Lang.Class({
     _init: function(settings) {
         this.parent(0.5, null, true);
         this._settings = settings;
-        //this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic', style_class: 'large-system-status-icon'});
-        //this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic', style_class: 'large-system-status-icon'});
-        //this._iconNotEmpty = new St.Icon({icon_name: 'user-offline-symbolic', style_class: 'large-system-status-icon'});
-        this._iconNotEmpty = new St.Icon({gicon: Gio.icon_new_for_string(ICON_PATH3), style_class: 'large-system-status-icon'});
-        this._iconBusy = new St.Icon({gicon: Gio.icon_new_for_string(ICON_PATH2), style_class: 'large-system-status-icon'});
-        this._iconAvailable = new St.Icon({gicon: Gio.icon_new_for_string(ICON_PATH1), style_class: 'large-system-status-icon'});
+        this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic', style_class: 'system-status-icon'});
+        this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic', style_class: 'system-status-icon'});
         this._layoutBox = new St.BoxLayout();
         this._layoutBox.add_actor(this._iconAvailable);
         this._layoutBox.add_actor(this._iconBusy);
-        this._layoutBox.add_actor(this._iconNotEmpty);
         this.actor.add_actor(this._layoutBox);
         this._toggle = true;
-        this._status = null;
         this._btnReleaseSig = this.actor.connect_after('button-release-event', Lang.bind(this, this._onButtonRelease));
         this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));      
         this._presence = new GnomeSession.Presence(Lang.bind(this, function(proxy, error) {
@@ -63,35 +55,17 @@ const DoNotDisturbButton = new Lang.Class({
             this._removeKeybinding();
             this._addKeybinding();
         }));
-        this._sourceRemovedSig = Main.messageTray.connect('source-removed', Lang.bind(this, function() {
-            if (this._status == GnomeSession.PresenceStatus.BUSY && Main.messageTray.queueCount == 1) {
-                this._iconBusy.show();
-                this._iconNotEmpty.hide();
-            }            
-        }));
-        this._sourceAddedSig = Main.messageTray.connect('source-added', Lang.bind(this, function() {
-            if (this._status == GnomeSession.PresenceStatus.BUSY && Main.messageTray.queueCount == 0) {
-                this._iconBusy.hide();
-                this._iconNotEmpty.show();
-            }
-        }));
         this._addKeybinding();
     },
 
     _onStatusChanged: function(status) {
-        this._iconAvailable.hide();
-        this._iconBusy.hide();
-        this._iconNotEmpty.hide()
-        this._status = status;
         if (status == GnomeSession.PresenceStatus.BUSY) {
             this._toggle = false;
-            if (Main.messageTray.queueCount > 0) {
-                this._iconNotEmpty.show();
-            } else {
-                this._iconBusy.show();
-            }
+            this._iconAvailable.hide();
+            this._iconBusy.show();
         } else {
             this._toggle = true;
+            this._iconBusy.hide();
             this._iconAvailable.show();
         }
     },
@@ -138,8 +112,6 @@ const DoNotDisturbButton = new Lang.Class({
         this.actor.disconnect(this._keyReleaseSig);
         this._presence.disconnectSignal(this._statusChangedSig);
         this._settings.disconnect(this._changedSettingsSig);
-        Main.messageTray.disconnect(this._sourceAddedSig);
-        Main.messageTray.disconnect(this._sourceRemovedSig);
         this.actor.get_children().forEach(function(c) { c.destroy(); });
         this.parent();
     }

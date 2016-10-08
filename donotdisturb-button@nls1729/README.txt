@@ -24,4 +24,4 @@ Uploaded version 6 to ego website 2016-09-23.
 Added preferences to allow assigning keyboard shortcut to toggle button.
 Uploaded version 7 to ego website 2016-10-07.
 
-zip file: 2016-10-07 18:02:36 f4fe165d3c5a75da978de6c8865ba23f8bee503b
+zip file: 2016-10-07 07:16:38 29fb92196aa6edeedbf1ad277ed176012f2fb37b
