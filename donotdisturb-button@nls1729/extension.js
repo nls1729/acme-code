@@ -25,9 +25,9 @@ const St = imports.gi.St;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
+const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const SHORTCUT = 'shortcut';
-
 
 const DoNotDisturbButton = new Lang.Class({
     Name:'DoNotDisturbButton',
@@ -36,13 +36,16 @@ const DoNotDisturbButton = new Lang.Class({
     _init: function(settings) {
         this.parent(0.5, null, true);
         this._settings = settings;
-        this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic', style_class: 'system-status-icon'});
-        this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic', style_class: 'system-status-icon'});
+        this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic', style_class: 'large-system-status-icon'});
+        this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic', style_class: 'large-system-status-icon'});
+        this._notEmptyCount = new St.Label({ text: '', y_align: Clutter.ActorAlign.CENTER });
         this._layoutBox = new St.BoxLayout();
         this._layoutBox.add_actor(this._iconAvailable);
         this._layoutBox.add_actor(this._iconBusy);
+        this._layoutBox.add_actor(this._notEmptyCount);
         this.actor.add_actor(this._layoutBox);
         this._toggle = true;
+        this._status = null;
         this._btnReleaseSig = this.actor.connect_after('button-release-event', Lang.bind(this, this._onButtonRelease));
         this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));      
         this._presence = new GnomeSession.Presence(Lang.bind(this, function(proxy, error) {
@@ -55,17 +58,29 @@ const DoNotDisturbButton = new Lang.Class({
             this._removeKeybinding();
             this._addKeybinding();
         }));
+        this._list = Main.panel.statusArea.dateMenu._messageList._notificationSection._list;
+        this._listActorAddedSig = this._list.connect('actor-added', Lang.bind(this, this._setNotEmptyCount));
+        this._listActorRemovedSig = this._list.connect('actor-removed', Lang.bind(this, this._setNotEmptyCount));
         this._addKeybinding();
     },
 
+    _setNotEmptyCount: function() {
+        let count = this._list.get_n_children();
+        if (count < 1)
+            this._notEmptyCount.set_text('');
+        else
+            this._notEmptyCount.set_text(count.toString());
+    },
+
     _onStatusChanged: function(status) {
+        this._iconAvailable.hide();
+        this._iconBusy.hide();
+        this._status = status;
         if (status == GnomeSession.PresenceStatus.BUSY) {
             this._toggle = false;
-            this._iconAvailable.hide();
             this._iconBusy.show();
         } else {
             this._toggle = true;
-            this._iconBusy.hide();
             this._iconAvailable.show();
         }
     },
@@ -110,8 +125,9 @@ const DoNotDisturbButton = new Lang.Class({
         this._removeKeybinding();
         this.actor.disconnect(this._btnReleaseSig);
         this.actor.disconnect(this._keyReleaseSig);
-        this._presence.disconnectSignal(this._statusChangedSig);
         this._settings.disconnect(this._changedSettingsSig);
+        this._list.disconnect(this._listActorAddedSig);
+        this._list.disconnect(this._listActorRemovedSig);
         this.actor.get_children().forEach(function(c) { c.destroy(); });
         this.parent();
     }
@@ -123,6 +139,7 @@ const DoNotDisturbExtension = new Lang.Class({
 
     _init: function() {
         this._btn = null;
+        this._timeoutId = 0;
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
         let schemaDir = Me.dir.get_child('schemas').get_path();
@@ -138,12 +155,42 @@ const DoNotDisturbExtension = new Lang.Class({
         }
     },
 
+    _getPosition: function() {
+        let position = [[0, 'center'], [-1, 'left'], [0, 'right']];
+        let box = [Main.panel._centerBox, Main.panel._leftBox, Main.panel._rightBox];
+        let dateMenu = Main.panel.statusArea['dateMenu'];
+        for (let index = 0; index < 3; index += 1) {
+            let children = box[index].get_children();
+            if (children.indexOf(dateMenu.container) != -1) {
+                return position[index];
+            }
+        }
+    },
+
+    _delayedEnable: function() {
+        if (this._timeoutId != 0) {
+            Mainloop.source_remove(this._timeoutId);
+            this._timeoutId = 0;
+        }
+        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
+            this._btn = new DoNotDisturbButton(this._settings);
+            let position = this._getPosition();
+            Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
+            this._btn._setNotEmptyCount();
+        }
+    },
+
     enable: function() {
-        this._btn = new DoNotDisturbButton(this._settings);
-        Main.panel.addToStatusArea('DoNotDistrub', this._btn, 0, 'right');
+        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
+            this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._delayedEnable));
+        }
     },
 
     disable: function() {
+        if (this._timeoutId != 0) {
+            Mainloop.source_remove(this._timeoutId);
+            this._timeoutId = 0;
+        }
         if (this._btn != null) {
             this._btn.destroy();
             this._btn = null;

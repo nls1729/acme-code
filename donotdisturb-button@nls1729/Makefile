@@ -8,12 +8,13 @@
 .ONESHELL:
 
 UUID = donotdisturb-button@nls1729
-MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png available-no.png
+MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png available-no.png stylesheet.css
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
+TOUCH = $(shell find . -type f)
 
 all: extension
 
@@ -46,15 +47,9 @@ _build: all
 zip-file: _build
 	rm -f ./*.zip
 	cd _build ; \
-	for file in $(MODULES); do \
-		touch $$file; \
-	done;
 	zip -qr "$(UUID).zip" .; \
 	mv $(UUID).zip .. ; \
 	cd .. ;
-	for file in $(MODULES); do \
-		cp -f _build/$$file .; \
-	done;
 	sha256sum "$(UUID).zip"  > CHECKSUM
 	rm -rf ./_build
 
@@ -65,6 +60,11 @@ clean:
 	rm -f ./.~
 	rm -f ./*~
 	rm -rf _build
+
+touch:
+	for file in $(TOUCH); do \
+		touch $$file; \
+	done;
 
 install:
 	rm -rf $(EXTENSIONS_DIR)/$(UUID)
