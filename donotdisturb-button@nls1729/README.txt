@@ -24,4 +24,7 @@ Uploaded version 6 to ego website 2016-09-23.
 Added preferences to allow assigning keyboard shortcut to toggle button.
 Uploaded version 7 to ego website 2016-10-07.
 
-zip file: 2016-10-08 11:55:16 5276a14caa504b9e0c6a631a05b507ea7f70ca2e
+Added notification count.  Changed to find location of clock and locate
+button next to clock. Uploaded version 8 to ego website 2016-10-23.
+
+zip file: 2016-10-23 12:42:09 bf943a9d94418b9f6270df312ddf3d08923dde0e

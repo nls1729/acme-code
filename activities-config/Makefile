@@ -47,11 +47,14 @@ zip-file: _build
 	zip -qr "$(UUID).zip" .; \
 	mv $(UUID).zip .. ; \
 	cd .. ;
+	sha256sum "$(UUID).zip"  > CHECKSUM
+	rm -rf _build
+
+touch:
 	for file in $(MODULES); do \
 		touch $$file; \
 	done;
-	sha256sum "$(UUID).zip"  > CHECKSUM
-	rm -rf _build
+
 clean:
 	rm -f ./schemas/gschemas.compiled
 	rm -f ./po/*.mo

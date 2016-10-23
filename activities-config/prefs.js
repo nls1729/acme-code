@@ -91,7 +91,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         this._grid.attach(new Gtk.Label({ label: _(SHW_BLUR) , wrap: true, xalign: 0.0 }), 1, 24, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(SHW_SPRED), wrap: true, xalign: 0.0 }), 1, 25, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 1, 26, 1, 1);
-        this._grid.attach(new Gtk.Label({ label: _(POSITION),  wrap: true, xalign: 0.0 }), 1, 30, 1, 1);
+        this._grid.attach(new Gtk.Label({ label: _(POSITION),  wrap: true, xalign: 0.0 }), 1, 30, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 35, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 37, 5, 1);
         this._grid.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 39, 5, 1);

@@ -5,15 +5,12 @@
   "gettext-domain": "nls1729-extensions",
   "settings-schema": "org.gnome.shell.extensions.donotdisturb-button", 
   "shell-version": [
-    "3.16", 
+    "3.16",
     "3.18", 
     "3.20", 
-    "3.22", 
-    "3.21.90", 
-    "3.21.91", 
-    "3.21.92"
+    "3.22"
   ], 
   "url": "https://nls1729.github.io/donotdisturb_button.html", 
   "uuid": "donotdisturb-button@nls1729", 
-  "version": 6
+  "version": 8
 }

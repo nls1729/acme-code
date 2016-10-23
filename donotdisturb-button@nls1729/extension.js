@@ -30,8 +30,8 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const SHORTCUT = 'shortcut';
 
 const DoNotDisturbButton = new Lang.Class({
-    Name:'DoNotDisturbButton',
-    Extends:PanelMenu.Button,
+    Name: 'DoNotDisturbButton',
+    Extends: PanelMenu.Button,
 
     _init: function(settings) {
         this.parent(0.5, null, true);
@@ -47,9 +47,9 @@ const DoNotDisturbButton = new Lang.Class({
         this._toggle = true;
         this._status = null;
         this._btnReleaseSig = this.actor.connect_after('button-release-event', Lang.bind(this, this._onButtonRelease));
-        this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));      
+        this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));
         this._presence = new GnomeSession.Presence(Lang.bind(this, function(proxy, error) {
-            this._onStatusChanged(proxy.status);          
+            this._onStatusChanged(proxy.status);
         }));
         this._statusChangedSig = this._presence.connectSignal('StatusChanged', Lang.bind(this, function(proxy, senderName, [status]) {
             this._onStatusChanged(status);
@@ -85,7 +85,7 @@ const DoNotDisturbButton = new Lang.Class({
         }
     },
 
-    _onButtonRelease:function(actor, event) {
+    _onButtonRelease: function(actor, event) {
         this._togglePresence();
         return Clutter.EVENT_STOP;
     },
@@ -101,9 +101,9 @@ const DoNotDisturbButton = new Lang.Class({
 
     _togglePresence: function() {
         if (this._toggle) {
-            this._updatePresense(false);  
+            this._updatePresense(false);
         } else {
-            this._updatePresense(true); 
+            this._updatePresense(true);
         }
         this._toggle = !this._toggle;
     },
@@ -120,7 +120,7 @@ const DoNotDisturbButton = new Lang.Class({
     _addKeybinding: function() {
         Main.wm.addKeybinding(SHORTCUT, this._settings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, Lang.bind(this, this._togglePresence));
     },
-   
+
     destroy: function() {
         this._removeKeybinding();
         this.actor.disconnect(this._btnReleaseSig);
@@ -135,7 +135,7 @@ const DoNotDisturbButton = new Lang.Class({
 });
 
 const DoNotDisturbExtension = new Lang.Class({
-    Name:'DoNotDisturbExtension',
+    Name: 'DoNotDisturbExtension',
 
     _init: function() {
         this._btn = null;
@@ -165,6 +165,7 @@ const DoNotDisturbExtension = new Lang.Class({
                 return position[index];
             }
         }
+        return(position[0]);
     },
 
     _delayedEnable: function() {

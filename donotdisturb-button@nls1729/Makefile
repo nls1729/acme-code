@@ -43,6 +43,9 @@ _build: all
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
 	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  _build/prefs.js; \
+	cp -f _build/metadata.json . ; \
+	cp -f _build/README.txt . ; \
+	cp -f _build/prefs.js . ;
 
 zip-file: _build
 	rm -f ./*.zip

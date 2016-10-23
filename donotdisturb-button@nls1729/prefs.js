@@ -25,7 +25,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: f4fe165d3c5a75da978de6c8865ba23f8bee503b";
+const COMMIT = "Commit: bf943a9d94418b9f6270df312ddf3d08923dde0e";
 const SHORTCUT = 'shortcut';
 
 function init() {
@@ -51,7 +51,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let help = _("To edit shortcut, click the row and hold down the new keys or press Backspace to clear.");
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString();
-        version = version  + ' GS '  + shell_version + ']';
+        version = version + ' GS ' + shell_version + ']';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: 'Website'});
         this._grid = new Gtk.Grid();
         this._grid.margin = 10;
@@ -74,23 +74,23 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
                                                             'accel-mode': Gtk.CellRendererAccelMode.GTK});
         keyBindingRenderer.connect('accel-edited', Lang.bind(this, function(renderer, iter, key, mods) {
             let value = Gtk.accelerator_name(key, mods);
-            let [success, iterator ] = this._listStore.get_iter_from_string(iter);
+            let [success, iterator] = this._listStore.get_iter_from_string(iter);
             let name = this._listStore.get_value(iterator, 0);
             this._listStore.set(iterator, [this._columns.Mods, this._columns.Key], [mods, key]);
             this._settings.set_strv(name, [value]);
             return true;
         }));
         keyBindingRenderer.connect('accel-cleared', Lang.bind(this, function(renderer, iter, key, mods) {
-            let [success, iterator ] = this._listStore.get_iter_from_string(iter);
+            let [success, iterator] = this._listStore.get_iter_from_string(iter);
             this._listStore.set(iterator, [this._columns.Mods, this._columns.Key], [0, 0]);
             let name = this._listStore.get_value(iterator, 0);
             this._settings.set_strv(name, []);
         }));
         let title = _("Edit");
         let keyBindingColumn = new Gtk.TreeViewColumn({'title': title, 'expand': true, 'min-width': 20});
-        keyBindingColumn.pack_start(keyBindingRenderer , false);
+        keyBindingColumn.pack_start(keyBindingRenderer, false);
         keyBindingColumn.add_attribute(keyBindingRenderer, 'accel-mods', this._columns.Mods);
-        keyBindingColumn.add_attribute(keyBindingRenderer, 'accel-key',this._columns.Key);
+        keyBindingColumn.add_attribute(keyBindingRenderer, 'accel-key', this._columns.Key);
         this._treeView.append_column(keyBindingColumn);
         this._grid.attach(this._treeView, 1, 2, 1, 1);
         let [key, mods] = [0, 0];
@@ -122,5 +122,4 @@ function buildPrefsWidget() {
     let window = widget._complete(widget);
     return window;
 }
-       
 
