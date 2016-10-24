@@ -25,7 +25,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: bf943a9d94418b9f6270df312ddf3d08923dde0e";
+const COMMIT = "Commit: 6a12dc90ec78e4082949758c255ad63bfd576a5f";
 const SHORTCUT = 'shortcut';
 
 function init() {
