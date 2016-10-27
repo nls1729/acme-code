@@ -1,0 +1,452 @@
+# Norman <nls1729@gmail.com>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: nls1729-extensions\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-19 15:30-0400\n"
+"PO-Revision-Date: 2016-10-28 00:07+0200\n"
+"Last-Translator: Norman <nls1729@gmail.com>\n"
+"Language-Team: Underdogs\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.9\n"
+
+#: extension.js:46
+msgid "Conflict Detected:"
+msgstr "Conflit détécté :"
+
+#: extension.js:47
+msgid "Missing Icon:"
+msgstr "Icône manquante :"
+
+#: extension.js:603
+msgid "Conflict with hidden rounded corners."
+msgstr "Conflit avec les coins arrondis cachés."
+
+#: prefs.js:19
+msgid "New Text"
+msgstr "Nouveau texte"
+
+#: prefs.js:20
+msgid "Text Padding"
+msgstr "Décalage texte"
+
+#: prefs.js:21
+msgid "Hide Text"
+msgstr "Masquer texte"
+
+#: prefs.js:22
+msgid "Select Icon"
+msgstr "Sélectionner icône"
+
+#: prefs.js:23
+msgid "Icon Padding"
+msgstr "Décalage icône"
+
+#: prefs.js:24
+msgid "Hide Icon"
+msgstr "Cacher icône"
+
+#: prefs.js:25
+msgid "Hot Corner Threshold"
+msgstr "Sensibilité Coin actif"
+
+#: prefs.js:26
+msgid "Disable Hot Corner"
+msgstr "Désactiver Coin actif"
+
+#: prefs.js:27
+msgid "Remove Activities Button"
+msgstr "Supprimer Bouton Activités"
+
+#: prefs.js:28
+msgid "Panel Transparency"
+msgstr "Transparence de la barre"
+
+#: prefs.js:29
+msgid "Extension Defaults"
+msgstr "Réinitialiser paramètres par défaut"
+
+#: prefs.js:30
+msgid "Extension Description"
+msgstr "Documentation de l'extention"
+
+#: prefs.js:31
+msgid "APPLY"
+msgstr "APPLIQUER"
+
+#: prefs.js:32
+msgid "SELECT"
+msgstr "SÉLECTIONNER"
+
+#: prefs.js:33
+msgid "RESET"
+msgstr "RÉINITIALISER"
+
+#: prefs.js:34
+msgid "README"
+msgstr "LISEZ MOI"
+
+#: prefs.js:35
+msgid "Choose Icon"
+msgstr "Choisir icône"
+
+#: prefs.js:36
+msgid "Enable Conflict Detection"
+msgstr "Activer la détection des conflits"
+
+#: prefs.js:37
+msgid "Activities"
+msgstr "Activités"
+
+#: prefs.js:39
+msgid "Set Panel Background"
+msgstr "Sélectionner couleur de la Barre supérieure"
+
+#: prefs.js:40
+msgid "Hide Panel Rounded Corners"
+msgstr "Masquer les coins arrondis de la Barre supérieure"
+
+#: prefs.js:41
+msgid "Window Maximized Effect"
+msgstr "Effet fenêtre maximisée"
+
+#: prefs.js:42
+msgid "Hide Application Menu Button Icon"
+msgstr "Masquer l'icône du bouton du Menu d'applications"
+
+#: prefs.js:43
+msgid "Panel Shadow Color"
+msgstr "Couleur de l'ombre du panneau"
+
+#: prefs.js:44
+msgid "Transparency"
+msgstr "Transparence"
+
+#: prefs.js:45
+msgid "Vertical Length"
+msgstr "Longueur verticale"
+
+#: prefs.js:46
+msgid "Blur Radius"
+msgstr "Rayon du flou"
+
+#: prefs.js:47
+msgid "Spread Radius"
+msgstr "Rayon de propagation"
+
+#: prefs.js:48
+msgid "Override Shell Theme"
+msgstr "Outrepasser le thème du Shell"
+
+#: prefs.js:49
+msgid "Show Overview If No Applications Are Running"
+msgstr "Afficher la Vue d'ensemble si aucune Application n'est lancée."
+
+#: prefs.js:50
+msgid "Move Activities to the Right"
+msgstr "Déplacer Activités sur la droite"
+
+#: prefs.js:257
+msgid "Panel - No Effect"
+msgstr "Panneau - Pas d'effet"
+
+#: prefs.js:258
+msgid "Opaque Background Color"
+msgstr "Couleur de fond opaque"
+
+#: prefs.js:259
+msgid "Black Opaque Background"
+msgstr "Fond opaque de couleur noire"
+
+#: prefs.js:483
+msgid "Images"
+msgstr "Images"
+
+#: notify.js:12
+msgid "Extension"
+msgstr "Extension"
+
+#: readme.js:7
+msgid "The Activities Icon is selectable with the SELECT Icon button."
+msgstr ""
+
+#: readme.js:8
+msgid ""
+"The icon spacing on the panel is adjustable with the Icon Padding scale."
+msgstr ""
+
+#: readme.js:9
+msgid "The icon can be removed from the panel with the Hide Icon switch."
+msgstr ""
+"Der 'Symbol verstecken'-Schalter entfernt das Symbol aus der oberen Leiste."
+
+#: readme.js:10
+msgid ""
+"The Activities Text can be changed by entering New Text and then pressing "
+"the APPLY button."
+msgstr ""
+"Der Aktivitäten-Text kann durch Eingabe eines neuen Textes und Drücken des "
+"ANWENDEN-Knopfes geändert werden."
+
+#: readme.js:11
+msgid ""
+"The text spacing on the panel is adjustable with the Text Padding scale."
+msgstr ""
+"Der Textabstand auf der oberen Leiste ist durch die Textabstandsskala "
+"einstellbar."
+
+#: readme.js:12
+msgid "The text can be removed from the panel with the Hide Text switch."
+msgstr ""
+"Mit dem 'Text verstecken'-Schalter kann der Text aus der oberen Leiste "
+"entfernt werden."
+
+#: readme.js:13
+msgid "Text and icon padding is left and right horizontal padding in pixels."
+msgstr "Der horizontale Text- und Symbolabstand ist in Pixeln angegeben."
+
+#: readme.js:14
+msgid ""
+"The Activities Button can be removed with the Remove Activities Button "
+"switch."
+msgstr ""
+"Mit dem 'Aktivitäten-Schaltfläche entfernen'-Schalter kann die Aktivitäten-"
+"Schaltfläche auch komplett entfernt werden."
+
+#: readme.js:15
+msgid ""
+"The sensitivity of the hot corner is adjustable with the Hot Corner "
+"Threshold scale."
+msgstr ""
+"Die Empfindlichkeit der Heißen Ecke ist einstellbar mit der Skala Schwelle "
+"der Heißen Ecke."
+
+#: readme.js:16
+msgid ""
+"The hot corner Overview switching is disabled with the Disable Hot Corner "
+"switch."
+msgstr ""
+"Der 'Heiße Ecke deaktivieren'-Schalter deaktiviert das Wechseln zur "
+"Übersicht durch die Heiße Ecke."
+
+#: readme.js:17
+msgid ""
+"If the hot corner is disabled the Overview can be toggled with the left "
+"super key."
+msgstr ""
+"In diesem Fall kann die Übersicht mittels der Taste SUPER aufgerufen werden."
+
+#: readme.js:18
+msgid ""
+"The workspace background may appear more aesthetically pleasing without the "
+"black panel background."
+msgstr ""
+"Der Hintergrund der Arbeitsfläche kann ohne den schwarzen Hintergrund der "
+"oberen Leiste mitunter ästhetischer erscheinen."
+
+#: readme.js:19
+msgid ""
+"The color and transparency of the panel background is adjustable with Set "
+"Panel Background Button and Panel Transparency scale (0-100%)."
+msgstr ""
+"Die Farbe und Transparenz der oberen Leiste kann deshalb mit dem "
+"'Hintergrundfarbe der oberen Leiste'-Knopf und der 'Transparenz der oberen "
+"Leiste'-Skala (0-100%) angepasst werden."
+
+#: readme.js:20
+msgid ""
+"The default is 0, no transparency or opaque and 100 is completely "
+"transparent."
+msgstr ""
+"Der Standardwert ist 0 (nicht transparent) und 100 bedeutet komplett "
+"durchsichtig."
+
+#: readme.js:21
+msgid ""
+"This feature requires a workspace background of colors which contrast with "
+"icons and text displayed in the panel."
+msgstr ""
+"Das erfordert natürlich einen Arbeitsflächenhintergrund, welcher im Kontrast "
+"zum Text und den Symbolen im Panel steht."
+
+#: readme.js:22
+msgid ""
+"Conflicts with other enabled extensions can be detected with the Enable "
+"Conflict Detection switch."
+msgstr ""
+"Konflikte mit anderen Erweiterungen können mit Hilfe des 'Konflikterkennung'-"
+"Schalters gefunden werden."
+
+#: readme.js:23
+msgid "This extension prefers the left-most corner of the panel."
+msgstr "Diese Erweiterung bevorzugt die linke Ecke der oberen Leiste."
+
+#: readme.js:24
+msgid ""
+"Another extension which inserts itself in the left-most corner of the panel "
+"is considered in conflict with this preference."
+msgstr ""
+"Andere Erweiterungen, welche sich in die linke Ecke einfügen, stehen somit "
+"im Konflikt mit dieser Erweiterung."
+
+#: readme.js:25
+msgid ""
+"This extension attempts to avoid conflicts by delaying its activation at "
+"shell startup time."
+msgstr ""
+"Deshalb wird versucht, durch eine verzögerte Aktivierung des Aktivitäten-"
+"Konfigurators beim Starten der Oberfläche Konflikte zu vermeiden."
+
+#: readme.js:26
+msgid ""
+"The delay appears to resolve most conflicts allowing the extensions to "
+"function normally."
+msgstr ""
+"Diese Verzögerung scheint zu helfen, Konflikten vorzubeugen, so dass die "
+"Erweiterung korrekt funktioniert."
+
+#: readme.js:27
+msgid ""
+"Extensions which duplicate the functions of this extension may affect or be "
+"affected when both are enabled."
+msgstr ""
+"Erweiterungen mit ähnlichen Funktionen können dennoch das Verhalten dieser "
+"Erweiterung beeinflussen bzw. von ihr beeinflusst werden."
+
+#: readme.js:28
+msgid ""
+"Try different settings for the conflicting extensions in order to avoid "
+"conflicts."
+msgstr ""
+"Probieren Sie bei in Konflikt stehenden Erweiterungen verschiedene "
+"Einstellungen aus, um eventuelle Konflikte zu lösen."
+
+#: readme.js:29
+msgid ""
+"Conflict Detection is disabled by default.  Enable only if you experience "
+"problems."
+msgstr ""
+"Die Konflikterkennung dieser Erweiterung ist standardmäßig deaktiviert und "
+"sollte nur aktiviert werden, wenn Probleme bestehen."
+
+#: readme.js:30
+msgid ""
+"When Conflict Detection is enabled, detected conflicts are usually "
+"automatically resolved."
+msgstr ""
+"Wenn die Konflikterkennung aktiviert ist, werden Konflikte in der Regel "
+"automatisch gelöst."
+
+#: readme.js:31
+msgid ""
+"If a conflict is detected this extension will re-establish its prefered "
+"position in the panel."
+msgstr ""
+"Wird ein Konflikt erkannt, stellt die Erweiterung ihre bevorzugte Position "
+"in der oberen Leiste wieder her."
+
+#: readme.js:32
+msgid ""
+"If another extension continues to create a conflict this extension will "
+"disable itself to avoid a race condition and notify the user."
+msgstr ""
+"Wenn eine andere Erweiterung dauerhaft Konflikte verursacht, deaktiviert "
+"sich diese Erweiterung selbst, um eine Wettlaufsituation zu verhindern und "
+"benachrichtigt den Anwender darüber."
+
+#: readme.js:33
+msgid ""
+"The user can disable Conflict Detection if it is acceptable to have this "
+"extension not in its preferred position."
+msgstr ""
+"Der Anwender kann die Konflikterkennung deaktivieren, wenn es akzeptabel "
+"ist, dass die Erweiterung nicht an der bevorzugten Position angezeigt wird."
+
+#: readme.js:34
+msgid ""
+"The conflict can be resolved by disabling the conflicting extension or this "
+"extension and restarting the session."
+msgstr ""
+"Der Konflikt kann gelöst werden, indem die kollidierende Erweiterung oder "
+"der Aktivitäten-Konfigurator deaktiviert und die Sitzung neugestartet wird."
+
+#: readme.js:35
+msgid ""
+"Extension settings are reset to their default values with the Extension "
+"Defaults RESET button."
+msgstr ""
+"Mit dem ZURÜCKSETZEN-Knopf bei 'Standardeinstellungen' werden die "
+"Einstellungen auf die Standardwerte zurückgesetzt."
+
+#: readme.js:36
+msgid "The Extension Description README button displays this readme."
+msgstr ""
+"Der LIESMICH-Knopf bei 'Erklärung der Erweiterung' öffnet diese Beschreibung."
+
+#: readme.js:37
+msgid ""
+"Clicking the Activities Icon or Text with the right mouse button executes "
+"GNOME Shell Extension Preferences."
+msgstr ""
+"Ein Rechtsklick auf die Aktivitäten-Schaltfläche öffnet die "
+"Erweiterungseinstellungen der GNOME-Oberfläche."
+
+#: readme.js:39
+msgid ""
+"A conflict between an enabled extension and the Activities Configurator "
+"Extension exists."
+msgstr ""
+"Es besteht ein Konflikt zwischen einer aktivierten Erweiterung und dem "
+"Aktivitäten-Konfigurator."
+
+#: readme.js:40
+msgid ""
+"Please resolve the conflict by disabling the offending extension or disable "
+"the Activities Configurator and restart your session."
+msgstr ""
+"Bitte die kollidierende Erweiterung oder den Aktivitäten-Konfigurator "
+"deaktivieren und die Sitzung neustarten, um den Konflikt zu lösen."
+
+#: readme.js:41
+msgid ""
+"See the README of the Activities Configurator for additional information."
+msgstr ""
+"Siehe LIESMICH des Aktivitäten-Konfigurators für weitere Informationen."
+
+#: readme.js:43
+msgid "The Activities Icon was not found."
+msgstr "Das Aktivitäten-Symbol wurde nicht gefunden."
+
+#: readme.js:44
+msgid ""
+"The missing icon has been removed, renamed or possible filesystem corruption "
+"has damaged the icon."
+msgstr ""
+"Das fehlende Symbol wurde entfernt, umbenannt oder möglicherweise hat eine "
+"Beschädigung des Dateisystems das Symbol unbrauchbar gemacht."
+
+#: readme.js:45
+msgid ""
+"The default icon has automatically been selected to allow proper operation "
+"of the extension."
+msgstr ""
+"Das Standardsymbol wurde automatisch ausgewählt, um sicherzustellen, dass "
+"die Erweiterung einwandfrei funktioniert."
+
+#: readme.js:46
+msgid "You should determine and correct the problem, then re-select an icon."
+msgstr ""
+"Das Problem sollte erkannt und behoben werden. Danach kann das Symbol noch "
+"einmal ausgewählt werden."
+
+#: readme.js:48
+msgid "Activities Configurator - README"
+msgstr "Aktivitäten-Konfigurator - LIESMICH"
+
+#: readme.js:50
+msgid "Activities Configurator - MISSING ICON"
+msgstr "Aktivitäten-Konfigurator - FEHLENDES SYMBOL"
