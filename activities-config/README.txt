@@ -325,6 +325,12 @@ https://nls1729.github.io
 2016-09-25 Activities Configurator - Version 50 auto review
            GS 3.16 3.18 3.20 3.22 3.21.90 3.21.91 3.21.92
 
-zip file: Sat Oct 15 16:10:03 EDT 2016 bf943a9d94418b9f6270df312ddf3d08923dde0e
+2016-10-29 Activities Configurator - added French translations thanks to narzb
+           GS 3.16 3.18 3.20 3.22
+           cosmetic change corrected inconsistent button display in prefs.js
+           removed GS development versions from metadata.json
+           uploaded for review
+
+zip file: Sat Oct 29 10:14:30 EDT 2016 326e96e9d1bec59d97bf5e43a37b5f31dae2c0b9
 
 ...
