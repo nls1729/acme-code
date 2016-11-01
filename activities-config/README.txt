@@ -331,6 +331,6 @@ https://nls1729.github.io
            removed GS development versions from metadata.json
            uploaded for review
 
-zip file: Tue Nov  1 13:56:58 EDT 2016 f7a7ec3f4ba734fc9870b1ee585a383a7259e6f1
+zip file: Tue Nov  1 14:09:13 EDT 2016 43b4afd2be06730187782486dde7a610950006a3
 
 ...
