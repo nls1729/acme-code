@@ -11,18 +11,15 @@ ZIPDATE = $(shell date)
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
 
-all: metadata.json README.txt extension.js gnome-shell-extension-tool
-
-_build: all
+build:
 	rm -rf ./_build
 	mkdir -p _build
 	cp $(MODULES) _build
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
-	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  _build/prefs.js; \
 	cp -f _build/README.txt .;
 
-zip-file: _build
+zip-file: build
 	cd _build ; \
 	zip -qr "$(UUID).zip" .; \
 	mv $(UUID).zip .. ; \

@@ -11,6 +11,6 @@ to reload the extension.  This extension functions for both Xorg and
 Wayland Gnome Shell sessions.  This extension is intended for use by
 extension authors.  General use of this extension is not anticipated.
 
-zip file: Tue Nov  1 14:09:13 EDT 2016 43b4afd2be06730187782486dde7a610950006a3
+zip file: Wed Nov  2 14:25:04 EDT 2016 f857b57b8981afc0073dd9e7e9b5949a8f8e2ceb
 
 ...
