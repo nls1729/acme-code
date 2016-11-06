@@ -6,7 +6,7 @@
 # current extension version.
 .ONESHELL:
 UUID = extension-reloader@nls1729
-MODULES = metadata.json README.txt extension.js gnome-shell-extension-tool COPYING
+MODULES = metadata.json README.txt extension.js gnome-shell-extension-tool COPYING view-refresh-symbolic.svg
 ZIPDATE = $(shell date)
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)

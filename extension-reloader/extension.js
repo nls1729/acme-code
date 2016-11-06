@@ -33,15 +33,18 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 const Me = ExtensionUtils.getCurrentExtension();
-const TOOL = Me.path + '/gnome-shell-extension-tool'
+const ICON_PATH = Me.path + '/view-refresh-symbolic.svg';
+const ICON_STYLE = 'icon-size: 1.25em; padding-left: 2; padding-right: 2';
+const INDICATOR_TAG = 'extension-reloader-indicator';
+const TOOL = Me.path + '/gnome-shell-extension-tool';
 
 const ExtensionMenuItem = new Lang.Class({
     Name: 'ExtensionMenuItem',
     Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(uuid) {
+    _init: function(uuid, name) {
 	this.parent();
-        this._label = new St.Label({ text: uuid });
+        this._label = new St.Label({ text: name });
         this.actor.add_child(this._label);
         this._uuid = uuid;
     },
@@ -64,14 +67,34 @@ const ReloadExtensionMenu = new Lang.Class({
     _init: function() {
         this.parent(0.0, 'Reload Extension Menu');
 
-        let hbox = new St.BoxLayout({ style_class: 'panel-status-menu-box' });
-        let label = new St.Label({ text: 'Reload', y_expand: true, y_align: Clutter.ActorAlign.CENTER });
-        hbox.add_child(label);
+        let hbox = new St.BoxLayout({
+            style_class: 'panel-status-menu-box'
+        });
+        let iconBin = new St.Bin();
+        iconBin.child = new St.Icon({
+            gicon: Gio.icon_new_for_string(ICON_PATH)
+        });
+        iconBin.child.set_style(ICON_STYLE);
+        hbox.add_child(iconBin);
         hbox.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
         this.actor.add_actor(hbox);
-        let extensions = ExtensionUtils.extensions;
-        for (let i in extensions) {
-            let item = new ExtensionMenuItem(extensions[i].uuid);
+        let section = new PopupMenu.PopupMenuSection();
+        let textBin = new St.Bin();
+        textBin.child = new St.Label({
+            text: '< Gnome Shell Extension Reloader >',
+            y_expand: true,
+            y_align: Clutter.ActorAlign.CENTER
+        });
+        textBin.child.set_style('font-size: 1.5em');
+        section.actor.add_actor(textBin);
+        this.menu.addMenuItem(section);
+    },
+
+    populateMenu: function() {
+        for (let i in ExtensionUtils.extensions) {
+            let uuid = ExtensionUtils.extensions[i].uuid;
+            let name = ExtensionUtils.extensions[i].metadata.name;
+            let item = new ExtensionMenuItem(uuid, name);
             this.menu.addMenuItem(item);
         }
     },
@@ -86,24 +109,23 @@ let _indicator;
 let _timer = 0;
 
 function enable() {
-    if (Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') {
-        _timer = Mainloop.timeout_add(3000, delayed_enable);
-    }
+    _indicator = new ReloadExtensionMenu;
+    if (!GLib.file_test(TOOL, GLib.FileTest.IS_EXECUTABLE))
+        Util.trySpawn(['/usr/bin/chmod', '0700', TOOL]);
+    Main.panel.addToStatusArea(INDICATOR_TAG, _indicator, 0, 'right');
+    let mode = Main.sessionMode.currentMode;
+    if (mode == 'classic' || mode == 'user')
+        _timer = Mainloop.timeout_add(5000, delayedPopulateMenu);
 }
 
-function delayed_enable() {
+function delayedPopulateMenu() {
 
     // Must delay until all other extensions have been loaded.
-
     // When gnome-shell-extension-tool with reload option is
-    // released the included tool and chmod logic will be
-    // removed.
+    // released the included tool and chmod logic will not be
+    // required and will be removed.
 
-    _indicator = new ReloadExtensionMenu;
-    if (!GLib.file_test(TOOL, GLib.FileTest.IS_EXECUTABLE)) {
-        Util.trySpawn(['/usr/bin/chmod', '0700', TOOL]);
-    }
-    Main.panel.addToStatusArea('extension-reloader-menu', _indicator, -1, 'left');
+    _indicator.populateMenu();
     _timer = 0;
 }
 
