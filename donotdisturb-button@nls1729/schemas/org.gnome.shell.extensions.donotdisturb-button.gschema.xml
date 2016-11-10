@@ -6,5 +6,15 @@
       <summary>Toggle shortcut.</summary>
       <description>The keyboard shortcut to toggle the do not disturb button state.</description>
     </key>
+    <key type="b" name="panel-icon-center">
+      <default>true</default>
+      <summary>Center if true.</summary>
+      <description>If true panel button icon position left center or right center.</description>
+    </key>
+    <key type="b" name="panel-icon-left">
+      <default>true</default>
+      <summary>Left if true.</summary>
+      <description>Panel button icon position left, right, left center, or right center.</description>
+    </key>
   </schema>
 </schemalist>

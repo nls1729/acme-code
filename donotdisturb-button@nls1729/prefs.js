@@ -25,8 +25,12 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: 6a12dc90ec78e4082949758c255ad63bfd576a5f";
+const COMMIT = "Commit: 0213998c3463ccf848c65df089978d85614cdb5e";
 const SHORTCUT = 'shortcut';
+const LEFT = 'panel-icon-left';
+const CENTER = 'panel-icon-center';
+
+const UI_FILE_PATH = Me.path + '/position.ui';
 
 function init() {
     imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");
@@ -39,6 +43,17 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
 
     _init: function(params) {
         this.parent(params);
+        this._builder = new Gtk.Builder();
+        if (this._builder.add_from_file(UI_FILE_PATH) == 0) {
+            let msg = 'Failed loading ui file';
+            throw new Error(msg);
+        }
+        let buttonBox1 = this._builder.get_object('buttonBox1');
+        let buttonBox2 = this._builder.get_object('buttonBox2');
+        let buttonBox3 = this._builder.get_object('buttonBox3');
+        this._leftRb = this._builder.get_object('leftRb');
+        this._rightRb = this._builder.get_object('rightRb');
+        this._centerCb = this._builder.get_object('centerCb');
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
         let schemaDir = Me.dir.get_child('schemas').get_path();
@@ -52,18 +67,23 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString();
         version = version + ' GS ' + shell_version + ']';
+        let btnPosition = _("Panel Button Position");
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: 'Website'});
         this._grid = new Gtk.Grid();
-        this._grid.margin = 10;
-        this._grid.row_spacing = 30;
-        this._grid.column_spacing = 30;
+        this._grid.margin = 5;
+        this._grid.row_spacing = 5;
+        this._grid.column_spacing = 5;
         this._grid.set_column_homogeneous(true);
-        this._grid.attach(new Gtk.Label({ label: help, wrap: true, xalign: 0.5 }), 0, 1, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }), 0, 7, 3, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }), 0, 8, 3, 1);
-        this._grid.attach(this._linkBtn, 1, 6, 1, 1);
-        this._grid.attach(yesImage, 0, 6, 1, 1);
-        this._grid.attach(noImage, 2, 6, 1, 1);
+        this._grid.attach(new Gtk.Label({ label: help, wrap: true, xalign: 0.5 }), 0, 1, 7, 1);
+        this._grid.attach(new Gtk.Label({ label: btnPosition, wrap: true, xalign: 0.5 }), 0, 4, 7, 1);
+        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }), 0, 11, 7, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }), 0, 12, 7, 1);
+        this._grid.attach(buttonBox1, 3, 5, 1, 1);
+        this._grid.attach(buttonBox2, 3, 6, 1, 1);
+        this._grid.attach(buttonBox3, 3, 7, 1, 1);
+        this._grid.attach(this._linkBtn, 3, 14, 1, 1);
+        this._grid.attach(yesImage, 3, 3, 1, 1);
+        this._grid.attach(noImage, 3, 8, 1, 1);
         this._columns = {Name: 0, Mods: 1, Key: 2};
         this._listStore = new Gtk.ListStore();
         this._listStore.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_INT]);
@@ -92,7 +112,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         keyBindingColumn.add_attribute(keyBindingRenderer, 'accel-mods', this._columns.Mods);
         keyBindingColumn.add_attribute(keyBindingRenderer, 'accel-key', this._columns.Key);
         this._treeView.append_column(keyBindingColumn);
-        this._grid.attach(this._treeView, 1, 2, 1, 1);
+        this._grid.attach(this._treeView, 2, 2, 3, 1);
         let [key, mods] = [0, 0];
         let setting = this._settings.get_strv(SHORTCUT)[0];
         if (setting !== undefined) {
@@ -102,24 +122,46 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let arg0 = [this._columns.Name, this._columns.Mods, this._columns.Key];
         let arg1 = [SHORTCUT, mods, key];
         this._listStore.set(iter, arg0, arg1);
+        let left = this._settings.get_boolean(LEFT);
+        let center = this._settings.get_boolean(CENTER);
+        this._leftRb.connect('toggled', Lang.bind(this, function(b) {
+            if(b.get_active())
+                this._settings.set_boolean(LEFT, true);
+            else
+                this._settings.set_boolean(LEFT, false);
+        }));
+        this._rightRb.connect('toggled', Lang.bind(this, function(b) {
+            if(b.get_active())
+                this._settings.set_boolean(LEFT, false);
+            else
+                this._settings.set_boolean(LEFT, true);
+        }));
+        this._centerCb.connect('toggled', Lang.bind(this, function(b) {
+            if(b.get_active()) {
+                this._settings.set_boolean(CENTER, true);
+            } else {
+                this._settings.set_boolean(CENTER, false);
+            }
+        }));
+        this._leftRb.set_active(left);
+        this._rightRb.set_active(!left);
+        this._centerCb.set_active(center);
         this.add(this._grid);
-    },
-
-    _complete: function(widget) {
-        let scrollingWindow = new Gtk.ScrolledWindow({ 'hscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
-                                                       'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
-                                                       'hexpand': true, 'vexpand': true });
-        scrollingWindow.add_with_viewport(widget);
-        scrollingWindow.show_all();
-        this._treeView.get_selection().unselect_all();
-        return scrollingWindow;
     }
 });
 
-
 function buildPrefsWidget() {
+
     let widget = new DoNotDisturbPrefsWidget();
-    let window = widget._complete(widget);
-    return window;
+    let scollingWindow = new Gtk.ScrolledWindow({
+        'hscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
+        'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
+        'hexpand': true,
+        'vexpand': true
+    });
+    scollingWindow.add_with_viewport(widget);
+    scollingWindow.set_size_request(780, 410);
+    scollingWindow.show_all();
+    return scollingWindow;
 }
 

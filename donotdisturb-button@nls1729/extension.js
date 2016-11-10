@@ -146,6 +146,13 @@ const DoNotDisturbExtension = new Lang.Class({
         let schemaSrc = GioSSS.new_from_directory(schemaDir, GioSSS.get_default(), false);
         let schemaObj = schemaSrc.lookup(schema, true);
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
+        this._leftChangedSig = 0;
+        this._centerChangedSig = 0;
+    },
+
+    _positionChange: function() {
+        this.disable();
+        this.enable();
     },
 
     destroy: function() {
@@ -156,16 +163,22 @@ const DoNotDisturbExtension = new Lang.Class({
     },
 
     _getPosition: function() {
-        let position = [[0, 'center'], [-1, 'left'], [0, 'right']];
-        let box = [Main.panel._centerBox, Main.panel._leftBox, Main.panel._rightBox];
-        let dateMenu = Main.panel.statusArea['dateMenu'];
-        for (let index = 0; index < 3; index += 1) {
-            let children = box[index].get_children();
-            if (children.indexOf(dateMenu.container) != -1) {
-                return position[index];
-            }
+
+        let center = this._settings.get_boolean('panel-icon-center');
+        let left = this._settings.get_boolean('panel-icon-left');
+        let position;
+        if (center) {
+            if (left)
+                position = [0, 'center'];
+            else
+                position = [-1, 'center'];
+        } else {
+            if (left)
+                position = [-1, 'left'];
+            else
+                position = [0, 'right'];
         }
-        return(position[0]);
+        return position;
     },
 
     _delayedEnable: function() {
@@ -178,6 +191,8 @@ const DoNotDisturbExtension = new Lang.Class({
             let position = this._getPosition();
             Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
             this._btn._setNotEmptyCount();
+            this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
+            this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
         }
     },
 
@@ -195,6 +210,14 @@ const DoNotDisturbExtension = new Lang.Class({
         if (this._btn != null) {
             this._btn.destroy();
             this._btn = null;
+        }
+        if (this._leftChangedSig > 0) {
+            this._settings.disconnect(this._leftChangedSig);
+            this._leftChangedSig = 0;
+        }
+        if (this._centerChangedSig > 0) {
+            this._settings.disconnect(this._centerChangedSig);
+            this._centerChangedSig = 0;
         }
     }
 

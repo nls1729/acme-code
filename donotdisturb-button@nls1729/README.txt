@@ -27,4 +27,6 @@ Uploaded version 7 to ego website 2016-10-07.
 Added notification count.  Changed to find location of clock and locate
 button next to clock. Uploaded version 8 to ego website 2016-10-23.
 
-zip file: 2016-10-23 12:51:58 6a12dc90ec78e4082949758c255ad63bfd576a5f
+Changed panel button location to be set by preference (user request).
+
+zip file: 2016-11-10 17:13:47 0213998c3463ccf848c65df089978d85614cdb5e
