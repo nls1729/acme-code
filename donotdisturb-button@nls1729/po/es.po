@@ -25,3 +25,14 @@ msgid ""
 msgstr ""
 "Para editar un atajo nuevo pulse en la fila y mantenga pulsadas las teclas nuevas, o pulse Retroceso para eliminarla."
 
+msgid "Button Location"
+msgstr "Ubicación del botón"
+
+msgid "Center"
+msgstr "el centro"
+
+msgid "Left"
+msgstr "a la izquierda"
+
+msgid "Right"
+msgstr "a la derecha"

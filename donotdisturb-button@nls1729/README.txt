@@ -29,4 +29,4 @@ button next to clock. Uploaded version 8 to ego website 2016-10-23.
 
 Changed panel button location to be set by preference (user request).
 
-zip file: 2016-11-10 17:13:47 0213998c3463ccf848c65df089978d85614cdb5e
+zip file: 2016-11-11 14:23:15 2cdb12bcafc7ad3cae8c05ac96d8120ae424a6b7

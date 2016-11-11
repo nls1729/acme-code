@@ -26,3 +26,20 @@ msgstr ""
 "Pour modifier un raccourci, cliquez sur la ligne et actionnez les nouvelles "
 "touches, ou bien pressez « Retour arrière » pour l'effacer."
 
+msgid "Button Location"
+msgstr "Emplacement du bouton"
+
+msgid "Center"
+msgstr "centre"
+
+msgid "Left"
+msgstr "à gauche"
+
+msgid "Right"
+msgstr "à droite"
+
+
+
+
+
+

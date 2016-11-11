@@ -8,7 +8,7 @@
 .ONESHELL:
 
 UUID = donotdisturb-button@nls1729
-MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png available-no.png stylesheet.css position.ui
+MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png available-no.png stylesheet.css
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)
