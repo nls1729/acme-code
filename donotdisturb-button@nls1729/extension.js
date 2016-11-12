@@ -36,8 +36,11 @@ const DoNotDisturbButton = new Lang.Class({
     _init: function(settings) {
         this.parent(0.5, null, true);
         this._settings = settings;
-        this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic', style_class: 'large-system-status-icon'});
-        this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic', style_class: 'large-system-status-icon'});
+        this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic'});
+        this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic'});
+        let iconStyle = 'icon-size: 1.3em; padding-left: 2px; padding-right: 2px';
+        this._iconBusy.set_style(iconStyle);
+        this._iconAvailable.set_style(iconStyle);
         this._notEmptyCount = new St.Label({ text: '', y_align: Clutter.ActorAlign.CENTER });
         this._layoutBox = new St.BoxLayout();
         this._layoutBox.add_actor(this._iconAvailable);
