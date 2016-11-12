@@ -31,4 +31,4 @@ Changed panel button location to be set by preference (user request).
 Added Greek translations thanks to Tom Tryfonidis.
 Uploaded version 9 to ego website 2016-11-12.
 
-zip file: 2016-11-12 10:08:28 9184c746f7a0a4e3ec85cdb2f558cddbd760f467
+zip file: 2016-11-12 10:22:00 4285f2c090d858f40fb37d0f2856a4c97278f611
