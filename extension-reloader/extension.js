@@ -1,7 +1,7 @@
 
 /* This extension is a derived work of the Gnome Shell.
 *
-* Copyright (c) 2012-2016 Norman L. Smith
+* Copyright (c) 2016 Norman L. Smith
 *
 * This extension is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,15 @@
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
+/*
+    This extension is intended for use by Gnome Shell Extension writers.
+    It is common practice to restart the Shell during testing an extension
+    to reload the extension to test changes made to the extension's code.
+    Wayland does not allow restart of the Shell.  To reload an extension
+    under Wayland a logout and a login is required.  This extension reloads
+    only the selected extension with two mouse clicks saving time for the
+    extension writer.
+*/
 
 const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
@@ -33,10 +42,12 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 const Me = ExtensionUtils.getCurrentExtension();
+const Notify = Me.imports.notify;
 const ICON_PATH = Me.path + '/view-refresh-symbolic.svg';
-const ICON_STYLE = 'icon-size: 1.25em; padding-left: 2; padding-right: 2';
+const ICON_STYLE = 'icon-size: 1.2em; padding-left: 2; padding-right: 2';
 const INDICATOR_TAG = 'extension-reloader-indicator';
 const TOOL = Me.path + '/gnome-shell-extension-tool';
+
 
 const ExtensionMenuItem = new Lang.Class({
     Name: 'ExtensionMenuItem',
@@ -47,15 +58,32 @@ const ExtensionMenuItem = new Lang.Class({
         this._label = new St.Label({ text: name });
         this.actor.add_child(this._label);
         this._uuid = uuid;
+        this._name = name;
+        this._delayTimer = 0;
     },
 
     destroy: function() {
+        if (this._delayTimer > 0)
+            Mainloop.source_remove(this._delayTimer);
         this.parent();
     },
 
-    activate: function(event) {
-        log('Reloading : ' + this._uuid);
+    _activate: function() {
+        if (this._delayTimer > 0)
+            Mainloop.source_remove(this._delayTimer);
 	Util.trySpawn([TOOL, '-r', this._uuid]);
+        log('Reloading : ' + this._uuid);
+        Notify.notify('Reloading : ',this._name);
+    },
+
+    activate: function(event) {
+        // When the TOOL is first installed it is not executable.
+        if (!GLib.file_test(TOOL, GLib.FileTest.IS_EXECUTABLE)) {
+            Util.trySpawn(['/usr/bin/chmod', '0700', TOOL]);
+            this._delayTimer = Mainloop.timeout_add(2000, Lang.bind(this, this._activate));
+        } else {
+            this._activate();
+        }
 	this.parent(event);
     },
 });
@@ -72,7 +100,7 @@ const ReloadExtensionMenu = new Lang.Class({
         });
         let iconBin = new St.Bin();
         iconBin.child = new St.Icon({
-            gicon: Gio.icon_new_for_string(ICON_PATH)
+            icon_name: 'emblem-synchronizing-symbolic'
         });
         iconBin.child.set_style(ICON_STYLE);
         hbox.add_child(iconBin);
@@ -108,11 +136,10 @@ const ReloadExtensionMenu = new Lang.Class({
 let _indicator;
 let _timer = 0;
 
+function init() {
+}
+
 function enable() {
-    _indicator = new ReloadExtensionMenu;
-    if (!GLib.file_test(TOOL, GLib.FileTest.IS_EXECUTABLE))
-        Util.trySpawn(['/usr/bin/chmod', '0700', TOOL]);
-    Main.panel.addToStatusArea(INDICATOR_TAG, _indicator, 0, 'right');
     let mode = Main.sessionMode.currentMode;
     if (mode == 'classic' || mode == 'user')
         _timer = Mainloop.timeout_add(5000, delayedPopulateMenu);
@@ -124,8 +151,9 @@ function delayedPopulateMenu() {
     // When gnome-shell-extension-tool with reload option is
     // released the included tool and chmod logic will not be
     // required and will be removed.
-
+    _indicator = new ReloadExtensionMenu;
     _indicator.populateMenu();
+    Main.panel.addToStatusArea(INDICATOR_TAG, _indicator, 0, 'right');
     _timer = 0;
 }
 
