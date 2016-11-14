@@ -21,11 +21,11 @@ README
     the Extensions section of the Tweak Tool.
 
     When the gnome-shell-extension-tool with reload capability is released,
-    the borrowed copy of gnome-shell-extension-tool will be removed and this
+    the borrowed copy of gnome-shell-extension-tool will be removed from this
     extension.
 
     2016-11-13 Uploaded to ego for review.
 
-zip file: Sun Nov 13 06:43:28 EST 2016 dbe582061f98c4347d358324d5350e32e3b392ed
+zip file: Mon Nov 14 06:23:51 EST 2016 a80d7447b041147c5f5d2da8a28c9998deafd911
 
 ...
