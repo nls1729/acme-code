@@ -29,6 +29,6 @@ README
     2016-11-23 Extension Reloader - updated copyright due to fsf address changed
                Removed address and added license url instead. Uploaded for review.
 
-zip file: Mon Nov 14 06:23:51 EST 2016 a80d7447b041147c5f5d2da8a28c9998deafd911
+zip file: Wed Nov 23 17:49:08 EST 2016 5b2d6072f82a98d527bbefc5a62e0be9e6736925
 
 ...

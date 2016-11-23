@@ -35,4 +35,4 @@ Do Not Disturb Button - updated copyright due to fsf address change
 Removed addess and added license url instead in extension.js.
 Removed copyright from prefs.js. Uploaded for review 2016-11-23.
 
-zip file: 2016-11-12 13:09:43 36a1a18ca7077a173714258e65521e293fa855c5
+zip file: 2016-11-23 17:48:48 5b2d6072f82a98d527bbefc5a62e0be9e6736925
