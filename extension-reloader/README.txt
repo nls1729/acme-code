@@ -29,12 +29,12 @@ README
     2016-11-23 Extension Reloader - updated copyright due to fsf address changed
                Removed address and added license url instead. Uploaded for review.
 
-    2016-12-08 Extension Reloader - added logic to consistently present the menu.
+    2016-12-09 Extension Reloader - added logic to consistently present the menu.
                The extension's current state is displayed.  The order of the
                extensions is determined by their state sorted within state by name.
                Only enabled extensions are reloadable.
 
 
-zip file: Thu Dec  8 13:16:38 EST 2016 e31493bdaab1c90bb714705a2ef18b7dca44e6aa
+zip file: Thu Dec  8 13:23:54 EST 2016 2d37243c59137c58b2d8ed24b80f40333e557878
 
 ...
