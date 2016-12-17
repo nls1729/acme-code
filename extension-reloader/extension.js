@@ -1,6 +1,5 @@
-
 /*
-  Gnome Shell Extension Reloader Gnome Shell Extension
+  Gnome Shell Extension Reloader
 
   Copyright (c) 2016 Norman L. Smith
 
@@ -15,41 +14,45 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with this program. If not, see
+  along with this extension. If not, see
   < https://www.gnu.org/licenses/old-licenses/gpl-2.0.html >.
 
   This extension is a derived work of the Gnome Shell.
+
+  This extension is intended for use by Gnome Shell Extension writers.
+  It is common practice to restart the Shell during extension testing
+  to reload the extension to test changes made to the extension's code.
+  Wayland does not allow restart of the Shell. To reload an extension
+  under Wayland a logout and a login is required. The extension reloads
+  only the selected extension with two mouse clicks saving time for the
+  extension writer.
+
 */
 
-/*
-    This extension is intended for use by Gnome Shell Extension writers.
-    It is common practice to restart the Shell during testing an extension
-    to reload the extension to test changes made to the extension's code.
-    Wayland does not allow restart of the Shell.  To reload an extension
-    under Wayland a logout and a login is required.  This extension reloads
-    only the selected extension with two mouse clicks saving time for the
-    extension writer.
-*/
 
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
 const Lang = imports.lang;
-const Shell = imports.gi.Shell;
+const Mainloop = imports.mainloop;
+const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
+const ExtensionSystem = imports.ui.extensionSystem;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Panel = imports.ui.panel;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Util = imports.misc.util;
-const Mainloop = imports.mainloop;
 const Me = ExtensionUtils.getCurrentExtension();
-const Notify = Me.imports.notify;
+const DOMAIN = Me.metadata['gettext-domain'];
+const Gettext = imports.gettext.domain(DOMAIN);
+const _ = Gettext.gettext;
 const ENABLED = 1;
-const ICON_PATH = Me.path + '/view-refresh-symbolic.svg';
-const ICON_STYLE = 'icon-size: 1.1em; padding-left: 2; padding-right: 2';
-const INDICATOR_TAG = 'extension-reloader-indicator';
+const ICON = [ 'dialog-information-symbolic',
+               'dialog-warning-symbolic',
+               'dialog-error-symbolic'
+             ];
+const MAX_HEIGHT = parseInt(global.screen_height * .5).toString();
+const GSER = 'Gnome Shell Extension Reloader';
+const ROLE = 'extension-reloader-indicator';
 const STATE = ['Unknown',
                'Enabled',
                'Disabled',
@@ -58,157 +61,175 @@ const STATE = ['Unknown',
                'Downloading',
                'Initialized'
               ];
-const STYLE2 = 'font-weight: bold;';
 const STYLE1 = 'width: 120px;';
-const TOOL = Me.path + '/gnome-shell-extension-tool';
+const STYLE2 = 'font-weight: bold;';
+const TYPE = { info: 0,
+               warning: 1,
+               error: 2
+             };
+const Notify = Me.imports.notify;
 
-
-const ExtensionMenuItem = new Lang.Class({
-    Name: 'ExtensionMenuItem',
+const SubMenuItem = new Lang.Class({
+    Name: 'ReloadExtension.SubMenuItem',
     Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(uuid, name, state) {
+    _init: function(extension, name, menu, subMenu) {
 	this.parent();
-        if (state > 6)
-            state = 0;
+        this._extension = extension;
+        this._state = extension.state;
+        this._uuid = extension.uuid;
+        this._name = name;
+        if (this._state > 6)
+            this._state = 0;
         let box = new St.BoxLayout();
-        let label1 = new St.Label({ text: STATE[state] });
+        let label1 = new St.Label({ text: STATE[this._state] });
         label1.set_style(STYLE1);
         box.add_actor(label1);
         let label2 = new St.Label({ text: name });
-        if (state == ENABLED)
+        if (this._state == ENABLED)
             label2.set_style(STYLE2);
         box.add_actor(label2);
         this.actor.add_child(box);
-        this._uuid = uuid;
-        this._name = name;
-        this._state = state;
-        this._delayTimer = 0;
+        this._subMenu = subMenu;
+        this._menu = menu;
+        this._keyInId = 0;
     },
 
     destroy: function() {
-        if (this._delayTimer > 0)
-            Mainloop.source_remove(this._delayTimer);
+        this.actor.disconnect(this._keyInId);
         this.parent();
     },
 
     activate: function() {
-        if (this._delayTimer > 0)
-            Mainloop.source_remove(this._delayTimer);
         if (this._state == ENABLED) {
-	    Util.trySpawn([TOOL, '-r', this._uuid]);
-            log('Reloading : ' + this._uuid);
-            Notify.notify('Reloading : ',this._name);
+            try {
+                ExtensionSystem.reloadExtension(this._extension);
+                Notify.notify(_("Reload completed."),
+                    this._name, TYPE.info);
+                log("Reload completed: " + this._name);
+            } catch(e) {
+                Notify.notify(_("Reload failed") + ' : ' + this._uuid,
+                    e.message, TYPE.error);
+            }
         } else {
-            Notify.notifyError('Reload not allowed. Not Enabled.',this._name);
+            Notify.notify(_("Reload is not allowed when not enabled."),
+                this._name, TYPE.warning);
         }
+        this._subMenu.close();
+        this._menu.close();
     }
 });
 
 const ReloadExtensionMenu = new Lang.Class({
-    Name: 'ReloadExtensionMenu.ReloadExtensionMenu',
+    Name: 'ReloadExtension.ReloadExtensionMenu',
     Extends: PanelMenu.Button,
 
     _init: function() {
         this.parent(0.0, 'Reload Extension Menu');
-        this._sortedArray = [];
         let hbox = new St.BoxLayout({
             style_class: 'panel-status-menu-box'
         });
         let iconBin = new St.Bin();
         iconBin.child = new St.Icon({
-            icon_name: 'emblem-synchronizing-symbolic'
+            icon_name: 'emblem-synchronizing-symbolic',
+            style_class: 'system-status-icon'
         });
-        iconBin.child.set_style(ICON_STYLE);
         hbox.add_child(iconBin);
         hbox.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
         this.actor.add_actor(hbox);
-        this._openToggled(this.menu, false);
+        this._subMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(GSER, false);
+        this.menu.addMenuItem(this._subMenuMenuItem);
+        this._scrollView = this._subMenuMenuItem.menu.actor;
+        this._vBar = this._subMenuMenuItem.menu.actor.get_vscroll_bar();
+        this._vBar.vscrollbar_policy = true;
+        this._populateSubMenu(this._subMenuMenuItem.menu);
         this._openToggledId = this.menu.connect('open-state-changed',
             Lang.bind(this, this._openToggled));
     },
 
     _openToggled: function(menu, open) {
         if (open) {
-            this._populateMenu();
-        } else {
-            this.menu.removeAll();
-            let section = new PopupMenu.PopupMenuSection();
-            let textBin = new St.Bin();
-            textBin.child = new St.Label({
-                text: ' Gnome Shell Extension Reloader ',
-                y_expand: true,
-                y_align: Clutter.ActorAlign.CENTER
-            });
-            textBin.child.set_style('font-size: 1.25em');
-            section.actor.add_actor(textBin);
-            this.menu.addMenuItem(section);
+            this._subMenuMenuItem.menu.removeAll();
+            this._populateSubMenu(this._subMenuMenuItem.menu);
+            this._subMenuMenuItem.menu.open();
         }
+    },
+
+    _scrollMenuBox: function(actor) {
+        let box = actor.get_allocation_box();
+        let currentValue = this._vBar.get_adjustment().get_value();
+        let newValue = currentValue;
+        let delta = Math.ceil((box.y2 - box.y1) * .25);
+        if (currentValue > (box.y1 - delta))
+            newValue = box.y1 - delta;
+        if ((this._scrollView.height + currentValue) < (box.y2 + delta))
+            newValue = box.y2 - this._scrollView.height + delta;
+        if (newValue != currentValue)
+            this._vBar.get_adjustment().set_value(newValue);
     },
 
     _compare: function(a, b) {
-        let aStateName = a.state.toString() + a.metadata.name.toUpperCase();
-        let bStateName = b.state.toString() + b.metadata.name.toUpperCase();
-        return (aStateName > bStateName) ? 0 : -1;
+        let aKey = a.state.toString() + a.metadata.name.toUpperCase();
+        let bKey = b.state.toString() + b.metadata.name.toUpperCase();
+        return (aKey > bKey) ? 0 : -1;
     },
 
-    _populateMenu: function() {
-        while (this._sortedArray.length > 0)
-            this._sortedArray.pop();
+    _populateSubMenu: function(subMenu) {
+        let sortedArray = [];
         for (let i in ExtensionUtils.extensions) {
             let entry = ExtensionUtils.extensions[i];
-            Util.insertSorted(this._sortedArray, entry, Lang.bind(this, function(a, b) {
-                return this._compare(a, b);
-            }));
+            Util.insertSorted(sortedArray, entry, Lang.bind(this,
+                function(a, b) {
+                    return this._compare(a, b);
+                }
+            ));
         }
-        for (let i in this._sortedArray) {
-            let uuid = this._sortedArray[i].uuid;
-            let name = this._sortedArray[i].metadata.name;
-            let state = this._sortedArray[i].state;
-            let item = new ExtensionMenuItem(uuid, name, state);
-            this.menu.addMenuItem(item);
+        for (let i in sortedArray) {
+            let uuid = sortedArray[i].uuid;
+            let name = sortedArray[i].metadata.name;
+            let state = sortedArray[i].state;
+            let ext = sortedArray[i];
+            let item = new SubMenuItem(ext, name, this.menu, subMenu);
+            item._keyInId = item.actor.connect('key-focus-in',
+                Lang.bind(this, this._scrollMenuBox));
+            subMenu.addMenuItem(item);
         }
+        this.menu.actor.style = ('max-height:' + MAX_HEIGHT + 'px');
     },
 
     destroy: function() {
+        this.menu.disconnect(this._openToggledId);
+        this._subMenuMenuItem.menu.removeAll();
+        this.menu.removeAll();
         this.parent();
-    },
+    }
 });
 
 
-let _indicator;
-let _timer = 0;
-
 function init() {
-    // TOOL is not executable when installed.
-    // This can be removed when TOOL is released with reload
-    // option.  It is now in the GS 3.23 development stage.
-    // It will be removed after GS 3.24 is in common use.
-    if (!GLib.file_test(TOOL, GLib.FileTest.IS_EXECUTABLE)) {
-        Util.trySpawn(['/usr/bin/chmod', '0700', TOOL]);
-    }
+    this._timeoutId = 0;
+    this._btn = null;
 }
 
 function enable() {
     let mode = Main.sessionMode.currentMode;
-    if (mode == 'classic' || mode == 'user')
-        _timer = Mainloop.timeout_add(3000, delayedPopulateMenu);
-}
-
-function delayedPopulateMenu() {
-
-    // Must delay until all other extensions have been loaded.
-    // When gnome-shell-extension-tool with reload option is
-    // released the included tool and chmod logic will not be
-    // required and will be removed.
-    _indicator = new ReloadExtensionMenu;
-    Main.panel.addToStatusArea(INDICATOR_TAG, _indicator, 0, 'right');
-    _timer = 0;
+    if (mode == 'classic' || mode == 'user') {
+        this._timeoutId = Mainloop.timeout_add(3000, Lang.bind(this,
+            function() {
+                this._btn = new ReloadExtensionMenu;
+                Main.panel.addToStatusArea(ROLE, this._btn, -1, 'right');
+            }
+        ));
+    }
 }
 
 function disable() {
-    if (_timer != 0) {
-        Mainloop.source_remove(_timer);    
+    if (this._timeoutId != 0) {
+        Mainloop.source_remove(this._timeoutId);
+        this._timeoutId = 0;
     }
-    _indicator.destroy();
+    if (this._btn !== null) {
+        this._btn.destroy();
+        this._btn = null;
+    }
 }
