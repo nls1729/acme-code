@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="nls1729-extensions">
+  <schema path="/org/gnome/shell/extensions/extension-reloader/" id="org.gnome.shell.extensions.extension-reloader">
+    <key type="b" name="panel-icon-center">
+      <default>true</default>
+      <summary>Center if true.</summary>
+      <description>If true panel button icon position left center or right center.</description>
+    </key>
+    <key type="b" name="panel-icon-left">
+      <default>true</default>
+      <summary>Left if true.</summary>
+      <description>Panel button icon position left, right, left center, or right center.</description>
+    </key>
+  </schema>
+</schemalist>

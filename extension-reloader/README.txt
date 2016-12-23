@@ -29,15 +29,26 @@ README
     2016-11-23 Extension Reloader - updated copyright due to fsf address changed
                Removed address and added license url instead. Uploaded for review.
 
-    2016-12-17 Extension Reloader - Major rewrite.
+    2016-12-23 Extension Reloader - Almost a complete rewrite.
                Removed the gnome-shell-extension-tool, replaced with extension
                code to directly control the shell extenson system.  Added
                display of extension state to menu, sorted extension display by
                state and name. Added scrolling to menu.  Changed notifications
                to indicate info, warning and error as appropriate.
 
+               This extension replaces the need to [ Atl F2 r ] to restart the
+               shell during extension development.  This extension will attempt
+               to reload the extension when it is in the error state.  The most
+               common shell restarts for extension writers are when an extension
+               is in the error state.  If the error in the extension code is
+               corrected a restart with this extension will reload it successfully
+               except in very rare instances.  Gnome Shell extensions can have
+               errors that are only exposed if the extension is reloaded. One such
+               error is the import of prefs.js into an extension. The the prefs.js
+               code is intended only to be executed by gnome-shell-extension-prefs.
 
 
-zip file: Sat Dec 17 08:02:57 EST 2016 e6bc3a11ff34c56a3ada2b7cfa47c8ffad01eaa8
+
+zip file: Fri Dec 23 11:01:37 EST 2016 ab9b4eb82ed5ba4f7374bf569f9593322b5de57d
 
 ...
