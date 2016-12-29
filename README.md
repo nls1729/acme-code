@@ -16,5 +16,4 @@ https://nls1729.github.io
 <tr><td>donotdisturb-button</td><td>Do Not Disturb Button</td><td>ego</td></tr>
 <tr><td>extension-reloader</td><td>Gnome Shell Extension Reloader</td><td>ego</td></tr>
 <tr><td>max-window-effect</td><td>Max Window Effect</td><td>no</td></tr>
-<tr><td>shell-restarter</td><td>Shell Restarter</td><td>no</td></tr>
 </table>

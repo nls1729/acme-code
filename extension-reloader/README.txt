@@ -36,7 +36,7 @@ README
                state and name. Added scrolling to menu.  Changed notifications
                to indicate info, warning and error as appropriate.
 
-               This extension replaces the need to [ Atl F2 r ] to restart the
+               This extension replaces the need to [ Alt F2 r ] to restart the
                shell during extension development.  This extension will attempt
                to reload the extension when it is in the error state.  The most
                common shell restarts for extension writers are when an extension
@@ -49,6 +49,6 @@ README
 
 
 
-zip file: Fri Dec 23 11:09:26 EST 2016 a9e0501a1cddad6a86d38eff5f7de696a7d06f12
+zip file: Thu Dec 29 07:17:36 EST 2016 4d384a58ed9868830b10532ce9699e99e994e949
 
 ...
