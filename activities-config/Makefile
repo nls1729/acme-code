@@ -7,7 +7,7 @@
 .ONESHELL:
 UUID = activities-config@nls1729
 MODULES = metadata.json README.txt colors.js convenience.js COPYING extension.js face-smile-3.svg keys.js \
-          notify.js prefs.js readme.js stylesheet.css
+          notify.js prefs.js readme.js
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date)
 COMMIT = $(shell git rev-parse HEAD)
@@ -35,7 +35,7 @@ _build: all
 		langdir=_build/locale/`basename $$langmo .mo`; \
 		mkdir -p $$langdir; \
 		mkdir -p $$langdir/LC_MESSAGES; \
-		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
+		cp $$langmo $$langdir/LC_MESSAGES/activities-config-extension.mo; \
 	done;
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
@@ -62,7 +62,4 @@ clean:
 	rm -f ./.~
 	rm -f ./*~
 	rm -rf _build
-
-
-
 

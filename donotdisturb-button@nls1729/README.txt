@@ -35,4 +35,10 @@ Do Not Disturb Button - updated copyright due to fsf address change
 Removed addess and added license url instead in extension.js.
 Removed copyright from prefs.js. Uploaded for review 2016-11-23.
 
-zip file: 2016-11-23 17:48:48 5b2d6072f82a98d527bbefc5a62e0be9e6736925
+Do Not Disturb Button -  changed name of translation mo files
+requested by Andrew Toskin to avoid duplicate filenames when
+creating RPM packages for Fedora.  Changed to use default
+schema directory if not installed from zip file. Uploaded for
+review 2017-03-12.
+
+zip file: 2017-03-12 12:16:11 3cb7171c983f4e34c6ef8973140f5392736bae30

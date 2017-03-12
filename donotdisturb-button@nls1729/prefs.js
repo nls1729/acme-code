@@ -6,15 +6,19 @@ const Gio = imports.gi.Gio;
 const Config = imports.misc.config;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
-const Gettext = imports.gettext.domain(DOMAIN);
-const _ = Gettext.gettext;
-const COMMIT = "Commit: 5b2d6072f82a98d527bbefc5a62e0be9e6736925";
+const Gettext = imports.gettext;
+const _ = Gettext.domain(DOMAIN).gettext;
+const COMMIT = "Commit: 3cb7171c983f4e34c6ef8973140f5392736bae30";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
 
 function init() {
-    imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");
+    let localeDir = Me.dir.get_child('locale');
+    if (localeDir.query_exists(null))
+        Gettext.bindtextdomain(DOMAIN, localeDir.get_path());
+    else
+        Gettext.bindtextdomain(DOMAIN, Config.LOCALEDIR);
 }
 
 const DoNotDisturbPrefsWidget = new GObject.Class({
@@ -26,11 +30,16 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this.parent(params);
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
-        let schemaDir = Me.dir.get_child('schemas').get_path();
-        let schemaSrc = GioSSS.new_from_directory(schemaDir, GioSSS.get_default(), false);
+        let schemaDir = Me.dir.get_child('schemas');
+        let schemaSrc;
+        if (schemaDir.query_exists(null))
+            schemaSrc = GioSSS.new_from_directory(schemaDir.get_path(), GioSSS.get_default(), false);
+        else
+            schemaSrc = GioSSS.get_default();
         let schemaObj = schemaSrc.lookup(schema, true);
+        if (!schemaObj)
+            throw new Error('Schema ' + schema + ' not found.');
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
-        //this.set_orientation(Gtk.Orientation.VERTICAL);
         this._grid = new Gtk.Grid();
         this._grid.margin = 5;
         this._grid.row_spacing = 5;

@@ -150,9 +150,15 @@ const DoNotDisturbExtension = new Lang.Class({
         this._timeoutId = 0;
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
-        let schemaDir = Me.dir.get_child('schemas').get_path();
-        let schemaSrc = GioSSS.new_from_directory(schemaDir, GioSSS.get_default(), false);
+        let schemaDir = Me.dir.get_child('schemas');
+        let schemaSrc;
+        if (schemaDir.query_exists(null))
+            schemaSrc = GioSSS.new_from_directory(schemaDir.get_path(), GioSSS.get_default(), false);
+        else
+            schemaSrc = GioSSS.get_default();
         let schemaObj = schemaSrc.lookup(schema, true);
+        if (!schemaObj)
+            throw new Error('Schema ' + schema + ' not found.');
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;

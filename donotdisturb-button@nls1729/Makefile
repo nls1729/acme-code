@@ -38,7 +38,7 @@ _build: all
 		langdir=_build/locale/`basename $$langmo .mo`; \
 		mkdir -p $$langdir; \
 		mkdir -p $$langdir/LC_MESSAGES; \
-		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
+		cp $$langmo $$langdir/LC_MESSAGES/donotdisturb-button-extension.mo; \
 	done;
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \

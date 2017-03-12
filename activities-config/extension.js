@@ -35,13 +35,11 @@ const Panel = imports.ui.panel;
 const PanelMenu = imports.ui.panelMenu;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
-
-const Gettext = imports.gettext.domain('nls1729-extensions');
-const _ = Gettext.gettext;
-
 const Config = imports.misc.config;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
+const _ = Gettext.gettext;
 const Colors = Me.imports.colors;
 const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;

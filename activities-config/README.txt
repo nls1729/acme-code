@@ -334,6 +334,11 @@ https://nls1729.github.io
 2016-11-23 Activities Configurator - updated copyright due to fsf address change
            Removed address and added license url instead. Uploaded for review.
 
-zip file: Wed Nov 23 17:48:09 EST 2016 5b2d6072f82a98d527bbefc5a62e0be9e6736925
+2017-03-12 Activities Configurator - changed name of translation mo files
+           requested by Andrew Toskin to avoid duplicate filenames when
+           creating RPM packages for Fedora.  Removed empty css file.
+           Uploaded for review.
+
+zip file: Sun Mar 12 10:35:48 EDT 2017 3cb7171c983f4e34c6ef8973140f5392736bae30
 
 ...

@@ -6,10 +6,10 @@ const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const St = imports.gi.St;
 const Lang = imports.lang;
-const Gettext = imports.gettext.domain('nls1729-extensions');
-const _ = Gettext.gettext;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
+const _ = Gettext.gettext;
 const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Readme = Me.imports.readme;
@@ -48,7 +48,7 @@ const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
 const SHOW_OVER = _("Show Overview If No Applications Are Running");
 const POSITION  = _("Move Activities to the Right");
-const COMMIT = "Commit: 395da570026067d5180788a6eb4a13b728cc15d6";
+const COMMIT = "Commit: 3cb7171c983f4e34c6ef8973140f5392736bae30";
 
 function init() {
     Convenience.initTranslations();

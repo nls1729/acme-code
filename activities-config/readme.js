@@ -1,5 +1,7 @@
 const Gtk = imports.gi.Gtk;
-const Gettext = imports.gettext.domain('nls1729-extensions');
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
 
