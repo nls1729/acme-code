@@ -41,4 +41,4 @@ creating RPM packages for Fedora.  Changed to use default
 schema directory if not installed from zip file. Uploaded for
 review 2017-03-12.
 
-zip file: 2017-03-12 12:16:11 3cb7171c983f4e34c6ef8973140f5392736bae30
+zip file: 2017-03-12 15:36:40 8ef4152f8cbf897e5b9a4742bc7a1f2f727b687c
