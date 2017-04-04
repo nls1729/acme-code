@@ -339,6 +339,6 @@ https://nls1729.github.io
            creating RPM packages for Fedora.  Removed empty css file.
            Uploaded for review.
 
-zip file: Tue Apr  4 17:34:48 EDT 2017 847f5478e88ae51aa79c26146f86625c833cdb4e
+zip file: Tue Apr  4 18:09:26 EDT 2017 291b74e478d77d17772e497ebe3f414b56694800
 
 ...
