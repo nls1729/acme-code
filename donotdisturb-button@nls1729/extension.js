@@ -32,6 +32,8 @@ const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
 const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const BUSY = Me.path + '/available-no.png'
+const AVAILABLE = Me.path + '/available-yes.png'
 const SHORTCUT = 'shortcut';
 
 const DoNotDisturbButton = new Lang.Class({
@@ -41,9 +43,9 @@ const DoNotDisturbButton = new Lang.Class({
     _init: function(settings) {
         this.parent(0.5, null, true);
         this._settings = settings;
-        this._iconBusy = new St.Icon({icon_name: 'user-busy-symbolic'});
-        this._iconAvailable = new St.Icon({icon_name: 'user-available-symbolic'});
-        let iconStyle = 'icon-size: 1.3em; padding-left: 2px; padding-right: 2px';
+        this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(BUSY) });
+        this._iconAvailable = new St.Icon({ gicon: Gio.icon_new_for_string(AVAILABLE) });
+        let iconStyle = 'icon-size: 1.2em; padding-left: 2px; padding-right: 2px';
         this._iconBusy.set_style(iconStyle);
         this._iconAvailable.set_style(iconStyle);
         this._notEmptyCount = new St.Label({ text: '', y_align: Clutter.ActorAlign.CENTER });

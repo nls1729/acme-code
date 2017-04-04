@@ -41,4 +41,9 @@ creating RPM packages for Fedora.  Changed to use default
 schema directory if not installed from zip file. Uploaded for
 review 2017-03-12.
 
-zip file: 2017-03-12 15:36:40 8ef4152f8cbf897e5b9a4742bc7a1f2f727b687c
+Do Not Disturb Button - changed available and busy icons to the
+style of the No Notifications icon displayed in the notifications
+area of the calendar.  Github issue #22.
+
+
+zip file: 2017-04-04 16:29:35 6036d95eed33f8b4b069ec212667f937bafb0533
