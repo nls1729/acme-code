@@ -47,7 +47,7 @@ const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
 const SHOW_OVER = _("Show Overview If No Applications Are Running");
 const POSITION  = _("Move Activities to the Right");
-const COMMIT = "Commit: 3cb7171c983f4e34c6ef8973140f5392736bae30";
+const COMMIT = "Commit: 6d11fc03354408359c6abdfaea03f55e841a8359";
 
 function init() {
     Convenience.initTranslations();
