@@ -43,8 +43,8 @@ review 2017-03-12.
 
 Do Not Disturb Button - changed available and busy icons to the
 style of the No Notifications icon displayed in the notifications
-area of the calendar.  Github issue #22. Uploaded for review
-2017-04-05
+area of the calendar.  Github issue #22. Updated for GS3.24
+Uploaded for review 2017-04-05
 
 
-zip file: 2017-04-05 12:01:37 edafe27b9b29ea5275d3df6ed9eb4fc3fe674f56
+zip file: 2017-04-05 12:26:17 6bcc3658e31fbdec9843dca4310dfb7f6d5aad2b
