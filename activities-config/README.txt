@@ -339,8 +339,9 @@ https://nls1729.github.io
            creating RPM packages for Fedora.  Removed empty css file.
            Uploaded for review.
 
-2017-04-05 Activities Configurator - Removed uneeded imports in prefs.js and notify.js
-           which caused errors in prefs.js for GS3.24. Uploaded for review.
+2017-04-05 Activities Configurator - Un-needed imports removed from prefs.js
+           and notify.js which caused errors in prefs.js for GS3.24. Updated
+           to GS3.24.  Uploaded for review.
 
 zip file: Wed Apr  5 06:47:42 EDT 2017 172295af0706297aed6b55bab39aa9630138a895
 
