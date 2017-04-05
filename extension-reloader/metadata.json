@@ -5,7 +5,7 @@
 "gettext-domain": "nls1729-extensions",
 "name": "Gnome Shell Extension Reloader",
 "description": "Reload selected extension with the Gnome Shell Extension Reloader in Wayland and Xorg without restarting the shell with [Alt F2 r].",
-"shell-version": [ "3.20", "3.22" ],
+"shell-version": [ "3.20", "3.22", "3.24" ],
 "url": "https://nls1729.github.io/extension-reloader.html",
 "version": 1
 }

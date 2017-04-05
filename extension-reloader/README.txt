@@ -47,6 +47,8 @@ README
                error is the import of prefs.js into an extension. The the prefs.js
                code is intended only to be executed by gnome-shell-extension-prefs.
 
+   2017-04-05  Added GS3.24 to metadata.json.
+
 
 
 zip file: Thu Dec 29 07:17:36 EST 2016 4d384a58ed9868830b10532ce9699e99e994e949
