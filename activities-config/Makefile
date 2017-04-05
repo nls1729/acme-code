@@ -26,9 +26,9 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 _build: all
 	rm -rf ./_build
 	mkdir -p _build
-	sed -i 's/"version":.*$\/"version": $(VERSION)/' metadata.json; \
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  README.txt; \
-	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  prefs.js; \
+	sed -i 's/"version":.*$\/"version": $(VERSION)/' metadata.json;
+	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  README.txt;
+	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  prefs.js;
 	cp $(MODULES) _build
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
