@@ -343,6 +343,6 @@ https://nls1729.github.io
            and notify.js which caused errors in prefs.js for GS3.24. Updated
            to GS3.24.  Uploaded for review.
 
-zip file: Wed Apr  5 07:17:20 EDT 2017 6fd2341c4498388c7116f09c6b5546553c66db3a
+zip file: Wed Apr  5 11:27:02 EDT 2017 1c8a8515d9b2839f4a7ee79434fe772643382085
 
 ...

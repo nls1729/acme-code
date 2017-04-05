@@ -25,6 +25,9 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 build: all
 	rm -rf ./_build
 	mkdir -p _build
+	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json;
+	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt;
+	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/' prefs.js;
 	cp $(MODULES) _build
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
@@ -37,9 +40,10 @@ build: all
 		mkdir -p $$langdir/LC_MESSAGES; \
 		cp $$langmo $$langdir/LC_MESSAGES/nls1729-extensions.mo; \
 	done;
-	sed -i 's/"version":.*$\/"version": $(VERSION)/' _build/metadata.json; \
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  _build/README.txt; \
+
+	cp -f _build/metadata.json . ;
 	cp -f _build/README.txt .;
+	cp -f _build/prefs.js . ;
 
 zip-file: build
 	cd _build ; \
