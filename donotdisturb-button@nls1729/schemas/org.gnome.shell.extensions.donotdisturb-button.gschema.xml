@@ -16,5 +16,10 @@
       <summary>Left if true.</summary>
       <description>Panel button icon position left, right, left center, or right center.</description>
     </key>
+    <key type="b" name="panel-count-show">
+      <default>true</default>
+      <summary>Show message count if true.</summary>
+      <description>If true, display the number of notifications.</description>
+    </key>
   </schema>
 </schemalist>

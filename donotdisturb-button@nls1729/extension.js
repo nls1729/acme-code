@@ -75,8 +75,10 @@ const DoNotDisturbButton = new Lang.Class({
     },
 
     _setNotEmptyCount: function() {
+        let show_count  = this._settings.get_boolean('panel-count-show');
         let count = this._list.get_n_children();
-        if (count < 1)
+        // hide count if no notifications are available or the user doesn't want to see it
+        if (count < 1 || !show_count)
             this._notEmptyCount.set_text('');
         else
             this._notEmptyCount.set_text(count.toString());
@@ -164,6 +166,7 @@ const DoNotDisturbExtension = new Lang.Class({
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;
+        this._showCountChangedSig = 0;
     },
 
     _positionChange: function() {
@@ -209,6 +212,7 @@ const DoNotDisturbExtension = new Lang.Class({
             this._btn._setNotEmptyCount();
             this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
             this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
+            this._showCountChangedSig = this._settings.connect('changed::panel-count-show', Lang.bind(this, this._positionChange));
         }
     },
 
@@ -234,6 +238,10 @@ const DoNotDisturbExtension = new Lang.Class({
         if (this._centerChangedSig > 0) {
             this._settings.disconnect(this._centerChangedSig);
             this._centerChangedSig = 0;
+        }
+        if (this._showCountChangedSig > 0) {
+            this._settings.disconnect(this._showCountChangedSig);
+            this._showCountChangedSig = 0;
         }
     }
 

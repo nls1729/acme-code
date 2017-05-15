@@ -12,6 +12,7 @@ const COMMIT = "Commit: 6804f8993e57bcfeb5143e01ef6d3ec2c096b10d";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
+const SHOW_COUNT = 'panel-count-show';
 
 function init() {
     let localeDir = Me.dir.get_child('locale');
@@ -49,11 +50,13 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let title = _("Edit");
         let btnPosition = _("Button Location");
         this._centerCb = new Gtk.CheckButton({label:_("Center")});
+        this._showCountCb = new Gtk.CheckButton({label:_("Show Notification Count")});
         this._leftRb = new Gtk.RadioButton({label:_("Left")});
         this._rightRb = new Gtk.RadioButton({group:this._leftRb, label:_("Right")});
         let rbGroup = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
         rbGroup.add(this._centerCb);
+        rbGroup.add(this._showCountCb);
         rbGroup.add(this._leftRb);
         rbGroup.add(this._rightRb);
         let helpLabel = new Gtk.Label({wrap: true, xalign: 0.5 })
@@ -103,6 +106,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._listStore.set(iter, arg0, arg1);
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
+        let showCount = this._settings.get_boolean(SHOW_COUNT);
         this._leftRb.connect('toggled', Lang.bind(this, function(b) {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, true);
@@ -122,9 +126,18 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
                 this._settings.set_boolean(CENTER, false);
             }
         }));
+
+        this._showCountCb.connect('toggled', Lang.bind(this, function(b) {
+            if(b.get_active()) {
+                this._settings.set_boolean(SHOW_COUNT, true);
+            } else {
+                this._settings.set_boolean(SHOW_COUNT, false);
+            }
+        }));
         this._leftRb.set_active(left);
         this._rightRb.set_active(!left);
         this._centerCb.set_active(center);
+        this._showCountCb.set_active(showCount);
         this._grid.attach(helpLabel,                                                      0,  1, 7, 1);
         this._grid.attach(this._treeView,                                                 2,  4, 3, 1);
         this._grid.attach(yesImage,                                                       3,  6, 1, 1);
