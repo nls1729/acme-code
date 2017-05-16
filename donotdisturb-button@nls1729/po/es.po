@@ -25,6 +25,11 @@ msgid ""
 msgstr ""
 "Para editar un atajo nuevo pulse en la fila y mantenga pulsadas las teclas nuevas, o pulse Retroceso para eliminarla."
 
+msgid ""
+"Show Notification Count"
+msgstr ""
+"Mostrar el conteo de notificaciones"
+
 msgid "Button Location"
 msgstr "Ubicación del botón"
 

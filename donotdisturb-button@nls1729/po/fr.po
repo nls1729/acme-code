@@ -26,6 +26,11 @@ msgstr ""
 "Pour modifier un raccourci, cliquez sur la ligne et actionnez les nouvelles "
 "touches, ou bien pressez « Retour arrière » pour l'effacer."
 
+msgid ""
+"Show Notification Count"
+msgstr ""
+"Afficher le nombre de notifications"
+
 msgid "Button Location"
 msgstr "Emplacement du bouton"
 

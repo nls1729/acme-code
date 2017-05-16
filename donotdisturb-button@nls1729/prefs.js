@@ -126,7 +126,6 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
                 this._settings.set_boolean(CENTER, false);
             }
         }));
-
         this._showCountCb.connect('toggled', Lang.bind(this, function(b) {
             if(b.get_active()) {
                 this._settings.set_boolean(SHOW_COUNT, true);

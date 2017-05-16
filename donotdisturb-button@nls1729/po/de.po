@@ -24,6 +24,11 @@ msgid ""
 msgstr ""
 "Um eine Tastenkombination zu bearbeiten, klicken Sie auf die Zeile und drücken Sie die neue Tastenkombination, oder drücken Sie die Rücktaste, um sie zu löschen."
 
+msgid ""
+"Show Notification Count"
+msgstr ""
+"Anzahl der Benachrichtigungen anzeigen"
+
 msgid "Button Location"
 msgstr "Die Position"
 
