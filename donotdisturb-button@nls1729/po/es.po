@@ -28,7 +28,7 @@ msgstr ""
 msgid ""
 "Show Notification Count"
 msgstr ""
-"Mostrar el conteo de notificaciones"
+"Mostrar la cuenta de notificaciones"
 
 msgid "Button Location"
 msgstr "Ubicación del botón"
