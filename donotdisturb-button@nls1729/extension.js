@@ -68,17 +68,36 @@ const DoNotDisturbButton = new Lang.Class({
             this._removeKeybinding();
             this._addKeybinding();
         }));
+        this._showCountChangedSig = this._settings.connect('changed::panel-count-show', Lang.bind(this, function() {
+            this._showCount = this._settings.get_boolean('panel-count-show');
+            this._setNotEmptyCount();
+        }));
         this._list = Main.panel.statusArea.dateMenu._messageList._notificationSection._list;
         this._listActorAddedSig = this._list.connect('actor-added', Lang.bind(this, this._setNotEmptyCount));
         this._listActorRemovedSig = this._list.connect('actor-removed', Lang.bind(this, this._setNotEmptyCount));
         this._addKeybinding();
+        this._showCount = this._settings.get_boolean('panel-count-show');
+        this._indicatorActor = Main.panel.statusArea['dateMenu']._indicator.actor;
+        this._indicatorSources = Main.panel.statusArea['dateMenu']._indicator._sources;
+        this._timeoutId = Mainloop.timeout_add(30000, Lang.bind(this, this._findUnseenNotifications));
+    },
+
+    _findUnseenNotifications: function() {
+        if (this._iconBusy.visible && !this._showCount && !this._indicatorActor.visible) {
+            let count = 0;
+            this._indicatorSources.forEach(Lang.bind(this, function(source) {
+                count += source.unseenCount;
+            }));
+            if (count > 0)
+                this._indicatorActor.visible = true;
+            }
+        return true;
     },
 
     _setNotEmptyCount: function() {
-        let show_count  = this._settings.get_boolean('panel-count-show');
         let count = this._list.get_n_children();
         // hide count if no notifications are available or the user doesn't want to see it
-        if (count < 1 || !show_count)
+        if (count < 1 || !this._showCount)
             this._notEmptyCount.set_text('');
         else
             this._notEmptyCount.set_text(count.toString());
@@ -134,6 +153,8 @@ const DoNotDisturbButton = new Lang.Class({
     },
 
     destroy: function() {
+        Mainloop.source_remove(this._timeoutId);
+        this._settings.disconnect(this._showCountChangedSig);
         this._removeKeybinding();
         this.actor.disconnect(this._btnReleaseSig);
         this.actor.disconnect(this._keyReleaseSig);
@@ -166,7 +187,6 @@ const DoNotDisturbExtension = new Lang.Class({
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;
-        this._showCountChangedSig = 0;
     },
 
     _positionChange: function() {
@@ -212,7 +232,6 @@ const DoNotDisturbExtension = new Lang.Class({
             this._btn._setNotEmptyCount();
             this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
             this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
-            this._showCountChangedSig = this._settings.connect('changed::panel-count-show', Lang.bind(this, this._positionChange));
         }
     },
 
@@ -238,10 +257,6 @@ const DoNotDisturbExtension = new Lang.Class({
         if (this._centerChangedSig > 0) {
             this._settings.disconnect(this._centerChangedSig);
             this._centerChangedSig = 0;
-        }
-        if (this._showCountChangedSig > 0) {
-            this._settings.disconnect(this._showCountChangedSig);
-            this._showCountChangedSig = 0;
         }
     }
 
