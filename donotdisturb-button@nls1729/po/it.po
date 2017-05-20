@@ -25,6 +25,11 @@ msgstr ""
 "Per modificare una scorciatoia, fare clic sulla riga e premere i nuovi "
 "tasti oppure premere «Backspace» per cancellarla."
 
+msgid ""
+"Show Notification Count"
+msgstr ""
+"Mostra conteggio di notifica"
+
 msgid "Button Location"
 msgstr "Pulsante di posizione"
 
