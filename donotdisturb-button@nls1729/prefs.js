@@ -160,7 +160,7 @@ function buildPrefsWidget() {
         'vexpand': true
     });
     scollingWindow.add_with_viewport(widget);
-    scollingWindow.set_size_request(740, 420);
+    scollingWindow.set_size_request(740, 450);
     scollingWindow.show_all();
     return scollingWindow;
 }
