@@ -166,6 +166,10 @@ msgstr "Leistenhintergrund undurchsichtig"
 msgid "Black Opaque Background"
 msgstr "Schwarzer Hintergrund ohne Transparenz"
 
+#: prefs.js:318
+msgid "Website"
+msgstr "Webseite"
+
 #: prefs.js:481
 msgid "Images"
 msgstr "Bilder"

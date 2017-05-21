@@ -47,7 +47,7 @@ msgstr "a la derecha"
 
 #: prefs.js:69
 msgid "Website"
-msgstr ""
+msgstr "sitio web"
 
 #~ msgid "Disabled"
 #~ msgstr "Desactivado"

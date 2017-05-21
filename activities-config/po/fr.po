@@ -162,6 +162,10 @@ msgstr "Couleur de fond opaque"
 msgid "Black Opaque Background"
 msgstr "Fond opaque de couleur noire"
 
+#: prefs.js:318
+msgid "Website"
+msgstr "Site Internet"
+
 #: prefs.js:483
 msgid "Images"
 msgstr "Images"

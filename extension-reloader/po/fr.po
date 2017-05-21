@@ -75,4 +75,4 @@ msgstr "à droite"
 
 #: prefs.js:70
 msgid "Website"
-msgstr ""
+msgstr "site Internet"

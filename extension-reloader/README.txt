@@ -49,8 +49,9 @@ README
 
    2017-04-05  Added GS3.24 to metadata.json.
 
+   2017-05-21  Translations updated. Thanks to Jonatan Zeidler.
 
 
-zip file: Wed Apr  5 12:26:07 EDT 2017 6bcc3658e31fbdec9843dca4310dfb7f6d5aad2b
+zip file: Sun May 21 14:30:06 EDT 2017 46d8dcee9fb77fc8d90a547282e40f59e37eaf1b
 
 ...

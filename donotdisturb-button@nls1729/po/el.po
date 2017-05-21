@@ -47,7 +47,7 @@ msgstr "Δεξιά"
 
 #: prefs.js:69
 msgid "Website"
-msgstr ""
+msgstr "δικτυακός τόπος"
 
 #~ msgid "Disabled"
 #~ msgstr "Απενεργοποιημένο"

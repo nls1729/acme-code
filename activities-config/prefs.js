@@ -47,7 +47,7 @@ const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
 const SHOW_OVER = _("Show Overview If No Applications Are Running");
 const POSITION  = _("Move Activities to the Right");
-const COMMIT = "Commit: 6bcc3658e31fbdec9843dca4310dfb7f6d5aad2b";
+const COMMIT = "Commit: 46d8dcee9fb77fc8d90a547282e40f59e37eaf1b";
 
 function init() {
     Convenience.initTranslations();
@@ -315,7 +315,7 @@ ActivitiesConfiguratorSettingsWidget.prototype = {
         let imagex = new Gtk.Image()
         imagex.set_from_pixbuf(pixbuf);
         let linkBtn = new Gtk.LinkButton({ uri: "https://nls1729.github.io/activities_config.html",
-                                           label: "Website",
+                                           label: _("Website"),
                                            image: imagex});
         this._grid.attach(linkBtn, 2, 41, 1, 3);
 

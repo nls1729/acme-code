@@ -51,7 +51,9 @@ count optional.  Added function to show notification indicator dot
 (after time display in panel) when unseen notifications reside in
 the calendar notification area.  Thanks to Christoph Schroeder for
 Github nls1729/acme-code pull request #23 Add option to hide
-notification count. Uploaded for review 2017-05-21.
+notification count. Translations updated. Thanks to Jonatan Zeidler.
+Uploaded for review 2017-05-21.
 
 
-zip file: 2017-05-21 09:46:10 d5c0622bb9ff0f6d7b40db4375b69246ff072df3
+
+zip file: 2017-05-21 14:29:50 46d8dcee9fb77fc8d90a547282e40f59e37eaf1b

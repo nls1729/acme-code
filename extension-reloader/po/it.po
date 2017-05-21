@@ -75,4 +75,4 @@ msgstr "Lato destro"
 
 #: prefs.js:70
 msgid "Website"
-msgstr ""
+msgstr "Sito web"
