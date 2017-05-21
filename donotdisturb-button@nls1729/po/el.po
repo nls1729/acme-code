@@ -40,3 +40,6 @@ msgstr "Αριστερά"
 
 msgid "Right"
 msgstr "Δεξιά"
+
+msgid "Website"
+msgstr "δικτυακός τόπος"

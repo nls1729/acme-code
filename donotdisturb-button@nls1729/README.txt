@@ -46,5 +46,12 @@ style of the No Notifications icon displayed in the notifications
 area of the calendar.  Github issue #22. Updated for GS3.24
 Uploaded for review 2017-04-05
 
+Do Not Disturb Button - changed to make display of notification
+count optional.  Added function to show notification indicator dot
+(after time display in panel) when unseen notifications reside in
+the calendar notification area.  Thanks to Christoph Schroeder for
+Github nls1729/acme-code pull request #23 Add option to hide
+notification count. Uploaded for review 2017-05-21.
 
-zip file: 2017-04-05 13:19:52 6804f8993e57bcfeb5143e01ef6d3ec2c096b10d
+
+zip file: 2017-05-20 16:11:03 c2b64317fe64923e5a3d7c1de5d6cdc77e2c85dc

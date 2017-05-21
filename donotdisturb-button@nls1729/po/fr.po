@@ -29,7 +29,7 @@ msgstr ""
 msgid ""
 "Show Notification Count"
 msgstr ""
-"Montrer mon compte de notification"
+"Afficher le nombre de notifications"
 
 msgid "Button Location"
 msgstr "Emplacement du bouton"
@@ -43,7 +43,8 @@ msgstr "à gauche"
 msgid "Right"
 msgstr "à droite"
 
-
+msgid "Website"
+msgstr "site Internet"
 
 
 

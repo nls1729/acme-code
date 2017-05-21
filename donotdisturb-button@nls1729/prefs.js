@@ -8,7 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 6804f8993e57bcfeb5143e01ef6d3ec2c096b10d";
+const COMMIT = "Commit: c2b64317fe64923e5a3d7c1de5d6cdc77e2c85dc";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -56,7 +56,6 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let rbGroup = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
         rbGroup.add(this._centerCb);
-        rbGroup.add(this._showCountCb);
         rbGroup.add(this._leftRb);
         rbGroup.add(this._rightRb);
         let helpLabel = new Gtk.Label({wrap: true, xalign: 0.5 })
@@ -66,7 +65,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString() + ' GS ' + shell_version + ']';
-        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: 'Website'});
+        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label:_('Website')});
         this._columns = {Name: 0, Mods: 1, Key: 2};
         this._listStore = new Gtk.ListStore();
         this._listStore.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_INT]);
@@ -140,6 +139,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._grid.attach(helpLabel,                                                      0,  1, 7, 1);
         this._grid.attach(this._treeView,                                                 2,  4, 3, 1);
         this._grid.attach(yesImage,                                                       3,  6, 1, 1);
+        this._grid.attach(this._showCountCb,                                              3,  7, 4, 1);
         this._grid.attach(new Gtk.Label({ label: btnPosition, wrap: true, xalign: 0.5 }), 0,  8, 7, 1);
         this._grid.attach(rbGroup,                                                        3, 10, 1, 3);
         this._grid.attach(noImage,                                                        3, 16, 1, 1);

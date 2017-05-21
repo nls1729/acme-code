@@ -83,7 +83,7 @@ const DoNotDisturbButton = new Lang.Class({
     },
 
     _findUnseenNotifications: function() {
-        if (this._iconBusy.visible && !this._showCount && !this._indicatorActor.visible) {
+        if (!this._indicatorActor.visible) {
             let count = 0;
             this._indicatorSources.forEach(Lang.bind(this, function(source) {
                 count += source.unseenCount;

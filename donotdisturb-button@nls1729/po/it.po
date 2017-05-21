@@ -28,7 +28,7 @@ msgstr ""
 msgid ""
 "Show Notification Count"
 msgstr ""
-"Mostra conteggio di notifica"
+"Mostrare il numero di notifiche"
 
 msgid "Button Location"
 msgstr "Pulsante di posizione"
@@ -42,7 +42,8 @@ msgstr "Lato sinistro"
 msgid "Right"
 msgstr "Lato destro"
 
-
+msgid "Website"
+msgstr "Sito web"
 
 
 

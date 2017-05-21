@@ -41,3 +41,6 @@ msgstr "Links"
 msgid "Right"
 msgstr "Rechte"
 
+msgid "Website"
+msgstr "Webseite"
+
