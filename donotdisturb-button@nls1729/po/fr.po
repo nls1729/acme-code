@@ -1,24 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nls1729-extensions\n"
-"Report-Msgid-Bugs-To: <nls1729@gmail.com>\n"
-"POT-Creation-Date: 2016-10-05 15:30-0400\n"
-"PO-Revision-Date: 2016-10-06 08:10-0400\n"
-"Last-Translator: Norman <nls1729@gmail.com>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-21 11:11+0200\n"
+"PO-Revision-Date: 2017-05-21 11:11+0200\n"
+"Last-Translator: Jonatan Hatakeyama Zeidler <jonatan_zeidler@gmx.de>\n"
 "Language-Team: Underdogs\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 2.0.1\n"
 
-msgid "Disabled"
-msgstr "Désactivé"
-
-msgid "Edit"
-msgstr "Modifier"
-
+#: prefs.js:49
 msgid ""
 "To edit shortcut, click the row and hold down the new keys or press "
 "Backspace to clear."
@@ -26,25 +21,33 @@ msgstr ""
 "Pour modifier un raccourci, cliquez sur la ligne et actionnez les nouvelles "
 "touches, ou bien pressez « Retour arrière » pour l'effacer."
 
-msgid ""
-"Show Notification Count"
-msgstr ""
-"Montrer mon compte de notification"
+#: prefs.js:50
+msgid "Edit"
+msgstr "Modifier"
 
+#: prefs.js:51
 msgid "Button Location"
 msgstr "Emplacement du bouton"
 
+#: prefs.js:52
 msgid "Center"
 msgstr "centre"
 
+#: prefs.js:53
+msgid "Show Notification Count"
+msgstr "Montrer mon compte de notification"
+
+#: prefs.js:54
 msgid "Left"
 msgstr "à gauche"
 
+#: prefs.js:55
 msgid "Right"
 msgstr "à droite"
 
+#: prefs.js:69
+msgid "Website"
+msgstr ""
 
-
-
-
-
+#~ msgid "Disabled"
+#~ msgstr "Désactivé"

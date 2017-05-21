@@ -66,7 +66,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString() + ' GS ' + shell_version + ']';
-        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: 'Website'});
+        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         this._columns = {Name: 0, Mods: 1, Key: 2};
         this._listStore = new Gtk.ListStore();
         this._listStore.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_INT]);
