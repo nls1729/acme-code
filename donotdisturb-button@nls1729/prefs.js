@@ -56,7 +56,6 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let rbGroup = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
         rbGroup.add(this._centerCb);
-        rbGroup.add(this._showCountCb);
         rbGroup.add(this._leftRb);
         rbGroup.add(this._rightRb);
         let helpLabel = new Gtk.Label({wrap: true, xalign: 0.5 })
@@ -140,6 +139,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._grid.attach(helpLabel,                                                      0,  1, 7, 1);
         this._grid.attach(this._treeView,                                                 2,  4, 3, 1);
         this._grid.attach(yesImage,                                                       3,  6, 1, 1);
+        this._grid.attach(this._showCountCb,                                              3,  7, 4, 1);
         this._grid.attach(new Gtk.Label({ label: btnPosition, wrap: true, xalign: 0.5 }), 0,  8, 7, 1);
         this._grid.attach(rbGroup,                                                        3, 10, 1, 3);
         this._grid.attach(noImage,                                                        3, 16, 1, 1);
@@ -160,7 +160,7 @@ function buildPrefsWidget() {
         'vexpand': true
     });
     scollingWindow.add_with_viewport(widget);
-    scollingWindow.set_size_request(740, 420);
+    scollingWindow.set_size_request(740, 450);
     scollingWindow.show_all();
     return scollingWindow;
 }
