@@ -54,13 +54,13 @@ const ICON = [ 'dialog-information-symbolic',
              ];
 const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
 const ROLE = 'extension-reloader-indicator';
-const STATE = ['Unknown',
-               'Enabled',
-               'Disabled',
-               'Error',
-               'Out of Date',
-               'Downloading',
-               'Initialized'
+const STATE = [_("Unknown"),
+               _("Enabled"),
+               _("Disabled"),
+               _("Error"),
+               _("Out of Date"),
+               _("Downloading"),
+               _("Initialized")
               ];
 const STYLE1 = 'width: 120px;';
 const STYLE2 = 'font-weight: bold;';
@@ -82,7 +82,7 @@ const SubMenuItem = new Lang.Class({
         if (this._state > 6)
             this._state = 0;
         let box = new St.BoxLayout();
-        let label1 = new St.Label({ text: STATE[this._state] });
+        let label1 = new St.Label({ text: _(STATE[this._state]) });
         label1.set_style(STYLE1);
         box.add_actor(label1);
         let label2 = new St.Label({ text: name });
@@ -285,5 +285,6 @@ const ExtensionReloaderExtension = new Lang.Class({
 });
 
 function init(metadata) {
+    imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");
     return new ExtensionReloaderExtension();
 }
