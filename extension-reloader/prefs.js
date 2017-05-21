@@ -67,7 +67,7 @@ const ExtensionReloaderPrefsWidget = new GObject.Class({
         rbGroup.add(this._rightRb);;
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString() + ' GS ' + shell_version + ']';
-        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: 'Website'});
+        this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
         this._leftRb.connect('toggled', Lang.bind(this, function(b) {
