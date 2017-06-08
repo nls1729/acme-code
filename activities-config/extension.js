@@ -710,6 +710,8 @@ const Configurator = new Lang.Class({
         } else {
             Main.panel._leftCorner.actor.show();
             Main.panel._rightCorner.actor.show();
+            Main.panel._leftCorner.actor.queue_repaint();
+            Main.panel._rightCorner.actor.queue_repaint();
         }
         if (this._transparencySig == null) {
             this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
