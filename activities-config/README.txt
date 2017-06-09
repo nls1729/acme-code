@@ -345,6 +345,6 @@ https://nls1729.github.io
 
 2017-05-21 Translations updated. Thanks to Jonatan Zeidler
 
-zip file: Thu Jun  8 18:24:33 EDT 2017 bfb81f9be57289a8afde9065f9719e499ceda9c9
+zip file: Fri Jun  9 15:55:25 EDT 2017 db68129e10f95392f1bff053e4b6f25ac730adee
 
 ...
