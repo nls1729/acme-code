@@ -348,6 +348,6 @@ https://nls1729.github.io
 2017-06-18 Added additonal defensive code for hidden corners.
            Uploaded for review.
 
-zip file: Fri Jun  9 15:55:25 EDT 2017 db68129e10f95392f1bff053e4b6f25ac730adee
+zip file: Sun Jun 18 10:32:51 EDT 2017 94afc5d54d0aa54b52cb0dc961547826195c82b9
 
 ...
