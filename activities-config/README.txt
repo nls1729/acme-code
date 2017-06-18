@@ -345,6 +345,9 @@ https://nls1729.github.io
 
 2017-05-21 Translations updated. Thanks to Jonatan Zeidler
 
+2017-06-18 Added additonal defensive code for hidden corners.
+           Uploaded for review.
+
 zip file: Fri Jun  9 15:55:25 EDT 2017 db68129e10f95392f1bff053e4b6f25ac730adee
 
 ...
