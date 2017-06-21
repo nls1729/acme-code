@@ -677,7 +677,6 @@ const Configurator = new Lang.Class({
             this._themeRGB = rgbT.rgb;
         } else {
             this._userOrClassicTheme = false;
-
         }
         let colorString = Colors.getColorStringCSS(this._panelColor);
         this._panelOpacity = (100 - this._settings.get_int(Keys.TRS_PAN)) / 100;
