@@ -72,7 +72,7 @@ msgstr "Réinitialiser paramètres par défaut"
 
 #: prefs.js:30
 msgid "Extension Description"
-msgstr "Documentation de l'extention"
+msgstr "Documentation de l'extension"
 
 #: prefs.js:31
 msgid "APPLY"
