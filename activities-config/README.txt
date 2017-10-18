@@ -351,6 +351,8 @@ https://nls1729.github.io
 2017-06-23 Translation correction. Thanks to Stéphane Roucheray.
            Uploaded for review.
 
+2017-10-18 Added 3.26 to metadata.json
+
 zip file: Fri Jun 23 15:01:32 EDT 2017 fa3a78b5c47cbf615ce2346f6f061e3a28f4eaec
 
 ...

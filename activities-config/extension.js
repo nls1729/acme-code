@@ -485,7 +485,7 @@ const Configurator = new Lang.Class({
             this._activitiesIconButton._iconBin.hide();
         } else {
             let pixels = this._settings.get_int(Keys.PAD_ICO);
-            let iconStyle = 'icon-size: 1.5em; padding-left: %dpx; padding-right: %dpx'.format(pixels, pixels);
+            let iconStyle = 'icon-size: 1.1em; padding-left: %dpx; padding-right: %dpx'.format(pixels, pixels);
             this._activitiesIconButton._iconBin.show();
             this._activitiesIconButton._iconBin.child.set_style(iconStyle);
         }
