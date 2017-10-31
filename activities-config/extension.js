@@ -94,10 +94,13 @@ const ActivitiesIconButton = new Lang.Class({
     handleDragOver: function(source, actor, x, y, time) {
         if (source != Main.xdndHandler)
             return DND.DragMotionResult.CONTINUE;
+
         if (this._xdndTimeOut != 0)
             Mainloop.source_remove(this._xdndTimeOut);
         this._xdndTimeOut = Mainloop.timeout_add(BUTTON_DND_ACTIVATION_TIMEOUT,
                                                  Lang.bind(this, this._xdndToggleOverview, actor));
+        GLib.Source.set_name_by_id(this._xdndTimeOut, '[gnome-shell] this._xdndToggleOverview');
+
         return DND.DragMotionResult.CONTINUE;
     },
 
@@ -145,7 +148,8 @@ const ActivitiesIconButton = new Lang.Class({
     _onKeyRelease: function(actor, event) {
         let symbol = event.get_key_symbol();
         if (symbol == Clutter.KEY_Return || symbol == Clutter.KEY_space) {
-            Main.overview.toggle();
+            if (Main.overview.shouldToggleByCornerOrButton())
+                Main.overview.toggle();
         }
         return Clutter.EVENT_PROPAGATE;
     },
@@ -153,10 +157,13 @@ const ActivitiesIconButton = new Lang.Class({
     _xdndToggleOverview: function(actor) {
         let [x, y, mask] = global.get_pointer();
         let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
+
         if (pickedActor == this.actor && Main.overview.shouldToggleByCornerOrButton())
             Main.overview.toggle();
+
         Mainloop.source_remove(this._xdndTimeOut);
         this._xdndTimeOut = 0;
+        return GLib.SOURCE_REMOVE;
     },
 
     destroy: function() {
@@ -854,6 +861,24 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
+        let currentSessionDesktop = GLib.getenv('XDG_SESSION_DESKTOP');
+        if (currentSessionDesktop.indexOf('gnome') == 0 && typeof Main.layoutManager.hotCorners[0] == 'undefined') {
+            // GNOME Session with missing Hot Corners
+            let title = Readme.makeTextStr(Readme.TITLE);
+            let message = Readme.makeTextStr(Readme.GNOME_NO_HOT_CORNERS);
+            let close = Readme.makeTextStr(Readme.CLOSE);
+            this._verboseNotify = new Notify.VerboseNotify();
+            this._verboseNotify._notify(title, message, close);
+            return;
+        } else if (currentSessionDesktop.indexOf('ubuntu') == 0 ) {
+            // Ubuntu Session
+            let title = Readme.makeTextStr(Readme.TITLE);
+            let message = Readme.makeTextStr(Readme.UBUNTU_SESSION);
+            let close = Readme.makeTextStr(Readme.CLOSE);
+            this._verboseNotify = new Notify.VerboseNotify();
+            this._verboseNotify._notify(title, message, close);
+            return;
+        }
         this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
         this._barriersSupported = global.display.supports_extended_barriers();
         this._setBarriersSupport(this._barriersSupported);
@@ -934,6 +959,8 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._themeTimeoutId);
             this._themeTimeoutId = 0;
         }
+        if (typeof this._verboseNotify != 'undefined')
+            this._verboseNotify.destroy();
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
             if (this._showLeftSignal > 0) {

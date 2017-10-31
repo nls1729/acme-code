@@ -4,6 +4,28 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
+let TITLE = _("Activities Configurator Will Not Function in Current Session");
+
+let UBUNTU_SESSION = [
+_("The current Desktop is Ubuntu Gnome in a Ubuntu Session."), "\n\n",
+_("Ubuntu 17.10 introduced a modified version of Gnome Shell to provide a 'Unity like experience'."), "\n",
+_("The modifications to the Gnome Shell are not compatible with the Activities Configurator."), "\n",
+_("A package is available to add a GNOME session that is compatible with the Activities Configurator."), "\n",
+_("See < http://www.omgubuntu.co.uk/2017/10/install-vanilla-gnome-shell-ubuntu-17-10 >."), "\n\n",
+
+_("The extension is enabled but it is limited to displaying this message. Please disable the Activities"), "\n",
+_("Configurator to prevent this message if you prefer to use the Ubuntu Session."), "\n\n",
+_("See README.txt for the Activities Configuator for additional information.")];
+
+let GNOME_NO_HOT_CORNERS = [
+_("The current Desktop is Gnome in a Gnome Session with no Hot Corners found."), "\n\n",
+_("The Hot Corners can be missing if the org.gnome.shell schema with the setting enable-hot-corners"), "\n",
+_("is set to false.  The Activities Configurator requires the setting to be true for proper operation."), "\n\n",
+_("The extension is enabled but it is limited to displaying this message. Please set enable-hot-corners"), "\n",
+_("to true and restart session. See README.txt for Activities Configuator for additional information."), "\n"];
+
+let CLOSE = _("CLOSE");
+
 
 let README = [
 _("The Activities Icon is selectable with the SELECT Icon button."), "  ",

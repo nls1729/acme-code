@@ -353,6 +353,36 @@ https://nls1729.github.io
 
 2017-10-18 Added 3.26 to metadata.json
 
+2017-10-31 Added detection of Ubuntu 17.10 Ubuntu Session and GNOME session.
+
+           Ubuntu 17.10 introduced the Gnome Shell as the desktop for Ubuntu.
+           On initial install only the Ubuntu Session is available.  The Gnome
+           Shell code is modified to disable the shell's Hot Corners by not
+           creating the Hot Corners in the Ubuntu Session.  The patch to the
+           shell code includes an addition to the org.gnome.shell schema of the
+           setting enable-hot-corners.  As part of the Ubuntu developers' "Unity
+           experience" in the Ubuntu Session the default is false and used to
+           disable the Hot Corners.  A GNOME Session is available by installing
+           the gnome-session package for Ubuntu.  The default in the Ubuntu GNOME
+           Session is true and used to enable the Hot Corners by their creation
+           for the session.  Gnome Shell extensions can be installed in both the
+           Ubuntu and GNOME Sessions.  The differences between the Ubuntu and
+           GNOME Sessions can cause the malfuction of some extensions. The
+           Activities Configurator detects the current session at enable. If
+           the Ubuntu Session is detected the extension displays a message and
+           does not enable the extensions features.  In the Ubuntu Session the
+           Activities Configurator will not function because it requires the Hot
+           Corners, conflicts with the theme provided by changes to the Panel.
+           In the Ubuntu GNOME Session the extension is fully functional. If the
+           enable-hot-corners setting is not set to the default in the GNOME
+           Session the extension displays a message and does not enable the
+           extension's features.  The enable-hot-corners setting is not exposed
+           to the user in the User Interface, but can be altered with available
+           tools.  Since the Hot Corner can be disabled by the Activities
+           Configurator in the GNOME Session there is no need to change the
+           enable-hot-corners setting from the default.
+
+
 zip file: Fri Jun 23 15:01:32 EDT 2017 fa3a78b5c47cbf615ce2346f6f061e3a28f4eaec
 
 ...
