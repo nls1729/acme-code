@@ -353,36 +353,73 @@ https://nls1729.github.io
 
 2017-10-18 Added 3.26 to metadata.json
 
-2017-10-31 Added detection of Ubuntu 17.10 Ubuntu Session and GNOME session.
+2017-11-08 Added detection of undefined Hot Corner
+
+           The Hot Corner is required for proper operation of the Activities
+           Configurator.  The Hot Corner can be undefined due to conflict
+           with another extension or a new global option provided for
+           Ubuntu version 17.10.
+
+           If the Hot Corner has been disabled with the patch provided by
+           https://bugzilla.gnome.org/show_bug.cgi?id=688320 the following
+           applies to your system.  The following is specific to Ubuntu but
+           the extension's need for enable-hot-corners to be set to true
+           applies to any linux distribution equipped with the patch. The
+           patch is not applied to the current upstream Gnome Shell. It is
+           possible the patch will be applied in a future release of the
+           upstream shell.
+
+           Ubuntu 17.10 Ubuntu Session and the Ubuntu GNOME session:
 
            Ubuntu 17.10 introduced the Gnome Shell as the desktop for Ubuntu.
            On initial install only the Ubuntu Session is available.  The Gnome
            Shell code is modified to disable the shell's Hot Corners by not
            creating the Hot Corners in the Ubuntu Session.  The patch to the
            shell code includes an addition to the org.gnome.shell schema of the
-           setting enable-hot-corners.  As part of the Ubuntu developers' "Unity
-           experience" in the Ubuntu Session the default is false and used to
-           disable the Hot Corners.  A GNOME Session is available by installing
-           the gnome-session package for Ubuntu.  The default in the Ubuntu GNOME
-           Session is true and used to enable the Hot Corners by their creation
-           for the session.  Gnome Shell extensions can be installed in both the
-           Ubuntu and GNOME Sessions.  The differences between the Ubuntu and
-           GNOME Sessions can cause the malfuction of some extensions. The
-           Activities Configurator detects the current session at enable. If
-           the Ubuntu Session is detected the extension displays a message and
-           does not enable the extensions features.  In the Ubuntu Session the
-           Activities Configurator will not function because it requires the Hot
-           Corners, conflicts with the theme provided by changes to the Panel.
-           In the Ubuntu GNOME Session the extension is fully functional. If the
-           enable-hot-corners setting is not set to the default in the GNOME
-           Session the extension displays a message and does not enable the
-           extension's features.  The enable-hot-corners setting is not exposed
-           to the user in the User Interface, but can be altered with available
-           tools.  Since the Hot Corner can be disabled by the Activities
-           Configurator in the GNOME Session there is no need to change the
-           enable-hot-corners setting from the default.
+           setting enable-hot-corners.  As part of the Ubuntu developers' effort
+           to provide an experience familiar to Unity users in the Ubuntu Session
+           the setting of false is used to disable the Hot Corners.
+
+           A GNOME Session is available by installing the gnome-session package
+           for Ubuntu.  The default in the Ubuntu GNOME Session is true and used
+           to enable the Hot Corners by their creation for the session.
+
+           The Activities Configurator detects if the Hot Corner is defined. If
+           the Hot Corner is undefined the extension displays a message and
+           does not enable the extension's features.  In the default Ubuntu Session
+           the Activities Configurator will not function because it requires the
+           Hot Corner.  The Activities Configurator will function in the Ubuntu
+           Session if the hot corners are enabled.  The gnome-tweak-tool (known
+           also as "Tweaks" and "Tweak Tool") is modified by Ubuntu to provide a
+           means to enable the hot corners:
+
+           Tweaks - Top Bar - Activities Overview Hot Corner - ON    (true)
+
+           The dconf-editor can be used to enable the hot corners:
+
+           /org/gnome/shell           enable-hot-corners set to ON   (true)
+
+           In the Ubuntu GNOME Session the extension is fully functional. If
+           the enable-hot-corners setting is not set to ON in the Ubuntu GNOME
+           Session the extension displays the message and does not enable the
+           extension's features.  The enable-hot-corners setting must be set
+           to ON (true) with the gnome-tweak-tool or dconf-editor.
+
+           Note the Hot Corner can be enabled and disabled by the Activities
+           Configurator in both the Ubuntu GNOME Session and default Ubuntu Session.
+           The setting of enable-hot-corners must be set to ON. The extension's
+           preferences contain an option to Disable Hot Corner.  The extension's
+           preferences can be accessed with the Tweak Tool or if the extension
+           is enabled by right click of the Activities Button text. The extension
+           disables the Hot Corner using a different method that does not remove
+           the hot corners.
+
+           Other Gnome Shell extensions may remove or modify the Hot Corner. If
+           you receive the message indicating the Hot Corner is undefined and
+           your Gnome Shell does not have the enable-hot-corners setting, the
+           cause is likely a conflict with another extension.
 
 
-zip file: Fri Jun 23 15:01:32 EDT 2017 fa3a78b5c47cbf615ce2346f6f061e3a28f4eaec
+zip file: Tue Nov  7 08:48:16 EST 2017 aa4de636ad88a6a73bd6ac29dff00f5a23786f34
 
 ...

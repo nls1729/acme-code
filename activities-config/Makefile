@@ -7,7 +7,7 @@
 .ONESHELL:
 UUID = activities-config@nls1729
 MODULES = metadata.json README.txt colors.js convenience.js COPYING extension.js face-smile-3.svg keys.js \
-          notify.js prefs.js readme.js
+          notify.js prefs.js readme.js stylesheet.css
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date)
 COMMIT = $(shell git rev-parse HEAD)

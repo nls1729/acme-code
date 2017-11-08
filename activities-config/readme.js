@@ -4,25 +4,23 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
-let TITLE = _("Activities Configurator Will Not Function in Current Session");
-
-let UBUNTU_SESSION = [
-_("The current Desktop is Ubuntu Gnome in a Ubuntu Session."), "\n\n",
-_("Ubuntu 17.10 introduced a modified version of Gnome Shell to provide a 'Unity like experience'."), "\n",
-_("The modifications to the Gnome Shell are not compatible with the Activities Configurator."), "\n",
-_("A package is available to add a GNOME session that is compatible with the Activities Configurator."), "\n",
-_("See < http://www.omgubuntu.co.uk/2017/10/install-vanilla-gnome-shell-ubuntu-17-10 >."), "\n\n",
-
-_("The extension is enabled but it is limited to displaying this message. Please disable the Activities"), "\n",
-_("Configurator to prevent this message if you prefer to use the Ubuntu Session."), "\n\n",
-_("See README.txt for the Activities Configuator for additional information.")];
+let TITLE = _("Activities Configurator Extension");
 
 let GNOME_NO_HOT_CORNERS = [
-_("The current Desktop is Gnome in a Gnome Session with no Hot Corners found."), "\n\n",
-_("The Hot Corners can be missing if the org.gnome.shell schema with the setting enable-hot-corners"), "\n",
-_("is set to false.  The Activities Configurator requires the setting to be true for proper operation."), "\n\n",
-_("The extension is enabled but it is limited to displaying this message. Please set enable-hot-corners"), "\n",
-_("to true and restart session. See README.txt for Activities Configuator for additional information."), "\n"];
+"\n",
+_("The Hot Corner is undefined.  The Activities Configurator requires the Hot Corner."), "\n\n",
+_("If the setting to enable-hot-corners is set to false the Hot Corner is not available."), "\n",
+_("For Ubuntu 17.10 default Ubuntu Session the enable-hot-corners settings is set to false 'OFF'."), "\n",
+_("To use the extension please enable the Hot Corner by changing the setting to true 'ON'."), "\n\n",
+_("The setting can be set using the gnome-tweak-tool 'Tweaks' or the dconf-editor 'dconf Editor'"), "\n",
+_("Install dconf-editor: $ sudo apt install dconf-editor"), "\n",
+_("Execute dconf-editor: $ sudo dconf-editor"), "\n",
+_("Navigate to: /org/gnome/shell"), "\n",
+_("Set enable-hot-corners to ON."), "\n",
+_("Restart your computer."), "\n",
+_("Login to the Ubuntu Session."), "\n\n",
+_("The enable-hot-corners setting is not available in all linux distributions using Gnome Shell."), "\n",
+_("See < https://nls1729.github.io/activities_config.html. > for additional information."),"\n\n"];
 
 let CLOSE = _("CLOSE");
 

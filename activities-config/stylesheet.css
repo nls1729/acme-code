@@ -2,28 +2,28 @@
 .msg-text {
     font-size: 16px;
     font-family: Monospace;
-    color: #000000;
-    background-color: rgba(220,220,210,0.80);
+    color: #FFFFFF;
+    background-color: rgba(0,0,0,0.90);
     border-radius: 5px;
-    padding: .25em;
+    padding: .5em;
 }
 
 .title-text {
     font-size: 16px;
     font-family: Monospace;
     font-weight: bold;
-    color: #000000;
-    background-color: rgba(220,220,210,0.80);
+    color: #FFFFFF;
+    background-color: rgba(0,0,0,0.90);
     border-radius: 5px;
-    padding: .25em;
+    padding: .5em;
 }
 
 .close-text {
     font-size: 16px;
     font-family: Monospace;
     font-weight: bold;
-    color: #0B3C8C;
-    background-color: rgba(220,220,210,0.80);
+    color: #4C80CC;
+    background-color: rgba(0,0,0,0.90);
     border-radius: 5px;
-    padding: .25em;
+    padding: .5em;
 }

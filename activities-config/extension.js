@@ -861,19 +861,10 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        let currentSessionDesktop = GLib.getenv('XDG_SESSION_DESKTOP');
-        if (currentSessionDesktop.indexOf('gnome') == 0 && typeof Main.layoutManager.hotCorners[0] == 'undefined') {
+        if (typeof Main.layoutManager.hotCorners[0] == 'undefined') {
             // GNOME Session with missing Hot Corners
             let title = Readme.makeTextStr(Readme.TITLE);
             let message = Readme.makeTextStr(Readme.GNOME_NO_HOT_CORNERS);
-            let close = Readme.makeTextStr(Readme.CLOSE);
-            this._verboseNotify = new Notify.VerboseNotify();
-            this._verboseNotify._notify(title, message, close);
-            return;
-        } else if (currentSessionDesktop.indexOf('ubuntu') == 0 ) {
-            // Ubuntu Session
-            let title = Readme.makeTextStr(Readme.TITLE);
-            let message = Readme.makeTextStr(Readme.UBUNTU_SESSION);
             let close = Readme.makeTextStr(Readme.CLOSE);
             this._verboseNotify = new Notify.VerboseNotify();
             this._verboseNotify._notify(title, message, close);
