@@ -4,26 +4,33 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
+let DISABLED_HOT_CORNER = _("Do not disable enable-hot-corners global setting.");
+
 let TITLE = _("Activities Configurator Extension");
 
-let GNOME_NO_HOT_CORNERS = [
+let NO_HOT_CORNERS_CHANGED = [
 "\n",
-_("The Hot Corner is undefined.  The Activities Configurator requires the Hot Corner."), "\n\n",
-_("If the setting to enable-hot-corners is set to false the Hot Corner is not available."), "\n",
-_("For Ubuntu 17.10 default Ubuntu Session the enable-hot-corners settings is set to false 'OFF'."), "\n",
-_("To use the extension please enable the Hot Corner by changing the setting to true 'ON'."), "\n\n",
-_("The setting can be set using the gnome-tweak-tool 'Tweaks' or the dconf-editor 'dconf Editor'"), "\n",
-_("Install dconf-editor: $ sudo apt install dconf-editor"), "\n",
-_("Execute dconf-editor: $ sudo dconf-editor"), "\n",
-_("Navigate to: /org/gnome/shell"), "\n",
-_("Set enable-hot-corners to ON."), "\n",
-_("Restart your computer."), "\n",
-_("Login to the Ubuntu Session."), "\n\n",
-_("The enable-hot-corners setting is not available in all linux distributions using Gnome Shell."), "\n",
-_("See < https://nls1729.github.io/activities_config.html. > for additional information."),"\n\n"];
+_("The Activities Configurator requires the Hot Corner."), "\n",
+_("The global enable-hot-corners setting has be set from OFF to ON."), "\n",
+_("The extension preference Disable Hot Corner has been set to ON."), "\n",
+_("This normal on the first enable in a Ubuntu 17.10 or later Session."), "\n",
+_("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
+
+let NO_HOT_CORNERS_UNHANDLED_KEY_FOUND = [
+"\n",
+_("The global enable-hot-corners key setting was found."), "\n",
+_("The Hot Corner was found undefined."), "\n",
+_("The Activities Configurator is not functional."), "\n",
+_("An extension conflict or software error is likely cause."), "\n",
+_("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
 
 let CLOSE = _("CLOSE");
 
+let NO_HOT_CORNERS_CONFLICT = [
+"\n",
+_("The Activities Configurator is not functional."), "\n",
+_("A conflict with another extension is the likely cause."), "\n",
+_("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
 
 let README = [
 _("The Activities Icon is selectable with the SELECT Icon button."), "  ",

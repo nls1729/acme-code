@@ -228,6 +228,11 @@ const Configurator = new Lang.Class({
         this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
         this._appSystem = Shell.AppSystem.get_default();
         this._appStateChangedSigId = null;
+        // For detection of global setting key enable-hot-corners
+        this._keyFound = false;
+        this._keyValue = false;
+        this._keyChanged = false;
+        this._keyChangedSig = null;
     },
 
     _appStateChanged: function(appSystem, app) {
@@ -856,20 +861,38 @@ const Configurator = new Lang.Class({
             Main.overview.toggle();
     },
 
+    _enableHotCornersChanged: function() {
+        if (!global.settings.get_boolean('enable-hot-corners'))
+            Notify.notifyError(ReadMe.TITLE,Readme.makeTextStr(Readme.DISABLED_HOT_CORNER));
+    },
+
     _delayedEnable: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        if (typeof Main.layoutManager.hotCorners[0] == 'undefined') {
-            // GNOME Session with missing Hot Corners
+        if (this._keyChanged) {
+            this._settings.set_boolean(Keys.NO_HOTC, true);
             let title = Readme.makeTextStr(Readme.TITLE);
-            let message = Readme.makeTextStr(Readme.GNOME_NO_HOT_CORNERS);
+            let message = Readme.makeTextStr(Readme.NO_HOT_CORNERS_CHANGED);
             let close = Readme.makeTextStr(Readme.CLOSE);
-            this._verboseNotify = new Notify.VerboseNotify();
-            this._verboseNotify._notify(title, message, close);
+            let verboseNotify = new Notify.VerboseNotify();
+            verboseNotify._notify(title, message, close);
+        }
+        if (typeof Main.layoutManager.hotCorners[0] == 'undefined') {
+            let title = Readme.makeTextStr(Readme.TITLE);
+            let message;
+            if (this._keyFound)
+                message = Readme.makeTextStr(Readme.NO_HOT_CORNERS_UNHANDLED_KEY_FOUND);
+            else
+                message = Readme.makeTextStr(Readme.NO_HOT_CORNERS_CONFLICT);
+            let close = Readme.makeTextStr(Readme.CLOSE);
+            let verboseNotify = new Notify.VerboseNotify();
+            verboseNotify._notify(title, message, close);
             return;
         }
+        if (this._keyFound)
+            this._keyChangedSig = global.signals.connect('changed::enable-hot-corners', Lang.bind(this, this._enableHotCornersChanged));
         this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
         this._barriersSupported = global.display.supports_extended_barriers();
         this._setBarriersSupport(this._barriersSupported);
@@ -923,6 +946,23 @@ const Configurator = new Lang.Class({
         log('Activities Configurator Enabled');
     },
 
+    _getHotCornerState: function() {
+        log('Global');
+        this._keyFound = false;
+        this._keyValue = false;
+        this._keyChanged = false;
+        let keys = global.settings.list_keys();
+        for (let i in keys) {
+            if (keys[i] == 'enable-hot-corners') {
+                this._keyFound = true;
+                this._keyValue = global.settings.get_boolean('enable-hot-corners');
+                if (!this._keyValue)
+                    this._keyChanged = global.settings.set_boolean('enable-hot-corners', true);
+                break;
+            }
+        }
+    },
+
     enable: function() {
 
         // For extension to function in classic mode
@@ -931,10 +971,8 @@ const Configurator = new Lang.Class({
             this._settings.set_boolean(Keys.CON_DET, true);
         // Extension must delay completion of enable to allow theme to be
         // loaded and for Conflict Detection to function if it is enabled.
-        if (Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user')
-            this._timeoutId = Mainloop.timeout_add(1500, Lang.bind(this, this._delayedEnable));
-        else
-            this._delayedEnable();
+        this._getHotCornerState();
+        this._timeoutId = Mainloop.timeout_add(1500, Lang.bind(this, this._delayedEnable));
     },
 
     disable: function() {
@@ -950,8 +988,10 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._themeTimeoutId);
             this._themeTimeoutId = 0;
         }
-        if (typeof this._verboseNotify != 'undefined')
-            this._verboseNotify.destroy();
+        if (this._keyChangedSig > 0) {
+            global.signals.disconnect(this._keyChangedSig);
+            this._keyChangedSig = null;
+        }
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
             if (this._showLeftSignal > 0) {
