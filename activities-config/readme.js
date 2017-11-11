@@ -4,31 +4,41 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
-let DISABLED_HOT_CORNER = _("Do not disable enable-hot-corners global setting.");
+let DISABLED_HOT_CORNER = [
+_("Do not disable enable-hot-corners global setting."), "\r",
+_("See < https://nls1729.github.io/activities_config.html >.")];
 
 let TITLE = _("Activities Configurator Extension");
 
 let NO_HOT_CORNERS_CHANGED = [
 "\n",
-_("The Activities Configurator requires the Hot Corner."), "\n",
-_("The global enable-hot-corners setting has be set from OFF to ON."), "\n",
-_("The extension preference Disable Hot Corner has been set to ON."), "\n",
-_("This normal on the first enable in a Ubuntu 17.10 or later Session."), "\n",
+_("The Activities Configurator requires the Activities Overview Hot Corner."), "\n",
+_("The global enable-hot-corners setting is provided in this linux distro."), "\n",
+_("The enable-hot-corners setting was OFF causing the Hot Corner to be undefined."), "\n",
+_("The extension has set the setting from OFF to ON creating the Hot Corner."), "\n",
+_("The extension has set its preference Disable Hot Corner to ON disabling the Hot Corner."), "\n",
+_("The Hot Corner function can be enabled by setting Disable Hot Corner to OFF."), "\n",
+_("If the enable-hot-corners setting remains ON this message will not be displayed."), "\n",
 _("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
 
 let NO_HOT_CORNERS_UNHANDLED_KEY_FOUND = [
 "\n",
-_("The global enable-hot-corners key setting was found."), "\n",
-_("The Hot Corner was found undefined."), "\n",
+_("The Activities Configurator requires the Activities Overview Hot Corner."), "\n",
+_("The global enable-hot-corners setting is provided in this linux distro."), "\n",
+_("The extension has set the setting from OFF to ON to create the Hot Corner."), "\n",
+_("The Hot Corner is undefined.  This is unexpected behavior."), "\n",
 _("The Activities Configurator is not functional."), "\n",
-_("An extension conflict or software error is likely cause."), "\n",
+_("An extension conflict or software error is the likely cause."), "\n",
 _("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
 
 let CLOSE = _("CLOSE");
 
 let NO_HOT_CORNERS_CONFLICT = [
 "\n",
+_("The Activities Configurator requires the Activities Overview Hot Corner."), "\n",
+_("The global enable-hot-corners setting is not found in this linux distro."), "\n",
 _("The Activities Configurator is not functional."), "\n",
+_("Several other extensions are known to interact with the Hot Corner."), "\n",
 _("A conflict with another extension is the likely cause."), "\n",
 _("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
 

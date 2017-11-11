@@ -228,6 +228,7 @@ const Configurator = new Lang.Class({
         this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
         this._appSystem = Shell.AppSystem.get_default();
         this._appStateChangedSigId = null;
+         this._leftBoxActorAddedSig = null;
         // For detection of global setting key enable-hot-corners
         this._keyFound = false;
         this._keyValue = false;
@@ -862,8 +863,9 @@ const Configurator = new Lang.Class({
     },
 
     _enableHotCornersChanged: function() {
-        if (!global.settings.get_boolean('enable-hot-corners'))
-            Notify.notifyError(ReadMe.TITLE,Readme.makeTextStr(Readme.DISABLED_HOT_CORNER));
+        if (!global.settings.get_boolean('enable-hot-corners')) {
+            Notify.notifyError(Readme.TITLE,Readme.makeTextStr(Readme.DISABLED_HOT_CORNER));
+        }
     },
 
     _delayedEnable: function() {
@@ -871,7 +873,7 @@ const Configurator = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        if (this._keyChanged) {
+        if (this._keyChanged && typeof Main.layoutManager.hotCorners[0] != 'undefined') {
             this._settings.set_boolean(Keys.NO_HOTC, true);
             let title = Readme.makeTextStr(Readme.TITLE);
             let message = Readme.makeTextStr(Readme.NO_HOT_CORNERS_CHANGED);
@@ -892,7 +894,7 @@ const Configurator = new Lang.Class({
             return;
         }
         if (this._keyFound)
-            this._keyChangedSig = global.signals.connect('changed::enable-hot-corners', Lang.bind(this, this._enableHotCornersChanged));
+            this._keyChangedSig = global.settings.connect('changed::enable-hot-corners', Lang.bind(this, this._enableHotCornersChanged));
         this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
         this._barriersSupported = global.display.supports_extended_barriers();
         this._setBarriersSupport(this._barriersSupported);
@@ -947,7 +949,6 @@ const Configurator = new Lang.Class({
     },
 
     _getHotCornerState: function() {
-        log('Global');
         this._keyFound = false;
         this._keyValue = false;
         this._keyChanged = false;
@@ -989,7 +990,7 @@ const Configurator = new Lang.Class({
             this._themeTimeoutId = 0;
         }
         if (this._keyChangedSig > 0) {
-            global.signals.disconnect(this._keyChangedSig);
+            global.settings.disconnect(this._keyChangedSig);
             this._keyChangedSig = null;
         }
         this._panelAppMenuButtonIconHidden = false;
