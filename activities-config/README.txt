@@ -418,6 +418,6 @@ https://nls1729.github.io
            the Activities Overview Hot Corner to OFF at the start of the
            next Ubuntu Session.
 
-zip file: Sat Nov 11 15:59:24 EST 2017 e1acb9ea28124ac1cc813cb6db839f465e4195be
+zip file: Sat Nov 11 16:12:13 EST 2017 7e1687b4fe2f9203bb284cb10c24b833000244dd
 
 ...
