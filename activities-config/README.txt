@@ -354,7 +354,6 @@ https://nls1729.github.io
 2017-10-18 Added 3.26 to metadata.json
 
 2017-11-11 Added detection of undefined Hot Corner
-           Uploaded for review.
 
            The Hot Corner is required for proper operation of the Activities
            Configurator.  The Hot Corner can be undefined due to a conflict
@@ -418,6 +417,8 @@ https://nls1729.github.io
            the Activities Overview Hot Corner to OFF at the start of the
            next Ubuntu Session.
 
-zip file: Sat Nov 11 16:12:13 EST 2017 7e1687b4fe2f9203bb284cb10c24b833000244dd
+2017-11-12 Uploaded for review
+
+zip file: Sat Nov 11 16:19:14 EST 2017 8cbeb75df44f0ea6137e0dac80dd87c5e4a5391a
 
 ...
