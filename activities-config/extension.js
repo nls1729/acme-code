@@ -874,7 +874,9 @@ const Configurator = new Lang.Class({
             this._timeoutId = 0;
         }
         if (this._keyChanged && typeof Main.layoutManager.hotCorners[0] != 'undefined') {
-            this._settings.set_boolean(Keys.NO_HOTC, true);
+            if(!this._settings.get_boolean(Keys.NO_HOTC)) {
+                this._settings.set_boolean(Keys.NO_HOTC, true);
+            }
             let title = Readme.makeTextStr(Readme.TITLE);
             let message = Readme.makeTextStr(Readme.NO_HOT_CORNERS_CHANGED);
             let close = Readme.makeTextStr(Readme.CLOSE);
