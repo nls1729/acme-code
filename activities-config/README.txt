@@ -470,6 +470,11 @@ https://nls1729.github.io
 
 2017-11-12 Uploaded for review
 
-zip file: Sun Nov 12 15:07:06 EST 2017 3d50a03dc66c168b454ffdeb4b34d3de8d6bb087
+2917-11-15 Added Activities Button drag over for Wayland to allow mouse
+           DND only when Hot Corner is disabled.  The Super Key is not
+           required to switch to the Overview.
+
+
+zip file: Wed Nov 15 15:08:07 EST 2017 a6dd8046c813f77f31dff22354944de80a19b4e5
 
 ...

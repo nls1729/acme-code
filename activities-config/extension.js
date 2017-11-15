@@ -27,6 +27,7 @@ const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Shell = imports.gi.Shell;
+const Meta = imports.gi.Meta;
 const St = imports.gi.St;
 const DND = imports.ui.dnd;
 const Layout = imports.ui.layout;
@@ -89,6 +90,8 @@ const ActivitiesIconButton = new Lang.Class({
         this._xdndTimeOut = 0;
         this._touchAndHoldTimeoutId = 0;
         this._prefsCommand = 'gnome-shell-extension-prefs';
+        this._waylandDragOverTimedOutId = 0;
+        this._motionUnHandled = false;
     },
 
     handleDragOver: function(source, actor, x, y, time) {
@@ -141,8 +144,46 @@ const ActivitiesIconButton = new Lang.Class({
             } else {
                 Main.overview.toggle();
             }
+        } else if (!Main.overview.visible && Meta.is_wayland_compositor()) {
+            // Handle Drag Over in Wayland
+            switch (event.type()) {
+                case Clutter.EventType.ENTER:
+                    log('Enter >>>>>>>>>>>>>>>');
+                    this._motionUnHandled = true;
+                    break;
+                case Clutter.EventType.MOTION:
+                    if (this._motionUnHandled) {
+                        log('Motion <><><><><><><>');
+                        let eventState = event.get_state();
+                        if((eventState & Clutter.ModifierType.BUTTON1_MASK) && this._waylandDragOverTimedOutId == 0)
+                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(750, Lang.bind(this, this._waylandDragOverTimedOut));
+                    }
+                    this._motionUnHandled = false;
+                    break;
+                case Clutter.EventType.LEAVE:
+                    log('Leave <<<<<<<<<<<<<<<');
+                    this._removeWaylandDragOverTimedOutId();
+                    break;
+            }
         }
         return Clutter.EVENT_PROPAGATE;
+    },
+
+    _waylandDragOverTimedOut: function() {
+        log('Timed Out ^^^^^^^^^^^^^');
+        if (!Main.overview.visible) {
+            if (Main.overview.shouldToggleByCornerOrButton())
+                Main.overview.toggle();
+        }
+        this._waylandDragOverTimedOutId = 0;
+    },
+
+    _removeWaylandDragOverTimedOutId : function() {
+        if (this._waylandDragOverTimedOutId != 0) {
+            Mainloop.source_remove(this._waylandDragOverTimedOutId);
+            this._waylandDragOverTimedOutId = 0;
+            log('Removed Time Out -----------');
+        }
     },
 
     _onKeyRelease: function(actor, event) {
@@ -179,7 +220,8 @@ const ActivitiesIconButton = new Lang.Class({
             let sig = this._mainSignals.pop();
             if (sig > 0)
 	        Main.overview.disconnect(sig);
-        }
+        }                i
+        this._removeWaylandDragOverTimedOutId();
         this.parent();
     }
 
