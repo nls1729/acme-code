@@ -144,16 +144,14 @@ const ActivitiesIconButton = new Lang.Class({
             } else {
                 Main.overview.toggle();
             }
-        } else if (!Main.overview.visible && Meta.is_wayland_compositor()) {
+        } else if (Meta.is_wayland_compositor()) { 
             // Handle Drag Over in Wayland
             switch (event.type()) {
                 case Clutter.EventType.ENTER:
-                    log('Enter >>>>>>>>>>>>>>>');
                     this._motionUnHandled = true;
                     break;
                 case Clutter.EventType.MOTION:
                     if (this._motionUnHandled) {
-                        log('Motion <><><><><><><>');
                         let eventState = event.get_state();
                         if((eventState & Clutter.ModifierType.BUTTON1_MASK) && this._waylandDragOverTimedOutId == 0)
                             this._waylandDragOverTimedOutId = Mainloop.timeout_add(750, Lang.bind(this, this._waylandDragOverTimedOut));
@@ -161,7 +159,6 @@ const ActivitiesIconButton = new Lang.Class({
                     this._motionUnHandled = false;
                     break;
                 case Clutter.EventType.LEAVE:
-                    log('Leave <<<<<<<<<<<<<<<');
                     this._removeWaylandDragOverTimedOutId();
                     break;
             }
@@ -170,11 +167,8 @@ const ActivitiesIconButton = new Lang.Class({
     },
 
     _waylandDragOverTimedOut: function() {
-        log('Timed Out ^^^^^^^^^^^^^');
-        if (!Main.overview.visible) {
-            if (Main.overview.shouldToggleByCornerOrButton())
-                Main.overview.toggle();
-        }
+        if (Main.overview.shouldToggleByCornerOrButton())
+            Main.overview.toggle();
         this._waylandDragOverTimedOutId = 0;
     },
 
@@ -182,7 +176,6 @@ const ActivitiesIconButton = new Lang.Class({
         if (this._waylandDragOverTimedOutId != 0) {
             Mainloop.source_remove(this._waylandDragOverTimedOutId);
             this._waylandDragOverTimedOutId = 0;
-            log('Removed Time Out -----------');
         }
     },
 
@@ -894,7 +887,6 @@ const Configurator = new Lang.Class({
         }
     },
 
-
     _showOverview: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
@@ -981,8 +973,10 @@ const Configurator = new Lang.Class({
             this._signalHotCornersChanged = Main.layoutManager.connect('hot-corners-changed', Lang.bind(this, this._hotCornersChanged));
         }
         this._maxWindowPanelEffect();
-        this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', Lang.bind(this, this._dragBegin));
-        this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
+        if (!Meta.is_wayland_compositor()) {
+            this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', Lang.bind(this, this._dragBegin));
+            this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
+        }
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
         this._setShowOver();
@@ -1054,12 +1048,16 @@ const Configurator = new Lang.Class({
             if (Main.panel.statusArea.appMenu._iconBox.get_style() == HIDE_ICON) {
                 Main.panel.statusArea.appMenu._iconBox.set_style(null);
             }
-            if (this._dndHandlerBeginSig > 0)
-                Main.xdndHandler.disconnect(this._dndHandlerBeginSig);
-            this._dndHandlerBeginSig = null;
-            if (this._dndHandlerEndSig > 0)
-                Main.xdndHandler.disconnect(this._dndHandlerEndSig);
-            this._dndHandlerEndSig = null;
+            if (!Meta.is_wayland_compositor()) {
+                if (this._dndHandlerBeginSig > 0) {
+                    Main.xdndHandler.disconnect(this._dndHandlerBeginSig);
+                    this._dndHandlerBeginSig = null;
+                }
+                if (this._dndHandlerEndSig > 0) {
+                    Main.xdndHandler.disconnect(this._dndHandlerEndSig);
+                    this._dndHandlerEndSig = null;
+                }
+            }
             this._disconnectSignals();
             for(let i = 0; i < Main.layoutManager.hotCorners.length; i++) {
                 if (Main.layoutManager.hotCorners[i] != null) {
