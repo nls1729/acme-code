@@ -144,39 +144,35 @@ const ActivitiesIconButton = new Lang.Class({
             } else {
                 Main.overview.toggle();
             }
-        } else if (Meta.is_wayland_compositor()) { 
-            // Handle Drag Over in Wayland
+        } else if (Meta.is_wayland_compositor() && toggleThreshold == DISABLE_TOGGLE) {
+            // Handle Drag Over in Wayland when Hot Corner Disabled
             switch (event.type()) {
                 case Clutter.EventType.ENTER:
                     this._motionUnHandled = true;
                     break;
                 case Clutter.EventType.MOTION:
                     if (this._motionUnHandled) {
-                        let eventState = event.get_state();
-                        if((eventState & Clutter.ModifierType.BUTTON1_MASK) && this._waylandDragOverTimedOutId == 0)
-                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(750, Lang.bind(this, this._waylandDragOverTimedOut));
+                        if(event.get_state() & Clutter.ModifierType.BUTTON1_MASK) {
+                            if (this._waylandDragOverTimedOutId != 0)
+                                Mainloop.source_remove(this._waylandDragOverTimedOutId);
+                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(500, Lang.bind(this, function() {
+                                if (Main.overview.shouldToggleByCornerOrButton())
+                                    Main.overview.toggle();
+                                this._waylandDragOverTimedOutId = 0;
+                            }));
+                        }
                     }
                     this._motionUnHandled = false;
                     break;
                 case Clutter.EventType.LEAVE:
-                    this._removeWaylandDragOverTimedOutId();
+                    if (this._waylandDragOverTimedOutId != 0) {
+                        Mainloop.source_remove(this._waylandDragOverTimedOutId);
+                        this._waylandDragOverTimedOutId = 0;
+                    }
                     break;
             }
         }
         return Clutter.EVENT_PROPAGATE;
-    },
-
-    _waylandDragOverTimedOut: function() {
-        if (Main.overview.shouldToggleByCornerOrButton())
-            Main.overview.toggle();
-        this._waylandDragOverTimedOutId = 0;
-    },
-
-    _removeWaylandDragOverTimedOutId : function() {
-        if (this._waylandDragOverTimedOutId != 0) {
-            Mainloop.source_remove(this._waylandDragOverTimedOutId);
-            this._waylandDragOverTimedOutId = 0;
-        }
     },
 
     _onKeyRelease: function(actor, event) {
@@ -595,17 +591,17 @@ const Configurator = new Lang.Class({
     _dragEnd: function() {
         if (this._settings.get_boolean(Keys.NO_HOTC)) {
             toggleThreshold = DISABLE_TOGGLE;
-            if (this._barriersSupported)
-                this._handleBarrierSupport();
+        } else {
+            toggleThreshold = this._activitiesIconButton._hotCornerThreshold;
         }
+        if (this._barriersSupported)
+            this._handleBarrierSupport();
     },
 
     _dragBegin: function() {
-       if (this._settings.get_boolean(Keys.NO_HOTC)) {
-           toggleThreshold = this._activitiesIconButton._hotCornerThreshold;
-           if (this._barriersSupported)
-               this._handleBarrierSupport();
-        }
+       toggleThreshold = 50;
+       if (this._barriersSupported)
+           this._handleBarrierSupport();
     },
 
     _setActivities: function() {
