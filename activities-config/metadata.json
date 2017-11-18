@@ -3,13 +3,13 @@
   "description": "Configure the Activities Button and Panel appearance with the Activities Configurator Extension and Gnome Shell Extension Preferences Tool. Click the icon or text with the secondary mouse button to launch the Gnome Shell Extension Preferences Tool.  More than 20 options to enhance your desktop.",
   "extension-id": "activities-config",
   "gettext-domain": "activities-config-extension",
-  "name": "Activities Configurator", 
-  "settings-schema": "org.gnome.shell.extensions.activities-config", 
+  "name": "Activities Configurator",
+  "settings-schema": "org.gnome.shell.extensions.activities-config",
   "shell-version": [
     "3.24",
     "3.26"
-  ], 
+  ],
   "url": "https://nls1729.github.io/activities_config.html", 
   "uuid": "activities-config@nls1729", 
-  "version": 58
+  "version": 60
 }
