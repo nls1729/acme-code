@@ -210,7 +210,10 @@ const ActivitiesIconButton = new Lang.Class({
             if (sig > 0)
 	        Main.overview.disconnect(sig);
         }
-        this._removeWaylandDragOverTimedOutId();
+        if (this._waylandDragOverTimedOutId != 0) {
+            Mainloop.source_remove(this._waylandDragOverTimedOutId);
+            this._waylandDragOverTimedOutId = 0;
+        }
         this.parent();
     }
 
