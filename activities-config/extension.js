@@ -209,7 +209,7 @@ const ActivitiesIconButton = new Lang.Class({
             let sig = this._mainSignals.pop();
             if (sig > 0)
 	        Main.overview.disconnect(sig);
-        }                i
+        }
         this._removeWaylandDragOverTimedOutId();
         this.parent();
     }
