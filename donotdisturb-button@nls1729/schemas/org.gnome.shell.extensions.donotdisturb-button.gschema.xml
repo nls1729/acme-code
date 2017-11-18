@@ -21,5 +21,10 @@
       <summary>Show message count if true.</summary>
       <description>If true, display the number of notifications.</description>
     </key>
+    <key type="b" name="busy-state">
+      <default>false</default>
+      <summary>Persisten busy state.</summary>
+      <description>If true, busy state is set at enable.</description>
+    </key>
   </schema>
 </schemalist>

@@ -8,11 +8,12 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 46d8dcee9fb77fc8d90a547282e40f59e37eaf1b";
+const COMMIT = "Commit: 68b727545e4ebad7d9653b063083a72f446b5cde";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
 const SHOW_COUNT = 'panel-count-show';
+const BUSY = 'busy-state';
 
 function init() {
     let localeDir = Me.dir.get_child('locale');
@@ -43,26 +44,35 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._grid = new Gtk.Grid();
         this._grid.margin = 5;
-        this._grid.row_spacing = 5;
-        this._grid.column_spacing = 5;
-        this._grid.set_column_homogeneous(true);
+        this._grid.row_spacing = 10;
+        this._grid.column_spacing = 1;
+        this._grid.set_column_homogeneous(false);
         let help = _("To edit shortcut, click the row and hold down the new keys or press Backspace to clear.");
         let title = _("Edit");
-        let btnPosition = _("Button Location");
         this._centerCb = new Gtk.CheckButton({label:_("Center")});
         this._showCountCb = new Gtk.CheckButton({label:_("Show Notification Count")});
         this._leftRb = new Gtk.RadioButton({label:_("Left")});
         this._rightRb = new Gtk.RadioButton({group:this._leftRb, label:_("Right")});
-        let rbGroup = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
+        let rbGroup = new Gtk.Box({orientation:Gtk.Orientation.HORIZONTAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
+        this._btnPosition = new Gtk.Label({ label: _("Button Location") });
+        let filler = new Gtk.Label({ label: "  " });
+        rbGroup.add(this._btnPosition);
+        rbGroup.add(filler);
         rbGroup.add(this._centerCb);
         rbGroup.add(this._leftRb);
         rbGroup.add(this._rightRb);
-        let helpLabel = new Gtk.Label({wrap: true, xalign: 0.5 })
+        let busyCbBox = new Gtk.Box({orientation:Gtk.Orientation.HORIZONTAL, homogeneous:false,
+            margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
+        this._busyCb = new Gtk.CheckButton({label:_("Busy")});
+        this._yesImage = new Gtk.Image({ file: Me.path + '/available-yes.png'});
+        this._noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
+        busyCbBox.add(this._busyCb);
+        busyCbBox.add(this._yesImage);
+        busyCbBox.add(this._noImage);
+        let helpLabel = new Gtk.Label({wrap: true, xalign: 0.0 })
         helpLabel.set_text(help);
-        helpLabel.set_width_chars(88);
-        let yesImage = new Gtk.Image({ file: Me.path + '/available-yes.png'});
-        let noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
+        helpLabel.set_width_chars(64);
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString() + ' GS ' + shell_version + ']';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
@@ -106,6 +116,8 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
         let showCount = this._settings.get_boolean(SHOW_COUNT);
+        this._busyState = this._settings.get_boolean(BUSY);
+        this._busyCb.set_active(this._busyState);
         this._leftRb.connect('toggled', Lang.bind(this, function(b) {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, true);
@@ -132,21 +144,27 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
                 this._settings.set_boolean(SHOW_COUNT, false);
             }
         }));
+        this._busyCb.connect('toggled', Lang.bind(this, this._setBusyState));
+        this._grid.attach(helpLabel,                                                      0,  0, 9, 1);
+        this._grid.attach(this._treeView,                                                 0,  4, 2, 1);
+        this._grid.attach(this._showCountCb,                                              0,  6, 4, 1);
+        this._grid.attach(rbGroup,                                                        0, 10, 6, 1);;
+        this._grid.attach(busyCbBox,                                                      0, 20, 4, 1);
+        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 22, 9, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 24, 9, 1);
+        this._grid.attach(this._linkBtn,                                                  3, 26, 2, 1);
+        this.add(this._grid);
         this._leftRb.set_active(left);
         this._rightRb.set_active(!left);
         this._centerCb.set_active(center);
         this._showCountCb.set_active(showCount);
-        this._grid.attach(helpLabel,                                                      0,  1, 7, 1);
-        this._grid.attach(this._treeView,                                                 2,  4, 3, 1);
-        this._grid.attach(yesImage,                                                       3,  6, 1, 1);
-        this._grid.attach(this._showCountCb,                                              3,  7, 4, 1);
-        this._grid.attach(new Gtk.Label({ label: btnPosition, wrap: true, xalign: 0.5 }), 0,  8, 7, 1);
-        this._grid.attach(rbGroup,                                                        3, 10, 1, 3);
-        this._grid.attach(noImage,                                                        3, 16, 1, 1);
-        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 18, 7, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 20, 7, 1);
-        this._grid.attach(this._linkBtn,                                                  3, 22, 1, 1);
-        this.add(this._grid);
+    },
+
+    _setBusyState: function() {
+        let busy = this._busyCb.get_active();
+        this._settings.set_boolean(BUSY, busy);
+        this._yesImage.visible = !busy;
+        this._noImage.visible = busy;
     }
 });
 
@@ -162,6 +180,7 @@ function buildPrefsWidget() {
     scollingWindow.add_with_viewport(widget);
     scollingWindow.set_size_request(740, 450);
     scollingWindow.show_all();
+    widget._setBusyState();
     return scollingWindow;
 }
 

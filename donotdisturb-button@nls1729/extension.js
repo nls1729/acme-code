@@ -54,8 +54,6 @@ const DoNotDisturbButton = new Lang.Class({
         this._layoutBox.add_actor(this._iconBusy);
         this._layoutBox.add_actor(this._notEmptyCount);
         this.actor.add_actor(this._layoutBox);
-        this._toggle = true;
-        this._status = null;
         this._btnReleaseSig = this.actor.connect_after('button-release-event', Lang.bind(this, this._onButtonRelease));
         this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));
         this._presence = new GnomeSession.Presence(Lang.bind(this, function(proxy, error) {
@@ -80,6 +78,13 @@ const DoNotDisturbButton = new Lang.Class({
         this._indicatorActor = Main.panel.statusArea['dateMenu']._indicator.actor;
         this._indicatorSources = Main.panel.statusArea['dateMenu']._indicator._sources;
         this._timeoutId = Mainloop.timeout_add(30000, Lang.bind(this, this._findUnseenNotifications));
+        log(this._settings.get_boolean('busy-state'));
+        this._toggle = this._settings.get_boolean('busy-state');
+        this._togglePresence();
+        this._busyPrefChangedSig = this._settings.connect('changed::busy-state', Lang.bind(this, function() {
+            this._toggle = this._settings.get_boolean('busy-state');
+            this._togglePresence();
+        }));
     },
 
     _findUnseenNotifications: function() {
@@ -155,6 +160,7 @@ const DoNotDisturbButton = new Lang.Class({
     destroy: function() {
         Mainloop.source_remove(this._timeoutId);
         this._settings.disconnect(this._showCountChangedSig);
+        this._settings.disconnect(this._busyPrefChangedSig);
         this._removeKeybinding();
         this.actor.disconnect(this._btnReleaseSig);
         this.actor.disconnect(this._keyReleaseSig);
