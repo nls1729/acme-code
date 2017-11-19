@@ -468,8 +468,17 @@ https://nls1729.github.io
            setting the global Activities Overview Hot Corner to OFF at
            the start of the next Ubuntu Session.
 
-2017-11-12 Uploaded for review
+2017-11-12 Uploaded for review.
 
-zip file: Sun Nov 12 15:07:06 EST 2017 3d50a03dc66c168b454ffdeb4b34d3de8d6bb087
+2017-11-18 Added Activities Button drag over for Wayland to allow mouse DND
+           through the overview when Hot Corner is disabled.  The Super Key is
+           not required to switch to the Overview.  Github acme-code issue
+           #28. This update restores this ability which was broken in Wayland
+           sessions.
+
+2017-11-19 Uploaded for review.
+
+
+zip file: Sat Nov 18 14:33:33 EST 2017 f4fa06fc26fb927a510f11a42cb72013ceb180b0
 
 ...

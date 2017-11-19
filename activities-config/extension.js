@@ -27,6 +27,7 @@ const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Shell = imports.gi.Shell;
+const Meta = imports.gi.Meta;
 const St = imports.gi.St;
 const DND = imports.ui.dnd;
 const Layout = imports.ui.layout;
@@ -89,6 +90,8 @@ const ActivitiesIconButton = new Lang.Class({
         this._xdndTimeOut = 0;
         this._touchAndHoldTimeoutId = 0;
         this._prefsCommand = 'gnome-shell-extension-prefs';
+        this._waylandDragOverTimedOutId = 0;
+        this._motionUnHandled = false;
     },
 
     handleDragOver: function(source, actor, x, y, time) {
@@ -141,6 +144,33 @@ const ActivitiesIconButton = new Lang.Class({
             } else {
                 Main.overview.toggle();
             }
+        } else if (Meta.is_wayland_compositor() && toggleThreshold == DISABLE_TOGGLE) {
+            // Handle Drag Over in Wayland when Hot Corner Disabled
+            switch (event.type()) {
+                case Clutter.EventType.ENTER:
+                    this._motionUnHandled = true;
+                    break;
+                case Clutter.EventType.MOTION:
+                    if (this._motionUnHandled) {
+                        if(event.get_state() & Clutter.ModifierType.BUTTON1_MASK) {
+                            if (this._waylandDragOverTimedOutId != 0)
+                                Mainloop.source_remove(this._waylandDragOverTimedOutId);
+                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(500, Lang.bind(this, function() {
+                                if (Main.overview.shouldToggleByCornerOrButton())
+                                    Main.overview.toggle();
+                                this._waylandDragOverTimedOutId = 0;
+                            }));
+                        }
+                    }
+                    this._motionUnHandled = false;
+                    break;
+                case Clutter.EventType.LEAVE:
+                    if (this._waylandDragOverTimedOutId != 0) {
+                        Mainloop.source_remove(this._waylandDragOverTimedOutId);
+                        this._waylandDragOverTimedOutId = 0;
+                    }
+                    break;
+            }
         }
         return Clutter.EVENT_PROPAGATE;
     },
@@ -179,6 +209,10 @@ const ActivitiesIconButton = new Lang.Class({
             let sig = this._mainSignals.pop();
             if (sig > 0)
 	        Main.overview.disconnect(sig);
+        }
+        if (this._waylandDragOverTimedOutId != 0) {
+            Mainloop.source_remove(this._waylandDragOverTimedOutId);
+            this._waylandDragOverTimedOutId = 0;
         }
         this.parent();
     }
@@ -560,17 +594,17 @@ const Configurator = new Lang.Class({
     _dragEnd: function() {
         if (this._settings.get_boolean(Keys.NO_HOTC)) {
             toggleThreshold = DISABLE_TOGGLE;
-            if (this._barriersSupported)
-                this._handleBarrierSupport();
+        } else {
+            toggleThreshold = this._activitiesIconButton._hotCornerThreshold;
         }
+        if (this._barriersSupported)
+            this._handleBarrierSupport();
     },
 
     _dragBegin: function() {
-       if (this._settings.get_boolean(Keys.NO_HOTC)) {
-           toggleThreshold = this._activitiesIconButton._hotCornerThreshold;
-           if (this._barriersSupported)
-               this._handleBarrierSupport();
-        }
+       toggleThreshold = 50;
+       if (this._barriersSupported)
+           this._handleBarrierSupport();
     },
 
     _setActivities: function() {
@@ -852,7 +886,6 @@ const Configurator = new Lang.Class({
         }
     },
 
-
     _showOverview: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
@@ -939,8 +972,10 @@ const Configurator = new Lang.Class({
             this._signalHotCornersChanged = Main.layoutManager.connect('hot-corners-changed', Lang.bind(this, this._hotCornersChanged));
         }
         this._maxWindowPanelEffect();
-        this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', Lang.bind(this, this._dragBegin));
-        this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
+        if (!Meta.is_wayland_compositor()) {
+            this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', Lang.bind(this, this._dragBegin));
+            this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
+        }
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
         this._setShowOver();
@@ -1012,12 +1047,16 @@ const Configurator = new Lang.Class({
             if (Main.panel.statusArea.appMenu._iconBox.get_style() == HIDE_ICON) {
                 Main.panel.statusArea.appMenu._iconBox.set_style(null);
             }
-            if (this._dndHandlerBeginSig > 0)
-                Main.xdndHandler.disconnect(this._dndHandlerBeginSig);
-            this._dndHandlerBeginSig = null;
-            if (this._dndHandlerEndSig > 0)
-                Main.xdndHandler.disconnect(this._dndHandlerEndSig);
-            this._dndHandlerEndSig = null;
+            if (!Meta.is_wayland_compositor()) {
+                if (this._dndHandlerBeginSig > 0) {
+                    Main.xdndHandler.disconnect(this._dndHandlerBeginSig);
+                    this._dndHandlerBeginSig = null;
+                }
+                if (this._dndHandlerEndSig > 0) {
+                    Main.xdndHandler.disconnect(this._dndHandlerEndSig);
+                    this._dndHandlerEndSig = null;
+                }
+            }
             this._disconnectSignals();
             for(let i = 0; i < Main.layoutManager.hotCorners.length; i++) {
                 if (Main.layoutManager.hotCorners[i] != null) {
