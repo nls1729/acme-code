@@ -470,13 +470,15 @@ https://nls1729.github.io
 
 2017-11-12 Uploaded for review.
 
-2917-11-18 Added Activities Button drag over for Wayland to allow mouse DND
+2017-11-18 Added Activities Button drag over for Wayland to allow mouse DND
            through the overview when Hot Corner is disabled.  The Super Key is
            not required to switch to the Overview.  Github acme-code issue
            #28. This update restores this ability which was broken in Wayland
            sessions.
 
+2017-11-19 Uploaded for review.
 
-zip file: Sat Nov 18 14:05:09 EST 2017 44a1ff1ea893dfd1db7aa8e82e63936980611c57
+
+zip file: Sat Nov 18 14:33:33 EST 2017 f4fa06fc26fb927a510f11a42cb72013ceb180b0
 
 ...
