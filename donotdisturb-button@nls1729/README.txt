@@ -54,6 +54,10 @@ Github nls1729/acme-code pull request #23 Add option to hide
 notification count. Translations updated. Thanks to Jonatan Zeidler.
 Uploaded for review 2017-05-21.
 
+Do Not Disturb Button - The modified Gnome Shell in the Ubuntu default
+Ubuntu Session operates in the 'ubuntu' mode.  Removed restrictions
+based on mode to accomadate Ubuntu 17.10 and 18.04 and going forward.
+Added a preference to allow user to set the busy state at extension
+init (ie. login). Uploaded for review 2017-11-25.
 
-
-zip file: 2017-05-25 18:18:49 68b727545e4ebad7d9653b063083a72f446b5cde
+zip file: 2017-11-25 07:08:22 6e4b7485c9e37bc786624930bf638c54e09a37fa

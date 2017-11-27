@@ -78,13 +78,8 @@ const DoNotDisturbButton = new Lang.Class({
         this._indicatorActor = Main.panel.statusArea['dateMenu']._indicator.actor;
         this._indicatorSources = Main.panel.statusArea['dateMenu']._indicator._sources;
         this._timeoutId = Mainloop.timeout_add(30000, Lang.bind(this, this._findUnseenNotifications));
-        log(this._settings.get_boolean('busy-state'));
-        this._toggle = this._settings.get_boolean('busy-state');
+        this._toggle = this._settings.get_boolean('busy-state'); // Set user preferred BUSY state at login.
         this._togglePresence();
-        this._busyPrefChangedSig = this._settings.connect('changed::busy-state', Lang.bind(this, function() {
-            this._toggle = this._settings.get_boolean('busy-state');
-            this._togglePresence();
-        }));
     },
 
     _findUnseenNotifications: function() {
@@ -160,7 +155,6 @@ const DoNotDisturbButton = new Lang.Class({
     destroy: function() {
         Mainloop.source_remove(this._timeoutId);
         this._settings.disconnect(this._showCountChangedSig);
-        this._settings.disconnect(this._busyPrefChangedSig);
         this._removeKeybinding();
         this.actor.disconnect(this._btnReleaseSig);
         this.actor.disconnect(this._keyReleaseSig);
@@ -231,20 +225,16 @@ const DoNotDisturbExtension = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
-            this._btn = new DoNotDisturbButton(this._settings);
-            let position = this._getPosition();
-            Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
-            this._btn._setNotEmptyCount();
-            this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
-            this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
-        }
+        this._btn = new DoNotDisturbButton(this._settings);
+        let position = this._getPosition();
+        Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
+        this._btn._setNotEmptyCount();
+        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
+        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
     },
 
     enable: function() {
-        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
-            this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._delayedEnable));
-        }
+        this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._delayedEnable));
     },
 
     disable: function() {
