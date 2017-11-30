@@ -46,6 +46,10 @@ msgstr "Links"
 msgid "Right"
 msgstr "Rechts"
 
+#: prefs.js:67
+msgid "Busy"
+msgstr "Beschäftigt"
+
 #: prefs.js:68
 msgid "Website"
 msgstr "Webseite"

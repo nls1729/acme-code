@@ -45,6 +45,10 @@ msgstr "a la izquierda"
 msgid "Right"
 msgstr "a la derecha"
 
+#: prefs.js:67
+msgid "Busy"
+msgstr "Ocupado"
+
 #: prefs.js:69
 msgid "Website"
 msgstr "sitio web"

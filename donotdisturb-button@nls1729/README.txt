@@ -60,4 +60,8 @@ based on mode to accomadate Ubuntu 17.10 and 18.04 and going forward.
 Added a preference to allow user to set the busy state at extension
 init (ie. login). Uploaded for review 2017-11-25.
 
-zip file: 2017-11-25 07:08:22 6e4b7485c9e37bc786624930bf638c54e09a37fa
+Do Not Disturb Button - Updated translations. Uploaded for
+review 2017-11-30.
+
+
+zip file: 2017-11-30 08:34:34 099cfa794dfb3566901399035d91fd9d2258bd9f

@@ -45,6 +45,10 @@ msgstr "Αριστερά"
 msgid "Right"
 msgstr "Δεξιά"
 
+#: prefs.js:67
+msgid "Busy"
+msgstr "Απασχολημένος"
+
 #: prefs.js:69
 msgid "Website"
 msgstr "δικτυακός τόπος"

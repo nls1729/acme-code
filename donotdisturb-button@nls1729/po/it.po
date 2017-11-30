@@ -45,6 +45,10 @@ msgstr "Lato sinistro"
 msgid "Right"
 msgstr "Lato destro"
 
+#: prefs.js:67
+msgid "Busy"
+msgstr "Occupata"
+
 #: prefs.js:69
 msgid "Website"
 msgstr "Sito web"
