@@ -381,6 +381,7 @@ const Configurator = new Lang.Class({
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_ICON, Lang.bind(this, this._setIcon)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_TXT, Lang.bind(this, this._setText)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_ICO, Lang.bind(this, this._setIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SCF_ICO, Lang.bind(this, this._setIcon)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.CON_DET, Lang.bind(this, this._setConflictDetection)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_RC, Lang.bind(this, this._setHiddenCorners)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_APPMBI, Lang.bind(this, this._setHideAppMenuButtonIcon)));
@@ -532,7 +533,8 @@ const Configurator = new Lang.Class({
             this._activitiesIconButton._iconBin.hide();
         } else {
             let pixels = this._settings.get_int(Keys.PAD_ICO);
-            let iconStyle = 'icon-size: 1.1em; padding-left: %dpx; padding-right: %dpx'.format(pixels, pixels);
+            let icosize = this._settings.get_double(Keys.SCF_ICO);
+            let iconStyle = 'icon-size: %fem; padding-left: %dpx; padding-right: %dpx'.format(icosize, pixels, pixels);
             this._activitiesIconButton._iconBin.show();
             this._activitiesIconButton._iconBin.child.set_style(iconStyle);
         }
