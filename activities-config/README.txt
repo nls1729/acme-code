@@ -478,7 +478,10 @@ https://nls1729.github.io
 
 2017-11-19 Uploaded for review.
 
+2018-03-05 Merged feature to provide scaling of icon in preferences provided by
+           dgmurx. Uploaded for review. 
 
-zip file: Sun Nov 19 10:05:03 EST 2017 9be8ce899b82305cd1a309d9c00d6be2c9645300
+
+zip file: Mon Mar  5 14:50:04 EST 2018 59560c4f68678964842768f7275cd57f89959c7d
 
 ...

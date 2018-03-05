@@ -43,7 +43,7 @@ msgid "Select Icon"
 msgstr "Sélectionner icône"
 
 #: prefs.js:22
-msgid "Select Icon"
+msgid "Scale Icon"
 msgstr "Redimensionner icône"
 
 #: prefs.js:23
