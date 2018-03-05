@@ -26,21 +26,25 @@ msgstr "Icône manquante :"
 msgid "Conflict with hidden rounded corners."
 msgstr "Conflit avec les coins arrondis cachés."
 
-#: prefs.js:19
+#: prefs.js:18
 msgid "New Text"
 msgstr "Nouveau texte"
 
-#: prefs.js:20
+#: prefs.js:19
 msgid "Text Padding"
 msgstr "Décalage texte"
 
-#: prefs.js:21
+#: prefs.js:20
 msgid "Hide Text"
 msgstr "Masquer texte"
 
-#: prefs.js:22
+#: prefs.js:21
 msgid "Select Icon"
 msgstr "Sélectionner icône"
+
+#: prefs.js:22
+msgid "Select Icon"
+msgstr "Redimensionner icône"
 
 #: prefs.js:23
 msgid "Icon Padding"
@@ -150,23 +154,23 @@ msgstr "Afficher la Vue d'ensemble si aucune Application n'est lancée."
 msgid "Move Activities to the Right"
 msgstr "Déplacer Activités sur la droite"
 
-#: prefs.js:257
+#: prefs.js:262
 msgid "Panel - No Effect"
 msgstr "Panneau - Pas d'effet"
 
-#: prefs.js:258
+#: prefs.js:263
 msgid "Opaque Background Color"
 msgstr "Couleur de fond opaque"
 
-#: prefs.js:259
+#: prefs.js:264
 msgid "Black Opaque Background"
 msgstr "Fond opaque de couleur noire"
 
-#: prefs.js:318
+#: prefs.js:324
 msgid "Website"
 msgstr "Site Internet"
 
-#: prefs.js:483
+#: prefs.js:491
 msgid "Images"
 msgstr "Images"
 
