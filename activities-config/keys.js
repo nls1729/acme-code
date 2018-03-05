@@ -9,6 +9,7 @@ const NO_ICON = 'activities-config-button-no-icon';
 const NO_TEXT = 'activities-config-button-no-text';
 const PAD_TXT = 'activities-text-padding';
 const PAD_ICO = 'activities-icon-padding';
+const SCF_ICO = 'activities-icon-scale-factor';
 const TRS_PAN = 'transparent-panel';
 const CON_DET = 'enable-conflict-detection';
 const COLOURS = 'panel-background-color-hex-rgb';

@@ -47,130 +47,134 @@ msgid "Select Icon"
 msgstr "Symbol"
 
 #: prefs.js:22
+msgid "Scale Icon"
+msgstr "Symbolgröße"
+
+#: prefs.js:23
 msgid "Icon Padding"
 msgstr "Symbolabstand"
 
-#: prefs.js:23
+#: prefs.js:24
 msgid "Hide Icon"
 msgstr "Symbol verstecken"
 
-#: prefs.js:24
+#: prefs.js:25
 msgid "Hot Corner Threshold"
 msgstr "Schwelle der Heißen Ecke"
 
-#: prefs.js:25
+#: prefs.js:26
 msgid "Disable Hot Corner"
 msgstr "Heiße Ecke deaktivieren"
 
-#: prefs.js:26
+#: prefs.js:27
 msgid "Remove Activities Button"
 msgstr "Aktivitäten-Schaltfläche entfernen"
 
-#: prefs.js:27
+#: prefs.js:28
 msgid "Panel Transparency"
 msgstr "Transparenz der oberen Leiste"
 
-#: prefs.js:28
+#: prefs.js:29
 msgid "Extension Defaults"
 msgstr "Standardeinstellungen"
 
-#: prefs.js:29
+#: prefs.js:30
 msgid "Extension Description"
 msgstr "Erklärung der Erweiterung"
 
-#: prefs.js:30
+#: prefs.js:31
 msgid "APPLY"
 msgstr "ANWENDEN"
 
-#: prefs.js:31
+#: prefs.js:32
 msgid "SELECT"
 msgstr "ÄNDERN"
 
-#: prefs.js:32
+#: prefs.js:33
 msgid "RESET"
 msgstr "ZURÜCKSETZEN"
 
-#: prefs.js:33
+#: prefs.js:34
 msgid "README"
 msgstr "LIESMICH"
 
-#: prefs.js:34
+#: prefs.js:35
 msgid "Choose Icon"
 msgstr "Symbol wählen"
 
-#: prefs.js:35
+#: prefs.js:36
 msgid "Enable Conflict Detection"
 msgstr "Konflikterkennung"
 
-#: prefs.js:36
+#: prefs.js:37
 msgid "Activities"
 msgstr "Aktivitäten"
 
-#: prefs.js:38
+#: prefs.js:39
 msgid "Set Panel Background"
 msgstr "Hintergrundfarbe der oberen Leiste"
 
-#: prefs.js:39
+#: prefs.js:40
 msgid "Hide Panel Rounded Corners"
 msgstr "Abgerundete Ecken deaktivieren"
 
-#: prefs.js:40
+#: prefs.js:41
 msgid "Window Maximized Effect"
 msgstr "Effekt bei maximiertem Fenster"
 
-#: prefs.js:41
+#: prefs.js:42
 msgid "Hide Application Menu Button Icon"
 msgstr "Schaltflächensymbol des Anwendungsmenüs verstecken"
 
-#: prefs.js:42
+#: prefs.js:43
 msgid "Panel Shadow Color"
 msgstr "Schattenfarbe der oberen Leiste"
 
-#: prefs.js:43
+#: prefs.js:44
 msgid "Transparency"
 msgstr "Transparenz"
 
-#: prefs.js:44
+#: prefs.js:45
 msgid "Vertical Length"
 msgstr "Vertikale Länge"
 
-#: prefs.js:45
+#: prefs.js:46
 msgid "Blur Radius"
 msgstr "Weichzeichnen Radius"
 
-#: prefs.js:46
+#: prefs.js:47
 msgid "Spread Radius"
 msgstr "Radius zu verbreiten"
 
-#: prefs.js:47
+#: prefs.js:48
 msgid "Override Shell Theme"
 msgstr "Überschreiben Shell-Thema"
 
-#: prefs.js:48
+#: prefs.js:49
 msgid "Show Overview If No Applications Are Running"
 msgstr "Zeigen Übersicht Wenn keine Anwendungen ausgeführt werden"
 
-#: prefs.js:49
+#: prefs.js:50
 msgid "Move Activities to the Right"
 msgstr "Aktivitäten nach rechts bewegen"
 
-#: prefs.js:256
+#: prefs.js:262
 msgid "Panel - No Effect"
 msgstr "Obere Leiste - Kein Effekt"
 
-#: prefs.js:257
+#: prefs.js:263
 msgid "Opaque Background Color"
 msgstr "Leistenhintergrund undurchsichtig"
 
-#: prefs.js:258
+#: prefs.js:264
 msgid "Black Opaque Background"
 msgstr "Schwarzer Hintergrund ohne Transparenz"
 
-#: prefs.js:318
+#: prefs.js:324
 msgid "Website"
 msgstr "Webseite"
 
-#: prefs.js:481
+#: prefs.js:491
 msgid "Images"
 msgstr "Bilder"
 
