@@ -479,9 +479,17 @@ https://nls1729.github.io
 2017-11-19 Uploaded for review.
 
 2018-03-05 Merged feature to provide scaling of icon in preferences provided by
-           dgmurx. Uploaded for review. 
+           dgmurx. Uploaded for review.
+
+2018-04-14 Removed line 15 of prefs.js, "const Colors = Me.imports.colors;".
+           Reported by jessedubord.  Ubuntu 18.04 beta 2, Gnome 3.28.
+           Github issue #34 nls1729/acme-code. "There was an error loading the
+           preferences dialog for Activities Configurator:" "Error: Requiring
+           Clutter ..."  The import was no longer needed. In 2013 (version 16)
+           functions provided by the import were replaced with a different set
+           of functions.  The import should have been removed then.
 
 
-zip file: Mon Mar  5 14:50:04 EST 2018 59560c4f68678964842768f7275cd57f89959c7d
+zip file: Sat Apr 14 15:37:06 EDT 2018 0a954c3f69eb441ccc4b6878e48d9b8b29da48be
 
 ...

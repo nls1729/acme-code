@@ -12,7 +12,6 @@ const _ = Gettext.gettext;
 const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Readme = Me.imports.readme;
-const Colors = Me.imports.colors;
 const GioSSS = Gio.SettingsSchemaSource;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 const TXT_INSTS = _("New Text");
@@ -48,7 +47,7 @@ const SHW_SPRED = _("Spread Radius");
 const OVERR_USR = _("Override Shell Theme");
 const SHOW_OVER = _("Show Overview If No Applications Are Running");
 const POSITION  = _("Move Activities to the Right");
-const COMMIT = "Commit: 59560c4f68678964842768f7275cd57f89959c7d";
+const COMMIT = "Commit: 0a954c3f69eb441ccc4b6878e48d9b8b29da48be";
 
 function init() {
     Convenience.initTranslations();
