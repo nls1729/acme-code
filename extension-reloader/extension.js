@@ -259,7 +259,7 @@ const ExtensionReloaderExtension = new Lang.Class({
     },
 
     enable: function() {
-        if (Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
+        if (Main.sessionMode.currentMode == 'ubuntu' ||  Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
             this._timeoutId = Mainloop.timeout_add(3000, Lang.bind(this, this._delayedEnable));
         }
     },

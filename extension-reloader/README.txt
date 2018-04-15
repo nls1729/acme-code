@@ -51,6 +51,8 @@ README
 
    2017-05-21  Translations updated. Thanks to Jonatan Zeidler.
 
+   2018-04-15  Changed to be compatible with Ubuntu 18.04 LTS.
+
 
 zip file: Sun May 21 14:30:06 EDT 2017 46d8dcee9fb77fc8d90a547282e40f59e37eaf1b
 
