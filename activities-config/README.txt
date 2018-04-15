@@ -490,6 +490,6 @@ https://nls1729.github.io
            of functions.  The import should have been removed then.
 
 
-zip file: Sat Apr 14 16:18:31 EDT 2018 59208578dedc9422c8dd9f071785841c26bccb41
+zip file: Sat Apr 14 16:44:32 EDT 2018 54829f76e8f97aa53594d639b0589c0973ea6257
 
 ...
