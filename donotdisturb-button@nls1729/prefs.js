@@ -62,13 +62,13 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         rbGroup.add(this._rightRb);
         let rbGroup2 = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
-        this._busyCb = new Gtk.CheckButton({label:_("Override")});
+        this._busyCb = new Gtk.CheckButton({label:_("Enable")});
         this._busyRb = new Gtk.RadioButton({label:_("Busy")});
         this._availableRb = new Gtk.RadioButton({group:this._busyRb, label:_("Available")});
         this._yesImage = new Gtk.Image({ file: Me.path + '/available-yes.png'});
         this._noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
-        this._overrideState = new Gtk.Label({ label: _("Persistent Busy State Override At Session Start")  ,xalign: 0.0 });
-        rbGroup2.add(this._overrideState);
+        this._enable = new Gtk.Label({ label: _("Busy State Override At Session Start")  ,xalign: 0.0 });
+        rbGroup2.add(this._enable);
         rbGroup2.add(this._busyCb);
         rbGroup2.add(this._busyRb);
         rbGroup2.add(this._availableRb);

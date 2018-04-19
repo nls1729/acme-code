@@ -65,6 +65,25 @@ review 2017-11-30.
 
 2018-04-15 Updated metadata.json to GS 3.28 
 
+2018-04-19 Before the following changes there was one option which
+allowed the user to set busy state of the session with the Busy
+preference.  If unchecked the busy state was set to Available at login.
+If checked the busy state was set to Busy.  During the session the busy
+state could be set by clicking the extension icon. The busy state set
+by the panel icon was not retained during a screen lock or a switch
+to another user. A re-login to the current session after a screen lock
+or user switch was treated like logging into a new startup session.
+The Busy State preference determined the busy state of the extension.
 
+The Busy State Override At Session Start preference is added and consists
+of an "Enable" checkbox, "Busy" radiobutton and "Avaliable" radiobutton.
+If "Enable" is unchecked, the default is that the state of the extension
+icon controls the busy state in a persistent manner.  Whatever state the
+icon was in when the session ended or was interrupted by a screen lock or
+user switch determines the state at the next session login or re-login
+after a screen lock or user switch.  If the "Enable" is checked the state
+indicated by the selected radiobutton will only set the state at the next
+new session startup login; otherwise, the new persistent behavoir set
+by the extension panel button is in effect.
 
 zip file: 2018-04-18 11:03:10 68c3a10838e3b63c0844d7218c769947b7e09cde
