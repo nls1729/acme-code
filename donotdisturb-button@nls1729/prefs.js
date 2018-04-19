@@ -8,12 +8,13 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: e198c5e5f3013c8f2f910fe084b0b23e408c556e";
+const COMMIT = "Commit: 68c3a10838e3b63c0844d7218c769947b7e09cde";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
 const SHOW_COUNT = 'panel-count-show';
-const BUSY = 'busy-state';
+const OVERRIDE = 'override';
+const OVERRIDE_BUSY_STATE = 'overrride-busy-state';
 
 function init() {
     let localeDir = Me.dir.get_child('locale');
@@ -62,20 +63,26 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         rbGroup.add(this._rightRb);
         let rbGroup2 = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
-        this._busyCb = new Gtk.CheckButton({label:_("Enable")});
+        this._overrideCb = new Gtk.CheckButton({label:_("Enable")});
         this._busyRb = new Gtk.RadioButton({label:_("Busy")});
         this._availableRb = new Gtk.RadioButton({group:this._busyRb, label:_("Available")});
         this._yesImage = new Gtk.Image({ file: Me.path + '/available-yes.png'});
         this._noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
-        this._enable = new Gtk.Label({ label: _("Busy State Override At Session Start")  ,xalign: 0.0 });
-        rbGroup2.add(this._enable);
-        rbGroup2.add(this._busyCb);
+        this._bootImage = new Gtk.Image({ file: Me.path + '/gnome-session-reboot.png'});
+        this._normalImage = new Gtk.Image({ file: Me.path + '/default-persistence.png'});
+        this._overrideState = new Gtk.Label({ label: _("Busy State Override At Session Start")  ,xalign: 0.0 });
+        rbGroup2.add(this._overrideState);
+        rbGroup2.add(this._overrideCb);
         rbGroup2.add(this._busyRb);
         rbGroup2.add(this._availableRb);
         let iconBox = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
         iconBox.add(this._yesImage);
         iconBox.add(this._noImage);
+        let bootBox = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
+            margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
+        bootBox.add(this._bootImage);
+        bootBox.add(this._normalImage);
         let helpLabel = new Gtk.Label({wrap: true, xalign: 0.5 })
         helpLabel.set_text(help);
         helpLabel.set_width_chars(64);
@@ -122,8 +129,18 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
         let showCount = this._settings.get_boolean(SHOW_COUNT);
-        this._busyState = this._settings.get_boolean(BUSY);
-        this._busyCb.set_active(this._busyState);
+        let overrideState = this._settings.get_boolean(OVERRIDE);
+        let overrideBusyState = this._settings.get_boolean(OVERRIDE_BUSY_STATE);
+        this._busyRb.connect('toggled', Lang.bind(this, function(b) {
+            let state = b.get_active()
+            this._settings.set_boolean(OVERRIDE_BUSY_STATE, state);
+            this._setIcons(state);
+        }));
+        this._availableRb.connect('toggled', Lang.bind(this, function(b) {
+            let state = b.get_active()
+            this._settings.set_boolean(OVERRIDE_BUSY_STATE, !state);
+            this._setIcons(!state);
+        }));        
         this._leftRb.connect('toggled', Lang.bind(this, function(b) {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, true);
@@ -150,30 +167,50 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
                 this._settings.set_boolean(SHOW_COUNT, false);
             }
         }));
-        this._busyCb.connect('toggled', Lang.bind(this, this._setBusyState));
+        this._busyRb.set_active(!this._overrideBusyState);        
+        this._overrideCb.connect('toggled', Lang.bind(this, this._setOverrideState));
         this._grid.attach(helpLabel,                                                      0,  0, 12, 1);
         this._grid.attach(this._treeView,                                                 5,  1,  4, 1);
         this._grid.attach(this._showCountCb,                                              5,  6, 12, 1);
         this._grid.attach(rbGroup,                                                        5, 10, 12, 1);
         this._grid.attach(rbGroup2,                                                       5, 15, 12, 1);
-        this._grid.attach(iconBox,                                                        0, 20, 12, 1);
+        this._grid.attach(iconBox,                                                        0, 18, 12, 1);
+        this._grid.attach(bootBox,                                                        0, 20, 12, 1);
         this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 22, 12, 1);
         this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 24, 12, 1);
         this._grid.attach(this._linkBtn,                                                  0, 26, 12, 1);
         let filler = new Gtk.Label({ label: "  " });
-        this._grid.attach(filler,                                                         0, 28, 10, 2);
+        this._grid.attach(filler,                                                         0, 28, 10, 2);        
         this.add(this._grid);
         this._leftRb.set_active(left);
         this._rightRb.set_active(!left);
         this._centerCb.set_active(center);
         this._showCountCb.set_active(showCount);
+        this._overrideCb.set_active(overrideState);
+        this._busyRb.set_active(overrideBusyState);
+        this._availableRb.set_active(!overrideBusyState);
     },
 
-    _setBusyState: function() {
-        let busy = this._busyCb.get_active();
-        this._settings.set_boolean(BUSY, busy);
-        this._yesImage.visible = !busy;
-        this._noImage.visible = busy;
+    _setIcons: function(busyState) {
+        if (busyState) {
+            this._yesImage.hide();
+            this._noImage.show();
+        } else {
+            this._yesImage.show();
+            this._noImage.hide();             
+        }
+    },
+
+    _setOverrideState: function() {
+        let override = this._overrideCb.get_active();
+        this._settings.set_boolean(OVERRIDE, override);
+        if (override) {
+            this._bootImage.show();
+            this._normalImage.hide();
+        } else {
+            this._bootImage.hide();
+            this._normalImage.show();
+        }
     }
 });
 
@@ -187,9 +224,10 @@ function buildPrefsWidget() {
         'vexpand': true
     });
     scollingWindow.add_with_viewport(widget);
-    scollingWindow.set_size_request(740, 500);
+    scollingWindow.set_size_request(740, 520);
     scollingWindow.show_all();
-    widget._setBusyState();
+    widget._setIcons(widget._settings.get_boolean(OVERRIDE_BUSY_STATE));
+    widget._setOverrideState();
     return scollingWindow;
 }
 

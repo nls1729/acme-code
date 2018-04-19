@@ -200,6 +200,7 @@ const DoNotDisturbExtension = new Lang.Class({
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;
+        this._overrideAllowed = true;
     },
 
     _positionChange: function() {
