@@ -26,5 +26,15 @@
       <summary>Persisten busy state.</summary>
       <description>If true, busy state is set at enable.</description>
     </key>
+    <key type="b" name="override">
+      <default>false</default>
+      <summary>Override persistent busy state at session startup.</summary>
+      <description>If true, determine state from overrride-busy-state.</description>
+    </key>
+    <key type="b" name="overrride-busy-state">
+      <default>false</default>
+      <summary>Busy state .</summary>
+      <description>If true, state is set busy at startup.</description>
+    </key>
   </schema>
 </schemalist>

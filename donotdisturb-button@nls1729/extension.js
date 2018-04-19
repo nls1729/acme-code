@@ -40,7 +40,7 @@ const DoNotDisturbButton = new Lang.Class({
     Name: 'DoNotDisturbButton',
     Extends: PanelMenu.Button,
 
-    _init: function(settings) {
+    _init: function(settings, overrideAllowed) {
         this.parent(0.5, null, true);
         this._settings = settings;
         this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(BUSY) });
@@ -78,8 +78,19 @@ const DoNotDisturbButton = new Lang.Class({
         this._indicatorActor = Main.panel.statusArea['dateMenu']._indicator.actor;
         this._indicatorSources = Main.panel.statusArea['dateMenu']._indicator._sources;
         this._timeoutId = Mainloop.timeout_add(30000, Lang.bind(this, this._findUnseenNotifications));
-        this._toggle = this._settings.get_boolean('busy-state'); // Set user preferred BUSY state at login.
+
+        //Set user preferred BUSY state at login
+        let override = this._settings.get_boolean('override');
+        if (override && overrideAllowed) {
+            // Do not use last set persistent busy state instead use user preference for override
+            let overrideBusyState = this._settings.get_boolean('overrride-busy-state');
+            this._toggle = overrideBusyState;
+        } else {
+            // Use last set persistent busy state
+            this._toggle = this._settings.get_boolean('busy-state'); // Set user preferred BUSY state at login.
+        }
         this._togglePresence();
+        this._toggle = this._settings.get_boolean('busy-state'); // Set user preferred BUSY state at login.
     },
 
     _findUnseenNotifications: function() {
@@ -110,9 +121,11 @@ const DoNotDisturbButton = new Lang.Class({
         if (status == GnomeSession.PresenceStatus.BUSY) {
             this._toggle = false;
             this._iconBusy.show();
+            this._settings.set_boolean('busy-state', true);
         } else {
             this._toggle = true;
             this._iconAvailable.show();
+            this._settings.set_boolean('busy-state', false)
         }
     },
 
@@ -225,7 +238,8 @@ const DoNotDisturbExtension = new Lang.Class({
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        this._btn = new DoNotDisturbButton(this._settings);
+        this._btn = new DoNotDisturbButton(this._settings, this._overrideAllowed);
+        this._overrideAllowed = false;
         let position = this._getPosition();
         Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
         this._btn._setNotEmptyCount();
