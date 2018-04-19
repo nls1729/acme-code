@@ -8,7 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 68c3a10838e3b63c0844d7218c769947b7e09cde";
+const COMMIT = "Commit: 130bf9398cc84e257fe7fb6f40b18df471ae8250";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -69,7 +69,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._yesImage = new Gtk.Image({ file: Me.path + '/available-yes.png'});
         this._noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
         this._bootImage = new Gtk.Image({ file: Me.path + '/gnome-session-reboot.png'});
-        this._normalImage = new Gtk.Image({ file: Me.path + '/default-persistence.png'});
+        this._defaultPersistenceImage = new Gtk.Image({ file: Me.path + '/default-persistence.png'});
         this._overrideState = new Gtk.Label({ label: _("Busy State Override At Session Start")  ,xalign: 0.0 });
         rbGroup2.add(this._overrideState);
         rbGroup2.add(this._overrideCb);
@@ -82,7 +82,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let bootBox = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
             margin_left:4, margin_top:2, margin_bottom:2, margin_right:4});
         bootBox.add(this._bootImage);
-        bootBox.add(this._normalImage);
+        bootBox.add(this._defaultPersistenceImage);
         let helpLabel = new Gtk.Label({wrap: true, xalign: 0.5 })
         helpLabel.set_text(help);
         helpLabel.set_width_chars(64);
@@ -206,10 +206,10 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._settings.set_boolean(OVERRIDE, override);
         if (override) {
             this._bootImage.show();
-            this._normalImage.hide();
+            this._defaultPersistenceImage.hide();
         } else {
             this._bootImage.hide();
-            this._normalImage.show();
+            this._defaultPersistenceImage.show();
         }
     }
 });
