@@ -86,4 +86,4 @@ indicated by the selected radiobutton will only set the state at the next
 new session startup login; otherwise, the new persistent behavoir set
 by the extension panel button is in effect.
 
-zip file: 2018-04-18 11:03:10 68c3a10838e3b63c0844d7218c769947b7e09cde
+zip file: 2018-04-19 07:11:23 e198c5e5f3013c8f2f910fe084b0b23e408c556e
