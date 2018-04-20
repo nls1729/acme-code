@@ -55,11 +55,11 @@ msgstr "Sito web"
 
 #: prefs.js:66
 msgid "Enable"
-msgstr ""
+msgstr "Abilitare"
 
 #: prefs.js:68
 msgid "Available"
-msgstr ""
+msgstr "A disposizione"
 
 #: prefs.js:73
 msgid "Busy State Override At Session Start"

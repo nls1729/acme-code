@@ -8,7 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 22ef734fa088f8ed465d6d45b1f955a345e9ef73";
+const COMMIT = "Commit: 116f7d59e1a21c6fe5b7e178e9d49b232fa6b303";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -224,7 +224,7 @@ function buildPrefsWidget() {
         'vexpand': true
     });
     scollingWindow.add_with_viewport(widget);
-    scollingWindow.set_size_request(740, 520);
+    scollingWindow.set_size_request(740, 530);
     scollingWindow.show_all();
     widget._setIcons(widget._settings.get_boolean(OVERRIDE_BUSY_STATE));
     widget._setOverrideState();
