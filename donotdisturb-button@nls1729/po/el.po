@@ -53,5 +53,17 @@ msgstr "Απασχολημένος"
 msgid "Website"
 msgstr "δικτυακός τόπος"
 
+#: prefs.js:66
+msgid "Enable"
+msgstr "επιτρέπω"
+
+#: prefs.js:68
+msgid "Available"
+msgstr "Διαθέσιμος"
+
+#: prefs.js:73
+msgid "Busy State Override At Session Start"
+msgstr "Κατειλημμένη κατάσταση κατά την έναρξη λειτουργίας της περιόδου σύνδεσης"
+
 #~ msgid "Disabled"
 #~ msgstr "Απενεργοποιημένο"

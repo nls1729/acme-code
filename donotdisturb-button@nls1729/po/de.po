@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.1\n"
 
-#: prefs.js:49
+#: prefs.js:51
 msgid ""
 "To edit shortcut, click the row and hold down the new keys or press "
 "Backspace to clear."
@@ -22,35 +22,47 @@ msgstr ""
 "drücken Sie die neue Tastenkombination, oder drücken Sie die Rücktaste, um "
 "sie zu löschen."
 
-#: prefs.js:50
+#: prefs.js:52
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: prefs.js:51
-msgid "Button Location"
-msgstr "Indikatorposition"
-
-#: prefs.js:52
+#: prefs.js:53
 msgid "Center"
 msgstr "Mitte"
 
-#: prefs.js:53
+#: prefs.js:54
 msgid "Show Notification Count"
 msgstr "Anzahl der Benachrichtigungen anzeigen"
 
-#: prefs.js:54
+#: prefs.js:55
 msgid "Left"
 msgstr "Links"
 
-#: prefs.js:55
+#: prefs.js:56
 msgid "Right"
 msgstr "Rechts"
+
+#: prefs.js:59
+msgid "Button Location"
+msgstr "Indikatorposition"
+
+#: prefs.js:66
+msgid "Enable"
+msgstr "Aktivieren"
 
 #: prefs.js:67
 msgid "Busy"
 msgstr "Beschäftigt"
 
 #: prefs.js:68
+msgid "Available"
+msgstr "Verfügbar"
+
+#: prefs.js:73
+msgid "Busy State Override At Session Start"
+msgstr "Beschäftigt-Status bei Session-Start überschreiben"
+
+#: prefs.js:91
 msgid "Website"
 msgstr "Webseite"
 

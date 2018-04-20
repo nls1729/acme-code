@@ -8,7 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 621c84255519c4396bc80f449ea0493fedacf568";
+const COMMIT = "Commit: 22ef734fa088f8ed465d6d45b1f955a345e9ef73";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -70,7 +70,7 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._noImage = new Gtk.Image({ file: Me.path + '/available-no.png'});
         this._bootImage = new Gtk.Image({ file: Me.path + '/gnome-session-reboot.png'});
         this._defaultPersistenceImage = new Gtk.Image({ file: Me.path + '/default-persistence.png'});
-        this._overrideState = new Gtk.Label({ label: _("Busy State Override At Session Start")  ,xalign: 0.0 });
+        this._overrideState = new Gtk.Label({ label: _("Busy State Override At Session Start"), wrap: true, xalign: 0.0 });
         rbGroup2.add(this._overrideState);
         rbGroup2.add(this._overrideCb);
         rbGroup2.add(this._busyRb);

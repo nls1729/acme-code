@@ -53,5 +53,17 @@ msgstr "Occupata"
 msgid "Website"
 msgstr "Sito web"
 
+#: prefs.js:66
+msgid "Enable"
+msgstr ""
+
+#: prefs.js:68
+msgid "Available"
+msgstr ""
+
+#: prefs.js:73
+msgid "Busy State Override At Session Start"
+msgstr "Sovrascrizione stato occupato durante l'avvio della sessione"
+
 #~ msgid "Disabled"
 #~ msgstr "Disabilitato"

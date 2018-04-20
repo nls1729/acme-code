@@ -53,3 +53,15 @@ msgstr "Occupé"
 msgid "Website"
 msgstr "Site Internet"
 
+#: prefs.js:66
+msgid "Enable"
+msgstr "Activer"
+
+#: prefs.js:68
+msgid "Available"
+msgstr "Disponible"
+
+#: prefs.js:73
+msgid "Busy State Override At Session Start"
+msgstr "Remplacer l'état occupé au début de la session"
+
