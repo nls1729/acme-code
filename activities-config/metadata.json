@@ -5,11 +5,11 @@
   "gettext-domain": "activities-config-extension", 
   "name": "Activities Configurator", 
   "settings-schema": "org.gnome.shell.extensions.activities-config", 
-  "shell-version": [ 
+  "shell-version": [
     "3.26", 
     "3.28"
   ], 
   "url": "https://nls1729.github.io/activities_config.html", 
   "uuid": "activities-config@nls1729", 
-  "version": 64
+  "version": 65
 }
