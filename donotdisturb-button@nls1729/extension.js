@@ -32,8 +32,8 @@ const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
 const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const BUSY = Me.path + '/available-no.png'
-const AVAILABLE = Me.path + '/available-yes.png'
+const BUSY='notifications-disabled-symbolic';
+const AVAILABLE = 'notifications-symbolic';
 const SHORTCUT = 'shortcut';
 
 const DoNotDisturbButton = new Lang.Class({
