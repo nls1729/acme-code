@@ -1,5 +1,5 @@
 
-const Lang = imports.lang;
+
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
@@ -8,7 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 10c7206536b9ee7f9e99683588be2d51f92e9ce2";
+const COMMIT = "Commit: 8eecb87393e0a280a07cdb7a002aa6ac52d26e03";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -24,13 +24,11 @@ function init() {
         Gettext.bindtextdomain(DOMAIN, Config.LOCALEDIR);
 }
 
-const DoNotDisturbPrefsWidget = new GObject.Class({
-    Name: 'DoNotDisturb.Prefs.Widget',
-    GTypeName: 'DoNotDisturbPrefsWidget',
-    Extends: Gtk.Box,
+const DoNotDisturbPrefsWidget = new GObject.registerClass(
+class DoNotDisturbPrefsWidget extends Gtk.Box {
 
-    _init: function(params) {
-        this.parent(params);
+    _init(params) {
+        super._init(params);
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
         let schemaDir = Me.dir.get_child('schemas');
@@ -97,20 +95,20 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._treeView.get_selection().set_mode(Gtk.SelectionMode.SINGLE);
         let keyBindingRenderer = new Gtk.CellRendererAccel({'editable': true,
                                                             'accel-mode': Gtk.CellRendererAccelMode.GTK});
-        keyBindingRenderer.connect('accel-edited', Lang.bind(this, function(renderer, iter, key, mods) {
+        keyBindingRenderer.connect('accel-edited', (renderer, iter, key, mods) => {
             let value = Gtk.accelerator_name(key, mods);
             let [success, iterator] = this._listStore.get_iter_from_string(iter);
             let name = this._listStore.get_value(iterator, 0);
             this._listStore.set(iterator, [this._columns.Mods, this._columns.Key], [mods, key]);
             this._settings.set_strv(name, [value]);
             return true;
-        }));
-        keyBindingRenderer.connect('accel-cleared', Lang.bind(this, function(renderer, iter, key, mods) {
+        });
+        keyBindingRenderer.connect('accel-cleared', (renderer, iter, key, mods) => {
             let [success, iterator] = this._listStore.get_iter_from_string(iter);
             this._listStore.set(iterator, [this._columns.Mods, this._columns.Key], [0, 0]);
             let name = this._listStore.get_value(iterator, 0);
             this._settings.set_strv(name, []);
-        }));
+        });
 
         let keyBindingColumn = new Gtk.TreeViewColumn({'title': title, 'expand': true, 'min-width': 20});
         keyBindingColumn.pack_start(keyBindingRenderer, false);
@@ -131,44 +129,44 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         let showCount = this._settings.get_boolean(SHOW_COUNT);
         let overrideState = this._settings.get_boolean(OVERRIDE);
         let overrideBusyState = this._settings.get_boolean(OVERRIDE_BUSY_STATE);
-        this._busyRb.connect('toggled', Lang.bind(this, function(b) {
+        this._busyRb.connect('toggled', (b) => {
             let state = b.get_active()
             this._settings.set_boolean(OVERRIDE_BUSY_STATE, state);
             this._setIcons(state);
-        }));
-        this._availableRb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._availableRb.connect('toggled', (b) => {
             let state = b.get_active()
             this._settings.set_boolean(OVERRIDE_BUSY_STATE, !state);
             this._setIcons(!state);
-        }));        
-        this._leftRb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._leftRb.connect('toggled', (b) => {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, true);
             else
                 this._settings.set_boolean(LEFT, false);
-        }));
-        this._rightRb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._rightRb.connect('toggled', (b) => {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, false);
             else
                 this._settings.set_boolean(LEFT, true);
-        }));
-        this._centerCb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._centerCb.connect('toggled', (b) => {
             if(b.get_active()) {
                 this._settings.set_boolean(CENTER, true);
             } else {
                 this._settings.set_boolean(CENTER, false);
             }
-        }));
-        this._showCountCb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._showCountCb.connect('toggled', (b) => {
             if(b.get_active()) {
                 this._settings.set_boolean(SHOW_COUNT, true);
             } else {
                 this._settings.set_boolean(SHOW_COUNT, false);
             }
-        }));
+        });
         this._busyRb.set_active(!this._overrideBusyState);        
-        this._overrideCb.connect('toggled', Lang.bind(this, this._setOverrideState));
+        this._overrideCb.connect('toggled', this._setOverrideState.bind(this));
         this._grid.attach(helpLabel,                                                      0,  0, 12, 1);
         this._grid.attach(this._treeView,                                                 5,  1,  4, 1);
         this._grid.attach(this._showCountCb,                                              5,  6, 12, 1);
@@ -189,9 +187,9 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
         this._overrideCb.set_active(overrideState);
         this._busyRb.set_active(overrideBusyState);
         this._availableRb.set_active(!overrideBusyState);
-    },
+    }
 
-    _setIcons: function(busyState) {
+    _setIcons(busyState) {
         if (busyState) {
             this._yesImage.hide();
             this._noImage.show();
@@ -199,9 +197,9 @@ const DoNotDisturbPrefsWidget = new GObject.Class({
             this._yesImage.show();
             this._noImage.hide();             
         }
-    },
+    }
 
-    _setOverrideState: function() {
+    _setOverrideState() {
         let override = this._overrideCb.get_active();
         this._settings.set_boolean(OVERRIDE, override);
         if (override) {

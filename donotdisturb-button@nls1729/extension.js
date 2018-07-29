@@ -32,11 +32,12 @@ const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
 const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const BUSY = Me.path + '/available-no.png'
-const AVAILABLE = Me.path + '/available-yes.png'
-const SHORTCUT = 'shortcut';
 
-const DoNotDisturbButton = new Lang.Class({
+var BUSY = Me.path + '/available-no.png'
+var AVAILABLE = Me.path + '/available-yes.png'
+var SHORTCUT = 'shortcut';
+
+var DoNotDisturbButton = new Lang.Class({
     Name: 'DoNotDisturbButton',
     Extends: PanelMenu.Button,
 
@@ -54,30 +55,31 @@ const DoNotDisturbButton = new Lang.Class({
         this._layoutBox.add_actor(this._iconBusy);
         this._layoutBox.add_actor(this._notEmptyCount);
         this.actor.add_actor(this._layoutBox);
-        this._btnReleaseSig = this.actor.connect_after('button-release-event', Lang.bind(this, this._onButtonRelease));
-        this._keyReleaseSig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease));
-        this._presence = new GnomeSession.Presence(Lang.bind(this, function(proxy, error) {
+        this.actor.connect('touch-event', this._onButtonPress.bind(this));
+        this._btnPressSig = this.actor.connect_after('button-press-event', this._onButtonPress.bind(this));
+        this._keyPressSig = this.actor.connect_after('key-press-event', this._onKeyPress.bind(this));
+        this._presence = new GnomeSession.Presence((proxy, error) => {
             this._onStatusChanged(proxy.status);
-        }));
-        this._statusChangedSig = this._presence.connectSignal('StatusChanged', Lang.bind(this, function(proxy, senderName, [status]) {
+        });
+        this._statusChangedSig = this._presence.connectSignal('StatusChanged', (proxy, senderName, [status]) => {
             this._onStatusChanged(status);
-        }));
-        this._changedSettingsSig = this._settings.connect("changed::shortcut", Lang.bind(this, function() {
+        });
+        this._changedSettingsSig = this._settings.connect("changed::shortcut", () => {
             this._removeKeybinding();
             this._addKeybinding();
-        }));
-        this._showCountChangedSig = this._settings.connect('changed::panel-count-show', Lang.bind(this, function() {
+        });
+        this._showCountChangedSig = this._settings.connect('changed::panel-count-show', () => {
             this._showCount = this._settings.get_boolean('panel-count-show');
             this._setNotEmptyCount();
-        }));
+        });
         this._list = Main.panel.statusArea.dateMenu._messageList._notificationSection._list;
-        this._listActorAddedSig = this._list.connect('actor-added', Lang.bind(this, this._setNotEmptyCount));
-        this._listActorRemovedSig = this._list.connect('actor-removed', Lang.bind(this, this._setNotEmptyCount));
+        this._listActorAddedSig = this._list.connect('actor-added', this._setNotEmptyCount.bind(this));
+        this._listActorRemovedSig = this._list.connect('actor-removed', this._setNotEmptyCount.bind(this));
         this._addKeybinding();
         this._showCount = this._settings.get_boolean('panel-count-show');
         this._indicatorActor = Main.panel.statusArea['dateMenu']._indicator.actor;
         this._indicatorSources = Main.panel.statusArea['dateMenu']._indicator._sources;
-        this._timeoutId = Mainloop.timeout_add(30000, Lang.bind(this, this._findUnseenNotifications));
+        this._timeoutId = Mainloop.timeout_add(30000, this._findUnseenNotifications.bind(this));
 
         //Set user preferred BUSY state at login
         let override = this._settings.get_boolean('override');
@@ -96,9 +98,9 @@ const DoNotDisturbButton = new Lang.Class({
     _findUnseenNotifications: function() {
         if (!this._indicatorActor.visible) {
             let count = 0;
-            this._indicatorSources.forEach(Lang.bind(this, function(source) {
+            this._indicatorSources.forEach((source) => {
                 count += source.unseenCount;
-            }));
+            });
             if (count > 0)
                 this._indicatorActor.visible = true;
             }
@@ -129,12 +131,19 @@ const DoNotDisturbButton = new Lang.Class({
         }
     },
 
-    _onButtonRelease: function(actor, event) {
+    _onButtonPress: function(actor, event) {
+        let type = event.type();
+        let pressed = type == Clutter.EventType.BUTTON_PRESS;
+        if (!pressed && type != Clutter.EventType.TOUCH_BEGIN)
+            return Clutter.EVENT_PROPAGATE;
+        let button = pressed ? event.get_button() : -1;
+        if (pressed && button != 1)
+            return Clutter.EVENT_PROPAGATE;
         this._togglePresence();
         return Clutter.EVENT_STOP;
     },
 
-    _onKeyRelease: function(actor, event) {
+    _onKeyPress: function(actor, event) {
         let symbol = event.get_key_symbol();
         if (symbol == Clutter.KEY_Return || symbol == Clutter.KEY_space) {
             this._togglePresence();
@@ -162,15 +171,15 @@ const DoNotDisturbButton = new Lang.Class({
     },
 
     _addKeybinding: function() {
-        Main.wm.addKeybinding(SHORTCUT, this._settings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, Lang.bind(this, this._togglePresence));
+        Main.wm.addKeybinding(SHORTCUT, this._settings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, this._togglePresence.bind(this));
     },
 
     destroy: function() {
         Mainloop.source_remove(this._timeoutId);
         this._settings.disconnect(this._showCountChangedSig);
         this._removeKeybinding();
-        this.actor.disconnect(this._btnReleaseSig);
-        this.actor.disconnect(this._keyReleaseSig);
+        this.actor.disconnect(this._btnPressSig);
+        this.actor.disconnect(this._keyPressSig);
         this._settings.disconnect(this._changedSettingsSig);
         this._list.disconnect(this._listActorAddedSig);
         this._list.disconnect(this._listActorRemovedSig);
@@ -180,7 +189,7 @@ const DoNotDisturbButton = new Lang.Class({
 
 });
 
-const DoNotDisturbExtension = new Lang.Class({
+var DoNotDisturbExtension = new Lang.Class({
     Name: 'DoNotDisturbExtension',
 
     _init: function() {
@@ -244,12 +253,12 @@ const DoNotDisturbExtension = new Lang.Class({
         let position = this._getPosition();
         Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
         this._btn._setNotEmptyCount();
-        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
-        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
+        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', this._positionChange.bind(this));
+        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', this._positionChange.bind(this));
     },
 
     enable: function() {
-        this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._delayedEnable));
+        this._timeoutId = Mainloop.timeout_add(1000, this._delayedEnable.bind(this));
     },
 
     disable: function() {

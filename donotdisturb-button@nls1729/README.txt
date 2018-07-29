@@ -88,4 +88,24 @@ by the extension panel button is in effect.
 
 2018-04-22 Uploaded for review.
 
-zip file: 2018-04-22 13:00:47 10c7206536b9ee7f9e99683588be2d51f92e9ce2
+2018-07-29 Lots of changes for the future...
+
+See:
+https://bugzilla.gnome.org/show_bug.cgi?id=770185#c21
+https://gitlab.gnome.org/GNOME/gnome-shell/merge_requests/112/diffs
+https://github.com/nls1729/acme-code/issues/38
+
+Added code to handle clutter.EventType.TOUCH_BEGIN to act the same as
+a mouse click off the extension's panel button.
+
+Updated code to use arrow notation => instead of Lang.bind for anonymous
+functions.
+
+Updated code to use ES6 classes.
+
+Updated to use GJS ES6 class wrapper for GObject class in prefs.js.
+
+Updated to use Function.prototype.bind() instead of Lang.bind for named
+call backs.
+
+zip file: 2018-06-12 14:29:58 8eecb87393e0a280a07cdb7a002aa6ac52d26e03
