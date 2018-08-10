@@ -108,4 +108,7 @@ Updated to use GJS ES6 class wrapper for GObject class in prefs.js.
 Updated to use Function.prototype.bind() instead of Lang.bind for named
 call backs.
 
+2018-08-10  Thanks to p-bo for adding Czech translation.
+Uploaded for review.  Reviewer please see previous comment 2018-07-29.
+
 zip file: 2018-07-29 17:14:22 2c3232cddc9d137eec51494413ad1d1570ba7eb1
