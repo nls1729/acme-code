@@ -53,6 +53,15 @@ README
 
    2018-04-15  Changed to be compatible with Ubuntu 18.04 LTS. Uploaded for review.
 
+   2018-09-03  Thanks to treba123 for merge request which corrected class name
+               changes needed for GS 3.29.92 and beyond.
+
+               See https://nls1729.github.io/extension-reloader.html , note when
+               an extension is not in the error state reloading will not read
+               changes made to disk.  This limits the use of the extension to
+               making changes when an extension is in the error state.
+
+               Uploaded for review.
 
 zip file: Sun Apr 15 16:41:27 EDT 2018 e6d85a661f1b1d1a4038057f7b7956e6ed333039
 
