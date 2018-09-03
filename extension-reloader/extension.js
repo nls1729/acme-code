@@ -70,7 +70,7 @@ const TYPE = { info: 0,
              };
 
 const SubMenuItem = new Lang.Class({
-    Name: 'ReloadExtension.SubMenuItem',
+    Name: 'ReloadExtension_SubMenuItem',
     Extends: PopupMenu.PopupBaseMenuItem,
 
     _init: function(extension, name, menu, subMenu) {
@@ -119,7 +119,7 @@ const SubMenuItem = new Lang.Class({
 });
 
 const ReloadExtensionMenu = new Lang.Class({
-    Name: 'ReloadExtension.ReloadExtensionMenu',
+    Name: 'ReloadExtension_ReloadExtensionMenu',
     Extends: PanelMenu.Button,
 
     _init: function() {
@@ -201,7 +201,7 @@ const ReloadExtensionMenu = new Lang.Class({
 });
 
 const ExtensionReloaderExtension = new Lang.Class({
-    Name: 'ReloadExtension.ExtensionReloaderExtension',
+    Name: 'ReloadExtension_ExtensionReloaderExtension',
 
     _init: function() {
         this._btn = null;
