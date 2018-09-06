@@ -489,6 +489,8 @@ https://nls1729.github.io
            functions provided by the import were replaced with a different set
            of functions.  The import should have been removed then.
 
+2018-09-06 Fixed class names to be compatible with GS 3.30. Uploaded for review.
+
 
 zip file: Sat Apr 14 16:44:32 EDT 2018 54829f76e8f97aa53594d639b0589c0973ea6257
 

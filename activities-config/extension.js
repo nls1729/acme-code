@@ -57,7 +57,7 @@ const GioSSS = Gio.SettingsSchemaSource;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 
 const ActivitiesIconButton = new Lang.Class({
-    Name: 'ActivitiesConfigurator.ActivitiesIconButton',
+    Name: 'ActivitiesConfigurator_ActivitiesIconButton',
     Extends: PanelMenu.Button,
 
     _init: function() {
@@ -220,7 +220,7 @@ const ActivitiesIconButton = new Lang.Class({
 });
 
 const Configurator = new Lang.Class({
-    Name: 'ActivitiesConfigurator.Configurator',
+    Name: 'ActivitiesConfigurator_Configurator',
 
     _init : function() {
         this._enabled = false;
