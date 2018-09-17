@@ -47,14 +47,15 @@ const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const ENABLED = 1;
-const ICON = [ 'dialog-information-symbolic',
+var ENABLED = 1;
+var ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
+var ICON = [ 'dialog-information-symbolic',
                'dialog-warning-symbolic',
                'dialog-error-symbolic'
              ];
-const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
-const ROLE = 'extension-reloader-indicator';
-const STATE = [_("Unknown"),
+var MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
+var ROLE = 'extension-reloader-indicator';
+var STATE = [_("Unknown"),
                _("Enabled"),
                _("Disabled"),
                _("Error"),
@@ -62,14 +63,14 @@ const STATE = [_("Unknown"),
                _("Downloading"),
                _("Initialized")
               ];
-const STYLE1 = 'width: 120px;';
-const STYLE2 = 'font-weight: bold;';
-const TYPE = { info: 0,
+var STYLE1 = 'width: 120px;';
+var STYLE2 = 'font-weight: bold;';
+var TYPE = { info: 0,
                warning: 1,
                error: 2
              };
 
-const SubMenuItem = new Lang.Class({
+var SubMenuItem = new Lang.Class({
     Name: 'ReloadExtension_SubMenuItem',
     Extends: PopupMenu.PopupBaseMenuItem,
 
@@ -114,11 +115,10 @@ const SubMenuItem = new Lang.Class({
             Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, TYPE.error);
         }
         this._subMenu.close();
-        this._menu.close();
     }
 });
 
-const ReloadExtensionMenu = new Lang.Class({
+var ReloadExtensionMenu = new Lang.Class({
     Name: 'ReloadExtension_ReloadExtensionMenu',
     Extends: PanelMenu.Button,
 
@@ -142,7 +142,7 @@ const ReloadExtensionMenu = new Lang.Class({
         this._vBar = this._subMenuMenuItem.menu.actor.get_vscroll_bar();
         this._vBar.vscrollbar_policy = true;
         this._populateSubMenu(this._subMenuMenuItem.menu);
-        this._openToggledId = this.menu.connect('open-state-changed', Lang.bind(this, this._openToggled));
+        this._openToggledId = this.menu.connect('open-state-changed', this._openToggled.bind(this));
     },
 
     _openToggled: function(menu, open) {
@@ -176,9 +176,9 @@ const ReloadExtensionMenu = new Lang.Class({
         let sortedArray = [];
         for (let i in ExtensionUtils.extensions) {
             let entry = ExtensionUtils.extensions[i];
-            Util.insertSorted(sortedArray, entry, Lang.bind(this, function(a, b) {
+            Util.insertSorted(sortedArray, entry, (a, b) => {
                 return this._compare(a, b);
-            }));
+            });
         }
         for (let i in sortedArray) {
             let uuid = sortedArray[i].uuid;
@@ -186,7 +186,7 @@ const ReloadExtensionMenu = new Lang.Class({
             let state = sortedArray[i].state;
             let ext = sortedArray[i];
             let item = new SubMenuItem(ext, name, this.menu, subMenu);
-            item._keyInId = item.actor.connect('key-focus-in', Lang.bind(this, this._scrollMenuBox));
+            item._keyInId = item.actor.connect('key-focus-in', this._scrollMenuBox.bind(this));
             subMenu.addMenuItem(item);
         }
         this.menu.actor.style = ('max-height:' + MAX_HEIGHT + 'px');
@@ -200,7 +200,7 @@ const ReloadExtensionMenu = new Lang.Class({
     }
 });
 
-const ExtensionReloaderExtension = new Lang.Class({
+var ExtensionReloaderExtension = new Lang.Class({
     Name: 'ReloadExtension_ExtensionReloaderExtension',
 
     _init: function() {
@@ -247,8 +247,8 @@ const ExtensionReloaderExtension = new Lang.Class({
         this._btn = new ReloadExtensionMenu();
         let position = this._getPosition();
         Main.panel.addToStatusArea(ROLE, this._btn, position[0], position[1]);
-        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
-        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
+        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', this._positionChange.bind(this));
+        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', this._positionChange.bind(this));
     },
 
     destroy: function() {
@@ -260,7 +260,7 @@ const ExtensionReloaderExtension = new Lang.Class({
 
     enable: function() {
         if (Main.sessionMode.currentMode == 'ubuntu' ||  Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
-            this._timeoutId = Mainloop.timeout_add(3000, Lang.bind(this, this._delayedEnable));
+            this._timeoutId = Mainloop.timeout_add(3000, this._delayedEnable.bind(this));
         }
     },
 
