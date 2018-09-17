@@ -1,7 +1,7 @@
 /*
   Gnome Shell Extension Reloader
 
-  Copyright (c) 2016 Norman L. Smith
+  Copyright (c) 2016-2018 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -75,7 +75,7 @@ var SubMenuItem = new Lang.Class({
     Extends: PopupMenu.PopupBaseMenuItem,
 
     _init: function(extension, name, menu, subMenu) {
-	this.parent();
+	    this.parent();
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
@@ -114,7 +114,6 @@ var SubMenuItem = new Lang.Class({
         } catch(e) {
             Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, TYPE.error);
         }
-        this._subMenu.close();
     }
 });
 
