@@ -22,6 +22,7 @@
 */
 
 const Gio = imports.gi.Gio;
+const Lang = imports.lang;
 const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
@@ -31,15 +32,17 @@ const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
 const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+
 var BUSY = Me.path + '/available-no.png'
 var AVAILABLE = Me.path + '/available-yes.png'
 var SHORTCUT = 'shortcut';
 
+var DoNotDisturbButton = new Lang.Class({
+    Name: 'DoNotDisturbButton',
+    Extends: PanelMenu.Button,
 
-class DoNotDisturbButton extends PanelMenu.Button {
-
-    constructor(settings, overrideAllowed) {
-        super(0.5, null, true);
+    _init: function(settings, overrideAllowed) {
+        this.parent(0.5, null, true);
         this._settings = settings;
         this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(BUSY) });
         this._iconAvailable = new St.Icon({ gicon: Gio.icon_new_for_string(AVAILABLE) });
@@ -90,9 +93,9 @@ class DoNotDisturbButton extends PanelMenu.Button {
         }
         this._togglePresence();
         this._toggle = this._settings.get_boolean('busy-state'); // Set user preferred BUSY state at login.
-    }
+    },
 
-    _findUnseenNotifications() {
+    _findUnseenNotifications: function() {
         if (!this._indicatorActor.visible) {
             let count = 0;
             this._indicatorSources.forEach((source) => {
@@ -102,18 +105,18 @@ class DoNotDisturbButton extends PanelMenu.Button {
                 this._indicatorActor.visible = true;
             }
         return true;
-    }
+    },
 
-    _setNotEmptyCount() {
+    _setNotEmptyCount: function() {
         let count = this._list.get_n_children();
         // hide count if no notifications are available or the user doesn't want to see it
         if (count < 1 || !this._showCount)
             this._notEmptyCount.set_text('');
         else
             this._notEmptyCount.set_text(count.toString());
-    }
+    },
 
-    _onStatusChanged(status) {
+    _onStatusChanged: function(status) {
         this._iconAvailable.hide();
         this._iconBusy.hide();
         this._status = status;
@@ -126,9 +129,9 @@ class DoNotDisturbButton extends PanelMenu.Button {
             this._iconAvailable.show();
             this._settings.set_boolean('busy-state', false)
         }
-    }
+    },
 
-    _onButtonPress(actor, event) {
+    _onButtonPress: function(actor, event) {
         let type = event.type();
         let pressed = type == Clutter.EventType.BUTTON_PRESS;
         if (!pressed && type != Clutter.EventType.TOUCH_BEGIN)
@@ -138,40 +141,40 @@ class DoNotDisturbButton extends PanelMenu.Button {
             return Clutter.EVENT_PROPAGATE;
         this._togglePresence();
         return Clutter.EVENT_STOP;
-    }
+    },
 
-    _onKeyPress(actor, event) {
+    _onKeyPress: function(actor, event) {
         let symbol = event.get_key_symbol();
         if (symbol == Clutter.KEY_Return || symbol == Clutter.KEY_space) {
             this._togglePresence();
             return Clutter.EVENT_STOP;
         }
         return Clutter.EVENT_PROPAGATE;
-    }
+    },
 
-    _togglePresence() {
+    _togglePresence: function() {
         if (this._toggle) {
             this._updatePresense(false);
         } else {
             this._updatePresense(true);
         }
         this._toggle = !this._toggle;
-    }
+    },
 
-    _updatePresense(state) {
+    _updatePresense: function(state) {
         let status = state ? GnomeSession.PresenceStatus.AVAILABLE : GnomeSession.PresenceStatus.BUSY;
         this._presence.SetStatusRemote(status);
-    }
+    },
 
-    _removeKeybinding() {
+    _removeKeybinding: function() {
         Main.wm.removeKeybinding(SHORTCUT);
-    }
+    },
 
-    _addKeybinding() {
+    _addKeybinding: function() {
         Main.wm.addKeybinding(SHORTCUT, this._settings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, this._togglePresence.bind(this));
-    }
+    },
 
-    destroy() {
+    destroy: function() {
         Mainloop.source_remove(this._timeoutId);
         this._settings.disconnect(this._showCountChangedSig);
         this._removeKeybinding();
@@ -181,14 +184,15 @@ class DoNotDisturbButton extends PanelMenu.Button {
         this._list.disconnect(this._listActorAddedSig);
         this._list.disconnect(this._listActorRemovedSig);
         this.actor.get_children().forEach(function(c) { c.destroy(); });
-        super.destroy();
+        this.parent();
     }
 
-};
+});
 
-class DoNotDisturbExtension {
+var DoNotDisturbExtension = new Lang.Class({
+    Name: 'DoNotDisturbExtension',
 
-    constructor() {
+    _init: function() {
         this._btn = null;
         this._timeoutId = 0;
         let GioSSS = Gio.SettingsSchemaSource;
@@ -206,21 +210,21 @@ class DoNotDisturbExtension {
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;
         this._overrideAllowed = true;
-    }
+    },
 
-    _positionChange() {
+    _positionChange: function() {
         this.disable();
         this.enable();
-    }
+    },
 
-    destroy() {
+    destroy: function() {
         if (this._btn != null) {
             this._btn.destroy();
             this._btn = null;
         }
-    }
+    },
 
-    _getPosition() {
+    _getPosition: function() {
 
         let center = this._settings.get_boolean('panel-icon-center');
         let left = this._settings.get_boolean('panel-icon-left');
@@ -237,9 +241,9 @@ class DoNotDisturbExtension {
                 position = [0, 'right'];
         }
         return position;
-    }
+    },
 
-    _delayedEnable() {
+    _delayedEnable: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
@@ -251,13 +255,13 @@ class DoNotDisturbExtension {
         this._btn._setNotEmptyCount();
         this._leftChangedSig = this._settings.connect('changed::panel-icon-left', this._positionChange.bind(this));
         this._centerChangedSig = this._settings.connect('changed::panel-icon-center', this._positionChange.bind(this));
-    }
+    },
 
-    enable() {
+    enable: function() {
         this._timeoutId = Mainloop.timeout_add(1000, this._delayedEnable.bind(this));
-    }
+    },
 
-    disable() {
+    disable: function() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
@@ -276,7 +280,7 @@ class DoNotDisturbExtension {
         }
     }
 
-};
+});
 
 function init(metadata) {
     return new DoNotDisturbExtension();

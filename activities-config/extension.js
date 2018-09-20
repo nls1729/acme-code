@@ -46,18 +46,17 @@ const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Notify = Me.imports.notify;
 const Readme = Me.imports.readme;
+const CONFLICT = _("Conflict Detected:");
+const MIA_ICON = _("Missing Icon:");
+const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
+const DISABLE_TOGGLE = 32767;
+const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
+const MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
+const HIDE_ICON = 'width: 0; height: 0; margin-left: 0px; margin-right: 0px; ';
+const GioSSS = Gio.SettingsSchemaSource;
+const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 
-var CONFLICT = "Conflict Detected:";
-var MIA_ICON = "Missing Icon:";
-var DEFAULT_ICO = Me.path + Keys.ICON_FILE;
-var DISABLE_TOGGLE = 32767;
-var MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
-var MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
-var HIDE_ICON = 'width: 0; height: 0; margin-left: 0px; margin-right: 0px; ';
-var GioSSS = Gio.SettingsSchemaSource;
-var THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
-
-var ActivitiesIconButton = new Lang.Class({
+const ActivitiesIconButton = new Lang.Class({
     Name: 'ActivitiesConfigurator_ActivitiesIconButton',
     Extends: PanelMenu.Button,
 
@@ -78,16 +77,16 @@ var ActivitiesIconButton = new Lang.Class({
         this.actor.add_actor(this._iconLabelBox);
         this.actor.label_actor = this._label;
         let sig;
-        this._actorSignals.push(sig = this.actor.connect('captured-event', this._onCapturedEvent.bind(this)));
-        this._actorSignals.push(sig = this.actor.connect_after('key-release-event', this._onKeyRelease.bind(this)));
-        this._mainSignals.push(sig = Main.overview.connect('showing', () => {
+        this._actorSignals.push(sig = this.actor.connect('captured-event', Lang.bind(this, this._onCapturedEvent)));
+        this._actorSignals.push(sig = this.actor.connect_after('key-release-event', Lang.bind(this, this._onKeyRelease)));
+        this._mainSignals.push(sig = Main.overview.connect('showing', Lang.bind(this, function() {
             this.actor.add_style_pseudo_class('overview');
             this.actor.add_accessible_state (Atk.StateType.CHECKED);
-        }));
-        this._mainSignals.push(sig = Main.overview.connect('hiding', () => {
+        })));
+        this._mainSignals.push(sig = Main.overview.connect('hiding', Lang.bind(this, function() {
             this.actor.remove_style_pseudo_class('overview');
             this.actor.remove_accessible_state (Atk.StateType.CHECKED);
-        }));
+        })));
         this._xdndTimeOut = 0;
         this._touchAndHoldTimeoutId = 0;
         this._prefsCommand = 'gnome-shell-extension-prefs';
@@ -101,9 +100,8 @@ var ActivitiesIconButton = new Lang.Class({
 
         if (this._xdndTimeOut != 0)
             Mainloop.source_remove(this._xdndTimeOut);
-        this._xdndTimeOut = Mainloop.timeout_add(BUTTON_DND_ACTIVATION_TIMEOUT, () => {
-            this._xdndToggleOverview(actor);
-        });
+        this._xdndTimeOut = Mainloop.timeout_add(BUTTON_DND_ACTIVATION_TIMEOUT,
+                                                 Lang.bind(this, this._xdndToggleOverview, actor));
         GLib.Source.set_name_by_id(this._xdndTimeOut, '[gnome-shell] this._xdndToggleOverview');
 
         return DND.DragMotionResult.CONTINUE;
@@ -119,10 +117,10 @@ var ActivitiesIconButton = new Lang.Class({
     _onCapturedEvent: function(actor, event) {
         if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
             this._removeTouchAndHoldTimeoutId();
-            this._touchAndHoldTimeoutId = Mainloop.timeout_add(600, () => {
+            this._touchAndHoldTimeoutId = Mainloop.timeout_add(600, Lang.bind(this, function() {
                 this._touchAndHoldTimeoutId = 0;
                 Main.Util.trySpawnCommandLine(this._prefsCommand);
-            });
+            }));
         } else if (event.type() == Clutter.EventType.BUTTON_PRESS) {
             if (!Main.overview.shouldToggleByCornerOrButton())
                 return Clutter.EVENT_STOP;
@@ -157,11 +155,11 @@ var ActivitiesIconButton = new Lang.Class({
                         if(event.get_state() & Clutter.ModifierType.BUTTON1_MASK) {
                             if (this._waylandDragOverTimedOutId != 0)
                                 Mainloop.source_remove(this._waylandDragOverTimedOutId);
-                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(500, () => {
+                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(500, Lang.bind(this, function() {
                                 if (Main.overview.shouldToggleByCornerOrButton())
                                     Main.overview.toggle();
                                 this._waylandDragOverTimedOutId = 0;
-                            });
+                            }));
                         }
                     }
                     this._motionUnHandled = false;
@@ -221,7 +219,7 @@ var ActivitiesIconButton = new Lang.Class({
 
 });
 
-var Configurator = new Lang.Class({
+const Configurator = new Lang.Class({
     Name: 'ActivitiesConfigurator_Configurator',
 
     _init : function() {
@@ -308,17 +306,17 @@ var Configurator = new Lang.Class({
             this._maxUnmax();
             if (MAJOR_VERSION == 3 && MINOR_VERSION < 17) {
                 if (this._maxWinSigId1 == null)
-                    this._maxWinSigId1 = global.window_manager.connect('maximize', this._maxUnmax.bind(this));
+                    this._maxWinSigId1 = global.window_manager.connect('maximize', Lang.bind(this, this._maxUnmax));
                 if (this._maxWinSigId2 == null)
-                    this._maxWinSigId2 = global.window_manager.connect('unmaximize', this._maxUnmax.bind(this));
+                    this._maxWinSigId2 = global.window_manager.connect('unmaximize',Lang.bind(this, this._maxUnmax));
             } else {
                 if (this._maxWinSigId1 == null)
-                    this._maxWinSigId1 = global.window_manager.connect('hide-tile-preview', this._maxUnmax.bind(this));
+                    this._maxWinSigId1 = global.window_manager.connect('hide-tile-preview', Lang.bind(this, this._maxUnmax));
                 if (this._maxWinSigId2 == null)
-                    this._maxWinSigId2 = global.window_manager.connect('size-change', this._maxUnmax.bind(this));
+                    this._maxWinSigId2 = global.window_manager.connect('size-change',Lang.bind(this, this._maxUnmax));
             }
             if (this._maxWinSigId3 == null)
-                this._maxWinSigId3 = global.screen.connect('restacked', this._maxUnmax.bind(this));
+                this._maxWinSigId3 = global.screen.connect('restacked', Lang.bind(this, this._maxUnmax));
         } else {
             this._disconnectGlobalSignals();
             this._setPanelBackground(false);
@@ -373,41 +371,41 @@ var Configurator = new Lang.Class({
 
     _connectSettings: function() {
         this._settingsSignals = [];
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.MAX_WIN_EFFECT, this._maxWindowPanelEffect.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.REMOVED, this._setActivities.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NEW_TXT, this._setText.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NEW_ICO, this._setIcon.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+this._hotKey, this._setHotCornerThreshold.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_HOTC, this._setHotCorner.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_TEXT, this._setText.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_ICON, this._setIcon.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_TXT, this._setText.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_ICO, this._setIcon.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SCF_ICO, this._setIcon.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.CON_DET, this._setConflictDetection.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_RC, this._setHiddenCorners.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_APPMBI, this._setHideAppMenuButtonIcon.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_COLOR, this._setShadow.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_TRANS, this._setShadow.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_LEN, this._setShadow.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_BLUR, this._setShadow.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_SPRED, this._setShadow.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHOW_OVERVIEW, this._setShowOver.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.BTN_POSITION, this._setPositionRight.bind(this)));
-        this._settingsSignals.push(this._settings.connect('changed::'+Keys.OVERR_THEME, this._setOverrideTheme.bind(this)));
-        this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, this._setPanelColor.bind(this));
-        this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, this._setPanelTransparency.bind(this));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.MAX_WIN_EFFECT, Lang.bind(this, this._maxWindowPanelEffect)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.REMOVED, Lang.bind(this, this._setActivities)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NEW_TXT, Lang.bind(this, this._setText)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NEW_ICO, Lang.bind(this, this._setIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+this._hotKey, Lang.bind(this, this._setHotCornerThreshold)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_HOTC, Lang.bind(this, this._setHotCorner)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_TEXT, Lang.bind(this, this._setText)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.NO_ICON, Lang.bind(this, this._setIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_TXT, Lang.bind(this, this._setText)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.PAD_ICO, Lang.bind(this, this._setIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SCF_ICO, Lang.bind(this, this._setIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.CON_DET, Lang.bind(this, this._setConflictDetection)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_RC, Lang.bind(this, this._setHiddenCorners)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.HIDE_APPMBI, Lang.bind(this, this._setHideAppMenuButtonIcon)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_COLOR, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_TRANS, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_LEN, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_BLUR, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHADOW_SPRED, Lang.bind(this, this._setShadow)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHOW_OVERVIEW, Lang.bind(this, this._setShowOver)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.BTN_POSITION, Lang.bind(this, this._setPositionRight)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.OVERR_THEME, Lang.bind(this, this._setOverrideTheme)));
+        this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor));
+        this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
     },
 
     _setPositionRight: function() {
         this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
         this.disable();
-        this._timeoutId = Mainloop.timeout_add(500, this._delayedEnable.bind(this));
+        this._timeoutId = Mainloop.timeout_add(500, Lang.bind(this, this._delayedEnable));
     },
 
     _connectThemeContextSig: function() {
         this._themeContext = St.ThemeContext.get_for_stage(global.stage);
-        return this._themeContext.connect('changed', this._themeChanged.bind(this));
+        return this._themeContext.connect('changed', Lang.bind(this, this._themeChanged));
     },
 
     _themeChanged: function() {
@@ -415,7 +413,7 @@ var Configurator = new Lang.Class({
             Mainloop.source_remove(this._themeTimeoutId);
             this._themeTimeoutId = 0;
         }
-        this._themeTimeoutId = Mainloop.timeout_add(1500, this._getAndSetShellThemeId.bind(this));
+        this._themeTimeoutId = Mainloop.timeout_add(1500, Lang.bind(this, this._getAndSetShellThemeId));
     },
 
     _getAndSetShellThemeId: function() {
@@ -454,7 +452,7 @@ var Configurator = new Lang.Class({
         this._showOverviewNoAppsRunning = this._settings.get_boolean(Keys.SHOW_OVERVIEW);
         if (this._showOverviewNoAppsRunning) {
             if (this._appStateChangedSigId == null) {
-                this._appStateChangedSigId = this._appSystem.connect('app-state-changed', this._appStateChanged.bind(this));
+                this._appStateChangedSigId = this._appSystem.connect('app-state-changed', Lang.bind(this, this._appStateChanged));
             }
         } else if (this._appStateChangedSigId > 0) {
             this._appSystem.disconnect(this._appStateChangedSigId);
@@ -470,9 +468,9 @@ var Configurator = new Lang.Class({
     _handleCornerSignals: function(connect) {
         if (connect) {
             if (this._signalIdLC == null)
-                this._signalIdLC = Main.panel._leftCorner.actor.connect('repaint', this._redoLeft.bind(this));
+                this._signalIdLC = Main.panel._leftCorner.actor.connect('repaint', Lang.bind(this, this._redoLeft));
             if (this._signalIdRC == null)
-                this._signalIdRC = Main.panel._rightCorner.actor.connect('repaint', this._redoRight.bind(this));
+                this._signalIdRC = Main.panel._rightCorner.actor.connect('repaint', Lang.bind(this, this._redoRight));
         } else {
             if (this._signalIdLC > 0) {
                 Main.panel._leftCorner.actor.disconnect(this._signalIdLC);
@@ -651,9 +649,9 @@ var Configurator = new Lang.Class({
         this._roundedCornersHidden = this._settings.get_boolean(Keys.HIDE_RC);
         if (this._roundedCornersHidden) {
             if (this._showLeftSignal == null)
-                this._showLeftSignal = Main.panel._leftCorner.actor.connect('show', this._reHideCorners.bind(this));
+                this._showLeftSignal = Main.panel._leftCorner.actor.connect('show',Lang.bind(this, this._reHideCorners));
             if (this._showRightSignal == null)
-                this._showRightSignal = Main.panel._rightCorner.actor.connect('show', this._reHideCorners.bind(this));
+                this._showRightSignal = Main.panel._rightCorner.actor.connect('show',Lang.bind(this, this._reHideCorners));
         } else {
             if (this._showLeftSignal > 0) {
                 Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
@@ -676,7 +674,7 @@ var Configurator = new Lang.Class({
 
     _reHideCorners: function() {
         if (this._hideTimeoutId == 0)
-            this._hideTimeoutId = Mainloop.timeout_add(1000, this._doReHideCorners.bind(this));
+            this._hideTimeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._doReHideCorners));
     },
 
     _doReHideCorners: function() {
@@ -762,10 +760,10 @@ var Configurator = new Lang.Class({
             Main.panel._rightCorner.actor.show();
         }
         if (this._transparencySig == null) {
-            this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, this._setPanelTransparency.bind(this));
+            this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, Lang.bind(this, this._setPanelTransparency));
         }
         if (this._colorSig == null) {
-            this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, this._setPanelColor.bind(this));
+            this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, Lang.bind(this, this._setPanelColor));
         }
         if (Main.panel.actor.get_style() == null || !Main.panel._leftCorner.actor.visible) {
             this._handleCornerSignals(false);
@@ -826,7 +824,7 @@ var Configurator = new Lang.Class({
         if (this._conflictDetection && this._enabled)
             this._conflicts();
         if (this._conflictDetection && this._checkConflictSignal == null)
-            this._checkConflictSignal = Main.panel._leftBox.connect('actor-added', this._conflicts.bind(this));
+            this._checkConflictSignal = Main.panel._leftBox.connect('actor-added', Lang.bind(this, this._conflicts));
         if (!this._conflictDetection && this._checkConflictSignal > 0) {
             Main.panel._leftBox.disconnect(this._checkConflictSignal);
             this._checkConflictSignal = null;
@@ -860,7 +858,7 @@ var Configurator = new Lang.Class({
                     this.disable();
                 } else {
                     this.disable();
-                    this._timeoutId = Mainloop.timeout_add(1000, this._delayedEnable.bind(this));
+                    this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._delayedEnable));
                 }
             }
         }
@@ -933,18 +931,18 @@ var Configurator = new Lang.Class({
             return;
         }
         if (this._keyFound)
-            this._keyChangedSig = global.settings.connect('changed::enable-hot-corners', this._enableHotCornersChanged.bind(this));
+            this._keyChangedSig = global.settings.connect('changed::enable-hot-corners', Lang.bind(this, this._enableHotCornersChanged));
         this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
         this._barriersSupported = global.display.supports_extended_barriers();
         this._setBarriersSupport(this._barriersSupported);
         this._activitiesIconButton = new ActivitiesIconButton();
         this._activitiesIndicator = Main.panel.statusArea['activities'];
         if (this._activitiesIndicator != null) {
-            this._signalShow = this._activitiesIndicator.container.connect('show', () => {
+            this._signalShow = this._activitiesIndicator.container.connect('show', Lang.bind(this, function() {
                 this._activitiesIndicator = Main.panel.statusArea['activities'];
                 if (this._activitiesIndicator != null)
                     this._activitiesIndicator.container.hide();
-            });
+            }));
             this._activitiesIndicator.container.hide();
         }
         this._overrideTheme = this._settings.get_boolean(Keys.OVERR_THEME);
@@ -967,24 +965,24 @@ var Configurator = new Lang.Class({
         this._setActivities();
         this._setConflictDetection();
         if (Main.sessionMode.currentMode == 'user') {
-            this._leftBoxActorAddedSig = Main.panel._leftBox.connect('actor-added', () => {
+            this._leftBoxActorAddedSig = Main.panel._leftBox.connect('actor-added', Lang.bind(this, function() {
                 this._leftBoxActorAdded();
-            });
+            }));
             this._setHideAppMenuButtonIcon();
             this._setHotCorner();
             this._hotCornersChanged();
-            this._signalHotCornersChanged = Main.layoutManager.connect('hot-corners-changed', this._hotCornersChanged.bind(this));
+            this._signalHotCornersChanged = Main.layoutManager.connect('hot-corners-changed', Lang.bind(this, this._hotCornersChanged));
         }
         this._maxWindowPanelEffect();
         if (!Meta.is_wayland_compositor()) {
-            this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', this._dragBegin.bind(this));
-            this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', this._dragEnd.bind(this));
+            this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', Lang.bind(this, this._dragBegin));
+            this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', Lang.bind(this, this._dragEnd));
         }
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
         this._setShowOver();
         if ((Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') && this._showOverviewNoAppsRunning)
-            this._timeoutId = Mainloop.timeout_add(1000, this._showOverview.bind(this));
+            this._timeoutId = Mainloop.timeout_add(1000, Lang.bind(this, this._showOverview));
         this._enabled = true;
         log('Activities Configurator Enabled');
     },
@@ -1014,7 +1012,7 @@ var Configurator = new Lang.Class({
         // Extension must delay completion of enable to allow theme to be
         // loaded and for Conflict Detection to function if it is enabled.
         this._getHotCornerState();
-        this._timeoutId = Mainloop.timeout_add(1500, this._delayedEnable.bind(this));
+        this._timeoutId = Mainloop.timeout_add(1500, Lang.bind(this, this._delayedEnable));
     },
 
     disable: function() {
@@ -1093,12 +1091,12 @@ function _overviewToggler() {
     if (Main.overview.shouldToggleByCornerOrButton()) {
         if (toggleThreshold != DISABLE_TOGGLE) {
             if (toggleThreshold > 0) {
-                Mainloop.timeout_add(toggleThreshold, () => {
+                Mainloop.timeout_add(toggleThreshold, Lang.bind(this, function() {
                     if (this._entered) {
                         this._rippleAnimation();
                         Main.overview.toggle();
                     }
-                });
+                }));
             } else {
                 this._rippleAnimation();
                 Main.overview.toggle();

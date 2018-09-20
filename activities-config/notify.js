@@ -4,7 +4,7 @@ const Lang = imports.lang;
 const St = imports.gi.St;
 
 
-var ExtensionNotificationSource = new Lang.Class({
+const ExtensionNotificationSource = new Lang.Class({
     Name: 'ExtensionNotificationSource',
     Extends: MessageTray.Source,
 
@@ -35,7 +35,7 @@ function notify(msg, details) {
 }
 
 
-var VerboseNotify = new Lang.Class({
+const VerboseNotify = new Lang.Class({
     Name: "VerboseNotify",
 
     _init: function() {
@@ -44,7 +44,7 @@ var VerboseNotify = new Lang.Class({
         this._titleBin = new St.Bin();
         this._msgBin = new St.Bin();
         this._closeBin = new St.Bin({ reactive: true });
-        this._clickedSig = this._closeBin.connect('button-press-event', this._clicked(bind));
+        this._clickedSig = this._closeBin.connect('button-press-event', Lang.bind(this, this._clicked));
         this._box.add(this._titleBin);
         this._box.add(this._msgBin);
         this._box.add(this._closeBin);

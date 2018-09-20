@@ -111,7 +111,4 @@ call backs.
 2018-08-10  Thanks to p-bo for adding Czech translation.
 Uploaded for review.  Reviewer please see previous comment 2018-07-29.
 
-2018-09-18  Finished change to ES6 classes DNDB.  Tested GS 3.30 with Updates
-testing Fedora 29.
-
-zip file: 2018-09-18 16:40:06 487f5304b6fc341a90537dc34463ca0a7aea8987
+zip file: 2018-08-10 12:00:14 d192c31112b2ffc4cfb369071651e999f4d00179

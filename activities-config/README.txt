@@ -491,6 +491,7 @@ https://nls1729.github.io
 
 2018-09-06 Fixed class names to be compatible with GS 3.30. Uploaded for review.
 
-zip file: Fri Sep 14 13:41:55 EDT 2018 45879d6122fb83c2667af0b9a20381a3b935dc1d
+
+zip file: Thu Sep  6 15:18:23 EDT 2018 ce70c099cd01baf4d5b5940c7f5518198030eb7f
 
 ...
