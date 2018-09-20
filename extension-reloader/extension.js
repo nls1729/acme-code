@@ -70,12 +70,11 @@ var TYPE = { info: 0,
                error: 2
              };
 
-var SubMenuItem = new Lang.Class({
-    Name: 'ReloadExtension_SubMenuItem',
-    Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(extension, name, menu, subMenu) {
-	    this.parent();
+class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
+        
+    constructor(extension, name, menu, subMenu);
+        super();
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
@@ -94,14 +93,14 @@ var SubMenuItem = new Lang.Class({
         this._subMenu = subMenu;
         this._menu = menu;
         this._keyInId = 0;
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this.actor.disconnect(this._keyInId);
-        this.parent();
-    },
+        super.destroy();
+    }
 
-    activate: function() {
+    activate() {
         let enabledExtensions = global.settings.get_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY);
         if (enabledExtensions.indexOf(this._uuid) == -1) {
             enabledExtensions.push(this._uuid);
@@ -115,7 +114,7 @@ var SubMenuItem = new Lang.Class({
             Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, TYPE.error);
         }
     }
-});
+};
 
 var ReloadExtensionMenu = new Lang.Class({
     Name: 'ReloadExtension_ReloadExtensionMenu',

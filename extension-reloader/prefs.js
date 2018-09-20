@@ -20,7 +20,7 @@
   This extension is a derived work of the Gnome Shell.
 */
 
-const Lang = imports.lang;
+
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
@@ -29,22 +29,21 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: c8ba7466f95cc26002ab5c90ac6bcb45b13b1657";
-const SHORTCUT = 'shortcut';
-const LEFT = 'panel-icon-left';
-const CENTER = 'panel-icon-center';
+var COMMIT = "Commit: 0c91eb59f8ea1eb0b237bf531058b400a49454f1";
+var SHORTCUT = 'shortcut';
+var LEFT = 'panel-icon-left';
+var CENTER = 'panel-icon-center';
 
 function init() {
     imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");
+    log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZXXXXXX");
 }
 
-const ExtensionReloaderPrefsWidget = new GObject.Class({
-    Name: 'ExtensionReloader.Prefs.Widget',
-    GTypeName: 'ExtensionReloaderPrefsWidget',
-    Extends: Gtk.Box,
+const ExtensionReloaderPrefsWidget = new GObject.registerClass(
+class ExtensionReloaderPrefsWidget extends Gtk.Box {
 
-    _init: function(params) {
-        this.parent(params);
+    _init(params) {
+        super._init(params);
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
         let schemaDir = Me.dir.get_child('schemas').get_path();
@@ -70,25 +69,25 @@ const ExtensionReloaderPrefsWidget = new GObject.Class({
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
-        this._leftRb.connect('toggled', Lang.bind(this, function(b) {
+        this._leftRb.connect('toggled', (b) => {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, true);
             else
                 this._settings.set_boolean(LEFT, false);
-        }));
-        this._rightRb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._rightRb.connect('toggled', (b) => {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, false);
             else
                 this._settings.set_boolean(LEFT, true);
-        }));
-        this._centerCb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._centerCb.connect('toggled', (b) => {
             if(b.get_active()) {
                 this._settings.set_boolean(CENTER, true);
             } else {
                 this._settings.set_boolean(CENTER, false);
             }
-        }));
+        });
         this._leftRb.set_active(left);
         this._rightRb.set_active(!left);
         this._centerCb.set_active(center);
