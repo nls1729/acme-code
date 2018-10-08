@@ -491,7 +491,22 @@ https://nls1729.github.io
 
 2018-09-06 Fixed class names to be compatible with GS 3.30. Uploaded for review.
 
+2018-10-03 Completed changes for ES6.
+           Changed code to use arrow notation => instead of Lang.bind for anonymous
+           functions. Changed code to use ES6 classes. Updated prefs.js to use GJS ES6
+           class wrapper for GObject class. Changed to use Function.prototype.bind()
+           instead of Lang.bind for named call backs.  Changed let and const to var for
+           modules with symbols to be exported.  "....according to the ES6 standard.
+           Any symbols to be exported from a module must be defined with 'var'." 
 
-zip file: Thu Sep  6 15:18:23 EDT 2018 ce70c099cd01baf4d5b5940c7f5518198030eb7f
+2018-10-08 For GS 3.30 changed max window effect to handle change of global.screen
+           to global.display, changed workspace access from global.screen to
+           global.workspace_manager, changed acess of signals from global.window_manager
+           to Main.wm._shellwm.
+
+2018-10-08 Uploaded for review.
+
+
+zip file: Mon Oct  8 11:06:35 EDT 2018 93ae475e9eae0bcc528fc27d3a44dea8389f7a28
 
 ...

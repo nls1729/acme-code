@@ -63,6 +63,14 @@ README
 
                Uploaded for review.
 
-zip file: Mon Sep  3 12:35:36 EDT 2018 b53da23ce05a8d9276bdfe348314461bcf2d3d53
+   2018-10-03  Completed changes for ES6.
+               Changed code to use arrow notation => instead of Lang.bind for anonymous
+               functions. Changed code to use ES6 classes. Updated prefs.js to use GJS ES6
+               class wrapper for GObject class. Changed to use Function.prototype.bind()
+               instead of Lang.bind for named call backs.
+
+   2018-10-08  Uploaded for review.
+
+zip file: Mon Oct  8 11:07:13 EDT 2018 93ae475e9eae0bcc528fc27d3a44dea8389f7a28
 
 ...

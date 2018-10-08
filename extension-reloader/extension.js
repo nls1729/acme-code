@@ -1,7 +1,7 @@
 /*
   Gnome Shell Extension Reloader
 
-  Copyright (c) 2016 Norman L. Smith
+  Copyright (c) 2016-2018 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -20,17 +20,15 @@
   This extension is a derived work of the Gnome Shell.
 
   This extension is intended for use by Gnome Shell Extension writers.
+  The extension to be reloaded must be in the error state to reload.
   It is common practice to restart the Shell during extension testing
   to reload the extension to test changes made to the extension's code.
   Wayland does not allow restart of the Shell. To reload an extension
-  under Wayland a logout and a login is required. The extension reloads
-  only the selected extension with two mouse clicks saving time for the
-  extension writer.
+  not in the error state under Wayland a logout and a login is required.
 
 */
 
 
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
@@ -48,19 +46,16 @@ const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
 const ENABLED = 1;
-const ICON = [ 'dialog-information-symbolic',
-               'dialog-warning-symbolic',
-               'dialog-error-symbolic'
-             ];
+const ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
 const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
 const ROLE = 'extension-reloader-indicator';
-const STATE = [_("Unknown"),
-               _("Enabled"),
-               _("Disabled"),
-               _("Error"),
-               _("Out of Date"),
-               _("Downloading"),
-               _("Initialized")
+const STATE = ["Unknown",
+               "Enabled",
+               "Disabled",
+               "Error",
+               "Out of Date",
+               "Downloading",
+               "Initialized"
               ];
 const STYLE1 = 'width: 120px;';
 const STYLE2 = 'font-weight: bold;';
@@ -69,12 +64,11 @@ const TYPE = { info: 0,
                error: 2
              };
 
-const SubMenuItem = new Lang.Class({
-    Name: 'ReloadExtension_SubMenuItem',
-    Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(extension, name, menu, subMenu) {
-	this.parent();
+class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
+        
+    constructor(extension, name, menu, subMenu) {
+        super();
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
@@ -93,14 +87,15 @@ const SubMenuItem = new Lang.Class({
         this._subMenu = subMenu;
         this._menu = menu;
         this._keyInId = 0;
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this.actor.disconnect(this._keyInId);
-        this.parent();
-    },
+        super.destroy();
+    }
 
-    activate: function() {
+    activate() {
+        this._menu.close();
         let enabledExtensions = global.settings.get_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY);
         if (enabledExtensions.indexOf(this._uuid) == -1) {
             enabledExtensions.push(this._uuid);
@@ -113,17 +108,14 @@ const SubMenuItem = new Lang.Class({
         } catch(e) {
             Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, TYPE.error);
         }
-        this._subMenu.close();
-        this._menu.close();
     }
-});
+};
 
-const ReloadExtensionMenu = new Lang.Class({
-    Name: 'ReloadExtension_ReloadExtensionMenu',
-    Extends: PanelMenu.Button,
 
-    _init: function() {
-        this.parent(0.5, 'Reload Extension Menu');
+class ReloadExtensionMenu extends PanelMenu.Button {
+
+    constructor() {
+        super(0.5, 'Reload Extension Menu');
         let hbox = new St.BoxLayout({
             style_class: 'panel-status-menu-box'
         });
@@ -142,18 +134,18 @@ const ReloadExtensionMenu = new Lang.Class({
         this._vBar = this._subMenuMenuItem.menu.actor.get_vscroll_bar();
         this._vBar.vscrollbar_policy = true;
         this._populateSubMenu(this._subMenuMenuItem.menu);
-        this._openToggledId = this.menu.connect('open-state-changed', Lang.bind(this, this._openToggled));
-    },
+        this._openToggledId = this.menu.connect('open-state-changed', this._openToggled.bind(this));
+    }
 
-    _openToggled: function(menu, open) {
+    _openToggled(menu, open) {
         if (open) {
             this._subMenuMenuItem.menu.removeAll();
             this._populateSubMenu(this._subMenuMenuItem.menu);
             this._subMenuMenuItem.menu.open();
         }
-    },
+    }
 
-    _scrollMenuBox: function(actor) {
+    _scrollMenuBox(actor) {
         let box = actor.get_allocation_box();
         let currentValue = this._vBar.get_adjustment().get_value();
         let newValue = currentValue;
@@ -164,21 +156,21 @@ const ReloadExtensionMenu = new Lang.Class({
             newValue = box.y2 - this._scrollView.height + delta;
         if (newValue != currentValue)
             this._vBar.get_adjustment().set_value(newValue);
-    },
+    }
 
-    _compare: function(a, b) {
+    _compare(a, b) {
         let aKey = a.state.toString() + a.metadata.name.toUpperCase();
         let bKey = b.state.toString() + b.metadata.name.toUpperCase();
         return (aKey > bKey) ? 0 : -1;
-    },
+    }
 
-    _populateSubMenu: function(subMenu) {
+    _populateSubMenu(subMenu) {
         let sortedArray = [];
         for (let i in ExtensionUtils.extensions) {
             let entry = ExtensionUtils.extensions[i];
-            Util.insertSorted(sortedArray, entry, Lang.bind(this, function(a, b) {
+            Util.insertSorted(sortedArray, entry, (a, b) => {
                 return this._compare(a, b);
-            }));
+            });
         }
         for (let i in sortedArray) {
             let uuid = sortedArray[i].uuid;
@@ -186,24 +178,24 @@ const ReloadExtensionMenu = new Lang.Class({
             let state = sortedArray[i].state;
             let ext = sortedArray[i];
             let item = new SubMenuItem(ext, name, this.menu, subMenu);
-            item._keyInId = item.actor.connect('key-focus-in', Lang.bind(this, this._scrollMenuBox));
+            item._keyInId = item.actor.connect('key-focus-in', this._scrollMenuBox.bind(this));
             subMenu.addMenuItem(item);
         }
         this.menu.actor.style = ('max-height:' + MAX_HEIGHT + 'px');
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this.menu.disconnect(this._openToggledId);
         this._subMenuMenuItem.menu.removeAll();
         this.menu.removeAll();
-        this.parent();
+        super.destroy();
     }
-});
+};
 
-const ExtensionReloaderExtension = new Lang.Class({
-    Name: 'ReloadExtension_ExtensionReloaderExtension',
 
-    _init: function() {
+class ExtensionReloaderExtension {
+
+    constructor() {
         this._btn = null;
         this._timeoutId = 0;
         let GioSSS = Gio.SettingsSchemaSource;
@@ -214,14 +206,14 @@ const ExtensionReloaderExtension = new Lang.Class({
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;
-    },
+    }
 
-    _positionChange: function() {
+    _positionChange() {
         this.disable();
         this._delayedEnable();
-    },
+    }
 
-    _getPosition: function() {
+    _getPosition() {
         let center = this._settings.get_boolean('panel-icon-center');
         let left = this._settings.get_boolean('panel-icon-left');
         let position;
@@ -237,9 +229,9 @@ const ExtensionReloaderExtension = new Lang.Class({
                 position = [0, 'right'];
         }
         return position;
-    },
+    }
 
-    _delayedEnable: function() {
+    _delayedEnable() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
@@ -247,24 +239,24 @@ const ExtensionReloaderExtension = new Lang.Class({
         this._btn = new ReloadExtensionMenu();
         let position = this._getPosition();
         Main.panel.addToStatusArea(ROLE, this._btn, position[0], position[1]);
-        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', Lang.bind(this, this._positionChange));
-        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', Lang.bind(this, this._positionChange));
-    },
+        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', this._positionChange.bind(this));
+        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', this._positionChange.bind(this));
+    }
 
-    destroy: function() {
+    destroy() {
         if (this._btn != null) {
             this._btn.destroy();
             this._btn = null;
         }
-    },
+    }
 
-    enable: function() {
+    enable() {
         if (Main.sessionMode.currentMode == 'ubuntu' ||  Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
-            this._timeoutId = Mainloop.timeout_add(3000, Lang.bind(this, this._delayedEnable));
+            this._timeoutId = Mainloop.timeout_add(3000, this._delayedEnable.bind(this));
         }
-    },
+    }
 
-    disable: function() {
+    disable() {
         if (this._timeoutId != 0) {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
@@ -282,7 +274,7 @@ const ExtensionReloaderExtension = new Lang.Class({
             this._centerChangedSig = 0;
         }
     }
-});
+};
 
 function init(metadata) {
     imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");

@@ -1,7 +1,7 @@
 /*
   This file is part of the extension-reloader@nls1729.
 
-  Copyright (c) 2016 Norman L. Smith
+  Copyright (c) 2016-2018 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -23,26 +23,23 @@
 const St = imports.gi.St;
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
-const Lang = imports.lang;
 const ICON = [ "dialog-information-symbolic",
                "dialog-warning-symbolic",
                "dialog-error-symbolic"
              ];
 
 
-const ExtensionNotificationSource = new Lang.Class({
-    Name: 'ExtensionNotificationSource',
-    Extends: MessageTray.Source,
+class ExtensionNotificationSource extends MessageTray.Source {
 
-    _init: function(type) {
+    constructor (type) {
 
-        this.parent(_("Extension"), ICON[type]);
-    },
-
-    open: function() {
-        this.destroy();
+        super("Extension", ICON[type]);
     }
-});
+
+    open () {
+        super.destroy();
+    }
+};
 
 function notifyError(msg, details) {
     log('error: ' + msg + ': ' + details);

@@ -111,4 +111,8 @@ call backs.
 2018-08-10  Thanks to p-bo for adding Czech translation.
 Uploaded for review.  Reviewer please see previous comment 2018-07-29.
 
-zip file: 2018-08-10 12:00:14 d192c31112b2ffc4cfb369071651e999f4d00179
+2018-10-03 Completed changes for ES6.
+
+2018-10-08 Uploaded for review.
+
+zip file: 2018-10-08 11:07:27 93ae475e9eae0bcc528fc27d3a44dea8389f7a28

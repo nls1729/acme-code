@@ -1,7 +1,7 @@
 /*
   This file is part of the extension-reloader@nls1729.
 
-  Copyright (c) 2016 Norman L. Smith
+  Copyright (c) 2016-2018 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
   This extension is a derived work of the Gnome Shell.
 */
 
-const Lang = imports.lang;
+
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
@@ -29,7 +29,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: b53da23ce05a8d9276bdfe348314461bcf2d3d53";
+const COMMIT = "Commit: 93ae475e9eae0bcc528fc27d3a44dea8389f7a28";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -38,13 +38,11 @@ function init() {
     imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");
 }
 
-const ExtensionReloaderPrefsWidget = new GObject.Class({
-    Name: 'ExtensionReloader.Prefs.Widget',
-    GTypeName: 'ExtensionReloaderPrefsWidget',
-    Extends: Gtk.Box,
+const ExtensionReloaderPrefsWidget = new GObject.registerClass(
+class ExtensionReloaderPrefsWidget extends Gtk.Box {
 
-    _init: function(params) {
-        this.parent(params);
+    _init(params) {
+        super._init(params);
         let GioSSS = Gio.SettingsSchemaSource;
         let schema = Me.metadata['settings-schema'];
         let schemaDir = Me.dir.get_child('schemas').get_path();
@@ -70,25 +68,25 @@ const ExtensionReloaderPrefsWidget = new GObject.Class({
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
-        this._leftRb.connect('toggled', Lang.bind(this, function(b) {
+        this._leftRb.connect('toggled', (b) => {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, true);
             else
                 this._settings.set_boolean(LEFT, false);
-        }));
-        this._rightRb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._rightRb.connect('toggled', (b) => {
             if(b.get_active())
                 this._settings.set_boolean(LEFT, false);
             else
                 this._settings.set_boolean(LEFT, true);
-        }));
-        this._centerCb.connect('toggled', Lang.bind(this, function(b) {
+        });
+        this._centerCb.connect('toggled', (b) => {
             if(b.get_active()) {
                 this._settings.set_boolean(CENTER, true);
             } else {
                 this._settings.set_boolean(CENTER, false);
             }
-        }));
+        });
         this._leftRb.set_active(left);
         this._rightRb.set_active(!left);
         this._centerCb.set_active(center);

@@ -6,10 +6,10 @@
   "name": "Do Not Disturb Button", 
   "settings-schema": "org.gnome.shell.extensions.donotdisturb-button", 
   "shell-version": [
-    "3.26",
-    "3.28"
+    "3.28", 
+    "3.30"
   ], 
   "url": "https://nls1729.github.io/donotdisturb_button.html", 
   "uuid": "donotdisturb-button@nls1729", 
-  "version": 23
+  "version": 24
 }
