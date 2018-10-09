@@ -504,9 +504,9 @@ https://nls1729.github.io
            global.workspace_manager, changed acess of signals from global.window_manager
            to Main.wm._shellwm.
 
-2018-10-08 Uploaded for review.
+2018-10-09 Uploaded for review.
 
 
-zip file: Mon Oct  8 11:06:35 EDT 2018 93ae475e9eae0bcc528fc27d3a44dea8389f7a28
+zip file: Mon Oct  8 17:14:49 EDT 2018 8969640a7f08f7f4f72953ee55c3d254935a535f
 
 ...
