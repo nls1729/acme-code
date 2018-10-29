@@ -31,9 +31,12 @@ const PanelMenu = imports.ui.panelMenu;
 const GnomeSession = imports.misc.gnomeSession;
 const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const BUSY = Me.path + '/available-no.png'
-const AVAILABLE = Me.path + '/available-yes.png'
+const BUSY_PATH = Me.path + '/available-no.png'
+const AVAILABLE_PATH = Me.path + '/available-yes.png'
 const SHORTCUT = 'shortcut';
+const BOTH = 0;
+const AVAL = 1;
+const BUSY = 2;
 
 
 class DoNotDisturbButton extends PanelMenu.Button {
@@ -41,9 +44,10 @@ class DoNotDisturbButton extends PanelMenu.Button {
     constructor(settings, overrideAllowed) {
         super(0.5, null, true);
         this._settings = settings;
-        this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(BUSY) });
-        this._iconAvailable = new St.Icon({ gicon: Gio.icon_new_for_string(AVAILABLE) });
-        let iconStyle = 'icon-size: 1.2em; padding-left: 2px; padding-right: 2px';
+        this._iconAvalPath = "";
+        this._iconBusyPath = "";
+        this._setIcons(BOTH);
+        let iconStyle = 'icon-size: 1.3em; padding-left: 2px; padding-right: 2px';
         this._iconBusy.set_style(iconStyle);
         this._iconAvailable.set_style(iconStyle);
         this._notEmptyCount = new St.Label({ text: '', y_align: Clutter.ActorAlign.CENTER });
@@ -90,6 +94,26 @@ class DoNotDisturbButton extends PanelMenu.Button {
         }
         this._togglePresence();
         this._toggle = this._settings.get_boolean('busy-state'); // Set user preferred BUSY state at login.
+    }
+
+    _setIcons(which) {
+        if (which == BOTH || which == AVAL) {
+            let available = this._settings.get_string('available-icon');
+            if (available == 'default')
+                available = AVAILABLE_PATH;
+            if (this._iconAvalPath != available) {
+                this._iconAvailable = new St.Icon({ gicon: Gio.icon_new_for_string(available) });
+                this._iconAvalPath = available;
+            }
+        }
+        if (which == BOTH || which == BUSY) {
+            let busy = this._settings.get_string('busy-icon');
+            if (busy == 'default')
+                busy = BUSY_PATH;
+            if (this._iconBusyPath != busy) {
+                this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(busy) });
+            }
+        }
     }
 
     _findUnseenNotifications() {
@@ -178,6 +202,8 @@ class DoNotDisturbButton extends PanelMenu.Button {
         this.actor.disconnect(this._btnPressSig);
         this.actor.disconnect(this._keyPressSig);
         this._settings.disconnect(this._changedSettingsSig);
+        this._settings.disconnect(this._iconAvalChangedSig);
+        this._settings.disconnect(this._iconBusyChangedSig);
         this._list.disconnect(this._listActorAddedSig);
         this._list.disconnect(this._listActorRemovedSig);
         this.actor.get_children().forEach(function(c) { c.destroy(); });
@@ -208,7 +234,7 @@ class DoNotDisturbExtension {
         this._overrideAllowed = true;
     }
 
-    _positionChange() {
+    _disableEnable() {
         this.disable();
         this.enable();
     }
@@ -221,7 +247,6 @@ class DoNotDisturbExtension {
     }
 
     _getPosition() {
-
         let center = this._settings.get_boolean('panel-icon-center');
         let left = this._settings.get_boolean('panel-icon-left');
         let position;
@@ -249,8 +274,9 @@ class DoNotDisturbExtension {
         let position = this._getPosition();
         Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
         this._btn._setNotEmptyCount();
-        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', this._positionChange.bind(this));
-        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', this._positionChange.bind(this));
+        this._leftChangedSig = this._settings.connect('changed::panel-icon-left', this._disableEnable.bind(this));
+        this._centerChangedSig = this._settings.connect('changed::panel-icon-center', this._disableEnable.bind(this));
+        this._iconResetSig = this._settings.connect('changed::reset-icon', this._disableEnable.bind(this));
     }
 
     enable() {
@@ -273,6 +299,10 @@ class DoNotDisturbExtension {
         if (this._centerChangedSig > 0) {
             this._settings.disconnect(this._centerChangedSig);
             this._centerChangedSig = 0;
+        }
+        if (this._iconReset_Sig > 0) {
+            this._settings.disconnect(this._iconResetSig);
+            this._iconResetSig = 0;
         }
     }
 

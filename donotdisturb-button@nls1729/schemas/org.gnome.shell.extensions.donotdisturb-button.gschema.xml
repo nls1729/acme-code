@@ -36,5 +36,20 @@
       <summary>Busy state .</summary>
       <description>If true, state is set busy at startup.</description>
     </key>
+    <key type="b" name="reset-icon">
+      <default>false</default>
+      <summary>Effect change of panel button icon.</summary>
+      <description>When toggled the extension is disabled and then enabled.</description>
+    </key>
+    <key type="s" name="available-icon">
+      <default>"default"</default>
+      <summary>Available icon path.</summary>
+      <description>Default or selected icon path.</description>
+    </key>
+    <key type="s" name="busy-icon">
+      <default>"default"</default>
+      <summary>Busy icon path.</summary>
+      <description>Default or selected icon path.</description>
+    </key>
   </schema>
 </schemalist>

@@ -115,4 +115,15 @@ Uploaded for review.  Reviewer please see previous comment 2018-07-29.
 
 2018-10-09 Uploaded for review.
 
-zip file: 2018-10-09 14:36:43 79049d556ec148cb5bfb19f5af39ff79176ea97b
+
+2018-10-28 Added user selection of the panel button icons to indicate busy or
+available status.  Owen Williams filed a bug report that the provided icons were
+not clearly visible when using some user themes. We decided user selection of the
+icons would be useful.  Changed prefs.js widget arrangement to better display
+translated text.
+
+2018-10-29 Uploaded for review.
+
+
+
+zip file: 2018-10-29 08:19:33 ce676f387f5c81c5a749c87ac4c4b075febf4626
