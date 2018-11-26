@@ -506,7 +506,14 @@ https://nls1729.github.io
 
 2018-10-09 Uploaded for review.
 
+2018-11-22 When logging in from a locked screen, the Window Maximized Effect opaque panel
+           background preferences were ignored. The problem was fixed by moving enabling the
+           Window Maximized Effect preferences to later in the delayed enable function.
+           Also code was added to prevent the Show Overview If No Applications Are Running
+           preference from being falsely activated when returning from a locked screen.
+           Thanks to Micha Preußer for reporting the Window Maximized Effect issue.
 
-zip file: Tue Oct  9 14:36:28 EDT 2018 79049d556ec148cb5bfb19f5af39ff79176ea97b
+2018-11-26 Uploaded for review.
 
+zip file: Mon Nov 26 08:30:52 EST 2018 c0a710febf0c6219a4598b96973fe4b42f3cbe7d
 ...

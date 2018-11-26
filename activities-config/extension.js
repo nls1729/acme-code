@@ -900,7 +900,9 @@ class Configurator {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        if (!Main.overview.visible)
+        let workspace = this._activeWorkspaceGetter.get_active_workspace();
+        let windows = workspace.list_windows();
+        if (!Main.overview.visible && windows.length == 0)
             Main.overview.toggle();
     }
 
@@ -979,7 +981,6 @@ class Configurator {
             this._hotCornersChanged();
             this._signalHotCornersChanged = Main.layoutManager.connect('hot-corners-changed', this._hotCornersChanged.bind(this));
         }
-        this._maxWindowPanelEffect();
         if (!Meta.is_wayland_compositor()) {
             this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', this._dragBegin.bind(this));
             this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', this._dragEnd.bind(this));
@@ -989,6 +990,7 @@ class Configurator {
         this._setShowOver();
         if ((Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') && this._showOverviewNoAppsRunning)
             this._timeoutId = Mainloop.timeout_add(1000, this._showOverview.bind(this));
+        this._maxWindowPanelEffect();
         this._enabled = true;
         log('Activities Configurator Enabled');
     }
