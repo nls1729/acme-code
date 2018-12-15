@@ -520,8 +520,9 @@ https://nls1729.github.io
            has transparency applied the look is not good.  The Tile Maximize Effect
            applies the Window Maximize Effect of Opaque Background Color or Black Opaque
            Background to the panel if an option is selected.  The option to turn the
-           Tile Maximized Effect Off in the preferences is provided if a conflict with a
-           tiling extension is installed.
+           Tile Maximized Effect Off in the preferences is provided in case of a conflict
+           with an installed tiling extension. Thanks to Micha Preußer for reporting the
+           tiling appearance issue.
 
-zip file: Sat Dec 15 13:35:44 EST 2018 bbaae9ad30ff04bb26dd59c78d572a886d2ea6ac
+zip file: Sat Dec 15 15:18:13 EST 2018 1caf1ca030d1fa6fef78c2a1a7dec30b1d1bfb27
 ...
