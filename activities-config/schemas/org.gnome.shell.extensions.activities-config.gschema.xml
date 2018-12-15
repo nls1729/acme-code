@@ -146,5 +146,10 @@
       <summary>Move Activities Icon Button to right corner.</summary>
       <description>If true move Activities Icon Button to right corner.</description>
     </key>
+    <key type="b" name="tile-max-effect-off">
+      <default>false</default>
+      <summary>Disable tile maximized effect.</summary>
+      <description>If true Tile Maximized Effect supplements Windows Maximized Effect.</description>
+    </key>
   </schema>
 </schemalist>

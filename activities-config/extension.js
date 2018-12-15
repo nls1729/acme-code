@@ -293,6 +293,14 @@ class Configurator {
         }
     }
 
+    _tileMaxWindowPanelEffect() {
+        // The Tile Maximize Effect is enabled by default.  It supplements the
+        // Window Maximized Effect by treating two tiled windows on the primary monitor
+        // like a maximized window.  It can be turned off if it interferes with
+        // an extension which handles tiling.
+        this._tileOff = this._settings.get_boolean(Keys.TILE_OFF);
+    }
+
     _maxWindowPanelEffect() {
         this._maxOnPrimary = false;
         this._actionNeeded1 = true;
@@ -329,12 +337,18 @@ class Configurator {
             this._setPanelBackground(false);
             this._setPanelTransparency();
         }
+        this._leftTiled = false;
+        this._rightTiled = false;
     }
 
     _maxUnmax() {
         let currentWindow;
         this._maxOnPrimary = false;
         let primaryMonitor = this._screen.get_primary_monitor();
+        // In previous line primaryMonitor is an index.
+        let top = Main.layoutManager.panelBox.get_height();
+        let halfWidth = Main.layoutManager.primaryMonitor.width / 2;
+        // In previous line primaryMonitor is an object.
         let workspace = this._activeWorkspaceGetter.get_active_workspace();
         if (this._workspace != workspace) {
             this._actionNeeded1 = true;
@@ -344,12 +358,27 @@ class Configurator {
         let windows = workspace.list_windows();
         for (let i = 0; i < windows.length; ++i) {
             currentWindow = windows[i];
-            if (currentWindow.get_monitor() != primaryMonitor)
+            if (currentWindow.is_hidden() || currentWindow.get_monitor() != primaryMonitor)
                 continue;
-            if (currentWindow.maximized_horizontally &&  currentWindow.maximized_vertically && !currentWindow.is_hidden()) {
+            if (currentWindow.maximized_horizontally && currentWindow.maximized_vertically) {
                 this._maxOnPrimary = true;
                 break;
             }
+            if (this._tileOff)
+                continue;
+            // Begin panel tile check
+            let rect = currentWindow.get_frame_rect();
+            if(rect.y == top && !this._leftTiled && rect.x == 0 && rect.width == halfWidth)
+                this._leftTiled = true;
+            if(rect.y == top && !this._rightTiled && rect.x == halfWidth && rect.width == halfWidth)
+                this._rightTiled = true;
+            if (this._leftTiled && this._rightTiled) {
+                this._maxOnPrimary = true;
+                this._leftTiled = false;
+                this._rightTiled = false;
+                break;
+            }
+            // End panel tile check
         }
         if (this._maxOnPrimary && this._actionNeeded1) {
             this._actionNeeded1 = false;
@@ -378,6 +407,7 @@ class Configurator {
 
     _connectSettings() {
         this._settingsSignals = [];
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.TILE_OFF, this._tileMaxWindowPanelEffect.bind(this)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.MAX_WIN_EFFECT, this._maxWindowPanelEffect.bind(this)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.REMOVED, this._setActivities.bind(this)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.NEW_TXT, this._setText.bind(this)));

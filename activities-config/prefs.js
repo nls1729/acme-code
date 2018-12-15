@@ -46,8 +46,8 @@ const SHW_SPRED = "Spread Radius";
 const OVERR_USR = "Override Shell Theme";
 const SHOW_OVER = "Show Overview If No Applications Are Running";
 const POSITION  = "Move Activities to the Right";
-const COMMIT = "Commit: 529e9e7fac95c17ade6a06aefc82c47c87913e9f";
-
+const COMMIT = "Commit: bbaae9ad30ff04bb26dd59c78d572a886d2ea6ac";
+const TILE_OFF = 'tile-max-effect-off';
 function init() {
     Convenience.initTranslations();
 }
@@ -67,6 +67,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
 	    this._settings = Convenience.getSettings();
         this._settings.set_string(Keys.ORI_TXT, _(ACTIVITIES));
         this.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
+        this.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 6, 1);
         this.attach(new Gtk.Label({ label: _(SCL_ICON) , wrap: true, xalign: 0.0 }), 1,  1, 2, 1);
         this.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
         this.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  3, 5, 1);
@@ -86,13 +87,12 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this.attach(new Gtk.Label({ label: _(SHW_VERT) , wrap: true, xalign: 0.0 }), 1, 24, 5, 1);
         this.attach(new Gtk.Label({ label: _(SHW_BLUR) , wrap: true, xalign: 0.0 }), 1, 25, 5, 1);
         this.attach(new Gtk.Label({ label: _(SHW_SPRED), wrap: true, xalign: 0.0 }), 1, 26, 5, 1);
-        this.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 1, 27, 1, 1);
+        this.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 0, 27, 2, 1);
         this.attach(new Gtk.Label({ label: _(POSITION),  wrap: true, xalign: 0.0 }), 1, 31, 5, 1);
         this.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 36, 5, 1);
         this.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 38, 5, 1);
         this.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 40, 5, 1);
-        this.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 3, 1);
-        this.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 45, 6, 1);
+        this.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 42, 6, 1);
 
 
         // Icon
@@ -281,7 +281,17 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
             if(rb.get_active)
                 this._settings.set_int(Keys.MAX_WIN_EFFECT, 2);
         });
-        this.attach(rbGroup, 2, 27, 5, 1);
+        this.attach(rbGroup, 2, 27, 2, 1);
+        this._cbTileMaxEffectOff = new Gtk.CheckButton({label:_("Tile Maximized Effect Off")});
+        this._cbTileMaxEffectOff.connect('toggled', (b) => {
+            if(b.get_active()) {
+                this._settings.set_boolean(TILE_OFF, true);
+            } else {
+                this._settings.set_boolean(TILE_OFF, false);
+            }
+        });
+        this._cbTileMaxEffectOff.set_active(this._settings.get_boolean(TILE_OFF));
+        this.attach(this._cbTileMaxEffectOff, 4, 27, 3, 1);
 
         // Conflict Detection
         this._conflictDetection = new Gtk.Switch({active: this._settings.get_boolean(Keys.CON_DET)});
@@ -318,7 +328,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         let linkBtn = new Gtk.LinkButton({ uri: "https://nls1729.github.io/activities_config.html",
                                            label: _("Website"),
                                            image: imagex});
-        this.attach(linkBtn, 2, 42, 1, 3);
+        this.attach(linkBtn, 6, 42, 1, 3);
 
         // Set Defaults on First Enable
         if(this._settings.get_boolean(Keys.FIRST_ENABLE)) {
@@ -590,6 +600,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this._positionRight.set_active(false);
         this._rbNone.clicked();
         this._hideAppMenuButtonIcon.set_active(false);
+        this._cbTileMaxEffectOff.set_active(false);
     }
 
     _loadIcon(path) {

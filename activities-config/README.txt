@@ -515,5 +515,13 @@ https://nls1729.github.io
 
 2018-11-26 Uploaded for review.
 
-zip file: Mon Nov 26 09:40:32 EST 2018 529e9e7fac95c17ade6a06aefc82c47c87913e9f
+2018-12-15 Added Tile Maximize Effect.  When tiling windows in native Gnome Shell two
+           windows on the primary monitor will be adjacent to the panel.  If the panel
+           has transparency applied the look is not good.  The Tile Maximize Effect
+           applies the Window Maximize Effect of Opaque Background Color or Black Opaque
+           Background to the panel if an option is selected.  The option to turn the
+           Tile Maximized Effect Off in the preferences is provided if a conflict with a
+           tiling extension is installed.
+
+zip file: Sat Dec 15 13:35:44 EST 2018 bbaae9ad30ff04bb26dd59c78d572a886d2ea6ac
 ...
