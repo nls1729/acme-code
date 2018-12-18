@@ -337,12 +337,12 @@ class Configurator {
             this._setPanelBackground(false);
             this._setPanelTransparency();
         }
-        this._leftTiled = false;
-        this._rightTiled = false;
     }
 
     _maxUnmax() {
         let currentWindow;
+        let leftTiled = false;
+        let rightTiled = false;
         this._maxOnPrimary = false;
         let primaryMonitor = this._screen.get_primary_monitor();
         // In previous line primaryMonitor is an index.
@@ -368,14 +368,12 @@ class Configurator {
                 continue;
             // Begin panel tile check
             let rect = currentWindow.get_frame_rect();
-            if(rect.y == top && !this._leftTiled && rect.x == 0 && rect.width == halfWidth)
-                this._leftTiled = true;
-            if(rect.y == top && !this._rightTiled && rect.x == halfWidth && rect.width == halfWidth)
-                this._rightTiled = true;
-            if (this._leftTiled && this._rightTiled) {
+            if(rect.y == top && !leftTiled && rect.x == 0 && rect.width == halfWidth)
+                leftTiled = true;
+            if(rect.y == top && !rightTiled && rect.x == halfWidth && rect.width == halfWidth)
+                rightTiled = true;
+            if (leftTiled && rightTiled) {
                 this._maxOnPrimary = true;
-                this._leftTiled = false;
-                this._rightTiled = false;
                 break;
             }
             // End panel tile check

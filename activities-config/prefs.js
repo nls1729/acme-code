@@ -48,6 +48,7 @@ const SHOW_OVER = "Show Overview If No Applications Are Running";
 const POSITION  = "Move Activities to the Right";
 const COMMIT = "Commit: 1e17879ecfa2d15c323acdfafb21cf47e22f59b4";
 const TILE_OFF = 'tile-max-effect-off';
+
 function init() {
     Convenience.initTranslations();
 }

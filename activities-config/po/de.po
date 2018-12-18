@@ -170,6 +170,10 @@ msgstr "Leistenhintergrund undurchsichtig"
 msgid "Black Opaque Background"
 msgstr "Schwarzer Hintergrund ohne Transparenz"
 
+#: prefs.js:286
+msgid "Tile Maximized Effect Off"
+msgstr "Kachel maximiert Effekt aus"
+
 #: prefs.js:324
 msgid "Website"
 msgstr "Webseite"
