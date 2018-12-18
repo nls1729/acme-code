@@ -46,7 +46,7 @@ const SHW_SPRED = "Spread Radius";
 const OVERR_USR = "Override Shell Theme";
 const SHOW_OVER = "Show Overview If No Applications Are Running";
 const POSITION  = "Move Activities to the Right";
-const COMMIT = "Commit: 1e17879ecfa2d15c323acdfafb21cf47e22f59b4";
+const COMMIT = "Commit: cd7d341a771b57089ee829be78f234b9ab23072f";
 const TILE_OFF = 'tile-max-effect-off';
 
 function init() {
@@ -68,7 +68,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
 	    this._settings = Convenience.getSettings();
         this._settings.set_string(Keys.ORI_TXT, _(ACTIVITIES));
         this.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
-        this.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 6, 1);
+        this.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 5, 1);
         this.attach(new Gtk.Label({ label: _(SCL_ICON) , wrap: true, xalign: 0.0 }), 1,  1, 2, 1);
         this.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
         this.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  3, 5, 1);
@@ -93,7 +93,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 36, 5, 1);
         this.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 38, 5, 1);
         this.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 40, 5, 1);
-        this.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 42, 6, 1);
+        this.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 42, 5, 1);
 
 
         // Icon
@@ -282,7 +282,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
             if(rb.get_active)
                 this._settings.set_int(Keys.MAX_WIN_EFFECT, 2);
         });
-        this.attach(rbGroup, 2, 27, 2, 1);
+        this.attach(rbGroup, 2, 27, 1, 1);
         this._cbTileMaxEffectOff = new Gtk.CheckButton({label:_("Tile Maximized Effect Off")});
         this._cbTileMaxEffectOff.connect('toggled', (b) => {
             if(b.get_active()) {
@@ -292,7 +292,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
             }
         });
         this._cbTileMaxEffectOff.set_active(this._settings.get_boolean(TILE_OFF));
-        this.attach(this._cbTileMaxEffectOff, 4, 27, 3, 1);
+        this.attach(this._cbTileMaxEffectOff, 3, 27, 3, 1);
 
         // Conflict Detection
         this._conflictDetection = new Gtk.Switch({active: this._settings.get_boolean(Keys.CON_DET)});
@@ -329,7 +329,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         let linkBtn = new Gtk.LinkButton({ uri: "https://nls1729.github.io/activities_config.html",
                                            label: _("Website"),
                                            image: imagex});
-        this.attach(linkBtn, 6, 42, 1, 3);
+        this.attach(linkBtn, 4, 42, 1, 3);
 
         // Set Defaults on First Enable
         if(this._settings.get_boolean(Keys.FIRST_ENABLE)) {
@@ -624,7 +624,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
                                  'vscrollbar-policy': Gtk.PolicyType.AUTOMATIC,
                                  'hexpand': true, 'vexpand': true});
         scollingWindow.add_with_viewport(this);
-        scollingWindow.width_request = 780;
+        scollingWindow.width_request = 800;
         scollingWindow.height_request = 620;
         scollingWindow.show_all();
         return scollingWindow;
