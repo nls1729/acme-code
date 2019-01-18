@@ -526,5 +526,11 @@ https://nls1729.github.io
 
 2018-12-30 Uploaded for review.
 
-zip file: Sun Dec 30 10:50:38 EST 2018 856ad892bbd3a2ccbe22c0466fa51a24b35c852e
+2019-01-07 Found bug requiring an additional line of code to handle the
+           Tile Maximized Effect Off option correctly.  Uploaded for review.
+
+2019-01-17 Changed Tile Maximized Effect to remove panel transparency when a window is
+           tiled on the primary monitor and a Window Maximized Effect preference is
+           selected.
+
 ...

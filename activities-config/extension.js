@@ -291,14 +291,19 @@ class Configurator {
             this._screen.disconnect(this._maxWinSigId3);
             this._maxWinSigId3 = null;
         }
+        if (this._panelDelayTimeout != 0) {
+            Mainloop.source_remove(this._panelDelayTimeout);
+            this._panelDelayTimeout = 0;
+        }
     }
 
     _tileMaxWindowPanelEffect() {
         // The Tile Maximize Effect is enabled by default.  It supplements the
-        // Window Maximized Effect by treating two tiled windows on the primary monitor
+        // Window Maximized Effect by treating a tiled window on the primary monitor
         // like a maximized window.  It can be turned off if it interferes with
         // an extension which handles tiling.
         this._tileOff = this._settings.get_boolean(Keys.TILE_OFF);
+        this._maxUnmax();
     }
 
     _maxWindowPanelEffect() {
@@ -321,12 +326,12 @@ class Configurator {
             this._maxUnmax();
             if (MAJOR_VERSION == 3 && MINOR_VERSION < 30) {
                 if (this._maxWinSigId1 == null)
-                    this._maxWinSigId1 = this._wm.connect('hide-tile-preview', this._maxUnmax.bind(this));
+                    this._maxWinSigId1 = this._wm.connect_after('hide-tile-preview', this._maxUnmax.bind(this));
                 if (this._maxWinSigId2 == null)
                     this._maxWinSigId2 = this._wm.connect('size-change', this._maxUnmax.bind(this));
             } else {
                 if (this._maxWinSigId1 == null)
-                    this._maxWinSigId1 = this._wm.connect('hide-tile-preview', this._maxUnmax.bind(this));
+                    this._maxWinSigId1 = this._wm.connect_after('hide-tile-preview', this._panelDelay.bind(this));
                 if (this._maxWinSigId2 == null)
                     this._maxWinSigId2 = this._wm.connect('size-changed', this._maxUnmax.bind(this));
             }
@@ -337,6 +342,10 @@ class Configurator {
             this._setPanelBackground(false);
             this._setPanelTransparency();
         }
+    }
+
+    _panelDelay() {
+        this._panelDelayTimeout = Mainloop.timeout_add(1000, this._maxUnmax.bind(this));
     }
 
     _maxUnmax() {
@@ -372,7 +381,7 @@ class Configurator {
                 leftTiled = true;
             if(rect.y == top && !rightTiled && rect.x == halfWidth && rect.width == halfWidth)
                 rightTiled = true;
-            if (leftTiled && rightTiled) {
+            if (leftTiled || rightTiled) {
                 this._maxOnPrimary = true;
                 break;
             }

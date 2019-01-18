@@ -148,8 +148,8 @@
     </key>
     <key type="b" name="tile-max-effect-off">
       <default>false</default>
-      <summary>Disable tile maximized effect.</summary>
-      <description>If true Tile Maximized Effect supplements Windows Maximized Effect.</description>
+      <summary>If true disable tile maximized effect.</summary>
+      <description>If false Tile Maximized Effect supplements Windows Maximized Effect.</description>
     </key>
   </schema>
 </schemalist>
