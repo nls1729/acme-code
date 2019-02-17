@@ -63,7 +63,7 @@ init (ie. login). Uploaded for review 2017-11-25.
 Do Not Disturb Button - Updated translations. Uploaded for
 review 2017-11-30.
 
-2018-04-15 Updated metadata.json to GS 3.28 
+2018-04-15 Updated metadata.json to GS 3.28
 
 2018-04-19 Before the following changes there was one option which
 allowed the user to set busy state of the session with the Busy
@@ -124,6 +124,87 @@ translated text.
 
 2018-10-29 Uploaded for review.
 
+2019-02-17 Added Busy State Timeout feature. Version 26.01.
 
+----
+Description of the Busy State Timeout Feature
 
-zip file: 2018-10-29 08:19:33 ce676f387f5c81c5a749c87ac4c4b075febf4626
+The Panel Button has been changed. It continues to toggle the
+extension state between Busy and Available when clicked with the
+primary mouse button.  Since the Preferences Tool will be involved
+with using the Busy State Timeout Feature, quick access to the
+tool is provided by a secondary mouse click of the Panel Button.
+
+New Icons
+
+When a Busy State Timeout starts an icon is displayed, ⏳.
+
+When the Busy State Timeout Feature is enabled by checking the
+Enable Checkbox the duration of the timeout is calculated and
+displayed along with an icon, ⌛.
+
+Extension States
+
+When the Busy State of the extension is set and the the Busy State
+Timeout Feature is enabled the timeout will start. If during the
+duration of a timeout the extension's state is changed from Busy to
+Available the timeout will be canceled.
+
+Preferences
+
+If a timeout is in progress when the Preferences Tool is activated
+the timeout is cancelled and the feature is disabled.
+
+The Enable Check Box enables or disables the Busy State Timeout
+Feature.
+
+The Once Radio Button is used to select a one time timeout. When the
+Enable Check Box is checked and the Once Radio Button is selected a
+timeout starts when the extension's busy state is set. When the one
+time timeout expires the Busy State Timeout Feature is disabled.
+A notification is sent, "Timeout Once Busy State Timeout expired.
+Timeout disabled". The Busy State Timeout Feature will not start
+a new one time timeout until the Enable Check Box preference is
+checked to re-enable the Busy State Timeout Feature.  If during the
+duration of a one time timeout the Gnome Session is ended at the next
+session start the Busy State Timeout Feature will be disabled and a
+notification is displayed, "Timeout Once Found at Session Start Busy
+Timeout is disabled".  If there are unviewed notifications in the
+in the queue notifications may not be displayed but will be added
+to the queue.
+
+The Always Radio Button
+
+The Always Radio Button sets a recurring timeout state. When the
+Enable Check Box is checked and the Always Radio Button is selected
+a timeout starts whenever the extension busy state is set.
+
+The Hours Spin Button and the Minutes Spin Button are provided to
+set the duration of the timeout timer.
+
+When changing preferences the following behavior insures if a timeout
+is in progress it will be canceled. Changing the state of the Once
+Radio Button or Always Radio Button or changing the setting of the
+Hours Spin Button or Minutes Spin Button will disable the Busy State
+Timeout Feature.  After changes are made the Enable Check Box must be
+checked to enable the Busy State Timeout Feature.
+
+A timeout will start at Session Start if:
+
+Busy State Override At Session Start is not enabled and the extension
+was in the Busy State and the Busy State Timeout was enabled and the
+Always Radio Button was active at last session end.
+
+A timeout will start at Session Start if:
+
+Busy State Override At Session Start is enabled  and the Busy Radio
+Button is active and Busy State Timeout was enabled and the Always
+Radio Button was active at last session end.
+
+A timeout will start during the session:
+
+If the user set the extension from Available to Busy with the Panel
+Button and the Busy State Timeout Feature is enabled.
+----
+
+zip file: 2019-02-17 08:18:03 31d07bca060ffc3c7b2052e43ae8654318739f3d

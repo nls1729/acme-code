@@ -9,7 +9,8 @@
 
 UUID = donotdisturb-button@nls1729
 MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png \
-          available-no.png default-persistence.png gnome-session-reboot.png
+          available-no.png default-persistence.png gnome-session-reboot.png notify.js \
+          available-notifications-symbolic.svg busy-notifications-symbolic.svg
 POFILES = $(wildcard po/*.po)
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)

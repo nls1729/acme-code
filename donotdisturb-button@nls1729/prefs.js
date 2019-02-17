@@ -2,7 +2,7 @@
 /*
   Do Not Disturb Button Gnome Shell Extension
 
-  Copyright (c) 2015-2018 Norman L. Smith
+  Copyright (c) 2015-2019 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: c0a710febf0c6219a4598b96973fe4b42f3cbe7d";
+const COMMIT = "Commit: 31d07bca060ffc3c7b2052e43ae8654318739f3d";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -41,6 +41,13 @@ const AVAILABLE_ICON = 'available-icon';
 const BUSY_ICON = 'busy-icon';
 const SET_AVAL = true;
 const SET_BUSY = false;
+const TO_ENABLED = 'time-out-enabled';
+const TO_ONCE = 'time-out-once';
+const TO_ALWAYS = 'time-out-always';
+const TO_HOURS = 'time-out-hours';
+const TO_MINUTES = 'time-out-minutes';
+const TO_INTERVAL = 'time-out-interval';
+
 
 function init() {
     let localeDir = Me.dir.get_child('locale');
@@ -49,6 +56,7 @@ function init() {
     else
         Gettext.bindtextdomain(DOMAIN, Config.LOCALEDIR);
 }
+
 
 const DoNotDisturbPrefsWidget = new GObject.registerClass(
 class DoNotDisturbPrefsWidget extends Gtk.Box {
@@ -67,6 +75,7 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         if (!schemaObj)
             throw new Error('Schema ' + schema + ' not found.');
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
+        this._settings.set_boolean(TO_ENABLED, false);
         this._availableIconPath = this._settings.get_string(AVAILABLE_ICON);
         if (this._availableIconPath == 'default') {
             this._availableIconPath = Me.path + '/available-yes.png';
@@ -139,6 +148,32 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         rbGroupB.add(this._availableRb);
         rbGroupB.add(bootBox);
         rbGroup2.add(rbGroupB);
+        let rbGroup3 = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
+            margin_left:2, margin_top:1, margin_bottom:1, margin_right:2});
+        let rbGroupC = new Gtk.Box({orientation:Gtk.Orientation.HORIZONTAL, homogeneous:false,
+            margin_left:2, margin_top:1, margin_bottom:1, margin_right:2});
+        this._enableCb = new Gtk.CheckButton({label:_("Enable")});
+        this._onceRb = new Gtk.RadioButton({label:_("Once")});
+        this._alwaysRb = new Gtk.RadioButton({group:this._onceRb, label:_("Always")});
+        this._hour = Gtk.SpinButton.new_with_range(0, 23, 1);
+        this._minuteTag = new Gtk.Label({ label:_("Minutes")});
+        this._hourTag = new Gtk.Label({ label:_("Hours")});
+        this._minute = Gtk.SpinButton.new_with_range(0, 59, 1);
+        this._hourGlass = new Gtk.Label({ label:""});
+        this._busyStateTimeout = new Gtk.Label({ label: _("Busy State Timeout"), wrap: true, xalign: 0.0 });
+        rbGroup3.add(this._busyStateTimeout);
+        rbGroupC.add(this._enableCb);
+        rbGroupC.add(this._onceRb);
+        rbGroupC.add(this._alwaysRb);
+        rbGroupC.add(this._hour);
+        rbGroupC.add(this._hourTag);
+        rbGroupC.add(this._minute);
+        rbGroupC.add(this._minuteTag);
+        rbGroup3.add(rbGroupC);
+        this._timeoutInterval = 0;
+        this._timeoutLabel = new Gtk.Label({ label: "" });
+        let setTimeout = new Gtk.Box();
+        setTimeout.set_center_widget(this._timeoutLabel);
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString() + '  GS ' + shell_version + ']';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
@@ -225,6 +260,41 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
                 this._settings.set_boolean(SHOW_COUNT, false);
             }
         });
+        let busyStateTimeoutEnable = this._settings.get_boolean(TO_ENABLED);
+        let once = this._settings.get_boolean(TO_ONCE);
+        let always = this._settings.get_boolean(TO_ALWAYS);
+        let hours = this._settings.get_int(TO_HOURS);
+        let minutes = this._settings.get_int(TO_MINUTES);
+        this._interval = this._settings.get_int(TO_INTERVAL);
+        this._enableCb.set_active(busyStateTimeoutEnable);
+        this._onceRb.set_active(once);
+        this._alwaysRb.set_active(!once);
+        this._hour.set_value(hours);
+        this._minute.set_value(minutes);
+        this._enableCb.connect('toggled', (b) => {
+            let state = b.get_active();
+            this._settings.set_boolean(TO_ENABLED, state);
+            this._setBusyStateTimeout();
+        });
+        this._onceRb.connect('toggled', (b) => {
+            let state = b.get_active();
+            this._settings.set_boolean(TO_ONCE, state);
+        });
+        this._alwaysRb.connect('toggled', (b) => {
+            let state = b.get_active();
+            this._settings.set_boolean(TO_ALWAYS, state);
+            this._timeoutIntervalChanged();
+        });
+        this._hour.connect('value-changed', (b) => {
+           let hours = this._hour.get_value();
+           this._settings.set_int(TO_HOURS, hours);
+           this._timeoutIntervalChanged();
+        });
+        this._minute.connect('value-changed', (b) => {
+            let minutes = this._minute.get_value();
+            this._settings.set_int(TO_MINUTES, minutes);
+            this._timeoutIntervalChanged();
+        });
         let filler = new Gtk.Label({ label: "  " });
         this._grid.attach(helpLabel,                                                      0,  0, 12, 1);
         this._grid.attach(this._treeView,                                                 1,  1, 10, 1);
@@ -232,11 +302,26 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         this._grid.attach(this._showCountCb,                                              1,  4, 10, 1);
         this._grid.attach(rbGroup,                                                        1, 10, 10, 1);
         this._grid.attach(rbGroup2,                                                       1, 15, 10, 1);
-        this._grid.attach(filler,                                                         0, 20, 10, 4);
-        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 26, 12, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 28, 12, 1);
-        this._grid.attach(this._linkBtn,                                                  0, 30, 12, 1);
+        this._grid.attach(rbGroup3,                                                       1, 20, 10, 1);
+        this._grid.attach(setTimeout,                                                     1, 21, 10, 1);
+        this._grid.attach(filler,                                                         0, 22, 10, 4);
+        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 30, 12, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 32, 12, 1);
+        this._grid.attach(this._linkBtn,                                                  0, 34, 12, 1);
         this.add(this._grid);
+    }
+
+    _timeoutIntervalChanged() {
+        if (this._enableCb.get_active()) {
+            this._enableCb.set_active(false);
+            this._timeoutLabel.set_text(_("Set Busy State Timeout then Enable"));
+        } else if (this._calculateInterval() == 0) {
+            this._enableCb.set_sensitive(false);
+            this._timeoutLabel.set_text("Busy State Timeout is Disabled");
+        } else {
+            this._enableCb.set_sensitive(true);
+            this._timeoutLabel.set_text(_("Set Busy State Timeout then Enable"));
+        }
     }
 
     _setIcon(available, iconPath) {
@@ -296,7 +381,28 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
             this._defaultPersistenceImage.show();
         }
     }
+
+    _calculateInterval() {
+        let hours = this._settings.get_int(TO_HOURS);
+        let minutes = this._settings.get_int(TO_MINUTES);
+        if (hours > 0)
+            minutes = (minutes + parseInt(hours * 60));
+        return minutes;
+    }
+
+    _setBusyStateTimeout() {
+        if (this._settings.get_boolean(TO_ENABLED)) {
+            let minutes = this._calculateInterval()
+            this._settings.set_int(TO_INTERVAL, minutes);
+            if (minutes > 0) {
+                this._timeoutLabel.set_text(_("Busy State Timeout is ") + minutes.toString() + " "  + _("minutes") +  " \u231B");
+            }
+        } else {
+            log('donotdisturb-button@nls1729 This should never happen.');
+        }
+    }
 });
+
 
 function buildPrefsWidget() {
 
@@ -308,9 +414,10 @@ function buildPrefsWidget() {
         'vexpand': true
     });
     scollingWindow.add_with_viewport(widget);
-    scollingWindow.set_size_request(740, 420);
+    scollingWindow.set_size_request(740, 480);
     scollingWindow.show_all();
     widget._setOverrideState();
+    widget._setBusyStateTimeout();
     return scollingWindow;
 }
 

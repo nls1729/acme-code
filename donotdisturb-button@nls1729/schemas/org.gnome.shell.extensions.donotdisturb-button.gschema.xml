@@ -51,5 +51,35 @@
       <summary>Busy icon path.</summary>
       <description>Default or selected icon path.</description>
     </key>
+    <key type="b" name="time-out-enabled">
+      <default>false</default>
+      <summary>Busy State Timeout enabled.</summary>
+      <description>When true the Busy State Timeout is operational.</description>
+    </key>
+    <key type="b" name="time-out-once">
+      <default>true</default>
+      <summary>Busy State Timeout once.</summary>
+      <description>When true the Busy State Timeout is disabled after one timeout.</description>
+    </key>
+    <key type="b" name="time-out-always">
+      <default>false</default>
+      <summary>Busy State Timeout always.</summary>
+      <description>When true the Busy State Timeout will start at busy state detection.</description>
+    </key>
+    <key type="i" name="time-out-hours">
+      <default>0</default>
+      <summary>Busy State Timeout hours.</summary>
+      <description>Minutes 0-59 portion of the Busy State Timeout interval.</description>
+    </key>
+    <key type="i" name="time-out-minutes">
+      <default>0</default>
+      <summary>Busy State Timeout minutes.</summary>
+      <description>Hours 0-23 portion of the Busy State Timeout interval.</description>
+    </key>
+    <key type="i" name="time-out-interval">
+      <default>0</default>
+      <summary>Busy State Timeout Interval.</summary>
+      <description>Total of time-out-hours and time-out-minutes in minutes.</description>
+    </key>
   </schema>
 </schemalist>
