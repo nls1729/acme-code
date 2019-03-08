@@ -201,10 +201,10 @@ Busy State Override At Session Start is enabled  and the Busy Radio
 Button is active and Busy State Timeout was enabled and the Always
 Radio Button was active at last session end.
 
-A timeout will start during the session:
+A timeout will start during the session if:
 
-If the user set the extension from Available to Busy with the Panel
-Button and the Busy State Timeout Feature is enabled.
+The user set the extension from Available to Busy with the Panel
+Button and the Busy State Timeout Feature is enabled a timeout.
 ----
 
-zip file: 2019-02-17 08:18:03 31d07bca060ffc3c7b2052e43ae8654318739f3d
+zip file: 2019-02-17 15:01:19 772bc27f588bfe4df39ed502efb12a5d7ea05c10

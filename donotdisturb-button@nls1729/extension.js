@@ -96,7 +96,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
         this._indicatorActor = Main.panel.statusArea['dateMenu']._indicator.actor;
         this._indicatorSources = Main.panel.statusArea['dateMenu']._indicator._sources;
         this._timeoutId = Mainloop.timeout_add(30000, this._findUnseenNotifications.bind(this));
-        this._checkTimeoutId = Mainloop.timeout_add(60000, this._checkTimeout.bind(this));
+        this._checkTimeoutId = Mainloop.timeout_add(15000, this._checkTimeout.bind(this));
 
 
         //Set user preferred BUSY state at login
@@ -161,10 +161,10 @@ class DoNotDisturbButton extends PanelMenu.Button {
     }
 
     _processTimeout(timeout) {
-        if (this._timeoutProcessed & this._timeoutActive & timeout) {
-            this._settings.set_boolean('time-out-enabled', false);
-            Notify.notify(_("Timeout Once"),_("Busy State Timeout expired. Timeout disabled."));
+        if (this._timeoutProcessed & !this._statusBusy) {
             this._timeoutProcessed = false;
+            Notify.notify(_("Timeout Once"),_("Busy State Timeout expired. Timeout disabled."));
+            this._settings.set_boolean('time-out-enabled', false);
             return;
         }
         if (timeout) {
@@ -180,7 +180,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
                 return;
             }
         } else { //handle status change
-            this._timeoutInterval = this._settings.get_int('time-out-interval');
+            this._timeoutInterval = this._settings.get_int('time-out-interval') * 4;
             if (this._timeoutEnabled && this._statusBusy) {
                 this._timeoutActiveIndicator.set_text("\u23F3");
                 this._timeoutActive = true;

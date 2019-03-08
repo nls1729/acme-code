@@ -30,7 +30,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 31d07bca060ffc3c7b2052e43ae8654318739f3d";
+const COMMIT = "Commit: 772bc27f588bfe4df39ed502efb12a5d7ea05c10";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -273,8 +273,14 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         this._minute.set_value(minutes);
         this._enableCb.connect('toggled', (b) => {
             let state = b.get_active();
-            this._settings.set_boolean(TO_ENABLED, state);
-            this._setBusyStateTimeout();
+            if ((minutes = this._calculateInterval()) > 0 && state) {
+                this._settings.set_boolean(TO_ENABLED, state);
+                this._timeoutLabel.set_text(_("Busy State Timeout is ") + minutes.toString() + " "  + _("minutes") +  " \u231B");
+            } else {
+                this._settings.set_boolean(TO_ENABLED, false);
+                this._timeoutLabel.set_text(_("Set Busy State Timeout then Enable"));
+                this._timeoutIntervalChanged()
+            }
         });
         this._onceRb.connect('toggled', (b) => {
             let state = b.get_active();
@@ -387,19 +393,9 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         let minutes = this._settings.get_int(TO_MINUTES);
         if (hours > 0)
             minutes = (minutes + parseInt(hours * 60));
-        return minutes;
-    }
-
-    _setBusyStateTimeout() {
-        if (this._settings.get_boolean(TO_ENABLED)) {
-            let minutes = this._calculateInterval()
+        if (minutes > 0)
             this._settings.set_int(TO_INTERVAL, minutes);
-            if (minutes > 0) {
-                this._timeoutLabel.set_text(_("Busy State Timeout is ") + minutes.toString() + " "  + _("minutes") +  " \u231B");
-            }
-        } else {
-            log('donotdisturb-button@nls1729 This should never happen.');
-        }
+        return minutes;    
     }
 });
 
@@ -417,7 +413,6 @@ function buildPrefsWidget() {
     scollingWindow.set_size_request(740, 480);
     scollingWindow.show_all();
     widget._setOverrideState();
-    widget._setBusyStateTimeout();
     return scollingWindow;
 }
 
