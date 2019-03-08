@@ -533,4 +533,7 @@ https://nls1729.github.io
            tiled on the primary monitor and a Window Maximized Effect preference is
            selected.
 
+2019-03-08 Added diable-enable on monitor change to handle loss of diabled hot corner
+           for laptop.  Changed Tile Maximized Effect to be more efficient.
+
 ...

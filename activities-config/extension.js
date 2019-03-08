@@ -266,6 +266,9 @@ class Configurator {
         this._keyValue = false;
         this._keyChanged = false;
         this._keyChangedSig = null;
+        // For laptop external monitor causing loss of extension disabled hot corner
+        this._monitorsChangedSig = null;
+        this._panelDelayTimeout = 0;
     }
 
     _appStateChanged(appSystem, app) {
@@ -303,7 +306,8 @@ class Configurator {
         // like a maximized window.  It can be turned off if it interferes with
         // an extension which handles tiling.
         this._tileOff = this._settings.get_boolean(Keys.TILE_OFF);
-        this._maxUnmax();
+        if (this._tileOff)
+            this._maxUnmax();
     }
 
     _maxWindowPanelEffect() {
@@ -345,7 +349,15 @@ class Configurator {
     }
 
     _panelDelay() {
-        this._panelDelayTimeout = Mainloop.timeout_add(1000, this._maxUnmax.bind(this));
+        if (this._panelDelayTimeout == 0) {
+            this._panelDelayTimeout = Mainloop.timeout_add(1000, this._panelDelayExpired.bind(this));
+        }
+    }
+
+    _panelDelayExpired() {
+        this._maxUnmax();
+        Mainloop.source_remove(this._panelDelayTimeout);
+        this._panelDelayTimeout = 0;
     }
 
     _maxUnmax() {
@@ -536,7 +548,7 @@ class Configurator {
         while(this._settingsSignals.length > 0) {
             let sig = this._settingsSignals.pop();
             if (sig > 0)
-	        this._settings.disconnect(sig);
+               this._settings.disconnect(sig);
         }
         this._handleCornerSignals(false);
         if (this._signalHotCornersChanged > 0) {
@@ -1046,10 +1058,16 @@ class Configurator {
                 break;
             }
         }
+        if (!this._keyFound)
+            this._monitorsChangedSig = Main.layoutManager.connect('monitors-changed', this._disableEnable.bind(this));
+    }
+
+    _disableEnable() {
+        this.disable();
+        this.enable();
     }
 
     enable() {
-
         // For extension to function in classic mode
         // Conflict Detection must be enabled.
         if (Main.sessionMode.currentMode == 'classic')
@@ -1079,6 +1097,10 @@ class Configurator {
         }
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
+            if (this._monitorsChangedSig > 0) {
+                Main.layoutManager.disconnect(this._monitorsChangedSig);
+                this._monitorsChangedSig = null;
+            }
             if (this._showLeftSignal > 0) {
                 Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
                 this._showLeftSignal = null;
@@ -1122,6 +1144,7 @@ class Configurator {
             this._activitiesIconButton.destroy();
             this._activitiesIconButton = null;
             this._enabled = false;
+            log('Activities Configurator Disabled');
         }
     }
 };
