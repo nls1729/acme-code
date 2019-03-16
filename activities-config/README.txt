@@ -536,4 +536,8 @@ https://nls1729.github.io
 2019-03-08 Added diable-enable on monitor change to handle loss of diabled hot corner
            for laptop.  Changed Tile Maximized Effect to be more efficient.
 
+2019-03-16 Thanks to rockon999 for his merge request that fixed Gnome Shell 3.32 issues.
+
 ...
+
+zip file: Sat Mar 16 15:48:31 EDT 2019 85f7edf4f1745e7e2bf601b47565ef372bee6d7c
