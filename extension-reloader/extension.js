@@ -31,6 +31,7 @@
 
 const Mainloop = imports.mainloop;
 const Clutter = imports.gi.Clutter;
+const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const St = imports.gi.St;
 const ExtensionSystem = imports.ui.extensionSystem;
@@ -112,10 +113,11 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
 };
 
 
-class ReloadExtensionMenu extends PanelMenu.Button {
-
-    constructor() {
-        super(0.5, 'Reload Extension Menu');
+const ReloadExtensionMenu = GObject.registerClass(
+    class ReloadExtensionMenu extends PanelMenu.Button {
+    
+    _init() {
+        super._init(0.5, 'Reload Extension Menu');
         let hbox = new St.BoxLayout({
             style_class: 'panel-status-menu-box'
         });
@@ -190,7 +192,7 @@ class ReloadExtensionMenu extends PanelMenu.Button {
         this.menu.removeAll();
         super.destroy();
     }
-};
+});
 
 
 class ExtensionReloaderExtension {
