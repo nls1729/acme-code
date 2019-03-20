@@ -26,6 +26,7 @@ const Atk = imports.gi.Atk;
 const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
 const Shell = imports.gi.Shell;
 const Meta = imports.gi.Meta;
 const St = imports.gi.St;
@@ -56,9 +57,10 @@ const GioSSS = Gio.SettingsSchemaSource;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 
 
+var ActivitiesIconButton = GObject.registerClass(
 class ActivitiesIconButton extends PanelMenu.Button {
 
-    constructor() {
+    init() {
         super(0.0, null, true);
         this._actorSignals = [];
         this._mainSignals = [];
@@ -216,7 +218,7 @@ class ActivitiesIconButton extends PanelMenu.Button {
         super.destroy();
     }
 
-};
+});
 
 class Configurator {
 

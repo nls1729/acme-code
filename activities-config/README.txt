@@ -538,6 +538,9 @@ https://nls1729.github.io
 
 2019-03-16 Thanks to rockon999 for his merge request that fixed Gnome Shell 3.32 issues.
 
+2019-03-20 Changes for GS3.32 are not compatible with earlier versions. Changing
+           metadata.json to reflect only version 3.32.
+
 ...
 
 zip file: Sat Mar 16 15:57:30 EDT 2019 baf8ccb69b5a0719f7cd1272fe2e4df1f6c23f05
