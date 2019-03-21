@@ -1,7 +1,7 @@
 /*
   Gnome Shell Extension Reloader
 
-  Copyright (c) 2016-2018 Norman L. Smith
+  Copyright (c) 2016-2019 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License

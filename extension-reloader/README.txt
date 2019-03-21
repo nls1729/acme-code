@@ -71,6 +71,11 @@ README
 
    2018-10-09  Uploaded for review.
 
-zip file: Mon Mar 18 09:49:36 EDT 2019 7ef2b63675fa2499df7a466835f443ce5bd4dbce
+   2019-03-20  Updated for GS3.32 this version is not compatible with versions prior
+               to GS3.32.  Changed to use GObject class.
+
+   2019-03-21  Uploaded for review.
+
+zip file: Thu Mar 21 07:02:56 EDT 2019 b5a7da4812a195712d4932ac080fd5ae65a17722
 
 ...
