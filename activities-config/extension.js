@@ -37,6 +37,7 @@ const Panel = imports.ui.panel;
 const PanelMenu = imports.ui.panelMenu;
 const Mainloop = imports.mainloop;
 const Config = imports.misc.config;
+const Util = imports.misc.util;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
@@ -60,8 +61,8 @@ const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 var ActivitiesIconButton = GObject.registerClass(
 class ActivitiesIconButton extends PanelMenu.Button {
 
-    init() {
-        super(0.0, null, true);
+    _init() {
+        super._init(0.0, null, true);
         this._actorSignals = [];
         this._mainSignals = [];
         this.container.name = 'panelActivitiesIconButtonContainer';
@@ -94,6 +95,20 @@ class ActivitiesIconButton extends PanelMenu.Button {
         this._motionUnHandled = false;
     }
 
+    set label(labelText) {
+        this._label.set_text(labelText);
+    }
+
+    get label() {
+        return (this._label.get_text());
+    }
+
+    set style(textStyle) {
+        this._label.set_style(textStyle);
+        let ct = this._label.get_clutter_text();
+        ct.set_use_markup(true);
+    }
+
     handleDragOver(source, actor, x, y, time) {
         if (source != Main.xdndHandler)
             return DND.DragMotionResult.CONTINUE;
@@ -120,7 +135,7 @@ class ActivitiesIconButton extends PanelMenu.Button {
             this._removeTouchAndHoldTimeoutId();
             this._touchAndHoldTimeoutId = Mainloop.timeout_add(600, () => {
                 this._touchAndHoldTimeoutId = 0;
-                Main.Util.trySpawnCommandLine(this._prefsCommand);
+                Util.trySpawnCommandLine(this._prefsCommand);
             });
         } else if (event.type() == Clutter.EventType.BUTTON_PRESS) {
             if (!Main.overview.shouldToggleByCornerOrButton())
@@ -141,7 +156,7 @@ class ActivitiesIconButton extends PanelMenu.Button {
             if (event.get_button() == 3) {
                 if (Main.overview.visible)
                     Main.overview.toggle();
-                Main.Util.trySpawnCommandLine(this._prefsCommand);
+                Util.trySpawnCommandLine(this._prefsCommand);
             } else {
                 Main.overview.toggle();
             }
@@ -458,7 +473,7 @@ class Configurator {
     _setPositionRight() {
         this._positionRight = this._settings.get_boolean(Keys.BTN_POSITION);
         this.disable();
-        this._timeoutId = Mainloop.timeout_add(500, this._delayedEnable.bind(this));
+        this._timeoutId = Mainloop.timeout_add(1000, this._delayedEnable.bind(this));
     }
 
     _connectThemeContextSig() {
@@ -602,13 +617,11 @@ class Configurator {
         let labelText = this._settings.get_string(Keys.NEW_TXT) || this._savedText;
         if (this._settings.get_boolean(Keys.NO_TEXT))
             labelText = '';
-        this._activitiesIconButton._label.set_text(labelText);
+        this._activitiesIconButton.label = labelText;
         if (labelText != '') {
             let pixels = this._settings.get_int(Keys.PAD_TXT);
             let textStyle = 'padding-left: %dpx; padding-right: %dpx'.format(pixels, pixels);
-            this._activitiesIconButton._label.set_style(textStyle);
-            let ct = this._activitiesIconButton._label.get_clutter_text();
-            ct.set_use_markup(true);
+            this._activitiesIconButton.style = textStyle;
         }
     }
 
@@ -1006,7 +1019,6 @@ class Configurator {
         }
         this._overrideTheme = this._settings.get_boolean(Keys.OVERR_THEME);
         this._connectSettings();
-        this._setText();
         this._iconPath = '';
         this._setIcon();
         this._setHotCornerThreshold();
@@ -1042,6 +1054,7 @@ class Configurator {
         if ((Main.sessionMode.currentMode == 'classic' || Main.sessionMode.currentMode == 'user') && this._showOverviewNoAppsRunning)
             this._timeoutId = Mainloop.timeout_add(1000, this._showOverview.bind(this));
         this._maxWindowPanelEffect();
+        this._setText();
         this._enabled = true;
         log('Activities Configurator Enabled');
     }

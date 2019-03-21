@@ -536,11 +536,17 @@ https://nls1729.github.io
 2019-03-08 Added diable-enable on monitor change to handle loss of diabled hot corner
            for laptop.  Changed Tile Maximized Effect to be more efficient.
 
-2019-03-16 Thanks to rockon999 for his merge request that fixed Gnome Shell 3.32 issues.
+2019-03-16 Thanks to rockon999 for his merge request that fixed Gnome Shell 3.32 issues
+           for extension-reloader  It was helpful in updating activities-config.
 
 2019-03-20 Changes for GS3.32 are not compatible with earlier versions. Changing
-           metadata.json to reflect only version 3.32.
-
+           metadata.json to reflect only version 3.32.  Added set and get methods to
+           the ActivitiesIconButton GObject class to allow access to variables that
+           are not visible to previous javascript.  Modified the previous javascript
+           to use the get and set methods.  Added imports.misc.util to replace calls
+           where the util code was previously accessible through main.js.  Increased
+           delay for feature to move the ActivitiesIconButton from top left corner to
+           top right corner.
 ...
 
 zip file: Sat Mar 16 15:57:30 EDT 2019 baf8ccb69b5a0719f7cd1272fe2e4df1f6c23f05
