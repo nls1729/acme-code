@@ -74,8 +74,9 @@ README
    2019-03-20  Updated for GS3.32 this version is not compatible with versions prior
                to GS3.32.  Changed to use GObject class.
 
-   2019-03-21  Uploaded for review.
+   2019-03-22  Corrected error in metadata.json.  I left the "" off GS Version.
+               Uploaded for review.
 
-zip file: Thu Mar 21 11:12:12 EDT 2019 02ea7254bfaff16892933e4bfe400c55c6c086ba
+zip file: Fri Mar 22 14:56:45 EDT 2019 6a139a312f2a937c820da68d8a22232815bbe376
 
 ...
