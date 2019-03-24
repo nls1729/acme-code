@@ -594,7 +594,7 @@ class Configurator {
         let iconPath = this._settings.get_string(Keys.NEW_ICO);
         if (this._iconPath != iconPath) {
             if (!GLib.file_test(iconPath, GLib.FileTest.EXISTS)) {
-                Notify.notifyError(_(MIA_ICON),Readme.makeTextStr(Readme.ICON_MIA));
+                Notify.notifyError(MIA_ICON,Readme.makeTextStr(Readme.ICON_MIA));
                 iconPath = DEFAULT_ICO;
                 this._settings.set_string(Keys.NEW_ICO, DEFAULT_ICO);
             }
@@ -924,7 +924,7 @@ class Configurator {
             if (Main.panel._leftBox.get_first_child().name != 'panelActivitiesIconButtonContainer') {
                 this._conflictCount = this._conflictCount + 1;
                 if (this._conflictCount > 30) {
-                    Notify.notifyError(_(CONFLICT),Readme.makeTextStr(Readme.CONFLICTS));
+                    Notify.notifyError(CONFLICT,Readme.makeTextStr(Readme.CONFLICTS));
                     this._conflictCount = 0;
                     this.disable();
                 } else {

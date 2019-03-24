@@ -547,6 +547,10 @@ https://nls1729.github.io
            where the util code was previously accessible through main.js.  Increased
            delay for feature to move the ActivitiesIconButton from top left corner to
            top right corner.
+           
+2019-03-23 Removed un-needed "_( )" and added needed "_( )"for translations.  Now xgettext
+           should find everything and gettext will not be executed when not needed.
+           
 ...
 
-zip file: Thu Mar 21 12:12:18 EDT 2019 8accb31a3b34179ded6e48301b3aa08679f2af68
+zip file: Sat Mar 23 21:38:18 EDT 2019 88a213adba0a3ce575dada28f67ff1eff1f058dc
