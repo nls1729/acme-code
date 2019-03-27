@@ -47,8 +47,6 @@ const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Notify = Me.imports.notify;
 const Readme = Me.imports.readme;
-const CONFLICT = _("Conflict Detected:");
-const MIA_ICON = _("Missing Icon:");
 const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const DISABLE_TOGGLE = 32767;
 const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
@@ -594,7 +592,7 @@ class Configurator {
         let iconPath = this._settings.get_string(Keys.NEW_ICO);
         if (this._iconPath != iconPath) {
             if (!GLib.file_test(iconPath, GLib.FileTest.EXISTS)) {
-                Notify.notifyError(MIA_ICON,Readme.makeTextStr(Readme.ICON_MIA));
+                Notify.notifyError(_("Missing Icon:"),Readme.makeTextStr(Readme.ICON_MIA));
                 iconPath = DEFAULT_ICO;
                 this._settings.set_string(Keys.NEW_ICO, DEFAULT_ICO);
             }
@@ -924,7 +922,7 @@ class Configurator {
             if (Main.panel._leftBox.get_first_child().name != 'panelActivitiesIconButtonContainer') {
                 this._conflictCount = this._conflictCount + 1;
                 if (this._conflictCount > 30) {
-                    Notify.notifyError(_(CONFLICT),Readme.makeTextStr(Readme.CONFLICTS));
+                    Notify.notifyError(_("Conflict Detected:"),Readme.makeTextStr(Readme.CONFLICTS));
                     this._conflictCount = 0;
                     this.disable();
                 } else {
