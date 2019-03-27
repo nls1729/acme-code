@@ -1,3 +1,26 @@
+
+/*
+  Activities Configurator Gnome Shell Extension
+
+  Copyright (c) 2012-2019 Norman L. Smith
+
+  This extension is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This extension is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see
+  < https://www.gnu.org/licenses/old-licenses/gpl-2.0.html >.
+
+  This extension is a derived work of the Gnome Shell.
+*/
+
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
@@ -13,40 +36,7 @@ const Keys = Me.imports.keys;
 const Readme = Me.imports.readme;
 const GioSSS = Gio.SettingsSchemaSource;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
-const TXT_INSTS = "New Text";
-const HPAD_TEXT = "Text Padding";
-const HIDE_TEXT = "Hide Text";
-const ICO_INSTS = "Select Icon";
-const SCL_ICON  = "Scale Icon";
-const HPAD_ICON = "Icon Padding";
-const HIDE_ICON = "Hide Icon";
-const SETS_HOTC = "Hot Corner Threshold";
-const NADA_HOTC = "Disable Hot Corner";
-const RMV_ACTIV = "Remove Activities Button";
-const TRANS_PAN = "Panel Transparency";
-const RST_DFLTS = "Extension Defaults";
-const RME_INSTS = "Extension Description";
-const APPLY  = "APPLY";
-const SELECT = "SELECT";
-const RESET  = "RESET";
-const README = "README";
-const TITLE = "Choose Icon";
-const CFLTS_DET = "Enable Conflict Detection";
-const ACTIVITIES = "Activities";
-const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
-const PAN_COLOR = "Set Panel Background";
-const HIDE_PRCS = "Hide Panel Rounded Corners";
-const WIN_MAXED = "Window Maximized Effect";
-const HIDE_APPI = "Hide Application Menu Button Icon";
-const PAN_SHDOW = "Panel Shadow Color";
-const SHW_TRANS = "Transparency";
-const SHW_VERT  = "Vertical Length";
-const SHW_BLUR  = "Blur Radius";
-const SHW_SPRED = "Spread Radius";
-const OVERR_USR = "Override Shell Theme";
-const SHOW_OVER = "Show Overview If No Applications Are Running";
-const POSITION  = "Move Activities to the Right";
-const COMMIT = "Commit: 49bf875283a7726217b060f708f6771a6f01a45b";
+const COMMIT = "Commit: 8610ceee1c8f40d01774ddf1b08889cca3ff9300";
 const TILE_OFF = 'tile-max-effect-off';
 
 function init() {
@@ -66,41 +56,41 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this.column_spacing = 5;
         this.set_column_homogeneous(false);
 	    this._settings = Convenience.getSettings();
-        this._settings.set_string(Keys.ORI_TXT, _(ACTIVITIES));
-        this.attach(new Gtk.Label({ label: _(ICO_INSTS), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
-        this.attach(new Gtk.Label({ label: version,      wrap: true, xalign: 1.0 }), 3,  0, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SCL_ICON) , wrap: true, xalign: 0.0 }), 1,  1, 2, 1);
-        this.attach(new Gtk.Label({ label: _(HIDE_ICON), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
-        this.attach(new Gtk.Label({ label: _(HPAD_ICON), wrap: true, xalign: 0.0 }), 1,  3, 5, 1);
-        this.attach(new Gtk.Label({ label: _(TXT_INSTS), wrap: true, xalign: 0.0 }), 1,  4, 1, 1);
-        this.attach(new Gtk.Label({ label: _(HIDE_TEXT), wrap: true, xalign: 0.0 }), 1,  5, 5, 1);
-        this.attach(new Gtk.Label({ label: _(HPAD_TEXT), wrap: true, xalign: 0.0 }), 1,  6, 5, 1);
-        this.attach(new Gtk.Label({ label: _(RMV_ACTIV), wrap: true, xalign: 0.0 }), 1,  7, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SETS_HOTC), wrap: true, xalign: 0.0 }), 1,  8, 5, 1);
-        this.attach(new Gtk.Label({ label: _(NADA_HOTC), wrap: true, xalign: 0.0 }), 1,  9, 5, 1);
-        this.attach(new Gtk.Label({ label: _(HIDE_PRCS), wrap: true, xalign: 0.0 }), 1, 10, 5, 1);
-        this.attach(new Gtk.Label({ label: _(HIDE_APPI), wrap: true, xalign: 0.0 }), 1, 11, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SHOW_OVER), wrap: true, xalign: 0.0 }), 1, 15, 5, 1);
-        this.attach(new Gtk.Label({ label: _(PAN_COLOR), wrap: true, xalign: 0.0 }), 1, 19, 5, 1);
-        this.attach(new Gtk.Label({ label: _(TRANS_PAN), wrap: true, xalign: 0.0 }), 1, 21, 5, 1);
-        this.attach(new Gtk.Label({ label: _(PAN_SHDOW), wrap: true, xalign: 0.0 }), 1, 22, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SHW_TRANS), wrap: true, xalign: 0.0 }), 1, 23, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SHW_VERT) , wrap: true, xalign: 0.0 }), 1, 24, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SHW_BLUR) , wrap: true, xalign: 0.0 }), 1, 25, 5, 1);
-        this.attach(new Gtk.Label({ label: _(SHW_SPRED), wrap: true, xalign: 0.0 }), 1, 26, 5, 1);
-        this.attach(new Gtk.Label({ label: _(WIN_MAXED), wrap: true, xalign: 0.0 }), 0, 27, 2, 1);
-        this.attach(new Gtk.Label({ label: _(POSITION),  wrap: true, xalign: 0.0 }), 1, 31, 5, 1);
-        this.attach(new Gtk.Label({ label: _(CFLTS_DET), wrap: true, xalign: 0.0 }), 1, 36, 5, 1);
-        this.attach(new Gtk.Label({ label: _(RST_DFLTS), wrap: true, xalign: 0.0 }), 1, 38, 5, 1);
-        this.attach(new Gtk.Label({ label: _(RME_INSTS), wrap: true, xalign: 0.0 }), 1, 40, 5, 1);
-        this.attach(new Gtk.Label({ label: COMMIT,       wrap: true, xalign: 0.5 }), 0, 42, 5, 1);
+        this._settings.set_string(Keys.ORI_TXT, _("Activities"));
+        this.attach(new Gtk.Label({ label: _("Select Icon"), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
+        this.attach(new Gtk.Label({ label: version, wrap: true, xalign: 1.0 }), 3,  0, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Scale Icon") , wrap: true, xalign: 0.0 }), 1,  1, 2, 1);
+        this.attach(new Gtk.Label({ label: _("Hide Icon"), wrap: true, xalign: 0.0 }), 1,  2, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Icon Padding"), wrap: true, xalign: 0.0 }), 1,  3, 5, 1);
+        this.attach(new Gtk.Label({ label: _("New Text"), wrap: true, xalign: 0.0 }), 1,  4, 1, 1);
+        this.attach(new Gtk.Label({ label: _("Hide Text"), wrap: true, xalign: 0.0 }), 1,  5, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Text Padding"), wrap: true, xalign: 0.0 }), 1,  6, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Remove Activities Button"), wrap: true, xalign: 0.0 }), 1,  7, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Hot Corner Threshold"), wrap: true, xalign: 0.0 }), 1,  8, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Disable Hot Corner"), wrap: true, xalign: 0.0 }), 1,  9, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Hide Panel Rounded Corners"), wrap: true, xalign: 0.0 }), 1, 10, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Hide Application Menu Button Icon"), wrap: true, xalign: 0.0 }), 1, 11, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Show Overview If No Applications Are Running"), wrap: true, xalign: 0.0 }), 1, 15, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Set Panel Background"), wrap: true, xalign: 0.0 }), 1, 19, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Panel Transparency"), wrap: true, xalign: 0.0 }), 1, 21, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Panel Shadow Color"), wrap: true, xalign: 0.0 }), 1, 22, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Transparency"), wrap: true, xalign: 0.0 }), 1, 23, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Vertical Length") , wrap: true, xalign: 0.0 }), 1, 24, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Blur Radius") , wrap: true, xalign: 0.0 }), 1, 25, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Spread Radius"), wrap: true, xalign: 0.0 }), 1, 26, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Window Maximized Effect"), wrap: true, xalign: 0.0 }), 0, 27, 2, 1);
+        this.attach(new Gtk.Label({ label: _("Move Activities to the Right"),  wrap: true, xalign: 0.0 }), 1, 31, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Enable Conflict Detection"), wrap: true, xalign: 0.0 }), 1, 36, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Extension Defaults"), wrap: true, xalign: 0.0 }), 1, 38, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Extension Description"), wrap: true, xalign: 0.0 }), 1, 40, 5, 1);
+        this.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }), 0, 42, 5, 1);
 
 
         // Icon
         this._iconImage = new Gtk.Image();
         this._iconPath = this._settings.get_string(Keys.NEW_ICO) || DEFAULT_ICO;
         this._loadIcon(this._iconPath);
-        let iconBtn = new Gtk.Button({ label: _(SELECT) });
+        let iconBtn = new Gtk.Button({ label: _("SELECT") });
         this._noIcon = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_ICON)});
         let noIconBox = new Gtk.Box({sensitive: true});
         noIconBox.pack_start(this._noIcon, false, false, 0);
@@ -127,7 +117,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         let buffer = this._entry.get_buffer();
         buffer.connect('inserted-text', this._setSetBtnSensitive.bind(this));
         buffer.connect('deleted-text', this._setSetBtnSensitive.bind(this));
-        this._applyBtn = new Gtk.Button({ label: _(APPLY) });
+        this._applyBtn = new Gtk.Button({ label: _("APPLY") });
         this._applyBtn.set_sensitive(false);
         this._noText = new Gtk.Switch({active: this._settings.get_boolean(Keys.NO_TEXT)});
         this._hpadText = Gtk.SpinButton.new_with_range(0, 24, 1);
@@ -193,7 +183,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         overrideUserOrClassicTheme.pack_start(this._overrideUserOrClassicTheme, false, false, 0);
         this.attach(overrideUserOrClassicTheme, 0, 13, 1, 1);
         this._shellThemeName = new Gtk.Label();
-        let instructions = new Gtk.Label({ label: _(OVERR_USR), wrap: true, xalign: 0.0 });
+        let instructions = new Gtk.Label({ label: _("Override Shell Theme"), wrap: true, xalign: 0.0 });
         let shellThemeNameBox = new Gtk.Box;
         shellThemeNameBox.pack_start(instructions, false, false, 0);
         shellThemeNameBox.pack_start(this._shellThemeName, false, false, 0);
@@ -309,14 +299,14 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this.attach(positionRightBox, 0, 31, 1, 1);
 
         // Reset
-        let defaultsBtn = new Gtk.Button({ label: _(RESET) } );
+        let defaultsBtn = new Gtk.Button({ label: _("RESET") } );
         defaultsBtn.connect('clicked', this._resetSettings.bind(this));
         let defaultsBtnBox = new Gtk.Box;
         defaultsBtnBox.pack_start(defaultsBtn, false, false, 0);
         this.attach(defaultsBtnBox, 0, 38, 1, 1);
 
         // Readme
-        let readmeBtn = new Gtk.Button({ label: _(README) } );
+        let readmeBtn = new Gtk.Button({ label: _("README") } );
         readmeBtn.connect('clicked', function() { Readme.displayWindow('readme')});
         let readmeBtnBox = new Gtk.Box;
         readmeBtnBox.pack_start(readmeBtn, false, false, 0);       
@@ -489,7 +479,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
     }
 
     _setActivitiesIcon() {
-        let dialog = new Gtk.FileChooserDialog({ title: _(TITLE), action: Gtk.FileChooserAction.OPEN });
+        let dialog = new Gtk.FileChooserDialog({ title: _("Choose Icon"), action: Gtk.FileChooserAction.OPEN });
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL);
         dialog.add_button(Gtk.STOCK_OPEN, Gtk.ResponseType.ACCEPT);
         dialog.set_filename(this._iconPath);

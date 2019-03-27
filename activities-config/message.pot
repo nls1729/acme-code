@@ -1,0 +1,482 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-27 16:19-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: extension.js:50
+msgid "Conflict Detected:"
+msgstr ""
+
+#: extension.js:51
+msgid "Missing Icon:"
+msgstr ""
+
+#: extension.js:762
+msgid "Conflict with hidden rounded corners."
+msgstr ""
+
+#: prefs.js:59
+msgid "Activities"
+msgstr ""
+
+#: prefs.js:60
+msgid "Select Icon"
+msgstr ""
+
+#: prefs.js:62
+msgid "Scale Icon"
+msgstr ""
+
+#: prefs.js:63
+msgid "Hide Icon"
+msgstr ""
+
+#: prefs.js:64
+msgid "Icon Padding"
+msgstr ""
+
+#: prefs.js:65
+msgid "New Text"
+msgstr ""
+
+#: prefs.js:66
+msgid "Hide Text"
+msgstr ""
+
+#: prefs.js:67
+msgid "Text Padding"
+msgstr ""
+
+#: prefs.js:68
+msgid "Remove Activities Button"
+msgstr ""
+
+#: prefs.js:69
+msgid "Hot Corner Threshold"
+msgstr ""
+
+#: prefs.js:70
+msgid "Disable Hot Corner"
+msgstr ""
+
+#: prefs.js:71
+msgid "Hide Panel Rounded Corners"
+msgstr ""
+
+#: prefs.js:72
+msgid "Hide Application Menu Button Icon"
+msgstr ""
+
+#: prefs.js:73
+msgid "Show Overview If No Applications Are Running"
+msgstr ""
+
+#: prefs.js:74
+msgid "Set Panel Background"
+msgstr ""
+
+#: prefs.js:75
+msgid "Panel Transparency"
+msgstr ""
+
+#: prefs.js:76
+msgid "Panel Shadow Color"
+msgstr ""
+
+#: prefs.js:77
+msgid "Transparency"
+msgstr ""
+
+#: prefs.js:78
+msgid "Vertical Length"
+msgstr ""
+
+#: prefs.js:79
+msgid "Blur Radius"
+msgstr ""
+
+#: prefs.js:80
+msgid "Spread Radius"
+msgstr ""
+
+#: prefs.js:81
+msgid "Window Maximized Effect"
+msgstr ""
+
+#: prefs.js:82
+msgid "Move Activities to the Right"
+msgstr ""
+
+#: prefs.js:83
+msgid "Enable Conflict Detection"
+msgstr ""
+
+#: prefs.js:84
+msgid "Extension Defaults"
+msgstr ""
+
+#: prefs.js:85
+msgid "Extension Description"
+msgstr ""
+
+#: prefs.js:93
+msgid "SELECT"
+msgstr ""
+
+#: prefs.js:120
+msgid "APPLY"
+msgstr ""
+
+#: prefs.js:186
+msgid "Override Shell Theme"
+msgstr ""
+
+#: prefs.js:248
+msgid "Panel - No Effect"
+msgstr ""
+
+#: prefs.js:249
+msgid "Opaque Background Color"
+msgstr ""
+
+#: prefs.js:250
+msgid "Black Opaque Background"
+msgstr ""
+
+#: prefs.js:276
+msgid "Tile Maximized Effect Off"
+msgstr ""
+
+#: prefs.js:302
+msgid "RESET"
+msgstr ""
+
+#: prefs.js:309
+msgid "README"
+msgstr ""
+
+#: prefs.js:320
+msgid "Website"
+msgstr ""
+
+#: prefs.js:482
+msgid "Choose Icon"
+msgstr ""
+
+#: prefs.js:487
+msgid "Images"
+msgstr ""
+
+#: readme.js:31
+msgid "Do not disable enable-hot-corners global setting."
+msgstr ""
+
+#: readme.js:32 readme.js:45 readme.js:55 readme.js:66
+msgid "See < https://nls1729.github.io/activities_config.html >."
+msgstr ""
+
+#: readme.js:34
+msgid "Activities Configurator Extension"
+msgstr ""
+
+#: readme.js:38 readme.js:49 readme.js:61
+msgid ""
+"The Activities Configurator requires the Activities Overview Hot Corner."
+msgstr ""
+
+#: readme.js:39 readme.js:50
+msgid "The global enable-hot-corners setting is provided in this linux distro."
+msgstr ""
+
+#: readme.js:40
+msgid ""
+"The enable-hot-corners setting was OFF causing the Hot Corner to be "
+"undefined."
+msgstr ""
+
+#: readme.js:41
+msgid ""
+"The extension has set the setting from OFF to ON creating the Hot Corner."
+msgstr ""
+
+#: readme.js:42
+msgid ""
+"The extension has set its preference Disable Hot Corner to ON disabling the "
+"Hot Corner."
+msgstr ""
+
+#: readme.js:43
+msgid ""
+"The Hot Corner function can be enabled by setting Disable Hot Corner to OFF."
+msgstr ""
+
+#: readme.js:44
+msgid ""
+"If the enable-hot-corners setting remains ON this message will not be "
+"displayed."
+msgstr ""
+
+#: readme.js:51
+msgid ""
+"The extension has set the setting from OFF to ON to create the Hot Corner."
+msgstr ""
+
+#: readme.js:52
+msgid "The Hot Corner is undefined.  This is unexpected behavior."
+msgstr ""
+
+#: readme.js:53 readme.js:63
+msgid "The Activities Configurator is not functional."
+msgstr ""
+
+#: readme.js:54
+msgid "An extension conflict or software error is the likely cause."
+msgstr ""
+
+#: readme.js:57
+msgid "CLOSE"
+msgstr ""
+
+#: readme.js:62
+msgid ""
+"The global enable-hot-corners setting is not found in this linux distro."
+msgstr ""
+
+#: readme.js:64
+msgid "Several other extensions are known to interact with the Hot Corner."
+msgstr ""
+
+#: readme.js:65
+msgid "A conflict with another extension is the likely cause."
+msgstr ""
+
+#: readme.js:69
+msgid "The Activities Icon is selectable with the SELECT Icon button."
+msgstr ""
+
+#: readme.js:70
+msgid ""
+"The icon spacing on the panel is adjustable with the Icon Padding scale."
+msgstr ""
+
+#: readme.js:71
+msgid "The icon can be removed from the panel with the Hide Icon switch."
+msgstr ""
+
+#: readme.js:72
+msgid ""
+"The Activities Text can be changed by entering New Text and then pressing "
+"the APPLY button."
+msgstr ""
+
+#: readme.js:73
+msgid ""
+"The text spacing on the panel is adjustable with the Text Padding scale."
+msgstr ""
+
+#: readme.js:74
+msgid "The text can be removed from the panel with the Hide Text switch."
+msgstr ""
+
+#: readme.js:75
+msgid "Text and icon padding is left and right horizontal padding in pixels."
+msgstr ""
+
+#: readme.js:76
+msgid ""
+"The Activities Button can be removed with the Remove Activities Button "
+"switch."
+msgstr ""
+
+#: readme.js:77
+msgid ""
+"The sensitivity of the hot corner is adjustable with the Hot Corner "
+"Threshold scale."
+msgstr ""
+
+#: readme.js:78
+msgid ""
+"The hot corner Overview switching is disabled with the Disable Hot Corner "
+"switch."
+msgstr ""
+
+#: readme.js:79
+msgid ""
+"If the hot corner is disabled the Overview can be toggled with the left "
+"super key."
+msgstr ""
+
+#: readme.js:80
+msgid ""
+"The workspace background may appear more aesthetically pleasing without the "
+"black panel background."
+msgstr ""
+
+#: readme.js:81
+msgid ""
+"The color and transparency of the panel background is adjustable with Set "
+"Panel Background Button and Panel Transparency scale (0-100%)."
+msgstr ""
+
+#: readme.js:82
+msgid ""
+"The default is 0, no transparency or opaque and 100 is completely "
+"transparent."
+msgstr ""
+
+#: readme.js:83
+msgid ""
+"This feature requires a workspace background of colors which contrast with "
+"icons and text displayed in the panel."
+msgstr ""
+
+#: readme.js:84
+msgid ""
+"Conflicts with other enabled extensions can be detected with the Enable "
+"Conflict Detection switch."
+msgstr ""
+
+#: readme.js:85
+msgid "This extension prefers the left-most corner of the panel."
+msgstr ""
+
+#: readme.js:86
+msgid ""
+"Another extension which inserts itself in the left-most corner of the panel "
+"is considered in conflict with this preference."
+msgstr ""
+
+#: readme.js:87
+msgid ""
+"This extension attempts to avoid conflicts by delaying its activation at "
+"shell startup time."
+msgstr ""
+
+#: readme.js:88
+msgid ""
+"The delay appears to resolve most conflicts allowing the extensions to "
+"function normally."
+msgstr ""
+
+#: readme.js:89
+msgid ""
+"Extensions which duplicate the functions of this extension may affect or be "
+"affected when both are enabled."
+msgstr ""
+
+#: readme.js:90
+msgid ""
+"Try different settings for the conflicting extensions in order to avoid "
+"conflicts."
+msgstr ""
+
+#: readme.js:91
+msgid ""
+"Conflict Detection is disabled by default.  Enable only if you experience "
+"problems."
+msgstr ""
+
+#: readme.js:92
+msgid ""
+"When Conflict Detection is enabled, detected conflicts are usually "
+"automatically resolved."
+msgstr ""
+
+#: readme.js:93
+msgid ""
+"If a conflict is detected this extension will re-establish its prefered "
+"position in the panel."
+msgstr ""
+
+#: readme.js:94
+msgid ""
+"If another extension continues to create a conflict this extension will "
+"disable itself to avoid a race condition and notify the user."
+msgstr ""
+
+#: readme.js:95
+msgid ""
+"The user can disable Conflict Detection if it is acceptable to have this "
+"extension not in its preferred position."
+msgstr ""
+
+#: readme.js:96
+msgid ""
+"The conflict can be resolved by disabling the conflicting extension or this "
+"extension and restarting the session."
+msgstr ""
+
+#: readme.js:97
+msgid ""
+"Extension settings are reset to their default values with the Extension "
+"Defaults RESET button."
+msgstr ""
+
+#: readme.js:98
+msgid "The Extension Description README button displays this readme."
+msgstr ""
+
+#: readme.js:99
+msgid ""
+"Clicking the Activities Icon or Text with the right mouse button executes "
+"GNOME Shell Extension Preferences."
+msgstr ""
+
+#: readme.js:101
+msgid ""
+"A conflict between an enabled extension and the Activities Configurator "
+"Extension exists."
+msgstr ""
+
+#: readme.js:102
+msgid ""
+"Please resolve the conflict by disabling the offending extension or disable "
+"the Activities Configurator and restart your session."
+msgstr ""
+
+#: readme.js:103
+msgid ""
+"See the README of the Activities Configurator for additional information."
+msgstr ""
+
+#: readme.js:105
+msgid "The Activities Icon was not found."
+msgstr ""
+
+#: readme.js:106
+msgid ""
+"The missing icon has been removed, renamed or possible filesystem corruption "
+"has damaged the icon."
+msgstr ""
+
+#: readme.js:107
+msgid ""
+"The default icon has automatically been selected to allow proper operation "
+"of the extension."
+msgstr ""
+
+#: readme.js:108
+msgid "You should determine and correct the problem, then re-select an icon."
+msgstr ""
+
+#: readme.js:110
+msgid "Activities Configurator - README"
+msgstr ""
+
+#: readme.js:112
+msgid "Activities Configurator - MISSING ICON"
+msgstr ""
