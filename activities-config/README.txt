@@ -551,6 +551,8 @@ https://nls1729.github.io
 2019-03-23 Removed un-needed "_( )" and added needed "_( )"for translations.  Now xgettext
            should find everything and gettext will not be executed when not needed.
            
+2019-03-27 Uploaded for review update for GS 3.32.
+
 ...
 
-zip file: Sat Mar 23 21:38:18 EDT 2019 88a213adba0a3ce575dada28f67ff1eff1f058dc
+zip file: Wed Mar 27 07:14:20 EDT 2019 471728d6fb264ec29abe01ee15b7d85e694c3106

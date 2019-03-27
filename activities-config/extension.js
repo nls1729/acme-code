@@ -924,7 +924,7 @@ class Configurator {
             if (Main.panel._leftBox.get_first_child().name != 'panelActivitiesIconButtonContainer') {
                 this._conflictCount = this._conflictCount + 1;
                 if (this._conflictCount > 30) {
-                    Notify.notifyError(CONFLICT,Readme.makeTextStr(Readme.CONFLICTS));
+                    Notify.notifyError(_(CONFLICT),Readme.makeTextStr(Readme.CONFLICTS));
                     this._conflictCount = 0;
                     this.disable();
                 } else {
