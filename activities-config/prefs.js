@@ -35,8 +35,9 @@ const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Readme = Me.imports.readme;
 const GioSSS = Gio.SettingsSchemaSource;
+const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
-const COMMIT = "Commit: 8610ceee1c8f40d01774ddf1b08889cca3ff9300";
+const COMMIT = "Commit: 6e252bd4d21b7dee1f12b783b56904d74a5b08d0";
 const TILE_OFF = 'tile-max-effect-off';
 
 function init() {
