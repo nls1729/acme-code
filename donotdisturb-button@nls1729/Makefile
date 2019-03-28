@@ -10,8 +10,9 @@
 UUID = donotdisturb-button@nls1729
 MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png \
           available-no.png default-persistence.png gnome-session-reboot.png notify.js \
-          available-notifications-symbolic.svg busy-notifications-symbolic.svg
+          available-notifications-symbolic.svg busy-notifications-symbolic.svg message.pot
 POFILES = $(wildcard po/*.po)
+JSFILES = extension.js prefs.js notify.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
@@ -31,6 +32,7 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 _build: all
 	rm -rf ./_build
 	mkdir -p _build
+	xgettext $(JSFILES) -o message.pot;
 	sed -i 's/"version":.*$\/"version": $(VERSION)/' metadata.json;
 	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/' README.txt;
 	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/' prefs.js;

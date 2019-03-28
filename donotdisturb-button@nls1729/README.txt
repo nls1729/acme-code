@@ -205,8 +205,14 @@ A timeout will start during the session if:
 
 The user set the extension from Available to Busy with the Panel
 Button and the Busy State Timeout Feature is enabled a timeout.
-----
 
 Uploaded for review 2019-03-16. Busy State Timeout feature.
 
-zip file: 2019-03-16 08:52:43 45c69dc920a778ff8712811974a74b8b706cec70
+2019-03-27 Updated for GS 3.32.  Changed default icons to be compatible
+with No Notifications icon in the notifications area of the calendar.
+
+2019-03-28 Uploaded for review.
+
+-----
+
+zip file: 2019-03-28 14:33:06 70a5e0ac3f83149b9e5b4ab48bc5ba0bd7782f41

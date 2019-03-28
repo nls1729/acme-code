@@ -30,7 +30,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 45c69dc920a778ff8712811974a74b8b706cec70";
+const COMMIT = "Commit: 70a5e0ac3f83149b9e5b4ab48bc5ba0bd7782f41";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -78,12 +78,12 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         this._settings.set_boolean(TO_ENABLED, false);
         this._availableIconPath = this._settings.get_string(AVAILABLE_ICON);
         if (this._availableIconPath == 'default') {
-            this._availableIconPath = Me.path + '/available-yes.png';
+            this._availableIconPath = Me.path + '/available-notifications-symbolic.svg';
             this._settings.set_string(AVAILABLE_ICON, this._availableIconPath);
         }
         this._busyIconPath = this._settings.get_string(BUSY_ICON);
         if (this._busyIconPath == 'default') {
-            this._busyIconPath = Me.path + '/available-no.png';
+            this._busyIconPath = Me.path + '/busy-notifications-symbolic.svg';
             this._settings.set_string(BUSY_ICON, this._busyIconPath);
         }
         this._grid = new Gtk.Grid();

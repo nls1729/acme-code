@@ -23,6 +23,7 @@
 
 const Gio = imports.gi.Gio;
 const Clutter = imports.gi.Clutter;
+const GObject = imports.gi.GObject;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
@@ -36,18 +37,19 @@ const Notify = Me.imports.notify;
 const Util = imports.misc.util;
 const DOMAIN = Me.metadata['gettext-domain'];
 const _ = imports.gettext.domain(DOMAIN).gettext;
-const BUSY_PATH = Me.path + '/available-no.png'
-const AVAILABLE_PATH = Me.path + '/available-yes.png'
+const BUSY_PATH = Me.path + '/busy-notifications-symbolic.svg'
+const AVAILABLE_PATH = Me.path + '/available-notifications-symbolic.svg'
 const SHORTCUT = 'shortcut';
 const BOTH = 0;
 const AVAL = 1;
 const BUSY = 2;
 
 
+var DoNotDisturbButton = GObject.registerClass(
 class DoNotDisturbButton extends PanelMenu.Button {
 
-    constructor(settings, overrideAllowed) {
-        super(0.5, null, true);
+    _init(settings, overrideAllowed) {
+        super._init(0.5, null, true);
         this._settings = settings;
         this._iconAvalPath = "";
         this._iconBusyPath = "";
@@ -280,7 +282,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
         this.actor.get_children().forEach(function(c) { c.destroy(); });
         super.destroy();
     }
-};
+});
 
 
 class DoNotDisturbExtension {
