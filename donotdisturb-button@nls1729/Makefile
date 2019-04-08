@@ -8,16 +8,20 @@
 .ONESHELL:
 
 UUID = donotdisturb-button@nls1729
-MODULES = README.txt COPYING extension.js prefs.js metadata.json available-yes.png \
-          available-no.png default-persistence.png gnome-session-reboot.png notify.js \
-          available-notifications-symbolic.svg busy-notifications-symbolic.svg message.pot
+IMAGES = available-yes.png available-no.png default-persistence.png gnome-session-reboot.png \
+         arrow-right.png audio-volume-on.png audio-volume-muted.png \
+         busy-notifications-symbolic.svg available-notifications-symbolic.svg
+
+MODULES = extension.js correctClass.js notify.js dndBtn.js dndBtnGObject.js force.js
 POFILES = $(wildcard po/*.po)
-JSFILES = extension.js prefs.js notify.js
+JSFILES = extension.js prefs.js notify.js correctClass.js dndBtn.js dndBtnGObject.js force.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)
 VERSION = $(shell cat ./VERSION)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 TOUCH = $(shell find . -type f)
+TIMESTAMP = $(shell date +"%y%j%H%M%S")
+VERSIONS = $(shell cat ./VERSIONS)
 
 all: extension
 
@@ -27,16 +31,17 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 	glib-compile-schemas ./schemas/
 
 ./po/%.mo: ./po/%.po
-	msgfmt -c $< -o $@
+	msgfmt -c $< -o $@;
 
 _build: all
-	rm -rf ./_build
+	rm -rf _build
 	mkdir -p _build
-	xgettext $(JSFILES) -o message.pot;
-	sed -i 's/"version":.*$\/"version": $(VERSION)/' metadata.json;
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/' README.txt;
-	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/' prefs.js;
+	xgettext $(JSFILES) -o _build/message.pot;
+	cat metadata.json | sed "s/VERSIONS/$(VERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json;
+	cat README.txt | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
+	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
 	cp $(MODULES) _build
+	cp $(IMAGES) _build
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
 	cp schemas/gschemas.compiled _build/schemas/
@@ -48,10 +53,6 @@ _build: all
 		cp $$langmo $$langdir/LC_MESSAGES/donotdisturb-button-extension.mo; \
 	done;
 
-	cp -f _build/metadata.json . ; \
-	cp -f _build/README.txt . ; \
-	cp -f _build/prefs.js . ;
-
 zip-file: _build
 	rm -f ./*.zip
 	cd _build ; \
@@ -59,7 +60,7 @@ zip-file: _build
 	mv $(UUID).zip .. ; \
 	cd .. ;
 	sha256sum "$(UUID).zip"  > CHECKSUM
-	rm -rf ./_build
+	rm -rf _build
 
 clean:
 	rm -f ./schemas/gschemas.compiled
@@ -68,6 +69,7 @@ clean:
 	rm -f ./.~
 	rm -f ./*~
 	rm -rf _build
+
 
 touch:
 	for file in $(TOUCH); do \

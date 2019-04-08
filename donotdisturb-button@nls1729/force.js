@@ -1,0 +1,1 @@
+function getForce() { return true; }

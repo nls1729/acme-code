@@ -30,7 +30,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext;
 const _ = Gettext.domain(DOMAIN).gettext;
-const COMMIT = "Commit: 860cf67e7e25bd5be927917b50b96d3716dcc646";
+const COMMIT = "Commit: ";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
@@ -47,6 +47,8 @@ const TO_ALWAYS = 'time-out-always';
 const TO_HOURS = 'time-out-hours';
 const TO_MINUTES = 'time-out-minutes';
 const TO_INTERVAL = 'time-out-interval';
+const MUTE_BUSY = 'mute-busy';
+const UNMUTE_AVAILABLE = 'unmute-available';
 
 
 function init() {
@@ -174,6 +176,43 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         this._timeoutLabel = new Gtk.Label({ label: "" });
         let setTimeout = new Gtk.Box();
         setTimeout.set_center_widget(this._timeoutLabel);
+        this._notificationSound = new Gtk.Label({ label: _("Notification Sound"), wrap: true, xalign: 0.0 });
+        let cbGroup4 = new Gtk.Box({orientation:Gtk.Orientation.VERTICAL, homogeneous:false,
+            margin_left:2, margin_top:1, margin_bottom:1, margin_right:2});
+        cbGroup4.add(this._notificationSound);
+        let cbGroupD = new Gtk.Box({orientation:Gtk.Orientation.HORIZONTAL, homogeneous:false,
+            margin_left:1, margin_top:10, margin_bottom:10, margin_right:10, spacing:15});
+        this._muteCb = new Gtk.CheckButton({label:" "});
+        let image0 = this._loadIcon(Me.path + '/audio-volume-on.png');
+        let image1 = this._loadIcon(this._settings.get_string(AVAILABLE_ICON));
+        let image2 = this._loadIcon(Me.path + '/arrow-right.png');
+        let image3 = this._loadIcon(this._settings.get_string(BUSY_ICON));
+        let image4 = this._loadIcon(Me.path + '/arrow-right.png');
+        let image5 = this._loadIcon(Me.path + '/audio-volume-muted.png');
+        cbGroupD.add(this._muteCb);
+        cbGroupD.add(image0);
+        cbGroupD.add(image1);
+        cbGroupD.add(image2);
+        cbGroupD.add(image3);
+        cbGroupD.add(image4);
+        cbGroupD.add(image5);
+        let filler0 = new Gtk.Label({ label: "     " });
+        cbGroupD.add(filler0);
+        this._unMuteCb = new Gtk.CheckButton({label:" "});
+        let image6 = this._loadIcon(Me.path + '/audio-volume-muted.png');
+        let image7 = this._loadIcon(this._settings.get_string(BUSY_ICON));
+        let image8 = this._loadIcon(Me.path + '/arrow-right.png');
+        let image9 = this._loadIcon(this._settings.get_string(AVAILABLE_ICON));
+        let image10 = this._loadIcon(Me.path + '/arrow-right.png');
+        let image11 = this._loadIcon(Me.path + '/audio-volume-on.png');
+        cbGroupD.add(this._unMuteCb);
+        cbGroupD.add(image6);
+        cbGroupD.add(image7);
+        cbGroupD.add(image8);
+        cbGroupD.add(image9);
+        cbGroupD.add(image10);
+        cbGroupD.add(image11);
+        cbGroup4.add(cbGroupD);
         let shell_version = Me.metadata['shell-version'].toString();
         let version = '[v' + Me.metadata.version.toString() + '  GS ' + shell_version + ']';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
@@ -301,6 +340,18 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
             this._settings.set_int(TO_MINUTES, minutes);
             this._timeoutIntervalChanged();
         });
+        let muteBusy = this._settings.get_boolean(MUTE_BUSY);
+        this._muteCb.set_active(muteBusy);
+        this._muteCb.connect('toggled', (b) => {
+            let state = b.get_active();
+            this._settings.set_boolean(MUTE_BUSY, state);
+        });
+        let unMuteAvailable = this._settings.get_boolean(UNMUTE_AVAILABLE);
+        this._unMuteCb.set_active(unMuteAvailable);
+        this._unMuteCb.connect('toggled', (b) => {
+            let state = b.get_active();
+            this._settings.set_boolean(UNMUTE_AVAILABLE, state);
+        });
         let filler = new Gtk.Label({ label: "  " });
         this._grid.attach(helpLabel,                                                      0,  0, 12, 1);
         this._grid.attach(this._treeView,                                                 1,  1, 10, 1);
@@ -309,11 +360,12 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         this._grid.attach(rbGroup,                                                        1, 10, 10, 1);
         this._grid.attach(rbGroup2,                                                       1, 15, 10, 1);
         this._grid.attach(rbGroup3,                                                       1, 20, 10, 1);
-        this._grid.attach(setTimeout,                                                     1, 21, 10, 1);
-        this._grid.attach(filler,                                                         0, 22, 10, 4);
-        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 30, 12, 1);
-        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 32, 12, 1);
-        this._grid.attach(this._linkBtn,                                                  0, 34, 12, 1);
+        this._grid.attach(setTimeout,                                                     1, 25, 10, 1);
+        this._grid.attach(cbGroup4,                                                       1, 30, 10, 1);
+        this._grid.attach(filler,                                                         0, 40, 10, 4);
+        this._grid.attach(new Gtk.Label({ label: version, wrap: true, xalign: 0.5 }),     0, 50, 12, 1);
+        this._grid.attach(new Gtk.Label({ label: COMMIT, wrap: true, xalign: 0.5 }),      0, 55, 12, 1);
+        this._grid.attach(this._linkBtn,                                                  0, 60, 12, 1);
         this.add(this._grid);
     }
 
@@ -395,7 +447,7 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
             minutes = (minutes + parseInt(hours * 60));
         if (minutes > 0)
             this._settings.set_int(TO_INTERVAL, minutes);
-        return minutes;    
+        return minutes;
     }
 });
 
@@ -410,7 +462,7 @@ function buildPrefsWidget() {
         'vexpand': true
     });
     scollingWindow.add_with_viewport(widget);
-    scollingWindow.set_size_request(740, 480);
+    scollingWindow.set_size_request(740, 580);
     scollingWindow.show_all();
     widget._setOverrideState();
     return scollingWindow;

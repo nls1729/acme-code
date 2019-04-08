@@ -204,7 +204,7 @@ Radio Button was active at last session end.
 A timeout will start during the session if:
 
 The user set the extension from Available to Busy with the Panel
-Button and the Busy State Timeout Feature is enabled a timeout.
+Button and the Busy State Timeout Feature is enabled.
 
 Uploaded for review 2019-03-16. Busy State Timeout feature.
 
@@ -215,4 +215,22 @@ with No Notifications icon in the notifications area of the calendar.
 
 -----
 
-zip file: 2019-03-28 17:01:49 860cf67e7e25bd5be927917b50b96d3716dcc646
+2019-04-08
+
+Notification Sound
+The only way to eliminate all notification sounds is to mute the default
+sound stream.  The extension has been modified to include two options:
+1.  to mute sound when the extension is changed to the busy state
+2.  to un-mute sound when the extension is changed to available state
+Two check boxes are provided in the user preferences.
+----
+Busy State Timeout
+The message "Timeout Once Found at Session Start Busy Timeout is disabled"
+has been removed.  Once timeouts by definition are performed only one time
+and must be re-enabled if desired.
+----
+Code has been added to allow one version of the extenson to function with
+Gnome Shell versions 3.28, 3.30 and 3.32.
+
+
+zip file:   
