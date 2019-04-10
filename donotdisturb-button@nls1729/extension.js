@@ -33,12 +33,14 @@ const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const _ = imports.gettext.domain(DOMAIN).gettext;
 
-// Import correct class or GObject
+// Import correct class non-GObject or GObject - a kingdom for an ifdef!
+// Future: Get rid of hoop jumping when most distros are on GS 3.32 or later.
+// Begin hoopydup
 const Config = imports.misc.config;
 const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
 const MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
 const EXTENSION_VERSION = Me.metadata['version'].toString();
-const FORCE = Me.imports.force.getForce();
+const FORCE = Me.imports.force.getForce(); // only true when installing from zip.
 var settings;
 
 function setSettings() {
@@ -93,6 +95,7 @@ function setCorrectImport() {
 setCorrectImport();
 
 const CorrectClass = Me.imports.correctClass;
+// End hoopydup
 
 
 class DoNotDisturbExtension {
