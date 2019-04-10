@@ -42,6 +42,7 @@ _build: all
 	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
 	cp $(MODULES) _build
 	cp $(IMAGES) _build
+	cp COPYING _build
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
 	cp schemas/gschemas.compiled _build/schemas/
