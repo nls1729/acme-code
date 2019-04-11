@@ -1,10 +1,3 @@
-# Do Not Disturb Extension Makefile
-
-# Before making zip file insure all changes have been committed.
-# README.txt is modified to indicate the date and time the zip file was
-# created and the current git commit.  VERSION should be set to the
-# current extension version.
-
 .ONESHELL:
 
 UUID = donotdisturb-button@nls1729
@@ -17,11 +10,11 @@ POFILES = $(wildcard po/*.po)
 JSFILES = extension.js prefs.js notify.js correctClass.js dndBtn.js dndBtnGObject.js force.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)
-VERSION = $(shell cat ./VERSION)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 TOUCH = $(shell find . -type f)
 TIMESTAMP = $(shell date +"%y%j%H%M%S")
-VERSIONS = $(shell cat ./VERSIONS)
+GSVERSIONS = $(shell cat ./GSVERSIONS)
+VERSION = $(shell cat ./VERSION)
 
 all: extension
 
@@ -37,9 +30,9 @@ _build: all
 	rm -rf _build
 	mkdir -p _build
 	xgettext $(JSFILES) -o _build/message.pot;
-	cat metadata.json | sed "s/VERSIONS/$(VERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json;
 	cat README.txt | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
 	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
+	cat metadata.json | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
 	cp $(IMAGES) _build
 	cp COPYING _build
