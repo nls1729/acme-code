@@ -32,15 +32,6 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const _ = imports.gettext.domain(DOMAIN).gettext;
-
-// Import correct class non-GObject or GObject - a kingdom for an ifdef!
-// Future: Get rid of hoop jumping when most distros are on GS 3.32 or later.
-// Begin hoopydup
-const Config = imports.misc.config;
-const MAJOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[0]);
-const MINOR_VERSION = parseInt(Config.PACKAGE_VERSION.split('.')[1]);
-const EXTENSION_VERSION = Me.metadata['version'].toString();
-const FORCE = Me.imports.force.getForce(); // only true when installing from zip.
 var settings;
 
 function setSettings() {
@@ -60,43 +51,11 @@ function setSettings() {
 
 setSettings();
 
-function setCorrectImport() {
-
-    let minorVersion = settings.get_int('minor-version');
-    let extensionVersion = settings.get_string('extension-version');
-    if (minorVersion != MINOR_VERSION || extensionVersion != EXTENSION_VERSION || FORCE) {
-        try {
-            let contents, output = Gio.file_new_for_path(Me.path + '/correctClass.js');
-            if (MAJOR_VERSION == 3 && MINOR_VERSION < 32) {
-                contents = 'const Me = imports.misc.extensionUtils.getCurrentExtension();\n' +
-                           'var DoNotDisturbButton = Me.imports.dndBtn;\n';
-            } else {
-                contents = 'const Me = imports.misc.extensionUtils.getCurrentExtension();\n' +
-                           'var DoNotDisturbButton = Me.imports.dndBtnGObject;\n';
-            }
-            let array = ByteArray.fromString(contents);
-            output.replace_contents(array, null, false, Gio.FileCreateFlags.NONE, null);
-            if (FORCE) {
-                output = Gio.file_new_for_path(Me.path + '/force.js');
-                contents = 'function getForce() { return false; };\n'
-                array = ByteArray.fromString(contents);
-                output.replace_contents(array, null, false, Gio.FileCreateFlags.NONE, null);
-            }
-            settings.set_int('minor-version', MINOR_VERSION);
-            settings.set_string('extension-version', EXTENSION_VERSION);
-            log('donotdistrub-button@nls1729 updated correctClass.js.');
-        } catch (e) {
-            log('donotdistrub-button@nls1729 failed to correctly set import.');
-            throw e;
-        }
-    }
-}
-
-setCorrectImport();
+/*
+ Self modifying code removed.
+*/
 
 const CorrectClass = Me.imports.correctClass;
-// End hoopydup
-
 
 class DoNotDisturbExtension {
 

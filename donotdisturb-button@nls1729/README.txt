@@ -234,5 +234,21 @@ Gnome Shell versions 3.28, 3.30 and 3.32.
 
 2019-04-10 Uploaded for review.
 
+2019-04-21
 
-zip file:   
+Cleaned out some code that was no longer needed concerning icon handling.
+
+2019-04-21
+I was contacted by a member of the Fedora team and was informed that they
+had a problem packaging version 31 of my extension.  I was unaware that
+an RPM was created and was being distrubed by Fedora.  The problem they
+reported was due to version 31 modifying itself to be compatible with GObject
+registered classes and plain ES6 classes.  Since extensions installed from the
+Fedora RPM are placed in /usr/share/gnome-shell/extensions and are owned
+by root the extension cannot modify its own code.  The solution was to
+create two verions of the extension, one for GS 3.30 and one for GS 3.32.
+I have uploaded the two versions.
+
+zip file:  
+
+

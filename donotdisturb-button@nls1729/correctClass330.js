@@ -1,2 +1,2 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-var DoNotDisturbButton = Me.imports.dndBtnGObject;
+var DoNotDisturbButton = Me.imports.dndBtn;

@@ -21,6 +21,7 @@
   This extension is a derived work of the Gnome Shell.
 */
 
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gtk = imports.gi.Gtk;
@@ -79,11 +80,15 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         this._settings = new Gio.Settings({ settings_schema: schemaObj });
         this._settings.set_boolean(TO_ENABLED, false);
         this._availableIconPath = this._settings.get_string(AVAILABLE_ICON);
+        if (!GLib.file_test(this._availableIconPath, GLib.FileTest.EXISTS))
+            this._availableIconPath = 'default';
         if (this._availableIconPath == 'default') {
             this._availableIconPath = Me.path + '/available-notifications-symbolic.svg';
             this._settings.set_string(AVAILABLE_ICON, this._availableIconPath);
         }
         this._busyIconPath = this._settings.get_string(BUSY_ICON);
+        if (!GLib.file_test(this._busyIconPath, GLib.FileTest.EXISTS))
+            this._busyIconPath = 'default';
         if (this._busyIconPath == 'default') {
             this._busyIconPath = Me.path + '/busy-notifications-symbolic.svg';
             this._settings.set_string(BUSY_ICON, this._busyIconPath);

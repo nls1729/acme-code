@@ -21,6 +21,7 @@
   This extension is a derived work of the Gnome Shell.
 */
 
+const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
@@ -38,9 +39,6 @@ const _ = imports.gettext.domain(DOMAIN).gettext;
 const BUSY_PATH = Me.path + '/busy-notifications-symbolic.svg'
 const AVAILABLE_PATH = Me.path + '/available-notifications-symbolic.svg'
 const SHORTCUT = 'shortcut';
-const BOTH = 0;
-const AVAL = 1;
-const BUSY = 2;
 
 
 class DoNotDisturbButton extends PanelMenu.Button {
@@ -48,9 +46,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
     constructor(settings, overrideAllowed) {
         super(0.5, null, true);
         this._settings = settings;
-        this._iconAvalPath = "";
-        this._iconBusyPath = "";
-        this._setIcons(BOTH);
+        this._setIcons();
         let iconStyle = 'icon-size: 1.3em; padding-left: 2px; padding-right: 2px';
         this._iconBusy.set_style(iconStyle);
         this._iconAvailable.set_style(iconStyle);
@@ -123,24 +119,19 @@ class DoNotDisturbButton extends PanelMenu.Button {
         }
     }
 
-    _setIcons(which) {
-        if (which == BOTH || which == AVAL) {
-            let available = this._settings.get_string('available-icon');
-            if (available == 'default')
-                available = AVAILABLE_PATH;
-            if (this._iconAvalPath != available) {
-                this._iconAvailable = new St.Icon({ gicon: Gio.icon_new_for_string(available) });
-                this._iconAvalPath = available;
-            }
-        }
-        if (which == BOTH || which == BUSY) {
-            let busy = this._settings.get_string('busy-icon');
-            if (busy == 'default')
-                busy = BUSY_PATH;
-            if (this._iconBusyPath != busy) {
-                this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(busy) });
-            }
-        }
+    _setIcons() {
+        let available = this._settings.get_string('available-icon');
+        if (!GLib.file_test(available, GLib.FileTest.EXISTS))
+           available  = 'default';
+        if (available == 'default')
+            available = AVAILABLE_PATH;
+        this._iconAvailable = new St.Icon({ gicon: Gio.icon_new_for_string(available) });
+        let busy = this._settings.get_string('busy-icon');
+        if (!GLib.file_test(busy, GLib.FileTest.EXISTS))
+            busy  = 'default';
+        if (busy == 'default')
+            busy = BUSY_PATH;
+        this._iconBusy = new St.Icon({ gicon: Gio.icon_new_for_string(busy) });
     }
 
     _findUnseenNotifications() {
