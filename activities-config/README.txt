@@ -553,6 +553,8 @@ https://nls1729.github.io
            
 2019-03-27 Uploaded for review update for GS 3.32.
 
+2019-04-27 Removed disable enable on monitor change - not required.
+
 ...
 
 zip file: 
