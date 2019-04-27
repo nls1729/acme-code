@@ -37,7 +37,7 @@ const Readme = Me.imports.readme;
 const GioSSS = Gio.SettingsSchemaSource;
 const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
-const COMMIT = "Commit: 1e5d055c4a141f4e31289eca9f1a15ead76b63cc";
+const COMMIT = "Commit: ";
 const TILE_OFF = 'tile-max-effect-off';
 
 function init() {
@@ -158,7 +158,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this._noHotCorner.connect('notify::active', this._setNoHotCorner.bind(this));
         this.attach(this._hotCornerDelay, 0, 8, 1, 1);
         let noHotCornerBox = new Gtk.Box;
-        noHotCornerBox.pack_start(this._noHotCorner, false, false, 0);        
+        noHotCornerBox.pack_start(this._noHotCorner, false, false, 0);
         this.attach(noHotCornerBox, 0, 9, 1, 1);
 
         // Panel Rounded Corners
@@ -310,7 +310,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         let readmeBtn = new Gtk.Button({ label: _("README") } );
         readmeBtn.connect('clicked', function() { Readme.displayWindow('readme')});
         let readmeBtnBox = new Gtk.Box;
-        readmeBtnBox.pack_start(readmeBtn, false, false, 0);       
+        readmeBtnBox.pack_start(readmeBtn, false, false, 0);
         this.attach(readmeBtnBox, 0, 40, 1, 1);
 
         // Web Page

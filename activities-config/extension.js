@@ -281,8 +281,6 @@ class Configurator {
         this._keyValue = false;
         this._keyChanged = false;
         this._keyChangedSig = null;
-        // For laptop external monitor causing loss of extension disabled hot corner
-        this._monitorsChangedSig = null;
         this._panelDelayTimeout = 0;
     }
 
@@ -1071,13 +1069,6 @@ class Configurator {
                 break;
             }
         }
-        if (!this._keyFound)
-            this._monitorsChangedSig = Main.layoutManager.connect('monitors-changed', this._disableEnable.bind(this));
-    }
-
-    _disableEnable() {
-        this.disable();
-        this.enable();
     }
 
     enable() {
@@ -1110,10 +1101,6 @@ class Configurator {
         }
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
-            if (this._monitorsChangedSig > 0) {
-                Main.layoutManager.disconnect(this._monitorsChangedSig);
-                this._monitorsChangedSig = null;
-            }
             if (this._showLeftSignal > 0) {
                 Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
                 this._showLeftSignal = null;

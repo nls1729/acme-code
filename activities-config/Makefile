@@ -1,17 +1,17 @@
 # Activities Configurator Makefile
 
-# Before making zip file insure all changes have been committed.
-# README.txt is modified to indicate the date and time the zip file was
-# created and the current git commit.  VERSION should be set to the
-# current extension version.
 .ONESHELL:
 UUID = activities-config@nls1729
-MODULES = metadata.json README.txt colors.js convenience.js COPYING extension.js face-smile-3.svg keys.js \
-          notify.js prefs.js readme.js stylesheet.css message.pot
+IMAGES = face-smile-3.svg
+MODULES = colors.js convenience.js extension.js keys.js notify.js readme.js stylesheet.css 
 POFILES = $(wildcard po/*.po)
 JSFILES = colors.js extension.js keys.js notify.js prefs.js readme.js
-ZIPDATE = $(shell date)
+ZIPDATE = $(shell date +"%F %H:%M:%S")
 COMMIT = $(shell git rev-parse HEAD)
+EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
+TOUCH = $(shell find . -type f)
+TIMESTAMP = $(shell date +"%y%j%H%M%S")
+GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
 
 all: extension
@@ -27,11 +27,13 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 _build: all
 	rm -rf ./_build
 	mkdir -p _build
-	xgettext $(JSFILES) -o message.pot;
-	sed -i 's/"version":.*$\/"version": $(VERSION)/' metadata.json;
-	sed -i 's/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/'  README.txt;
-	sed -i 's/"Commit: .*$\/"Commit: $(COMMIT)";/'  prefs.js;
+	xgettext $(JSFILES) -o _build/message.pot;
+	cat README.txt | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
+	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
+	cat metadata.json | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
+	cp $(IMAGES) _build
+	cp COPYING _build
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
 	cp schemas/gschemas.compiled _build/schemas/
@@ -44,6 +46,7 @@ _build: all
 	done;
 
 zip-file: _build
+	rm -f ./*.zip
 	cd _build ; \
 	zip -qr "$(UUID).zip" .; \
 	mv $(UUID).zip .. ; \
@@ -64,3 +67,10 @@ clean:
 	rm -f ./*~
 	rm -rf _build
 
+install:
+	rm -rf $(EXTENSIONS_DIR)/$(UUID)
+	mkdir -p $(EXTENSIONS_DIR)/$(UUID)
+	cp -f "$(UUID).zip" $(EXTENSIONS_DIR)/$(UUID)
+	cd $(EXTENSIONS_DIR)/$(UUID); \
+	unzip "$(UUID).zip"; \
+	echo done
