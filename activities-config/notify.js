@@ -61,14 +61,13 @@ class VerboseNotify {
         this._box = new St.BoxLayout({ vertical: true });
         this._titleBin = new St.Bin();
         this._msgBin = new St.Bin();
-        this._closeBin = new St.Bin({ reactive: true });
-        this._clickedSig = this._closeBin.connect('button-press-event', this._clicked.bind(this));
+        this._closeBtn = new St.Button({style_class: 'close-text'});
+        this._clickedSig = this._closeBtn.connect('button-press-event', this._clicked.bind(this));
         this._box.add(this._titleBin);
         this._box.add(this._msgBin);
-        this._box.add(this._closeBin);
+        this._box.add(this._closeBtn);
         this._titleBin.child = new St.Label({style_class: 'title-text'});
         this._msgBin.child = new St.Label({style_class: 'msg-text'});
-        this._closeBin.child = new St.Label({style_class: 'close-text'});
     }
 
     _clicked() {
@@ -80,7 +79,7 @@ class VerboseNotify {
     _notify(titleText, msgText, closeText) {
         this._titleBin.child.set_text(titleText);
         this._msgBin.child.set_text(msgText);
-        this._closeBin.child.set_text(closeText);
+        this._closeBtn.label = closeText;
         Main.uiGroup.add_actor(this._box);
         let monitor = Main.layoutManager.primaryMonitor;
         this._box.set_position(Math.floor(monitor.width / 2 - this._box.width / 2),

@@ -555,6 +555,12 @@ https://nls1729.github.io
 
 2019-04-27 Removed disable enable on monitor change - not required.
 
+2019-05-25 User reported unable to close a message concerning missing hot corners. POP OS 19.04
+           is based on Ubuntu which has a patch applied to the shell which causes the missing
+           hot corners.  Gnome Shell 3.32 aparently does not allow a reactive St.Bin which was
+           used to close the message.  The St.Bin has been replaced with an St.Button to fix
+           the problem.  See 2017-11-11 for all the details of the workaround for the patch.      
+
 ...
 
 zip file: 
