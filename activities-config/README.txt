@@ -559,7 +559,9 @@ https://nls1729.github.io
            is based on Ubuntu which has a patch applied to the shell which causes the missing
            hot corners.  Gnome Shell 3.32 aparently does not allow a reactive St.Bin which was
            used to close the message.  The St.Bin has been replaced with an St.Button to fix
-           the problem.  See 2017-11-11 for all the details of the workaround for the patch.      
+           the problem.  See 2017-11-11 for all the details of the workaround for the patch.
+
+2019-06-09 Tag timers and return GLib.SOURCE_REMOVE.
 
 ...
 
