@@ -561,8 +561,6 @@ https://nls1729.github.io
            used to close the message.  The St.Bin has been replaced with an St.Button to fix
            the problem.  See 2017-11-11 for all the details of the workaround for the patch.
 
-2019-06-09 Tag timers and return GLib.SOURCE_REMOVE.
-
 ...
 
 zip file: 

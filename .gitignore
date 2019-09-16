@@ -8,3 +8,4 @@ gschemas.compiled
 */po/*.txt
 *.gz
 */DNDimages
+_build
