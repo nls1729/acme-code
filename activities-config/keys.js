@@ -51,4 +51,6 @@ var SHELL_THEME_ID = 'shell-theme-id';
 var SHOW_OVERVIEW = 'show-overview';
 var BTN_POSITION = 'position-right';
 var TILE_OFF = 'tile-max-effect-off';
+var EPVERSION = 'extension-version';
+var GSPVERSION = 'shell-version';
 var ICON_FILE = '/face-smile-3.svg'; // From Tango Project - Public Domain

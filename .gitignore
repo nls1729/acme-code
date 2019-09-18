@@ -8,4 +8,5 @@ gschemas.compiled
 */po/*.txt
 *.gz
 */DNDimages
+*.swp
 _build

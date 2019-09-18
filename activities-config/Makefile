@@ -13,12 +13,15 @@ TOUCH = $(shell find . -type f)
 TIMESTAMP = $(shell date +"%y%j%H%M%S")
 GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
+GSCHEMAXML = ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml
 
 all: extension
 
 extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 
-./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml
+./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml.in ./GSVERSIONS ./VERSION
+	cat $(GSCHEMAXML).in | sed "s/EPVERSION/$(VERSION)/" > /tmp/x.xml
+	cat /tmp/x.xml | sed "s/GSPVERSION/$(GSVERSIONS)/" > $(GSCHEMAXML)
 	glib-compile-schemas ./schemas/
 
 ./po/%.mo: ./po/%.po
@@ -63,8 +66,9 @@ clean:
 	rm -f ./schemas/gschemas.compiled
 	rm -f ./po/*.mo
 	rm -f ./*.zip
-	rm -f ./.~
+	rm -f ./.*~
 	rm -f ./*~
+	rm -f ./*.swp
 	rm -rf _build
 
 install:

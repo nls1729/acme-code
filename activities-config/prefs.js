@@ -49,14 +49,15 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
 
     _init(params) {
         super._init(params)
-        let version = '[ v' + Me.metadata.version.toString() + ' GS ' +
-            Me.metadata["shell-version"].toString() + ' ]';
-        //this = new Gtk.Grid();
+
+        this._settings = Convenience.getSettings();
+        let version = '[ v' + this._settings.get_string(Keys.EPVERSION) +
+            ' GS ' + this._settings.get_string(Keys.GSPVERSION) + ' ]';
+
         this.margin = 5;
         this.row_spacing = 5;
         this.column_spacing = 5;
         this.set_column_homogeneous(false);
-	    this._settings = Convenience.getSettings();
         this._settings.set_string(Keys.ORI_TXT, _("Activities"));
         this.attach(new Gtk.Label({ label: _("Select Icon"), wrap: true, xalign: 0.0 }), 1,  0, 2, 1);
         this.attach(new Gtk.Label({ label: version, wrap: true, xalign: 1.0 }), 3,  0, 5, 1);

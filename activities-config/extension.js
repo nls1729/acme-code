@@ -64,8 +64,8 @@ class ActivitiesIconButton extends PanelMenu.Button {
         this._actorSignals = [];
         this._mainSignals = [];
         this.container.name = 'panelActivitiesIconButtonContainer';
-        this.actor.accessible_role = Atk.Role.TOGGLE_BUTTON;
-        this.actor.name = 'panelActivitiesIconButton';
+        this.accessible_role = Atk.Role.TOGGLE_BUTTON;
+        this.name = 'panelActivitiesIconButton';
         this._iconLabelBox = new St.BoxLayout();
         this._iconBin = new St.Bin();
         this._textBin = new St.Bin();
@@ -73,18 +73,18 @@ class ActivitiesIconButton extends PanelMenu.Button {
         this._label = new St.Label();
         this._textBin.child = this._label;
         this._iconLabelBox.add(this._textBin);
-        this.actor.add_actor(this._iconLabelBox);
-        this.actor.label_actor = this._label;
+        this.add_actor(this._iconLabelBox);
+        this.label_actor = this._label;
         let sig;
-        this._actorSignals.push(sig = this.actor.connect('captured-event', this._onCapturedEvent.bind(this)));
-        this._actorSignals.push(sig = this.actor.connect_after('key-release-event', this._onKeyRelease.bind(this)));
+        this._actorSignals.push(sig = this.connect('captured-event', this._onCapturedEvent.bind(this)));
+        this._actorSignals.push(sig = this.connect_after('key-release-event', this._onKeyRelease.bind(this)));
         this._mainSignals.push(sig = Main.overview.connect('showing', () => {
-            this.actor.add_style_pseudo_class('overview');
-            this.actor.add_accessible_state (Atk.StateType.CHECKED);
+            this.add_style_pseudo_class('overview');
+            this.add_accessible_state (Atk.StateType.CHECKED);
         }));
         this._mainSignals.push(sig = Main.overview.connect('hiding', () => {
-            this.actor.remove_style_pseudo_class('overview');
-            this.actor.remove_accessible_state (Atk.StateType.CHECKED);
+            this.remove_style_pseudo_class('overview');
+            this.remove_accessible_state (Atk.StateType.CHECKED);
         }));
         this._xdndTimeOut = 0;
         this._touchAndHoldTimeoutId = 0;
@@ -217,7 +217,7 @@ class ActivitiesIconButton extends PanelMenu.Button {
         while(this._actorSignals.length > 0) {
             let sig = this._actorSignals.pop();
             if (sig > 0)
-	        this.actor.disconnect(sig);
+	        this.disconnect(sig);
         }
         while(this._mainSignals.length > 0) {
             let sig = this._mainSignals.pop();
@@ -688,11 +688,11 @@ class Configurator {
     }
 
     _setPanelStyle(backgroundStyle) {
-        Main.panel.actor.set_style(backgroundStyle);
+        Main.panel.set_style(backgroundStyle);
     }
 
     _removePanelStyle() {
-        Main.panel.actor.set_style(null);
+        Main.panel.set_style(null);
         if (this._roundedCornersHidden) {
             Main.panel._leftCorner.actor.hide();
             Main.panel._rightCorner.actor.hide();
@@ -787,7 +787,7 @@ class Configurator {
         }
         if (Main.getThemeStylesheet() != null || Main.sessionMode.currentMode == 'classic') {
             this._userOrClassicTheme = true;
-            let themeNode = Main.panel.actor.get_theme_node();
+            let themeNode = Main.panel.get_theme_node();
             let color = themeNode.get_background_color().to_string();
             let rgbT = Colors.getColorRGBandTransparency(color);
             this._themeRGB = rgbT.rgb;
@@ -832,7 +832,7 @@ class Configurator {
         if (this._colorSig == null) {
             this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, this._setPanelColor.bind(this));
         }
-        if (Main.panel.actor.get_style() == null || !Main.panel._leftCorner.actor.visible) {
+        if (Main.panel.get_style() == null || !Main.panel._leftCorner.actor.visible) {
             this._handleCornerSignals(false);
         } else {
             this._handleCornerSignals(true);
