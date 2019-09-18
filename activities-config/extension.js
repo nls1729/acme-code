@@ -604,8 +604,9 @@ class Configurator {
             let pixels = this._settings.get_int(Keys.PAD_ICO);
             let icosize = this._settings.get_double(Keys.SCF_ICO);
             let iconStyle = 'icon-size: %fem; padding-left: %dpx; padding-right: %dpx'.format(icosize, pixels, pixels);
-            this._activitiesIconButton._iconBin.show();
+            this._activitiesIconButton._iconBin.hide();
             this._activitiesIconButton._iconBin.child.set_style(iconStyle);
+            this._activitiesIconButton._iconBin.show();
         }
     }
 
