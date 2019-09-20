@@ -565,6 +565,8 @@ https://nls1729.github.io
            from access in prefs.js.  Usage of object.actor is deprecated.  Worked around
            access to extension version and shell version and corrected object.actor issues.
 
+2019-09-20 GS3.34 is supported.  Uploaded for review.
+
 ...
 
 zip file: 
