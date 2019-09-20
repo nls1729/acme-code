@@ -7,6 +7,7 @@ MODULES = colors.js convenience.js extension.js keys.js notify.js readme.js styl
 POFILES = $(wildcard po/*.po)
 JSFILES = colors.js extension.js keys.js notify.js prefs.js readme.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
+ZIPTS = $(shell date +"%y%j%H%M%S")
 COMMIT = $(shell git rev-parse HEAD)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 TOUCH = $(shell find . -type f)
@@ -14,6 +15,7 @@ TIMESTAMP = $(shell date +"%y%j%H%M%S")
 GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
 GSCHEMAXML = ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml
+ZIPNAME = activities-config-$(ZIPTS)@nls1729
 
 all: extension
 
@@ -51,10 +53,10 @@ _build: all
 zip-file: _build
 	rm -f ./*.zip
 	cd _build ; \
-	zip -qr "$(UUID).zip" .; \
-	mv $(UUID).zip .. ; \
+	zip -qr "$(ZIPNAME).zip" .; \
+	mv $(ZIPNAME).zip .. ; \
 	cd .. ;
-	sha256sum "$(UUID).zip"  > CHECKSUM
+	sha256sum "$(ZIPNAME).zip"  > CHECKSUM
 	rm -rf _build
 
 touch:
