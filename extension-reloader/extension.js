@@ -134,7 +134,7 @@ const ReloadExtensionMenu = GObject.registerClass(
         let title = _("Gnome Shell Extension Reloader");
         this._subMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(title, false);
         this.menu.addMenuItem(this._subMenuMenuItem);
-        this._scrollView = this._subMenuMenuItem.menu;
+        this._scrollView = this._subMenuMenuItem.menu.actor;
         this._vBar = this._subMenuMenuItem.menu.actor.get_vscroll_bar();
         this._vBar.vscrollbar_policy = true;
         this._populateSubMenu(this._subMenuMenuItem.menu);
