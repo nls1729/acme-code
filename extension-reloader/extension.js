@@ -35,6 +35,7 @@ const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const St = imports.gi.St;
 const ExtensionSystem = imports.ui.extensionSystem;
+const ExtensionManager = imports.ui.main.extensionManager
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
@@ -67,7 +68,7 @@ const TYPE = { info: 0,
 
 
 class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
-        
+
     constructor(extension, name, menu, subMenu) {
         super();
         this._extension = extension;
@@ -84,18 +85,19 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         if (this._state == ENABLED)
             label2.set_style(STYLE2);
         box.add_actor(label2);
-        this.actor.add_child(box);
+        this.add_child(box);
         this._subMenu = subMenu;
         this._menu = menu;
         this._keyInId = 0;
     }
 
     destroy() {
-        this.actor.disconnect(this._keyInId);
+        this.disconnect(this._keyInId);
         super.destroy();
     }
 
     activate() {
+        log("Reloading " + this._name + "...")
         this._menu.close();
         let enabledExtensions = global.settings.get_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY);
         if (enabledExtensions.indexOf(this._uuid) == -1) {
@@ -115,7 +117,7 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
 
 const ReloadExtensionMenu = GObject.registerClass(
     class ReloadExtensionMenu extends PanelMenu.Button {
-    
+
     _init() {
         super._init(0.5, 'Reload Extension Menu');
         let hbox = new St.BoxLayout({
@@ -128,11 +130,11 @@ const ReloadExtensionMenu = GObject.registerClass(
         });
         hbox.add_child(iconBin);
         hbox.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
-        this.actor.add_actor(hbox);
+        this.add_actor(hbox);
         let title = _("Gnome Shell Extension Reloader");
         this._subMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(title, false);
         this.menu.addMenuItem(this._subMenuMenuItem);
-        this._scrollView = this._subMenuMenuItem.menu.actor;
+        this._scrollView = this._subMenuMenuItem.menu;
         this._vBar = this._subMenuMenuItem.menu.actor.get_vscroll_bar();
         this._vBar.vscrollbar_policy = true;
         this._populateSubMenu(this._subMenuMenuItem.menu);
@@ -168,8 +170,9 @@ const ReloadExtensionMenu = GObject.registerClass(
 
     _populateSubMenu(subMenu) {
         let sortedArray = [];
-        for (let i in ExtensionUtils.extensions) {
-            let entry = ExtensionUtils.extensions[i];
+
+        for (let uuid of ExtensionManager.getUuids()) {
+            let entry = ExtensionManager.lookup(uuid)
             Util.insertSorted(sortedArray, entry, (a, b) => {
                 return this._compare(a, b);
             });
@@ -180,10 +183,10 @@ const ReloadExtensionMenu = GObject.registerClass(
             let state = sortedArray[i].state;
             let ext = sortedArray[i];
             let item = new SubMenuItem(ext, name, this.menu, subMenu);
-            item._keyInId = item.actor.connect('key-focus-in', this._scrollMenuBox.bind(this));
+            item._keyInId = item.connect('key-focus-in', this._scrollMenuBox.bind(this));
             subMenu.addMenuItem(item);
         }
-        this.menu.actor.style = ('max-height:' + MAX_HEIGHT + 'px');
+        this.menu.style = ('max-height:' + MAX_HEIGHT + 'px');
     }
 
     destroy() {
