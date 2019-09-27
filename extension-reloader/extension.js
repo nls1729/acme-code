@@ -35,6 +35,7 @@ const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const St = imports.gi.St;
 const ExtensionSystem = imports.ui.extensionSystem;
+const ExtensionManager = imports.ui.main.extensionManager
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
@@ -46,30 +47,31 @@ const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const ENABLED = 1;
 const ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
 const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
 const ROLE = 'extension-reloader-indicator';
-const STATE = ["Unknown",
-               "Enabled",
-               "Disabled",
-               "Error",
-               "Out of Date",
-               "Downloading",
-               "Initialized"
-              ];
 const STYLE1 = 'width: 120px;';
 const STYLE2 = 'font-weight: bold;';
-const TYPE = { info: 0,
-               warning: 1,
-               error: 2
-             };
+const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
 
-
+var SubMenuItem = GObject.registerClass(
 class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
-        
-    constructor(extension, name, menu, subMenu) {
-        super();
+    _init(extension, name, menu, subMenu, params) {
+
+        var ExtensionStates =
+        [ _("Unknown"),
+          _("Enabled"),
+          _("Disabled"),
+          _("Error"),
+          _("Out of Date"),
+          _("Downloading"),
+          _("Initialized") ];
+
+        if (extension.state != ExtensionSystem.ExtensionState.ERROR) {
+            super._init({ reactive: false, can_focus: false });
+        } else {
+            super._init(params);
+        }
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
@@ -77,25 +79,26 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         if (this._state > 6)
             this._state = 0;
         let box = new St.BoxLayout();
-        let label1 = new St.Label({ text: _(STATE[this._state]) });
+        let label1 = new St.Label({ text: ExtensionStates[this._state] });
         label1.set_style(STYLE1);
         box.add_actor(label1);
         let label2 = new St.Label({ text: name });
-        if (this._state == ENABLED)
+        if (this._state == ExtensionSystem.ExtensionState.ERROR)
             label2.set_style(STYLE2);
         box.add_actor(label2);
-        this.actor.add_child(box);
+        this.add_child(box);
         this._subMenu = subMenu;
         this._menu = menu;
         this._keyInId = 0;
     }
 
     destroy() {
-        this.actor.disconnect(this._keyInId);
+        this.disconnect(this._keyInId);
         super.destroy();
     }
 
     activate() {
+        log("Reloading " + this._name + "...")
         this._menu.close();
         let enabledExtensions = global.settings.get_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY);
         if (enabledExtensions.indexOf(this._uuid) == -1) {
@@ -103,19 +106,27 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
             global.settings.set_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY, enabledExtensions);
         }
         try {
-            ExtensionSystem.reloadExtension(this._extension);
-            Notify.notify(_("Reloading completed"), this._name, TYPE.info);
-            log("Reloading completed" + ' : ' + this._name + ' : ' + this._uuid);
+            let { uuid, dir, type } = this._extension;
+            if (ExtensionManager.unloadExtension(this._extension)) {
+                this._extension = ExtensionManager.createExtensionObject(uuid, dir, type);
+                ExtensionManager.loadExtension(this._extension);
+                if (this._extension.state != ExtensionSystem.ExtensionState.ERROR) {
+                    Notify.notify(_("Reloading completed"), this._name, NOTIFY_TYPE.info);
+                    log(_("Reloading completed") + ' : ' + this._name + ' : ' + this._uuid);
+                    return;
+                }
+            }
+            throw new Error(_("Extension remains in error state."));
         } catch(e) {
-            Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, TYPE.error);
+            Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, NOTIFY_TYPE.error);
         }
     }
-};
+});
 
 
-const ReloadExtensionMenu = GObject.registerClass(
+var ReloadExtensionMenu = GObject.registerClass(
     class ReloadExtensionMenu extends PanelMenu.Button {
-    
+
     _init() {
         super._init(0.5, 'Reload Extension Menu');
         let hbox = new St.BoxLayout({
@@ -128,7 +139,7 @@ const ReloadExtensionMenu = GObject.registerClass(
         });
         hbox.add_child(iconBin);
         hbox.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
-        this.actor.add_actor(hbox);
+        this.add_actor(hbox);
         let title = _("Gnome Shell Extension Reloader");
         this._subMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(title, false);
         this.menu.addMenuItem(this._subMenuMenuItem);
@@ -168,8 +179,9 @@ const ReloadExtensionMenu = GObject.registerClass(
 
     _populateSubMenu(subMenu) {
         let sortedArray = [];
-        for (let i in ExtensionUtils.extensions) {
-            let entry = ExtensionUtils.extensions[i];
+
+        for (let uuid of ExtensionManager.getUuids()) {
+            let entry = ExtensionManager.lookup(uuid)
             Util.insertSorted(sortedArray, entry, (a, b) => {
                 return this._compare(a, b);
             });
@@ -180,10 +192,10 @@ const ReloadExtensionMenu = GObject.registerClass(
             let state = sortedArray[i].state;
             let ext = sortedArray[i];
             let item = new SubMenuItem(ext, name, this.menu, subMenu);
-            item._keyInId = item.actor.connect('key-focus-in', this._scrollMenuBox.bind(this));
+            item._keyInId = item.connect('key-focus-in', this._scrollMenuBox.bind(this));
             subMenu.addMenuItem(item);
         }
-        this.menu.actor.style = ('max-height:' + MAX_HEIGHT + 'px');
+        this.menu.style = ('max-height:' + MAX_HEIGHT + 'px');
     }
 
     destroy() {

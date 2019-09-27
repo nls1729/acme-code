@@ -6,9 +6,9 @@
   "name": "Gnome Shell Extension Reloader", 
   "settings-schema": "org.gnome.shell.extensions.extension-reloader", 
   "shell-version": [
-    "3.32"
+    GSVERSIONS
   ], 
   "url": "https://nls1729.github.io/extension-reloader.html", 
   "uuid": "extension-reloader@nls1729", 
-  "version": 9
+  "version": VERSION
 }

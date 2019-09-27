@@ -77,6 +77,17 @@ README
    2019-03-22  Corrected error in metadata.json.  I left the "" off GS Version.
                Uploaded for review.
 
+   2019-09-27  Updated for GS 3.34.  Corrected deprecated actor.actor instances.
+               Changed logic to eliminate reloads which are actually ineffective.
+               The extension is only useful for extension writers.  Only an
+               extension in the ERROR state can be reloaded.  In fact the process
+               is to unload the extension and then create a new extension object
+               and then load the new object.  If the extension writer corrected
+               the cause of the error the extension will be loaded and enabled.
+               If it errors again, repeat search for the coding error(s) and try
+               again.
+
+
 zip file: Fri Mar 22 14:56:45 EDT 2019 6a139a312f2a937c820da68d8a22232815bbe376
 
 ...
