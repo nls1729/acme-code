@@ -249,6 +249,11 @@ by root the extension cannot modify its own code.  The solution was to
 create two verions of the extension, one for GS 3.30 and one for GS 3.32.
 I have uploaded the two versions.
 
+2019-09-26
+Updated for GS3.34.  Corrected deprecated actor.actor instances.
+Worked around missng shell-version in metadata with settings for
+prefs.js.
+
 zip file:  
 
 

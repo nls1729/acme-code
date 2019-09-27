@@ -60,10 +60,10 @@ class DoNotDisturbButton extends PanelMenu.Button {
         this._layoutBox.add_actor(this._iconBusy);
         this._layoutBox.add_actor(this._timeoutActiveIndicator);
         this._layoutBox.add_actor(this._notEmptyCount);
-        this.actor.add_actor(this._layoutBox);
-        this._touchEventSig = this.actor.connect('touch-event', this._onButtonPress.bind(this));
-        this._btnPressSig = this.actor.connect_after('button-press-event', this._onButtonPress.bind(this));
-        this._keyPressSig = this.actor.connect_after('key-press-event', this._onKeyPress.bind(this));
+        this.add_actor(this._layoutBox);
+        this._touchEventSig = this.connect('touch-event', this._onButtonPress.bind(this));
+        this._btnPressSig = this.connect_after('button-press-event', this._onButtonPress.bind(this));
+        this._keyPressSig = this.connect_after('key-press-event', this._onKeyPress.bind(this));
         this._statusBusy = false;
         this._presence = new GnomeSession.Presence((proxy, error) => {
             this._onStatusChanged(proxy.status);
@@ -262,14 +262,14 @@ class DoNotDisturbButton extends PanelMenu.Button {
         Mainloop.source_remove(this._checkTimeoutId);
         this._settings.disconnect(this._showCountChangedSig);
         this._removeKeybinding();
-        this.actor.disconnect(this._touchEventSig);
-        this.actor.disconnect(this._btnPressSig);
-        this.actor.disconnect(this._keyPressSig);
+        this.disconnect(this._touchEventSig);
+        this.disconnect(this._btnPressSig);
+        this.disconnect(this._keyPressSig);
         this._settings.disconnect(this._changedSettingsSig);
         this._settings.disconnect(this._timeoutEnabledChangedSig);
         this._list.disconnect(this._listActorAddedSig);
         this._list.disconnect(this._listActorRemovedSig);
-        this.actor.get_children().forEach(function(c) { c.destroy(); });
+        this.get_children().forEach(function(c) { c.destroy(); });
         super.destroy();
     }
 });

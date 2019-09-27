@@ -50,6 +50,8 @@ const TO_MINUTES = 'time-out-minutes';
 const TO_INTERVAL = 'time-out-interval';
 const MUTE_BUSY = 'mute-busy';
 const UNMUTE_AVAILABLE = 'unmute-available';
+const EPVERSION = 'extension-version';
+const GSPVERSION = 'shell-version';
 
 
 function init() {
@@ -218,8 +220,8 @@ class DoNotDisturbPrefsWidget extends Gtk.Box {
         cbGroupD.add(image10);
         cbGroupD.add(image11);
         cbGroup4.add(cbGroupD);
-        let shell_version = Me.metadata['shell-version'].toString();
-        let version = '[v' + Me.metadata.version.toString() + '  GS ' + shell_version + ']';
+        let version = '[ v' + this._settings.get_string(EPVERSION) +
+            ' GS ' + this._settings.get_string(GSPVERSION) + ' ]';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         this._columns = {Name: 0, Mods: 1, Key: 2};
         this._listStore = new Gtk.ListStore();
