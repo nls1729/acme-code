@@ -3,7 +3,7 @@ IMAGES = available-yes.png available-no.png default-persistence.png gnome-sessio
          arrow-right.png audio-volume-on.png audio-volume-muted.png \
          busy-notifications-symbolic.svg available-notifications-symbolic.svg
 
-MODULES = extension.js correctClass.js notify.js dndBtn.js dndBtnGObject.js force.js messages.pot
+MODULES = extension.js correctClass.js notify.js dndBtn.js dndBtnGObject.js force.js 
 POFILES = $(wildcard po/*.po)
 JSFILES = extension.js prefs.js notify.js correctClass.js dndBtn.js dndBtnGObject.js force.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
@@ -31,8 +31,8 @@ extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 _build: all
 	rm -rf ./_build
 	mkdir -p _build
-	xgettext $(JSFILES) -o messages.pot;
-	cat README.txt | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
+	xgettext $(JSFILES) -o ./_build/messages.pot;
+	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > ./_build/README.txt
 	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
 	cat metadata.json.in | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
