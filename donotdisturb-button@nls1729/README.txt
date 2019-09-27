@@ -254,6 +254,8 @@ Updated for GS3.34.  Corrected deprecated actor.actor instances.
 Worked around missng shell-version in metadata with settings for
 prefs.js.
 
+2019-09-27 Uploaded for review.
+
 zip file:  
 
 
