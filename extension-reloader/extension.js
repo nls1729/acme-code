@@ -56,7 +56,6 @@ const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
 
 var SubMenuItem = GObject.registerClass(
 class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
-<<<<<<< HEAD
     _init(extension, name, menu, subMenu, params) {
 
         var ExtensionStates =
@@ -73,11 +72,6 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         } else {
             super._init(params);
         }
-=======
-
-    constructor(extension, name, menu, subMenu) {
-        super();
->>>>>>> 11ca2abfaf79f1fbabb1c3f66f7a28934438e5ed
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
