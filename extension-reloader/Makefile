@@ -5,7 +5,7 @@ POFILES = $(wildcard po/*.po)
 JSFILES = extension.js prefs.js notify.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
 ZIPTS = $(shell date +"%y%j%H%M%S")
-COMMIT = $(shell git rev-parse HEAD)
+COMMIT = $(shell git log -1 --format=%H)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 TIMESTAMP = $(shell date +"%y%j%H%M%S")
 GSVERSIONS = $(shell cat ./GSVERSIONS)
