@@ -29,10 +29,12 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const COMMIT = "Commit: 11ca2abfaf79f1fbabb1c3f66f7a28934438e5ed";
+const COMMIT = "Commit:";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
+const EPVERSION = 'extension-version';
+const GSPVERSION = 'shell-version';
 
 function init() {
     imports.gettext.bindtextdomain(DOMAIN, Me.path + "/locale");
@@ -63,8 +65,8 @@ class ExtensionReloaderPrefsWidget extends Gtk.Box {
         rbGroup.add(this._centerCb);
         rbGroup.add(this._leftRb);
         rbGroup.add(this._rightRb);;
-        let shell_version = Me.metadata['shell-version'].toString();
-        let version = '[v' + Me.metadata.version.toString() + ' GS ' + shell_version + ']';
+        let version = '[ v' + this._settings.get_string(EPVERSION) +
+            ' GS ' + this._settings.get_string(GSPVERSION) + ' ]';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         let left = this._settings.get_boolean(LEFT);
         let center = this._settings.get_boolean(CENTER);
