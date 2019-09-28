@@ -1,6 +1,6 @@
 .ONESHELL:
 
-MODULES = extension.js COPYING notify.js prefs.js
+MODULES = extension.js COPYING notify.js
 POFILES = $(wildcard po/*.po)
 JSFILES = extension.js prefs.js notify.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
@@ -30,7 +30,7 @@ _build: all
 	mkdir -p _build
 	xgettext $(JSFILES) -o ./_build/messages.pot;
 	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > ./_build/README.txt
-	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
+	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT)\";/" > ./_build/prefs.js
 	cat metadata.json.in | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
 	cp COPYING _build
