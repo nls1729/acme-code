@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="nls1729-extensions">
   <schema path="/org/gnome/shell/extensions/extension-reloader/" id="org.gnome.shell.extensions.extension-reloader">
-    <key type="s" name="extension-version">
-        <default>"10"</default>
-        <summary>Extension version.</summary>
-      <description>Extension version for display in extension preferences.</description>
-    </key>
-    <key type="s" name="shell-version">
-        <default>"3.34"</default>
-        <summary>Supported gnome-shell version(s).</summary>
-      <description>Supported gnome-shell version(s) for display in extension preferences.</description>
-    </key>
     <key type="b" name="panel-icon-center">
       <default>true</default>
       <summary>Center if true.</summary>

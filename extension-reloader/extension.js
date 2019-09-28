@@ -47,31 +47,30 @@ const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
+const ENABLED = 1;
 const ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
 const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
 const ROLE = 'extension-reloader-indicator';
+const STATE = ["Unknown",
+               "Enabled",
+               "Disabled",
+               "Error",
+               "Out of Date",
+               "Downloading",
+               "Initialized"
+              ];
 const STYLE1 = 'width: 120px;';
 const STYLE2 = 'font-weight: bold;';
-const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
+const TYPE = { info: 0,
+               warning: 1,
+               error: 2
+             };
 
-var SubMenuItem = GObject.registerClass(
+
 class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
-    _init(extension, name, menu, subMenu, params) {
 
-        var ExtensionStates =
-        [ _("Unknown"),
-          _("Enabled"),
-          _("Disabled"),
-          _("Error"),
-          _("Out of Date"),
-          _("Downloading"),
-          _("Initialized") ];
-
-        if (extension.state != ExtensionSystem.ExtensionState.ERROR) {
-            super._init({ reactive: false, can_focus: false });
-        } else {
-            super._init(params);
-        }
+    constructor(extension, name, menu, subMenu) {
+        super();
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
@@ -79,11 +78,11 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         if (this._state > 6)
             this._state = 0;
         let box = new St.BoxLayout();
-        let label1 = new St.Label({ text: ExtensionStates[this._state] });
+        let label1 = new St.Label({ text: _(STATE[this._state]) });
         label1.set_style(STYLE1);
         box.add_actor(label1);
         let label2 = new St.Label({ text: name });
-        if (this._state == ExtensionSystem.ExtensionState.ERROR)
+        if (this._state == ENABLED)
             label2.set_style(STYLE2);
         box.add_actor(label2);
         this.add_child(box);
@@ -106,25 +105,17 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
             global.settings.set_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY, enabledExtensions);
         }
         try {
-            let { uuid, dir, type } = this._extension;
-            if (ExtensionManager.unloadExtension(this._extension)) {
-                this._extension = ExtensionManager.createExtensionObject(uuid, dir, type);
-                ExtensionManager.loadExtension(this._extension);
-                if (this._extension.state != ExtensionSystem.ExtensionState.ERROR) {
-                    Notify.notify(_("Reloading completed"), this._name, NOTIFY_TYPE.info);
-                    log(_("Reloading completed") + ' : ' + this._name + ' : ' + this._uuid);
-                    return;
-                }
-            }
-            throw new Error(_("Extension remains in error state."));
+            ExtensionSystem.reloadExtension(this._extension);
+            Notify.notify(_("Reloading completed"), this._name, TYPE.info);
+            log("Reloading completed" + ' : ' + this._name + ' : ' + this._uuid);
         } catch(e) {
-            Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, NOTIFY_TYPE.error);
+            Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, TYPE.error);
         }
     }
-});
+};
 
 
-var ReloadExtensionMenu = GObject.registerClass(
+const ReloadExtensionMenu = GObject.registerClass(
     class ReloadExtensionMenu extends PanelMenu.Button {
 
     _init() {
