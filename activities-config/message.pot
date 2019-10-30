@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-27 17:26-0400\n"
+"POT-Creation-Date: 2019-09-20 07:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,167 +17,167 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:595
+#: extension.js:593
 msgid "Missing Icon:"
 msgstr ""
 
-#: extension.js:760
+#: extension.js:759
 msgid "Conflict with hidden rounded corners."
 msgstr ""
 
-#: extension.js:925
+#: extension.js:924
 msgid "Conflict Detected:"
 msgstr ""
 
-#: prefs.js:60
+#: prefs.js:61
 msgid "Activities"
 msgstr ""
 
-#: prefs.js:61
+#: prefs.js:62
 msgid "Select Icon"
 msgstr ""
 
-#: prefs.js:63
+#: prefs.js:64
 msgid "Scale Icon"
 msgstr ""
 
-#: prefs.js:64
+#: prefs.js:65
 msgid "Hide Icon"
 msgstr ""
 
-#: prefs.js:65
+#: prefs.js:66
 msgid "Icon Padding"
 msgstr ""
 
-#: prefs.js:66
+#: prefs.js:67
 msgid "New Text"
 msgstr ""
 
-#: prefs.js:67
+#: prefs.js:68
 msgid "Hide Text"
 msgstr ""
 
-#: prefs.js:68
+#: prefs.js:69
 msgid "Text Padding"
 msgstr ""
 
-#: prefs.js:69
+#: prefs.js:70
 msgid "Remove Activities Button"
 msgstr ""
 
-#: prefs.js:70
+#: prefs.js:71
 msgid "Hot Corner Threshold"
 msgstr ""
 
-#: prefs.js:71
+#: prefs.js:72
 msgid "Disable Hot Corner"
 msgstr ""
 
-#: prefs.js:72
+#: prefs.js:73
 msgid "Hide Panel Rounded Corners"
 msgstr ""
 
-#: prefs.js:73
+#: prefs.js:74
 msgid "Hide Application Menu Button Icon"
 msgstr ""
 
-#: prefs.js:74
+#: prefs.js:75
 msgid "Show Overview If No Applications Are Running"
 msgstr ""
 
-#: prefs.js:75
+#: prefs.js:76
 msgid "Set Panel Background"
 msgstr ""
 
-#: prefs.js:76
+#: prefs.js:77
 msgid "Panel Transparency"
 msgstr ""
 
-#: prefs.js:77
+#: prefs.js:78
 msgid "Panel Shadow Color"
 msgstr ""
 
-#: prefs.js:78
+#: prefs.js:79
 msgid "Transparency"
 msgstr ""
 
-#: prefs.js:79
+#: prefs.js:80
 msgid "Vertical Length"
 msgstr ""
 
-#: prefs.js:80
+#: prefs.js:81
 msgid "Blur Radius"
 msgstr ""
 
-#: prefs.js:81
+#: prefs.js:82
 msgid "Spread Radius"
 msgstr ""
 
-#: prefs.js:82
+#: prefs.js:83
 msgid "Window Maximized Effect"
 msgstr ""
 
-#: prefs.js:83
+#: prefs.js:84
 msgid "Move Activities to the Right"
 msgstr ""
 
-#: prefs.js:84
+#: prefs.js:85
 msgid "Enable Conflict Detection"
 msgstr ""
 
-#: prefs.js:85
+#: prefs.js:86
 msgid "Extension Defaults"
 msgstr ""
 
-#: prefs.js:86
+#: prefs.js:87
 msgid "Extension Description"
 msgstr ""
 
-#: prefs.js:94
+#: prefs.js:95
 msgid "SELECT"
 msgstr ""
 
-#: prefs.js:121
+#: prefs.js:122
 msgid "APPLY"
 msgstr ""
 
-#: prefs.js:187
+#: prefs.js:188
 msgid "Override Shell Theme"
 msgstr ""
 
-#: prefs.js:249
+#: prefs.js:250
 msgid "Panel - No Effect"
 msgstr ""
 
-#: prefs.js:250
+#: prefs.js:251
 msgid "Opaque Background Color"
 msgstr ""
 
-#: prefs.js:251
+#: prefs.js:252
 msgid "Black Opaque Background"
 msgstr ""
 
-#: prefs.js:277
+#: prefs.js:278
 msgid "Tile Maximized Effect Off"
 msgstr ""
 
-#: prefs.js:303
+#: prefs.js:304
 msgid "RESET"
 msgstr ""
 
-#: prefs.js:310
+#: prefs.js:311
 msgid "README"
 msgstr ""
 
-#: prefs.js:321
+#: prefs.js:322
 msgid "Website"
 msgstr ""
 
-#: prefs.js:483
+#: prefs.js:484
 msgid "Choose Icon"
 msgstr ""
 
-#: prefs.js:488
+#: prefs.js:489
 msgid "Images"
 msgstr ""
 

@@ -28,7 +28,7 @@ const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
 var DISABLED_HOT_CORNER = [
-_("Do not disable enable-hot-corners global setting."), "\r",
+_("Do not disable enable-hot-corners setting."), "\r",
 _("See < https://nls1729.github.io/activities_config.html >.")];
 
 var TITLE = _("Activities Configurator Extension");
@@ -36,7 +36,7 @@ var TITLE = _("Activities Configurator Extension");
 var NO_HOT_CORNERS_CHANGED = [
 "\n",
 _("The Activities Configurator requires the Activities Overview Hot Corner."), "\n",
-_("The global enable-hot-corners setting is provided in this linux distro."), "\n",
+_("The enable-hot-corners setting is provided in this linux distro."), "\n",
 _("The enable-hot-corners setting was OFF causing the Hot Corner to be undefined."), "\n",
 _("The extension has set the setting from OFF to ON creating the Hot Corner."), "\n",
 _("The extension has set its preference Disable Hot Corner to ON disabling the Hot Corner."), "\n",
@@ -47,7 +47,7 @@ _("See < https://nls1729.github.io/activities_config.html >."),"\n\n"];
 var NO_HOT_CORNERS_UNHANDLED_KEY_FOUND = [
 "\n",
 _("The Activities Configurator requires the Activities Overview Hot Corner."), "\n",
-_("The global enable-hot-corners setting is provided in this linux distro."), "\n",
+_("The enable-hot-corners setting is provided in this linux distro."), "\n",
 _("The extension has set the setting from OFF to ON to create the Hot Corner."), "\n",
 _("The Hot Corner is undefined.  This is unexpected behavior."), "\n",
 _("The Activities Configurator is not functional."), "\n",
@@ -59,7 +59,7 @@ var CLOSE = _("CLOSE");
 var NO_HOT_CORNERS_CONFLICT = [
 "\n",
 _("The Activities Configurator requires the Activities Overview Hot Corner."), "\n",
-_("The global enable-hot-corners setting is not found in this linux distro."), "\n",
+_("The enable-hot-corners setting is not found in this linux distro."), "\n",
 _("The Activities Configurator is not functional."), "\n",
 _("Several other extensions are known to interact with the Hot Corner."), "\n",
 _("A conflict with another extension is the likely cause."), "\n",

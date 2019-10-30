@@ -567,6 +567,10 @@ https://nls1729.github.io
 
 2019-09-20 GS3.34 is supported.  Uploaded for review.
 
+2019-10-30 Ubuntu 19.10 included a change of the enable-hot-corners setting.  The setting
+           was changed from global.settings to Gio settings org.gnome.desktop.interface.
+           Added detection code for Gio settings.  Uploaded for review. 
+
 ...
 
 zip file: 

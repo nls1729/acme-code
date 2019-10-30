@@ -276,7 +276,8 @@ class Configurator {
         this._appSystem = Shell.AppSystem.get_default();
         this._appStateChangedSigId = null;
         this._leftBoxActorAddedSig = null;
-        // For detection of global setting key enable-hot-corners
+        // For detection of global setting or gsetting key enable-hot-corners
+        this._hotCornerSettings = global.settings;
         this._keyFound = false;
         this._keyValue = false;
         this._keyChanged = false;
@@ -968,7 +969,7 @@ class Configurator {
     }
 
     _enableHotCornersChanged() {
-        if (!global.settings.get_boolean('enable-hot-corners')) {
+        if (!this._hotCornerSettings.get_boolean('enable-hot-corners')) {
             Notify.notifyError(Readme.TITLE,Readme.makeTextStr(Readme.DISABLED_HOT_CORNER));
         }
     }
@@ -1000,7 +1001,7 @@ class Configurator {
             return;
         }
         if (this._keyFound)
-            this._keyChangedSig = global.settings.connect('changed::enable-hot-corners', this._enableHotCornersChanged.bind(this));
+            this._keyChangedSig = this._hotCornerSettings.connect('changed::enable-hot-corners', this._enableHotCornersChanged.bind(this));
         this._savedBarrierThreshold = Main.layoutManager.hotCorners[Main.layoutManager.primaryIndex]._pressureBarrier._threshold;
         this._barriersSupported = global.display.supports_extended_barriers();
         this._setBarriersSupport(this._barriersSupported);
@@ -1057,16 +1058,32 @@ class Configurator {
     }
 
     _getHotCornerState() {
+        // Ubuntu 17.10 until 19.10
         this._keyFound = false;
         this._keyValue = false;
         this._keyChanged = false;
-        let keys = global.settings.list_keys();
-        for (let i in keys) {
+        let keys = this._hotCornerSettings.list_keys();
+        let i;
+        for (i in keys) {
             if (keys[i] == 'enable-hot-corners') {
                 this._keyFound = true;
-                this._keyValue = global.settings.get_boolean('enable-hot-corners');
+                this._keyValue = this._hotCornerSettings.get_boolean('enable-hot-corners');
                 if (!this._keyValue)
-                    this._keyChanged = global.settings.set_boolean('enable-hot-corners', true);
+                    this._keyChanged = this._hotCornerSettings.set_boolean('enable-hot-corners', true);
+                break;
+            }
+        }
+        if (this._keyFound)
+            return;
+        // Ubuntu 19.10 until ???
+        this._hotCornerSettings = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
+        keys = this._hotCornerSettings.list_keys();
+        for (i in keys) {
+            if (keys[i] == 'enable-hot-corners') {
+                this._keyFound = true;
+                this._keyValue = this._hotCornerSettings.get_boolean('enable-hot-corners');
+                if (!this._keyValue)
+                    this._keyChanged = this._hotCornerSettings.set_boolean('enable-hot-corners', true);
                 break;
             }
         }
@@ -1097,7 +1114,7 @@ class Configurator {
             this._themeTimeoutId = 0;
         }
         if (this._keyChangedSig > 0) {
-            global.settings.disconnect(this._keyChangedSig);
+            this._hotCornerSettings.disconnect(this._keyChangedSig);
             this._keyChangedSig = null;
         }
         this._panelAppMenuButtonIconHidden = false;
