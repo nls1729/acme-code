@@ -521,7 +521,7 @@ https://nls1729.github.io
            applies the Window Maximize Effect of Opaque Background Color or Black Opaque
            Background to the panel if an option is selected.  The option to turn the
            Tile Maximized Effect Off in the preferences is provided in case of a conflict
-           with an installed tiling extension. Thanks to Micha Preußer for reporting the
+           with an installed tiling extension. Thhftsinanks to Micha Preußer for reporting the
            tiling appearance issue.
 
 2018-12-30 Uploaded for review.
@@ -569,7 +569,13 @@ https://nls1729.github.io
 
 2019-10-30 Ubuntu 19.10 included a change of the enable-hot-corners setting.  The setting
            was changed from global.settings to Gio settings org.gnome.desktop.interface.
-           Added detection code for Gio settings.  Uploaded for review. 
+           Added detection code for Gio settings.  Uploaded for review.
+
+2019-11-05 Merged merge request from hftsin @ github.com.  Thanks to hftsin for his efforts.
+           The activities-config extension has dependency on convenience.js, which
+           is provided by gnome-shell-extension. However, the file convenience.js
+           has been removed in gnome-shell-extension 3.34, which results an error
+           on loading this extension.
 
 ...
 
