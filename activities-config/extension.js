@@ -43,7 +43,6 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const Colors = Me.imports.colors;
-const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Notify = Me.imports.notify;
 const Readme = Me.imports.readme;
@@ -241,7 +240,7 @@ class Configurator {
         let schemaObj = schemaSource.lookup(THEME_SCHEMA, true);
         if (schemaObj)
             this._themeSettings = new Gio.Settings({ settings_schema: schemaObj });
-        this._settings = Convenience.getSettings();
+        this._settings = ExtensionUtils.getSettings();
         this._firstEnable = this._settings.get_boolean(Keys.FIRST_ENABLE);
         if (this._firstEnable)
             this._settings.set_string(Keys.NEW_ICO, DEFAULT_ICO);
@@ -1192,6 +1191,6 @@ function _overviewToggler() {
 }
 
 function init(metadata) {
-    Convenience.initTranslations();
+    ExtensionUtils.initTranslations();
     return new Configurator();
 }
