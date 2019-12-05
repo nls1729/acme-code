@@ -31,7 +31,6 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
-const Convenience = Me.imports.convenience;
 const Keys = Me.imports.keys;
 const Readme = Me.imports.readme;
 const GioSSS = Gio.SettingsSchemaSource;
@@ -41,7 +40,7 @@ const COMMIT = "Commit: ";
 const TILE_OFF = 'tile-max-effect-off';
 
 function init() {
-    Convenience.initTranslations();
+    ExtensionUtils.initTranslations();
 }
 
 const ActivitiesConfiguratorSettingsWidget = GObject.registerClass(
@@ -50,7 +49,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
     _init(params) {
         super._init(params)
 
-        this._settings = Convenience.getSettings();
+        this._settings = ExtensionUtils.getSettings();
         let version = '[ v' + this._settings.get_string(Keys.EPVERSION) +
             ' GS ' + this._settings.get_string(Keys.GSPVERSION) + ' ]';
 
