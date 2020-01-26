@@ -50,7 +50,7 @@ _build: all
 		cp $$langmo $$langdir/LC_MESSAGES/donotdisturb-button-extension.mo; \
 	done;
 
-zip-file: clean _build
+zip-file: _build
 	rm -f ./*.zip
 	cd _build ; \
 	zip -qr "$(ZIPNAME).zip" .; \
