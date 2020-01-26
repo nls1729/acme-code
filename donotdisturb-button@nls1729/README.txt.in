@@ -256,5 +256,10 @@ prefs.js.
 
 2019-09-28 Uploaded for review.
 
+2020-01-26 Corrected error in Donotdisturb Button Makefile.  Added disconnect
+for _statusChangedSig in dndBtnGObject.js.  Failure to disconnect was  causing
+tracebacks in journal.
+Uploaded for review. 
+
 zip file: Stuff 
 

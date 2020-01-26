@@ -262,6 +262,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
         Mainloop.source_remove(this._checkTimeoutId);
         this._settings.disconnect(this._showCountChangedSig);
         this._removeKeybinding();
+        this.disconnect(this._statusChangedSig);
         this.disconnect(this._touchEventSig);
         this.disconnect(this._btnPressSig);
         this.disconnect(this._keyPressSig);
