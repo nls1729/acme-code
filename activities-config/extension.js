@@ -2,7 +2,7 @@
 /*
   Activities Configurator Gnome Shell Extension
 
-  Copyright (c) 2012-2019 Norman L. Smith
+  Copyright (c) 2012-2020 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -54,14 +54,11 @@ const HIDE_ICON = 'width: 0; height: 0; margin-left: 0px; margin-right: 0px; ';
 const GioSSS = Gio.SettingsSchemaSource;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 
-
 var ActivitiesIconButton = GObject.registerClass(
 class ActivitiesIconButton extends PanelMenu.Button {
 
     _init() {
         super._init(0.0, null, true);
-        this._actorSignals = [];
-        this._mainSignals = [];
         this.container.name = 'panelActivitiesIconButtonContainer';
         this.accessible_role = Atk.Role.TOGGLE_BUTTON;
         this.name = 'panelActivitiesIconButton';
@@ -74,22 +71,17 @@ class ActivitiesIconButton extends PanelMenu.Button {
         this._iconLabelBox.add(this._textBin);
         this.add_actor(this._iconLabelBox);
         this.label_actor = this._label;
-        let sig;
-        this._actorSignals.push(sig = this.connect('captured-event', this._onCapturedEvent.bind(this)));
-        this._actorSignals.push(sig = this.connect_after('key-release-event', this._onKeyRelease.bind(this)));
-        this._mainSignals.push(sig = Main.overview.connect('showing', () => {
+
+        Main.overview.connect('showing', () => {
             this.add_style_pseudo_class('overview');
-            this.add_accessible_state (Atk.StateType.CHECKED);
-        }));
-        this._mainSignals.push(sig = Main.overview.connect('hiding', () => {
+            this.add_accessible_state(Atk.StateType.CHECKED);
+        });
+        Main.overview.connect('hiding', () => {
             this.remove_style_pseudo_class('overview');
-            this.remove_accessible_state (Atk.StateType.CHECKED);
-        }));
+            this.remove_accessible_state(Atk.StateType.CHECKED);
+        });
+
         this._xdndTimeOut = 0;
-        this._touchAndHoldTimeoutId = 0;
-        this._prefsCommand = 'gnome-shell-extension-prefs';
-        this._waylandDragOverTimedOutId = 0;
-        this._motionUnHandled = false;
     }
 
     set label(labelText) {
@@ -106,131 +98,73 @@ class ActivitiesIconButton extends PanelMenu.Button {
         ct.set_use_markup(true);
     }
 
-    handleDragOver(source, actor, x, y, time) {
+
+    handleDragOver(source, _actor, _x, _y, _time) {
         if (source != Main.xdndHandler)
             return DND.DragMotionResult.CONTINUE;
 
         if (this._xdndTimeOut != 0)
-            Mainloop.source_remove(this._xdndTimeOut);
-        this._xdndTimeOut = Mainloop.timeout_add(BUTTON_DND_ACTIVATION_TIMEOUT, () => {
-            this._xdndToggleOverview(actor);
+            GLib.source_remove(this._xdndTimeOut);
+        this._xdndTimeOut = GLib.timeout_add(GLib.PRIORITY_DEFAULT, BUTTON_DND_ACTIVATION_TIMEOUT, () => {
+            this._xdndToggleOverview();
         });
         GLib.Source.set_name_by_id(this._xdndTimeOut, '[gnome-shell] this._xdndToggleOverview');
 
         return DND.DragMotionResult.CONTINUE;
     }
 
-    _removeTouchAndHoldTimeoutId() {
-        if (this._touchAndHoldTimeoutId > 0) {
-            Mainloop.source_remove(this._touchAndHoldTimeoutId);
-            this._touchAndHoldTimeoutId = 0;
-        }
-    }
-
-    _onCapturedEvent(actor, event) {
-        if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
-            this._removeTouchAndHoldTimeoutId();
-            this._touchAndHoldTimeoutId = Mainloop.timeout_add(600, () => {
-                this._touchAndHoldTimeoutId = 0;
-                Util.trySpawnCommandLine(this._prefsCommand);
-            });
-        } else if (event.type() == Clutter.EventType.BUTTON_PRESS) {
+    vfunc_captured_event(event) {
+        if (event.type() == Clutter.EventType.BUTTON_PRESS && event.get_button() == 3) {
+            return Clutter.EVENT_PROPAGATE;
+        } else if (event.type() == Clutter.EventType.BUTTON_PRESS ||
+            event.type() == Clutter.EventType.TOUCH_BEGIN) {
             if (!Main.overview.shouldToggleByCornerOrButton())
                 return Clutter.EVENT_STOP;
         }
         return Clutter.EVENT_PROPAGATE;
     }
 
-    _onEvent(actor, event) {
-        super._onEvent(actor, event);
-        if (event.type() == Clutter.EventType.TOUCH_END) {
-            if (this._touchAndHoldTimeoutId != 0) {
-                this._removeTouchAndHoldTimeoutId();
-                if (Main.overview.shouldToggleByCornerOrButton())
-                    Main.overview.toggle();
-            }
-        } else if (event.type() == Clutter.EventType.BUTTON_RELEASE) {
-            if (event.get_button() == 3) {
-                if (Main.overview.visible)
-                    Main.overview.toggle();
-                Util.trySpawnCommandLine(this._prefsCommand);
-            } else {
-                Main.overview.toggle();
-            }
-        } else if (Meta.is_wayland_compositor() && toggleThreshold == DISABLE_TOGGLE) {
-            // Handle Drag Over in Wayland when Hot Corner Disabled
-            switch (event.type()) {
-                case Clutter.EventType.ENTER:
-                    this._motionUnHandled = true;
-                    break;
-                case Clutter.EventType.MOTION:
-                    if (this._motionUnHandled) {
-                        if(event.get_state() & Clutter.ModifierType.BUTTON1_MASK) {
-                            if (this._waylandDragOverTimedOutId != 0)
-                                Mainloop.source_remove(this._waylandDragOverTimedOutId);
-                            this._waylandDragOverTimedOutId = Mainloop.timeout_add(500, () => {
-                                if (Main.overview.shouldToggleByCornerOrButton())
-                                    Main.overview.toggle();
-                                this._waylandDragOverTimedOutId = 0;
-                            });
-                        }
-                    }
-                    this._motionUnHandled = false;
-                    break;
-                case Clutter.EventType.LEAVE:
-                    if (this._waylandDragOverTimedOutId != 0) {
-                        Mainloop.source_remove(this._waylandDragOverTimedOutId);
-                        this._waylandDragOverTimedOutId = 0;
-                    }
-                    break;
-            }
-        }
-        return Clutter.EVENT_PROPAGATE;
-    }
-
-    _onKeyRelease(actor, event) {
-        let symbol = event.get_key_symbol();
-        if (symbol == Clutter.KEY_Return || symbol == Clutter.KEY_space) {
+    vfunc_event(event) {
+        if (event.type() == Clutter.EventType.BUTTON_RELEASE && event.get_button() == 3) {
+            Util.spawn(["gnome-shell-extension-prefs"]);
+            return Clutter.EVENT_PROPAGATE;
+        } else if (event.type() == Clutter.EventType.TOUCH_END ||
+            event.type() == Clutter.EventType.BUTTON_RELEASE) {
             if (Main.overview.shouldToggleByCornerOrButton())
                 Main.overview.toggle();
         }
         return Clutter.EVENT_PROPAGATE;
     }
 
-    _xdndToggleOverview(actor) {
-        let [x, y, mask] = global.get_pointer();
+    vfunc_key_release_event(keyEvent) {
+        let symbol = keyEvent.keyval;
+        if (symbol == Clutter.KEY_Return || symbol == Clutter.KEY_space) {
+            if (Main.overview.shouldToggleByCornerOrButton()) {
+                Main.overview.toggle();
+                return Clutter.EVENT_STOP;
+            }
+        }
+
+        return Clutter.EVENT_PROPAGATE;
+    }
+
+    _xdndToggleOverview() {
+        let [x, y] = global.get_pointer();
         let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
 
-        if (pickedActor == this.actor && Main.overview.shouldToggleByCornerOrButton())
+        if (pickedActor == this && Main.overview.shouldToggleByCornerOrButton())
             Main.overview.toggle();
 
-        Mainloop.source_remove(this._xdndTimeOut);
+        GLib.source_remove(this._xdndTimeOut);
         this._xdndTimeOut = 0;
         return GLib.SOURCE_REMOVE;
     }
 
     destroy() {
-        this._removeTouchAndHoldTimeoutId();
-        if (this._xdndTimeOut != 0)
-            Mainloop.source_remove(this._xdndTimeOut);
-        while(this._actorSignals.length > 0) {
-            let sig = this._actorSignals.pop();
-            if (sig > 0)
-	        this.disconnect(sig);
-        }
-        while(this._mainSignals.length > 0) {
-            let sig = this._mainSignals.pop();
-            if (sig > 0)
-	        Main.overview.disconnect(sig);
-        }
-        if (this._waylandDragOverTimedOutId != 0) {
-            Mainloop.source_remove(this._waylandDragOverTimedOutId);
-            this._waylandDragOverTimedOutId = 0;
-        }
         super.destroy();
     }
-
 });
+
 
 class Configurator {
 
@@ -537,16 +471,16 @@ class Configurator {
     _handleCornerSignals(connect) {
         if (connect) {
             if (this._signalIdLC == null)
-                this._signalIdLC = Main.panel._leftCorner.actor.connect('repaint', this._redoLeft.bind(this));
+                this._signalIdLC = Main.panel._leftCorner.connect('repaint', this._redoLeft.bind(this));
             if (this._signalIdRC == null)
-                this._signalIdRC = Main.panel._rightCorner.actor.connect('repaint', this._redoRight.bind(this));
+                this._signalIdRC = Main.panel._rightCorner.connect('repaint', this._redoRight.bind(this));
         } else {
             if (this._signalIdLC > 0) {
-                Main.panel._leftCorner.actor.disconnect(this._signalIdLC);
+                Main.panel._leftCorner.disconnect(this._signalIdLC);
                 this._signalIdLC = null;
             }
             if (this._signalIdRC > 0) {
-                Main.panel._rightCorner.actor.disconnect(this._signalIdRC);
+                Main.panel._rightCorner.disconnect(this._signalIdRC);
                 this._signalIdRC = null;
             }
         }
@@ -660,7 +594,6 @@ class Configurator {
 
     // Changed disabled Hot Corner behavior for DND to be the same as if Hot Corner is enabled.
     // Dragging an item into the Hot Corner will toggle the Overview when the Hot Corner is disabled.
-
     _dragEnd() {
         if (this._settings.get_boolean(Keys.NO_HOTC)) {
             toggleThreshold = DISABLE_TOGGLE;
@@ -695,11 +628,11 @@ class Configurator {
     _removePanelStyle() {
         Main.panel.set_style(null);
         if (this._roundedCornersHidden) {
-            Main.panel._leftCorner.actor.hide();
-            Main.panel._rightCorner.actor.hide();
+            Main.panel._leftCorner.hide();
+            Main.panel._rightCorner.hide();
         } else {
-            Main.panel._leftCorner.actor.show();
-            Main.panel._rightCorner.actor.show();
+            Main.panel._leftCorner.show();
+            Main.panel._rightCorner.show();
         }
     }
 
@@ -717,16 +650,16 @@ class Configurator {
         this._roundedCornersHidden = this._settings.get_boolean(Keys.HIDE_RC);
         if (this._roundedCornersHidden) {
             if (this._showLeftSignal == null)
-                this._showLeftSignal = Main.panel._leftCorner.actor.connect('show', this._reHideCorners.bind(this));
+                this._showLeftSignal = Main.panel._leftCorner.connect('show', this._reHideCorners.bind(this));
             if (this._showRightSignal == null)
-                this._showRightSignal = Main.panel._rightCorner.actor.connect('show', this._reHideCorners.bind(this));
+                this._showRightSignal = Main.panel._rightCorner.connect('show', this._reHideCorners.bind(this));
         } else {
             if (this._showLeftSignal > 0) {
-                Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
+                Main.panel._leftCorner.disconnect(this._showLeftSignal);
                 this._showLeftSignal = null;
             }
             if (this._showRightSignal > 0) {
-                Main.panel._rightCorner.actor.disconnect(this._showRightSignal);
+                Main.panel._rightCorner.disconnect(this._showRightSignal);
                 this._showRightSignal = null;
             }
             this._hideCount = 0;
@@ -750,9 +683,9 @@ class Configurator {
             Mainloop.source_remove(this._hideTimeoutId);
             this._hideTimeoutId = 0;
         }
-        if ((Main.panel._leftCorner.actor.visible || Main.panel._rightCorner.actor.visible) && this._roundedCornersHidden) {
-            Main.panel._leftCorner.actor.hide();
-            Main.panel._rightCorner.actor.hide();
+        if ((Main.panel._leftCorner.visible || Main.panel._rightCorner.visible) && this._roundedCornersHidden) {
+            Main.panel._leftCorner.hide();
+            Main.panel._rightCorner.hide();
             this._hideCount = this._hideCount + 1;
         }
         if (this._hideCount > 2000) { // This should never happen.
@@ -821,11 +754,11 @@ class Configurator {
             this._setPanelStyle(backgroundStyle);
         }
         if (this._panelOpacity < .05 || this._roundedCornersHidden) {
-            Main.panel._leftCorner.actor.hide();
-            Main.panel._rightCorner.actor.hide();
+            Main.panel._leftCorner.hide();
+            Main.panel._rightCorner.hide();
         } else {
-            Main.panel._leftCorner.actor.show();
-            Main.panel._rightCorner.actor.show();
+            Main.panel._leftCorner.show();
+            Main.panel._rightCorner.show();
         }
         if (this._transparencySig == null) {
             this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, this._setPanelTransparency.bind(this));
@@ -833,14 +766,14 @@ class Configurator {
         if (this._colorSig == null) {
             this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, this._setPanelColor.bind(this));
         }
-        if (Main.panel.get_style() == null || !Main.panel._leftCorner.actor.visible) {
+        if (Main.panel.get_style() == null || !Main.panel._leftCorner.visible) {
             this._handleCornerSignals(false);
         } else {
             this._handleCornerSignals(true);
         }
         if (!this._roundedCornersHidden) {
-            Main.panel._leftCorner.actor.queue_repaint();
-            Main.panel._rightCorner.actor.queue_repaint();
+            Main.panel._leftCorner.queue_repaint();
+            Main.panel._rightCorner.queue_repaint();
         }
     }
 
@@ -854,13 +787,13 @@ class Configurator {
 
     _repaintPanelCorner(corner) {
         let panelBackgroundColor = Colors.getClutterColor(this._panelColor, this._panelOpacity);
-        let node = corner.actor.get_theme_node();
+        let node = corner.get_theme_node();
         let cornerRadius = node.get_length('-panel-corner-radius');
         let borderWidth = node.get_length('-panel-corner-border-width');
         let borderColor = node.get_color('-panel-corner-border-color');
         let overlap = borderColor.alpha != 0;
         let offsetY = overlap ? 0 : borderWidth;
-        let cr = corner.actor.get_context();
+        let cr = corner.get_context();
         cr.setOperator(Cairo.Operator.SOURCE);
         cr.moveTo(0, offsetY);
         if (corner._side == St.Side.LEFT)
@@ -1041,10 +974,12 @@ class Configurator {
             this._hotCornersChanged();
             this._signalHotCornersChanged = Main.layoutManager.connect('hot-corners-changed', this._hotCornersChanged.bind(this));
         }
+
         if (!Meta.is_wayland_compositor()) {
             this._dndHandlerBeginSig = Main.xdndHandler.connect('drag-begin', this._dragBegin.bind(this));
             this._dndHandlerEndSig = Main.xdndHandler.connect('drag-end', this._dragEnd.bind(this));
         }
+
         this._themeContextSig = this._connectThemeContextSig();
         this._getAndSetShellThemeId();
         this._setShowOver();
@@ -1119,11 +1054,11 @@ class Configurator {
         this._panelAppMenuButtonIconHidden = false;
         if (this._enabled) {
             if (this._showLeftSignal > 0) {
-                Main.panel._leftCorner.actor.disconnect(this._showLeftSignal);
+                Main.panel._leftCorner.disconnect(this._showLeftSignal);
                 this._showLeftSignal = null;
             }
             if (this._showRightSignal > 0) {
-                Main.panel._rightCorner.actor.disconnect(this._showRightSignal);
+                Main.panel._rightCorner.disconnect(this._showRightSignal);
                 this._showRightSignal = null;
             }
             if (this._leftBoxActorAddedSig > 0) {
