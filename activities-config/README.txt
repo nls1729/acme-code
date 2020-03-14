@@ -577,6 +577,8 @@ https://nls1729.github.io
            has been removed in gnome-shell-extension 3.34, which results an error
            on loading this extension.
 
+2020-03-15 Updated Activities Configurator to GS 3.36. Uploaded for review.
+
 ...
 
 zip file: 
