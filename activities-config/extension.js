@@ -690,7 +690,7 @@ class Configurator {
         }
         if (this._hideCount > 2000) { // This should never happen.
             let msg = Me.uuid + ': ' + _("Conflict with hidden rounded corners.");
-            Notify.notifyError(CONFLICT, msg);
+            Notify.notifyError(_("Conflict Detected:"), msg);
             this._hideCount = -2000;
         }
     }
