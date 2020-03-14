@@ -3,7 +3,7 @@
 .ONESHELL:
 UUID = activities-config@nls1729
 IMAGES = face-smile-3.svg
-MODULES = colors.js extension.js keys.js notify.js readme.js stylesheet.css 
+MODULES = colors.js convenience.js extension.js keys.js notify.js readme.js stylesheet.css
 POFILES = $(wildcard po/*.po)
 JSFILES = colors.js extension.js keys.js notify.js prefs.js readme.js
 ZIPDATE = $(shell date +"%F %H:%M:%S")
@@ -16,6 +16,12 @@ GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
 GSCHEMAXML = ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml
 ZIPNAME = activities-config-$(ZIPTS)@nls1729
+BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
+ifeq ($(BRANCH),master)
+ZIPNAME = activities-config-$(ZIPTS)@nls1729
+else
+ZIPNAME = activities-config-$(ZIPTS)$(BRANCH)@nls1729
+endif
 
 all: extension
 
