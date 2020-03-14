@@ -66,7 +66,7 @@ class ActivitiesIconButton extends PanelMenu.Button {
         this._iconBin = new St.Bin();
         this._textBin = new St.Bin();
         this._iconLabelBox.add(this._iconBin);
-        this._label = new St.Label();
+        this._label = new St.Label({ text: "", y_align:Clutter.ActorAlign.CENTER });
         this._textBin.child = this._label;
         this._iconLabelBox.add(this._textBin);
         this.add_actor(this._iconLabelBox);
