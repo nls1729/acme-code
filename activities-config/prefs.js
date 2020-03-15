@@ -52,7 +52,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this._settings = ExtensionUtils.getSettings();
         let version = '[ v' + this._settings.get_string(Keys.EPVERSION) +
             ' GS ' + this._settings.get_string(Keys.GSPVERSION) + ' ]';
-
+        this.savedThemeId = "";
         this.margin = 5;
         this.row_spacing = 5;
         this.column_spacing = 5;
