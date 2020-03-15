@@ -524,7 +524,7 @@ class Configurator {
         let iconPath = this._settings.get_string(Keys.NEW_ICO);
         if (this._iconPath != iconPath) {
             if (!GLib.file_test(iconPath, GLib.FileTest.EXISTS)) {
-                Notify.notifyError(_("Missing Icon:"),Readme.makeTextStr(Readme.ICON_MIA));
+                Main.notifyError(_("Missing Icon:"),Readme.makeTextStr(Readme.ICON_MIA));
                 iconPath = DEFAULT_ICO;
                 this._settings.set_string(Keys.NEW_ICO, DEFAULT_ICO);
             }
@@ -690,7 +690,7 @@ class Configurator {
         }
         if (this._hideCount > 2000) { // This should never happen.
             let msg = Me.uuid + ': ' + _("Conflict with hidden rounded corners.");
-            Notify.notifyError(_("Conflict Detected:"), msg);
+            Main.notifyError(_("Conflict Detected:"), msg);
             this._hideCount = -2000;
         }
     }
@@ -854,7 +854,7 @@ class Configurator {
             if (Main.panel._leftBox.get_first_child().name != 'panelActivitiesIconButtonContainer') {
                 this._conflictCount = this._conflictCount + 1;
                 if (this._conflictCount > 30) {
-                    Notify.notifyError(_("Conflict Detected:"),Readme.makeTextStr(Readme.CONFLICTS));
+                    Main.notifyError(_("Conflict Detected:"),Readme.makeTextStr(Readme.CONFLICTS));
                     this._conflictCount = 0;
                     this.disable();
                 } else {
@@ -902,7 +902,7 @@ class Configurator {
 
     _enableHotCornersChanged() {
         if (!this._hotCornerSettings.get_boolean('enable-hot-corners')) {
-            Notify.notifyError(Readme.TITLE,Readme.makeTextStr(Readme.DISABLED_HOT_CORNER));
+            Main.notifyError(Readme.TITLE,Readme.makeTextStr(Readme.DISABLED_HOT_CORNER));
         }
     }
 

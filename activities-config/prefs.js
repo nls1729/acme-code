@@ -2,7 +2,7 @@
 /*
   Activities Configurator Gnome Shell Extension
 
-  Copyright (c) 2012-2019 Norman L. Smith
+  Copyright (c) 2012-2020 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
