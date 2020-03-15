@@ -6,21 +6,18 @@ IMAGES = face-smile-3.svg
 MODULES = colors.js convenience.js extension.js keys.js notify.js readme.js stylesheet.css
 POFILES = $(wildcard po/*.po)
 JSFILES = colors.js extension.js keys.js notify.js prefs.js readme.js
-ZIPDATE = $(shell date +"%F %H:%M:%S")
-ZIPTS = $(shell date +"%y%j%H%M%S")
-COMMIT = $(shell git rev-parse HEAD)
+ZIPDATE = $(shell date +"%F %H:%M")
+ZIPTS = $(shell date +"%y%j%H%M")
+COMMIT = $(shell git rev-parse --short=8 HEAD)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
-TOUCH = $(shell find . -type f)
-TIMESTAMP = $(shell date +"%y%j%H%M%S")
 GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
 GSCHEMAXML = ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml
-ZIPNAME = activities-config-$(ZIPTS)@nls1729
 BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 ifeq ($(BRANCH),master)
-ZIPNAME = activities-config-$(ZIPTS)@nls1729
+ZIPNAME = activities-config$(ZIPTS)@nls1729
 else
-ZIPNAME = activities-config-$(ZIPTS)$(BRANCH)@nls1729
+ZIPNAME = activities-config$(ZIPTS)$(BRANCH)@nls1729
 endif
 
 all: extension
@@ -40,7 +37,7 @@ _build: all
 	mkdir -p _build
 	xgettext $(JSFILES) -o _build/message.pot;
 	cat README.txt | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
-	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT)\";/" > _build/prefs.js
+	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT) $(ZIPDATE) $(BRANCH)\";/" > _build/prefs.js
 	cat metadata.json | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
 	cp $(IMAGES) _build
