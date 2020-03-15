@@ -71,12 +71,14 @@ class ActivitiesIconButton extends PanelMenu.Button {
         this._iconLabelBox.add(this._textBin);
         this.add_actor(this._iconLabelBox);
         this.label_actor = this._label;
+        this._overviewShowingSig = 0;
+        this._overviewHidingSig = 0;
 
-        Main.overview.connect('showing', () => {
+        this._overviewShowingSig = Main.overview.connect('showing', () => {
             this.add_style_pseudo_class('overview');
             this.add_accessible_state(Atk.StateType.CHECKED);
         });
-        Main.overview.connect('hiding', () => {
+        this._overviewHidingSig = Main.overview.connect('hiding', () => {
             this.remove_style_pseudo_class('overview');
             this.remove_accessible_state(Atk.StateType.CHECKED);
         });
@@ -161,6 +163,14 @@ class ActivitiesIconButton extends PanelMenu.Button {
     }
 
     destroy() {
+        if (this._overviewShowingSig != 0)
+            Main.overview.disconnect(this._overviewShowingSig);
+        if (this._overviewHidingSig != 0)
+            Main.overview.disconnect(this._overviewHidingSig);
+        if (this._xdndTimeOut != 0) {
+            GLib.source_remove(this._xdndTimeOut);
+            this._xdndTimeOut = 0;
+        }
         super.destroy();
     }
 });
