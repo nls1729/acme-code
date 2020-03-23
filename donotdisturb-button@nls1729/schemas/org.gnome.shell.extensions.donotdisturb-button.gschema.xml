@@ -7,7 +7,7 @@
       <description>Extension version for display in extension preferences.</description>
     </key>
     <key type="s" name="shell-version">
-        <default>"3.34, 3.36"</default>
+        <default>"3.36"</default>
         <summary>Supported gnome-shell version(s).</summary>
       <description>Supported gnome-shell version(s) for display in extension preferences.</description>
     </key>
