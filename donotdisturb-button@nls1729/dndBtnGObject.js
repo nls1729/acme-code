@@ -73,6 +73,8 @@ class DoNotDisturbButton extends PanelMenu.Button {
         this._setIcons();
         this._populateTmeOutIndicators();
         this._setLayoutBox();
+        this.timeStart = 0;
+
 
         this._presence = new GnomeSession.Presence((proxy, error) => {
             this._onStatusChanged(proxy.status);
@@ -218,33 +220,29 @@ class DoNotDisturbButton extends PanelMenu.Button {
         return true;
     }
 
-    _startTimeout(start) {
-        if (start) {
-            log('DONOT _startTimeout ' + start);
-            this._startClock();
-            this._timeoutInterval = this._settings.get_int('time-out-interval') * 4;
-            this._timeoutActive = true;
-        }
+    _startTimeout() {
+        log('DONOT _Timeout start');
+        this._startClock();
+        this._timeoutInterval = this._settings.get_int('time-out-interval') * 4;
+        this._timeoutActive = true;
+        this.timeStart = Date.now();
     }
 
     _processActiveTimeout() {
-        if (!this._timeoutActive) {
-            return;
-        }
+        //log('DONOT _processActiveTimeout --');
         this._timeoutInterval--;
-        log('DONOT _processActiveTimeout --');
         this._advanceClock();
-        if (this._timeoutInterval < 0) {
-            log('DONOT _processActiveTimeout < 0');
-            this._timeoutActive = false;
-            this._stopClock();
+        if (this._timeoutInterval < 0)
             this._endTimeout();
         }
      }
 
      _endTimeout() {
-         log('DONOT __endTimeout');
-         this._togglePresence();
+        log('DONOT __endTimeout');
+        this._stopClock();
+        this._timeoutActive = false;
+        this._togglePresence();
+        log("DONOT elasped time " + (Date.now() - this.timeStart)/1000)
      }
 
     _setNotEmptyCount() {
@@ -256,23 +254,19 @@ class DoNotDisturbButton extends PanelMenu.Button {
     }
 
     _onStatusChanged(status) {
-        log('DONOT _onStatusChanged');
+        //log('DONOT _onStatusChanged');
         this._iconAvailable.hide();
         this._iconBusy.hide();
         this._stopClock();
         if (status == GnomeSession.PresenceStatus.BUSY) {
-            log('DONOT _onStatusChanged BUSY');
+            //log('DONOT _onStatusChanged BUSY');
             this._statusBusy = true;
             this._iconBusy.show();
-            log('DONOT _onStatusChanged before this._timeoutEnabled');
-            if (this._timeoutEnabled) {
-                log('DONOT _onStatusChanged this._timeoutEnabled');
-                this._startTimeout(true);
-            } else {
-                this._startTimeout(false);
-        }
+            if (this._timeoutEnabled)
+                //log('DONOT _onStatusChanged this._timeoutEnabled');
+                this._startTimeout();
         } else {
-            log('DONOT _onStatusChanged NOT BUSY');
+            //log('DONOT _onStatusChanged NOT BUSY');
             this._statusBusy = false;
             this._timeoutActive = false;
             this._iconAvailable.show();
