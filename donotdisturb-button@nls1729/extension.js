@@ -29,7 +29,6 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const _ = imports.gettext.domain(DOMAIN).gettext;
 var settings;
@@ -63,12 +62,8 @@ class DoNotDisturbExtension {
         this._btn = null;
         this._timeoutId = 0;
         this._settings = settings;
-        if (!this._settings.get_boolean('time-out-always')) {
-            this._settings.set_boolean('time-out-enabled', false);
-        }
         this._leftChangedSig = 0;
         this._centerChangedSig = 0;
-        this._overrideAllowed = true;
         this._mixerCtrl = null;
         this._StateChangedSig = 0;
         this._outputSink = null;
@@ -107,6 +102,10 @@ class DoNotDisturbExtension {
     }
 
     _setMute() {
+        if (this._timeoutMuteId > 0) {
+            Mainloop.source_remove(this._timeoutMuteId);
+            this._timeoutMuteId = 0;
+        }
         let busyState = this._settings.get_boolean('busy-state');
         let mute = this._settings.get_boolean('mute-busy');
         let unmute = this._settings.get_boolean('unmute-available');
@@ -161,8 +160,7 @@ class DoNotDisturbExtension {
             Mainloop.source_remove(this._timeoutId);
             this._timeoutId = 0;
         }
-        this._btn = CorrectClass.DoNotDisturbButton.newDoNotDisturbButton(this._settings, this._overrideAllowed);
-        this._overrideAllowed = false;
+        this._btn = CorrectClass.DoNotDisturbButton.newDoNotDisturbButton(this._settings);
         let position = this._getPosition();
         Main.panel.addToStatusArea('DoNotDistrub', this._btn, position[0], position[1]);
         this._btn._setNotEmptyCount();
@@ -171,6 +169,7 @@ class DoNotDisturbExtension {
         this._iconResetSig = this._settings.connect('changed::reset-icon', this._disableEnable.bind(this));
         this._muteControlEnable();
         this._timeoutMuteId = Mainloop.timeout_add(16000, this._setMute.bind(this));
+        this._btn._startUp();
         log('donotdistrub-button@nls1729 extension enabled.');
     }
 
@@ -204,6 +203,7 @@ class DoNotDisturbExtension {
             this._btn = null;
         }
         this._muteControlDisable();
+        log('donotdistrub-button@nls1729 extension disabled.');
     }
 };
 

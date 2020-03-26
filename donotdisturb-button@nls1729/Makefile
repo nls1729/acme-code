@@ -1,21 +1,26 @@
 .ONESHELL:
+UUID = donotdisturb-button@nls1729
 IMAGES = available-yes.png available-no.png default-persistence.png gnome-session-reboot.png \
          arrow-right.png audio-volume-on.png audio-volume-muted.png \
          busy-notifications-symbolic.svg available-notifications-symbolic.svg
 
-MODULES = extension.js correctClass.js notify.js dndBtn.js dndBtnGObject.js force.js
+MODULES = extension.js correctClass.js dndBtn.js dndBtnGObject.js force.js
 POFILES = $(wildcard po/*.po)
-JSFILES = extension.js prefs.js notify.js correctClass.js dndBtn.js dndBtnGObject.js force.js
-ZIPDATE = $(shell date +"%F %H:%M:%S")
-ZIPTS = $(shell date +"%y%j%H%M%S")
-COMMIT = $(shell git log -1 --format=%H)
+JSFILES = extension.js prefs.js correctClass.js dndBtn.js dndBtnGObject.js force.js
+ZIPDATE = $(shell date +"%F %H:%M")
+ZIPTS = $(shell date +"%y%j%H%M")
+COMMIT = $(shell git rev-parse --short=8 HEAD)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
-TIMESTAMP = $(shell date +"%y%j%H%M%S")
 GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
 SCHEMAXMLIN = ./schemas/schema.xml.in
 GSCHEMAXML = ./schemas/org.gnome.shell.extensions.donotdisturb-button.gschema.xml
-ZIPNAME = donotdisturb-button-$(ZIPTS)@nls1729
+BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
+ifeq ($(BRANCH),master)
+ZIPNAME = donotdisturb-button$(ZIPTS)@nls1729
+else
+ZIPNAME = donotdisturb-button$(ZIPTS)$(BRANCH)@nls1729
+endif
 
 all: extension
 
@@ -33,7 +38,7 @@ _build: all
 	mkdir -p _build
 	xgettext $(JSFILES) -o ./_build/messages.pot;
 	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > ./_build/README.txt
-	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT)\";/" > ./_build/prefs.js
+	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT) $(ZIPDATE) $(BRANCH)\";/" > ./_build/prefs.js
 	cat metadata.json.in | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
 	cp $(IMAGES) _build
@@ -72,7 +77,7 @@ clean:
 install:
 	rm -rf $(EXTENSIONS_DIR)/$(UUID)
 	mkdir -p $(EXTENSIONS_DIR)/$(UUID)
-	cp -f "$(UUID).zip" $(EXTENSIONS_DIR)/$(UUID)
+	cp -f "$(ZIPNAME).zip" $(EXTENSIONS_DIR)/$(UUID)
 	cd $(EXTENSIONS_DIR)/$(UUID); \
-	unzip "$(UUID).zip"; \
+	unzip "$(ZIPNAME).zip"; \
 	echo done
