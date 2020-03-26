@@ -230,7 +230,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
     _processActiveTimeout() {
         this._timeoutInterval--;
         this._advanceClock();
-        if (this._timeoutInterval < 0)
+        if (this._timeoutInterval < 0) {
             this._endTimeout();
         }
      }
