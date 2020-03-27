@@ -261,7 +261,7 @@ for _statusChangedSig in dndBtnGObject.js.  Failure to disconnect was  causing
 tracebacks in journal.
 Uploaded for review.
 
-2020-03-17 Updated to support GS 3.36.
+2020-03-27 Updated to support GS 3.36.
 Uploaded for review.
 
 zip file: Stuff
