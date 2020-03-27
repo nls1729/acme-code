@@ -2,7 +2,7 @@
 <schemalist gettext-domain="nls1729-extensions">
   <schema path="/org/gnome/shell/extensions/donotdisturb-button/" id="org.gnome.shell.extensions.donotdisturb-button">
     <key type="s" name="extension-version">
-        <default>"37"</default>
+        <default>"36"</default>
         <summary>Extension version.</summary>
       <description>Extension version for display in extension preferences.</description>
     </key>
