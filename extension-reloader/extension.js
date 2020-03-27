@@ -43,16 +43,16 @@ const Panel = imports.ui.panel;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Util = imports.misc.util;
 const Me = ExtensionUtils.getCurrentExtension();
-const Notify = Me.imports.notify;
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
 const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
 const ROLE = 'extension-reloader-indicator';
 const STYLE1 = 'width: 120px;';
 const STYLE2 = 'font-weight: bold;';
 const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
+
+var ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
 
 var SubMenuItem = GObject.registerClass(
 class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
@@ -111,14 +111,14 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
                 this._extension = ExtensionManager.createExtensionObject(uuid, dir, type);
                 ExtensionManager.loadExtension(this._extension);
                 if (this._extension.state != ExtensionSystem.ExtensionState.ERROR) {
-                    Notify.notify(_("Reloading completed"), this._name, NOTIFY_TYPE.info);
+                    Main.notify(_("Reloading completed"), this._name);
                     log(_("Reloading completed") + ' : ' + this._name + ' : ' + this._uuid);
                     return;
                 }
             }
             throw new Error(_("Extension remains in error state."));
         } catch(e) {
-            Notify.notify(_("Error reloading") + ' : ' + this._name, e.message + ' : ' + this._uuid, NOTIFY_TYPE.error);
+            Main.notifyError(_("Error reloading") + ' : ' + this._name,  e.message + ' : ' + this._uuid);
         }
     }
 });

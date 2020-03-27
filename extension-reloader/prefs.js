@@ -33,7 +33,7 @@ const COMMIT = "Commit:";
 const SHORTCUT = 'shortcut';
 const LEFT = 'panel-icon-left';
 const CENTER = 'panel-icon-center';
-const EPVERSION = 'extension-version';
+const EPVERSION = 'version';
 const GSPVERSION = 'shell-version';
 
 function init() {
@@ -65,7 +65,7 @@ class ExtensionReloaderPrefsWidget extends Gtk.Box {
         rbGroup.add(this._centerCb);
         rbGroup.add(this._leftRb);
         rbGroup.add(this._rightRb);;
-        let version = '[ v' + this._settings.get_string(EPVERSION) +
+        let version = '[ v' + Me.metadata[EPVERSION] +
             ' GS ' + this._settings.get_string(GSPVERSION) + ' ]';
         this._linkBtn = new Gtk.LinkButton({uri: Me.metadata['url'], label: _("Website")});
         let left = this._settings.get_boolean(LEFT);

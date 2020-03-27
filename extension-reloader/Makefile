@@ -1,18 +1,22 @@
 .ONESHELL:
-
-MODULES = extension.js COPYING notify.js
+UUID = extension-reloader@nls1729
+MODULES = extension.js COPYING
 POFILES = $(wildcard po/*.po)
-JSFILES = extension.js prefs.js notify.js
-ZIPDATE = $(shell date +"%F %H:%M:%S")
-ZIPTS = $(shell date +"%y%j%H%M%S")
-COMMIT = $(shell git log -1 --format=%H)
+JSFILES = extension.js prefs.js
+ZIPDATE = $(shell date +"%F %H:%M")
+ZIPTS = $(shell date +"%y%j%H%M")
+COMMIT = $(shell git rev-parse --short=8 HEAD)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
-TIMESTAMP = $(shell date +"%y%j%H%M%S")
 GSVERSIONS = $(shell cat ./GSVERSIONS)
 VERSION = $(shell cat ./VERSION)
 SCHEMAXMLIN = ./schemas/schema.xml.in
 GSCHEMAXML = ./schemas/org.gnome.shell.extensions.extension-reloader.gschema.xml
+BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
+ifeq ($(BRANCH),master)
 ZIPNAME = extension-reloader-$(ZIPTS)@nls1729
+else
+ZIPNAME = extension-reloader-$(ZIPTS)$(BRANCH)@nls1729
+endif
 
 all: extension
 
@@ -30,7 +34,7 @@ _build: all
 	mkdir -p _build
 	xgettext $(JSFILES) -o ./_build/messages.pot;
 	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > ./_build/README.txt
-	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT)\";/" > ./_build/prefs.js
+	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT) $(ZIPDATE) $(BRANCH)\";/" > ./_build/prefs.js
 	cat metadata.json.in | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build
 	cp COPYING _build
@@ -70,5 +74,5 @@ install:
 	mkdir -p $(EXTENSIONS_DIR)/$(UUID)
 	cp -f "$(UUID).zip" $(EXTENSIONS_DIR)/$(UUID)
 	cd $(EXTENSIONS_DIR)/$(UUID); \
-	unzip "$(UUID).zip"; \
+	unzip "$(ZIPNAME).zip"; \
 	echo done
