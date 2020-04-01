@@ -283,7 +283,7 @@ class DoNotDisturbButton extends PanelMenu.Button {
         if (button == 1) {
             this._togglePresence();
         } else if (button == 3) {
-            Util.spawn(["gnome-shell-extension-prefs", Me.uuid]);
+            Util.spawn(["gnome-extensions", "prefs", Me.uuid]);
         }
         return Clutter.EVENT_STOP;
     }

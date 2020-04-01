@@ -12,6 +12,7 @@ ZIPTS = $(shell date +"%y%j%H%M")
 COMMIT = $(shell git rev-parse --short=8 HEAD)
 EXTENSIONS_DIR = ~/.local/share/gnome-shell/extensions
 GSVERSIONS = $(shell cat ./GSVERSIONS)
+GSPVERSIONS = $(shell cat ./GSVERSIONS | sed 's/\\"//'g)
 VERSION = $(shell cat ./VERSION)
 SCHEMAXMLIN = ./schemas/schema.xml.in
 GSCHEMAXML = ./schemas/org.gnome.shell.extensions.donotdisturb-button.gschema.xml
@@ -27,7 +28,7 @@ all: extension
 extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 
 ./schemas/gschemas.compiled: $(SCHEMAXMLIN)
-	cat $(SCHEMAXMLIN) | sed "s/EPVERSION/$(VERSION)/" | sed "s/GSPVERSIONS/$(GSVERSIONS)/" > $(GSCHEMAXML)
+	cat $(SCHEMAXMLIN) | sed "s/EPVERSION/$(VERSION)/" | sed "s/GSPVERSIONS/\"$(GSPVERSIONS)\"/" > $(GSCHEMAXML)
 	glib-compile-schemas ./schemas/
 
 ./po/%.mo: ./po/%.po
@@ -58,6 +59,7 @@ _build: all
 zip-file: _build
 	rm -f ./*.zip
 	cd _build ; \
+	cp README.txt ..
 	zip -qr "$(ZIPNAME).zip" .; \
 	mv $(ZIPNAME).zip .. ; \
 	cd .. ;
