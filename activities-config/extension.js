@@ -1101,7 +1101,8 @@ class Configurator {
             if (this._activitiesIndicator != null) {
                 if (this._signalShow > 0)
                     this._activitiesIndicator.container.disconnect(this._signalShow);
-                this._activitiesIndicator.container.show();
+                if (Main.sessionMode.currentMode == 'user')
+                    this._activitiesIndicator.container.show();
             }
             this._activitiesIconButton.destroy();
             this._activitiesIconButton = null;
