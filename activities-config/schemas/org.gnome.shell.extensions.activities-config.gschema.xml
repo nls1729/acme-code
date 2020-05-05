@@ -2,7 +2,7 @@
 <schemalist gettext-domain="nls1729-extensions">
   <schema path="/org/gnome/shell/extensions/activities-config/" id="org.gnome.shell.extensions.activities-config">
     <key type="s" name="extension-version">
-        <default>"84"</default>
+        <default>"85"</default>
         <summary>Extension version.</summary>
       <description>Extension version for display in extension preferences.</description>
     </key>
