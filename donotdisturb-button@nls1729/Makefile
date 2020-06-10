@@ -1,8 +1,8 @@
 .ONESHELL:
 UUID = donotdisturb-button@nls1729
 IMAGES = available-yes.png available-no.png default-persistence.png gnome-session-reboot.png \
-         arrow-right.png audio-volume-on.png audio-volume-muted.png \
-         busy-notifications-symbolic.svg available-notifications-symbolic.svg
+arrow-right.png audio-volume-on.png audio-volume-muted.png \
+busy-notifications-symbolic.svg available-notifications-symbolic.svg
 
 MODULES = extension.js correctClass.js dndBtn.js dndBtnGObject.js force.js
 POFILES = $(wildcard po/*.po)
@@ -27,7 +27,7 @@ all: extension
 
 extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
 
-./schemas/gschemas.compiled: $(SCHEMAXMLIN)
+./schemas/gschemas.compiled: ./schemas/schema.xml.in
 	cat $(SCHEMAXMLIN) | sed "s/EPVERSION/$(VERSION)/" | sed "s/GSPVERSIONS/\"$(GSPVERSIONS)\"/" > $(GSCHEMAXML)
 	glib-compile-schemas ./schemas/
 
@@ -56,7 +56,7 @@ _build: all
 		cp $$langmo $$langdir/LC_MESSAGES/donotdisturb-button-extension.mo; \
 	done;
 
-zip-file: _build
+zip-file: clean _build 
 	rm -f ./*.zip
 	cd _build ; \
 	cp README.txt ..
