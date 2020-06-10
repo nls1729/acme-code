@@ -21,7 +21,6 @@
   This extension is a derived work of the Gnome Shell.
 */
 
-const Clutter = imports.gi.Clutter;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const GdkPixbuf = imports.gi.GdkPixbuf;

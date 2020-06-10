@@ -268,6 +268,13 @@ Uploaded for review.
 will no longer display the prefs for an extension indicated as a parameter on the command line.
 Changed to use gnome-extensions tool.  Uploaded for review.
 
+2020-06-10 I received a report that a user could not access settings in
+Ubuntu 2020.4.  I found an un-needed import in prefs.js.  I removed it and
+the settings were displayed properly.  The strange thing is the code that
+displays the settings (org.gnome.Shell.Extensions) is different in Ubuntu
+compared to Fedora for the same Gnome Shell version.  Strange as it ever
+was. Uploaded for review.
+
 
 zip file: Stuff
 
