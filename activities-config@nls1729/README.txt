@@ -579,6 +579,9 @@ https://nls1729.github.io
 
 2020-03-15 Updated Activities Configurator to GS 3.36. Uploaded for review.
 
+2020-05-05 On disable for lock screen prevent showing "Activities" in session mode
+           'unlock-dialog' due to changes in GS 3.36. Uploaded for review.
+
 ...
 
 zip file: 
