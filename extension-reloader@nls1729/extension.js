@@ -1,7 +1,7 @@
 /*
   Gnome Shell Extension Reloader
 
-  Copyright (c) 2016-2019 Norman L. Smith
+  Copyright (c) 2016-2020 Norman L. Smith
 
   This extension is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -33,6 +33,7 @@ const Mainloop = imports.mainloop;
 const Clutter = imports.gi.Clutter;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
+const Meta = imports.gi.Meta;
 const St = imports.gi.St;
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionManager = imports.ui.main.extensionManager
@@ -53,6 +54,8 @@ const STYLE2 = 'font-weight: bold;';
 const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
 
 var ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
+var IS_WAYLAND = true;
+var LIMITATION = '';
 
 var SubMenuItem = GObject.registerClass(
 class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
@@ -67,11 +70,7 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
           _("Downloading"),
           _("Initialized") ];
 
-        if (extension.state != ExtensionSystem.ExtensionState.ERROR) {
-            super._init({ reactive: false, can_focus: false });
-        } else {
-            super._init(params);
-        }
+        super._init(params);
         this._extension = extension;
         this._state = extension.state;
         this._uuid = extension.uuid;
@@ -111,8 +110,8 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
                 this._extension = ExtensionManager.createExtensionObject(uuid, dir, type);
                 ExtensionManager.loadExtension(this._extension);
                 if (this._extension.state != ExtensionSystem.ExtensionState.ERROR) {
-                    Main.notify(_("Reloading completed"), this._name);
-                    log(_("Reloading completed") + ' : ' + this._name + ' : ' + this._uuid);
+                    Main.notify(_("Restart session ") + LIMITATION, this._name);
+                    log(_("Restart session ") + ' : ' + this._name + ' : ' + this._uuid);
                     return;
                 }
             }
@@ -138,6 +137,11 @@ var ReloadExtensionMenu = GObject.registerClass(
             style_class: 'system-status-icon'
         });
         hbox.add_child(iconBin);
+        this._textBin = new St.Bin();
+        this._textBin.hide();
+        this._textBin.child = new St.Label({text: "w"});
+        hbox.add_child(iconBin);
+        hbox.add_child(this._textBin);
         hbox.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
         this.add_actor(hbox);
         let title = _("Gnome Shell Extension Reloader");
@@ -148,6 +152,8 @@ var ReloadExtensionMenu = GObject.registerClass(
         this._vBar.vscrollbar_policy = true;
         this._populateSubMenu(this._subMenuMenuItem.menu);
         this._openToggledId = this.menu.connect('open-state-changed', this._openToggled.bind(this));
+        if(IS_WAYLAND)
+           this._textBin.show();
     }
 
     _openToggled(menu, open) {
@@ -266,6 +272,11 @@ class ExtensionReloaderExtension {
 
     enable() {
         if (Main.sessionMode.currentMode == 'ubuntu' ||  Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
+            IS_WAYLAND = Meta.is_wayland_compositor();
+            if (IS_WAYLAND)
+                LIMITATION = ' ⚠️ Wayland logout/login';
+            else
+                LIMITATION = ' 👍🏻 Not Wayland Alt F2 r';
             this._timeoutId = Mainloop.timeout_add(3000, this._delayedEnable.bind(this));
         }
     }

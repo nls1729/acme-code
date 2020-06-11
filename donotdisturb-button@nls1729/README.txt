@@ -276,5 +276,5 @@ compared to Fedora for the same Gnome Shell version.  Strange as it ever
 was. Uploaded for review.
 
 
-zip file: 2020-06-10 18:11 1509a123
+zip file: 2020-06-11 13:21 7e7e64f5
 
