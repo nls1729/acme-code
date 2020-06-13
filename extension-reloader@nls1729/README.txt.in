@@ -92,11 +92,11 @@ README
     2020-03-27 Updated for GS 3.36.  Uploaded for review.
 
 
-    2020-06-11 Changed to allow selecting any extension for reload.  The shell
+    2020-06-13 Changed to allow selecting any extension for reload.  The shell
                session must be restarted for changes on disk to be loaded into
                memory. If the session is Wayland a logout and login is required.
                For Xorg sessions Alt F2 r can be used.  The extension visually
-               indicates if the session is Wayland.
+               indicates if the session is Wayland.  Uploaded for review.
 
 
 zip file: stuff 

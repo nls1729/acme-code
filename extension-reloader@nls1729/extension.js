@@ -47,10 +47,10 @@ const Me = ExtensionUtils.getCurrentExtension();
 const DOMAIN = Me.metadata['gettext-domain'];
 const Gettext = imports.gettext.domain(DOMAIN);
 const _ = Gettext.gettext;
-const MAX_HEIGHT = parseInt(global.screen_height * 0.5).toString();
+const MAX_HEIGHT = parseInt(global.screen_height * 0.75).toString();
 const ROLE = 'extension-reloader-indicator';
-const STYLE1 = 'width: 120px;';
-const STYLE2 = 'font-weight: bold;';
+const STYLE1 = 'width: 180px;';
+const STYLE2 = 'font-weight: bold; color: red;';
 const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
 
 var ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
@@ -82,7 +82,7 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         label1.set_style(STYLE1);
         box.add_actor(label1);
         let label2 = new St.Label({ text: name });
-        if (this._state == ExtensionSystem.ExtensionState.ERROR)
+        if (this._state == 3)   //ExtensionSystem.ExtensionState.ERROR
             label2.set_style(STYLE2);
         box.add_actor(label2);
         this.add_child(box);
@@ -106,18 +106,28 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         }
         try {
             let { uuid, dir, type } = this._extension;
+            let stateBefore = this._extension.state;
             if (ExtensionManager.unloadExtension(this._extension)) {
                 this._extension = ExtensionManager.createExtensionObject(uuid, dir, type);
                 ExtensionManager.loadExtension(this._extension);
                 if (this._extension.state != ExtensionSystem.ExtensionState.ERROR) {
-                    Main.notify(_("Restart session ") + LIMITATION, this._name);
-                    log(_("Restart session ") + ' : ' + this._name + ' : ' + this._uuid);
-                    return;
+                    // Extension in error state and loads to not error state is OK.
+                    if (stateBefore == ExtensionSystem.ExtensionState.ERROR) {
+                        let completed = "\uD83D\uDE03  "  + _("Reloading completed");
+                        Main.notify(completed, this._name);
+                        log(_("Reloading completed") + ' : ' + this._name + ' : ' + this._uuid);
+                        return;
+                    } else {
+                        Main.notify(LIMITATION, this._name);
+                        log(_("Restart session ") + ' : ' + this._name + ' : ' + this._uuid);
+                        return;
+                    }
                 }
             }
-            throw new Error(_("Extension remains in error state."));
+            throw new Error(_("Reloading"));
         } catch(e) {
-            Main.notifyError(_("Error reloading") + ' : ' + this._name,  e.message + ' : ' + this._uuid);
+            Main.notify(e + ' : ' + this._name + ' : ' + this._uuid);
+            log( e + ' : ' + this._name + ' : ' + this._uuid);
         }
     }
 });
@@ -131,12 +141,13 @@ var ReloadExtensionMenu = GObject.registerClass(
         let hbox = new St.BoxLayout({
             style_class: 'panel-status-menu-box'
         });
-        let iconBin = new St.Bin();
-        iconBin.child = new St.Icon({
-            icon_name: 'emblem-synchronizing-symbolic',
+        let path = Me.path + '/emblem-synchronizing-symbolic.svg';
+        let icon = new St.Icon({
+            gicon: Gio.icon_new_for_string(path),
             style_class: 'system-status-icon'
         });
-        hbox.add_child(iconBin);
+        let iconBin = new St.Bin();
+        iconBin.child = icon;
         this._textBin = new St.Bin();
         this._textBin.hide();
         this._textBin.child = new St.Label({text: "w"});
@@ -274,9 +285,9 @@ class ExtensionReloaderExtension {
         if (Main.sessionMode.currentMode == 'ubuntu' ||  Main.sessionMode.currentMode == 'user' || Main.sessionMode.currentMode == 'classic') {
             IS_WAYLAND = Meta.is_wayland_compositor();
             if (IS_WAYLAND)
-                LIMITATION = ' ⚠️ Wayland logout/login';
+                LIMITATION = '\u26A0\uFE0F    Logout/Login';
             else
-                LIMITATION = ' 👍🏻 Not Wayland Alt F2 r';
+                LIMITATION = '\u26A0\uFE0F    Alt F2 r';
             this._timeoutId = Mainloop.timeout_add(3000, this._delayedEnable.bind(this));
         }
     }

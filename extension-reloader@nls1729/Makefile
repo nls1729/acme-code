@@ -1,6 +1,6 @@
 .ONESHELL:
 UUID = extension-reloader@nls1729
-MODULES = extension.js COPYING
+FILES = extension.js COPYING emblem-synchronizing-symbolic.svg
 POFILES = $(wildcard po/*.po)
 JSFILES = extension.js prefs.js
 ZIPDATE = $(shell date +"%F %H:%M")
@@ -36,8 +36,7 @@ _build: all
 	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > ./_build/README.txt
 	cat prefs.js | sed "s/Commit:.*$\/Commit: $(COMMIT) $(ZIPDATE) $(BRANCH)\";/" > ./_build/prefs.js
 	cat metadata.json.in | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
-	cp $(MODULES) _build
-	cp COPYING _build
+	cp $(FILES) _build
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
 	cp schemas/gschemas.compiled _build/schemas/

@@ -2,7 +2,7 @@
 <schemalist gettext-domain="nls1729-extensions">
   <schema path="/org/gnome/shell/extensions/extension-reloader/" id="org.gnome.shell.extensions.extension-reloader">
     <key type="s" name="extension-version">
-        <default>"11"</default>
+        <default>"12"</default>
         <summary>Extension version.</summary>
       <description>Extension version for display in extension preferences.</description>
     </key>
