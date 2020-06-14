@@ -53,7 +53,6 @@ const STYLE1 = 'width: 180px;';
 const STYLE2 = 'font-weight: bold; color: red;';
 const NOTIFY_TYPE = { info: 0, warning: 1, error: 2 };
 
-var ENABLED_EXTENSIONS_KEY = 'enabled-extensions';
 var IS_WAYLAND = true;
 var LIMITATION = '';
 
@@ -70,6 +69,7 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
           _("Downloading"),
           _("Initialized") ];
 
+
         super._init(params);
         this._extension = extension;
         this._state = extension.state;
@@ -82,7 +82,7 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
         label1.set_style(STYLE1);
         box.add_actor(label1);
         let label2 = new St.Label({ text: name });
-        if (this._state == 3)   //ExtensionSystem.ExtensionState.ERROR
+        if (this._state == 3)
             label2.set_style(STYLE2);
         box.add_actor(label2);
         this.add_child(box);
@@ -99,10 +99,15 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
     activate() {
         log("Reloading " + this._name + "...")
         this._menu.close();
-        let enabledExtensions = global.settings.get_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY);
-        if (enabledExtensions.indexOf(this._uuid) == -1) {
-            enabledExtensions.push(this._uuid);
-            global.settings.set_strv(ExtensionSystem.ENABLED_EXTENSIONS_KEY, enabledExtensions);
+        let disabled = global.settings.get_strv('disabled-extensions');
+        if (disabled.includes(this._uuid)) {
+            disabled = disabled.filter(item => item !== this._uuid);
+            global.settings.set_strv('disabled-extensions', disabled);
+        }
+        let enabled = global.settings.get_strv('enabled-extensions');
+        if (enabled.indexOf(this._uuid) == -1) {
+            enabled.push(this._uuid);
+            global.settings.set_strv('enabled-extensions', enabled);
         }
         try {
             let { uuid, dir, type } = this._extension;
@@ -110,9 +115,9 @@ class SubMenuItem extends PopupMenu.PopupBaseMenuItem {
             if (ExtensionManager.unloadExtension(this._extension)) {
                 this._extension = ExtensionManager.createExtensionObject(uuid, dir, type);
                 ExtensionManager.loadExtension(this._extension);
-                if (this._extension.state != ExtensionSystem.ExtensionState.ERROR) {
+                if (this._extension.state != 3) {
                     // Extension in error state and loads to not error state is OK.
-                    if (stateBefore == ExtensionSystem.ExtensionState.ERROR) {
+                    if (stateBefore == 3) {
                         let completed = "\uD83D\uDE03  "  + _("Reloading completed");
                         Main.notify(completed, this._name);
                         log(_("Reloading completed") + ' : ' + this._name + ' : ' + this._uuid);
