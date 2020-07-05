@@ -81,6 +81,7 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         this.attach(new Gtk.Label({ label: _("Spread Radius"), wrap: true, xalign: 0.0 }), 1, 26, 5, 1);
         this.attach(new Gtk.Label({ label: _("Window Maximized Effect"), wrap: true, xalign: 0.0 }), 0, 27, 2, 1);
         this.attach(new Gtk.Label({ label: _("Move Activities to the Right"),  wrap: true, xalign: 0.0 }), 1, 31, 5, 1);
+        this.attach(new Gtk.Label({ label: _("Disable Enable Delay"),  wrap: true, xalign: 0.0 }), 1, 33, 5, 1);
         this.attach(new Gtk.Label({ label: _("Enable Conflict Detection"), wrap: true, xalign: 0.0 }), 1, 36, 5, 1);
         this.attach(new Gtk.Label({ label: _("Extension Defaults"), wrap: true, xalign: 0.0 }), 1, 38, 5, 1);
         this.attach(new Gtk.Label({ label: _("Extension Description"), wrap: true, xalign: 0.0 }), 1, 40, 5, 1);
@@ -292,6 +293,13 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         conflictDetectionBox.pack_start(this._conflictDetection, false, false, 0);
         this.attach(conflictDetectionBox, 0, 36, 1, 1);
 
+        // Disable Enable Delay
+        this._disableEnableDelay = new Gtk.Switch({active: this._settings.get_boolean(Keys.DISABLE_ENABLE_DELAY)});
+        this._disableEnableDelay.connect('notify::active', this._setDisableEnableDelay.bind(this));
+        let disableEnableDelayBox = new Gtk.Box;
+        disableEnableDelayBox.pack_start(this._disableEnableDelay, false, false, 0);
+        this.attach(disableEnableDelayBox, 0, 33, 1, 1);
+
         // Position Right
         this._positionRight = new Gtk.Switch({active: this._settings.get_boolean(Keys.BTN_POSITION)});
         this._positionRight.connect('notify::active', this._setPositionRight.bind(this));
@@ -444,6 +452,10 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         } else {
             this._conflictDetection.set_sensitive(true);
         }
+    }
+    
+    _setDisableEnableDelay(object) {
+        this._settings.set_boolean(Keys.DISABLE_ENABLE_DELAY, object.active);        
     }
 
     _setConflictDetection(object) {

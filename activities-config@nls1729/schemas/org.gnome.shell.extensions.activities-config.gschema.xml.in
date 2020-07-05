@@ -151,6 +151,11 @@
       <summary>Show Overview when no application is running.</summary>
       <description>If true extension displays overview when no applcation is running.</description>
     </key>
+    <key type="b" name="disable-enable-delay">
+      <default>false</default>
+      <summary>Disable the enable delay.</summary>
+      <description>If true the enable delay is set to 5 milliseconds effectively disabling delay.</description>
+    </key>
     <key type="b" name="position-right">
       <default>false</default>
       <summary>Move Activities Icon Button to right corner.</summary>

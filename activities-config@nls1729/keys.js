@@ -35,6 +35,7 @@ var PAD_ICO = 'activities-icon-padding';
 var SCF_ICO = 'activities-icon-scale-factor';
 var TRS_PAN = 'transparent-panel';
 var CON_DET = 'enable-conflict-detection';
+var DISABLE_ENABLE_DELAY = 'disable-enable-delay';
 var COLOURS = 'panel-background-color-hex-rgb';
 var HIDE_RC = 'panel-hide-rounded-corners';
 var HIDE_APPMBI = 'panel-hide-app-menu-button-icon';

@@ -2,7 +2,7 @@
 <schemalist gettext-domain="nls1729-extensions">
   <schema path="/org/gnome/shell/extensions/activities-config/" id="org.gnome.shell.extensions.activities-config">
     <key type="s" name="extension-version">
-        <default>"85"</default>
+        <default>"86"</default>
         <summary>Extension version.</summary>
       <description>Extension version for display in extension preferences.</description>
     </key>
@@ -150,6 +150,11 @@
       <default>false</default>
       <summary>Show Overview when no application is running.</summary>
       <description>If true extension displays overview when no applcation is running.</description>
+    </key>
+    <key type="b" name="disable-enable-delay">
+      <default>false</default>
+      <summary>Disable the enable delay.</summary>
+      <description>If true the enable delay is set to 5 milliseconds effectively disabling delay.</description>
     </key>
     <key type="b" name="position-right">
       <default>false</default>

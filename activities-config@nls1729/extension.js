@@ -226,6 +226,7 @@ class Configurator {
         this._keyChanged = false;
         this._keyChangedSig = null;
         this._panelDelayTimeout = 0;
+        this._enableDelayValue = 1500;
     }
 
     _appStateChanged(appSystem, app) {
@@ -406,6 +407,7 @@ class Configurator {
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.SHOW_OVERVIEW, this._setShowOver.bind(this)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.BTN_POSITION, this._setPositionRight.bind(this)));
         this._settingsSignals.push(this._settings.connect('changed::'+Keys.OVERR_THEME, this._setOverrideTheme.bind(this)));
+        this._settingsSignals.push(this._settings.connect('changed::'+Keys.DISABLE_ENABLE_DELAY, this._setDisableEnableDelay.bind(this)));
         this._colorSig = this._settings.connect('changed::'+Keys.COLOURS, this._setPanelColor.bind(this));
         this._transparencySig = this._settings.connect('changed::'+Keys.TRS_PAN, this._setPanelTransparency.bind(this));
     }
@@ -1033,6 +1035,14 @@ class Configurator {
         }
     }
 
+    _setDisableEnableDelay() {
+        if (this._settings.get_boolean(Keys.DISABLE_ENABLE_DELAY)) {
+            this._enableDelayValue = 5;
+        } else {
+            this._enableDelayValue = 1500;
+        }
+    }
+
     enable() {
         // For extension to function in classic mode
         // Conflict Detection must be enabled.
@@ -1041,7 +1051,7 @@ class Configurator {
         // Extension must delay completion of enable to allow theme to be
         // loaded and for Conflict Detection to function if it is enabled.
         this._getHotCornerState();
-        this._timeoutId = Mainloop.timeout_add(1500, this._delayedEnable.bind(this));
+        this._timeoutId = Mainloop.timeout_add(this._enableDelayValue, this._delayedEnable.bind(this));
     }
 
     disable() {
