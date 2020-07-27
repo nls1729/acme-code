@@ -1061,7 +1061,7 @@ class Configurator {
         }
         if (this._hideTimeoutId != 0) {
             Mainloop.source_remove(this._hideTimeoutId);
-            this.hideTimeoutId_ = 0;
+            this._hideTimeoutId = 0;
         }
         if (this._themeTimeoutId != 0) {
             Mainloop.source_remove(this._themeTimeoutId);
