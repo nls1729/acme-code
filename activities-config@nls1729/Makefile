@@ -36,7 +36,7 @@ _build: all
 	rm -rf ./_build
 	mkdir -p _build
 	xgettext $(JSFILES) -o _build/message.pot;
-	cat README.txt | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
+	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
 	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT) $(ZIPDATE) $(BRANCH)\";/" > _build/prefs.js
 	cat metadata.json | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
 	cp $(MODULES) _build

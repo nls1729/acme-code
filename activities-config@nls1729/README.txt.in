@@ -593,6 +593,16 @@ https://nls1729.github.io
            the 1.5 second delay before performing the enable because when
            unlocking the screen the delay was a distraction. A preference to
            disable the enable delay is now provided.
-...
 
+2020-08-02 Re-implemented the ability to drag through the hot corner when
+           the hot corner is disabled in a Wayland session.
+           Reviewing the journal I found "gnome-shell-extension-prefs is
+           deprecated" messages produced by the Activities Configurator.
+           gnome-shell-extension-prefs is replaced with gnome-extensions-app
+           if it is installed or ExtensionUtils.openPrefs() if not. Added
+           additonal logic to handle hot corner changes due to monitor
+           changes.  Thanks to Jeremias Ortega for a pull request correcting
+           an error in a timeout removal.  Uploaded for review.
+
+...
 zip file: 
