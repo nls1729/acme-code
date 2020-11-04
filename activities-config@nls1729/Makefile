@@ -3,7 +3,7 @@
 .ONESHELL:
 UUID = activities-config@nls1729
 IMAGES = face-smile-3.svg
-MODULES = colors.js extension.js keys.js notify.js readme.js stylesheet.css
+MODULES = colors.js extension.js keys.js notify.js readme.js stylesheet.css metadata.json
 POFILES = $(wildcard po/*.po)
 JSFILES = colors.js extension.js keys.js notify.js prefs.js readme.js
 ZIPDATE = $(shell date +"%F %H:%M")
@@ -20,25 +20,29 @@ else
 ZIPNAME = activities-config$(ZIPTS)$(BRANCH)@nls1729
 endif
 
-all: extension
-
 extension: ./schemas/gschemas.compiled $(POFILES:.po=.mo)
+	echo "extensionOOO:"
+ 
+all: extension
+	echo "allOOO:"
 
-./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml.in ./GSVERSIONS ./VERSION
-	cat $(GSCHEMAXML).in | sed "s/EPVERSION/$(VERSION)/" > /tmp/x.xml
-	cat /tmp/x.xml | sed "s/GSPVERSION/$(GSVERSIONS)/" > $(GSCHEMAXML)
+./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.activities-config.gschema.xml.in
+	echo "./schemas/gschemas.compiledOOO:"
+	cat $(GSCHEMAXML).in > $(GSCHEMAXML)
 	glib-compile-schemas ./schemas/
 
 ./po/%.mo: ./po/%.po
+	echo "./po/%.moOOO:"
 	msgfmt -c $< -o $@
 
 _build: all
+	echo "_buildOOO:"
 	rm -rf ./_build
 	mkdir -p _build
-	xgettext $(JSFILES) -o _build/message.pot;
+	cat metadata.json.in | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > metadata.json
 	cat README.txt.in | sed "s/^zip file:.*$\/zip file: $(ZIPDATE) $(COMMIT)/" > _build/README.txt
 	cat prefs.js | sed "s/Commit: .*$\/Commit: $(COMMIT) $(ZIPDATE) $(BRANCH)\";/" > _build/prefs.js
-	cat metadata.json | sed "s/GSVERSIONS/$(GSVERSIONS)/" | sed "s/VERSION/$(VERSION)/" > _build/metadata.json
+	xgettext $(JSFILES) -o _build/message.pot;
 	cp $(MODULES) _build
 	cp $(IMAGES) _build
 	cp COPYING _build
@@ -54,20 +58,17 @@ _build: all
 	done;
 
 zip-file: _build
+	echo "zip-fileOOO:"
 	rm -f ./*.zip
 	cd _build ; \
 	zip -qr "$(ZIPNAME).zip" .; \
 	mv $(ZIPNAME).zip .. ; \
 	cd .. ;
-	sha256sum "$(ZIPNAME).zip"  > CHECKSUM
+	sha256sum "$(ZIPNAME).zip"  > ../CHECKSUM
 	rm -rf _build
 
-touch:
-	for file in $(MODULES); do \
-		touch $$file; \
-	done;
-
 clean:
+	echo "cleanOOO:"
 	rm -f ./schemas/gschemas.compiled
 	rm -f ./po/*.mo
 	rm -f ./*.zip
@@ -77,6 +78,7 @@ clean:
 	rm -rf _build
 
 install:
+	echo "install"
 	rm -rf $(EXTENSIONS_DIR)/$(UUID)
 	mkdir -p $(EXTENSIONS_DIR)/$(UUID)
 	cp -f "$(UUID).zip" $(EXTENSIONS_DIR)/$(UUID)

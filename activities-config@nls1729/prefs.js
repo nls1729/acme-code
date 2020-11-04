@@ -38,6 +38,7 @@ const DEFAULT_ICO = Me.path + Keys.ICON_FILE;
 const THEME_SCHEMA = 'org.gnome.shell.extensions.user-theme';
 const COMMIT = "Commit: ";
 const TILE_OFF = 'tile-max-effect-off';
+const Config = imports.misc.config;Config.PACKAGE_VERSION
 
 function init() {
     ExtensionUtils.initTranslations();
@@ -50,8 +51,9 @@ class ActivitiesConfiguratorSettingsWidget extends Gtk.Grid {
         super._init(params)
 
         this._settings = ExtensionUtils.getSettings();
-        let version = '[ v' + this._settings.get_string(Keys.EPVERSION) +
-            ' GS ' + this._settings.get_string(Keys.GSPVERSION) + ' ]';
+        let version = '<  v' +  Me.metadata.version +
+            '  GS ' +  Config.PACKAGE_VERSION + '  >';
+
         this.savedThemeId = "";
         this.margin = 5;
         this.row_spacing = 5;
