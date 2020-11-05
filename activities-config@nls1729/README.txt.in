@@ -604,5 +604,10 @@ https://nls1729.github.io
            changes.  Thanks to Jeremias Ortega for a pull request correcting
            an error in a timeout removal.  Uploaded for review.
 
+2020-11-05 Changed prefs.js to get installed Gnome Shell version for display.
+           This allows correct display of shell version on the preferences
+           dialog when the extension change was to the shell versions in
+           metadata.json.  My bad, long live auto-active.
+
 ...
 zip file: 
