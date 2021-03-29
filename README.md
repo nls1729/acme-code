@@ -1,5 +1,9 @@
 acme-code
 =========
+Effective March 29, 2021 I will no longer maintain the following Gnome Shell Extensions:
+I give my permission to anyone who may want to become the maintainer.
+I no not have the free time or energy necessary to maintain the extensions.
+
 
 This repository contains Gnome Shell Extensions and other supporting
 files.  Extensions which are available from the Gnome Shell Extension
